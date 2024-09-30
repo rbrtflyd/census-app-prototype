@@ -2,17 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+@layer base {
+  @font-face {
+    font-family: 'Messina Sans';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/app/assets/fonts/MessinaSans_Complete_Upright_Variable_Web.woff2')
+      format('woff2');
+  }
+  @font-face {
+    font-family: 'Messina Sans';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/app/assets/fonts/MessinaSans_Complete_Upright_Variable_Web.woff')
+      format('woff');
   }
 }
 
-@layer base {
-  :root {
-    --radius: 0.5rem;
+html,
+body {
+  @apply bg-white dark:bg-slate-800 text-dark font-regular antialiased tabular-nums text-base;
+
+  font-stretch: 85%;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
   }
 }

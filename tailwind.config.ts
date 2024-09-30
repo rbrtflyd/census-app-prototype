@@ -1,26 +1,29 @@
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 export default {
   darkMode: ['class'],
   content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    fontSize: {
+      xxs: '11px',
+      xs: '12px',
+      sm: '13px',
+      base: '14px',
+      lg: '16px',
+      xl: '20px',
+      '2xl': '24px',
+    },
     extend: {
       fontFamily: {
-        sans: [
-          'Inter"',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-          'Apple Color Emoji"',
-          'Segoe UI Emoji"',
-          'Segoe UI Symbol"',
-          'Noto Color Emoji"',
-        ],
+        sans: ['Messina Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+
+      fontWeight: {
+        light: '450',
+        regular: '550',
+        medium: '650',
+        bold: '750',
       },
       colors: {
         slate: {
@@ -50,5 +53,41 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function ({ addComponents }) {
+      addComponents({
+        '.text-dark': {
+          '@apply text-slate-600 dark:text-slate-12': {},
+        },
+        '.text-light': {
+          '@apply text-slate-400 dark:text-slate-50': {},
+        },
+        '.text-lighter': {
+          '@apply text-slate-300 dark:text-slate-200': {},
+        },
+        '.icon-light': {
+          '@apply text-slate-300 dark:text-slate-200': {},
+        },
+        '.icon-lighter': {
+          '@apply text-slate-200 dark:text-slate-200': {},
+        },
+        '.icon-lightest': {
+          '@apply text-slate-100 dark:text-slate-200': {},
+        },
+        '.icon-white': {
+          '@apply text-white': {},
+        },
+        '.border': {
+          '@apply border-slate-50 dark:border-slate-700': {},
+        },
+        '.bg-subtle': {
+          '@apply bg-slate-12 dark:bg-slate-800': {},
+        },
+        '.bg-deep': {
+          '@apply bg-slate-25 dark:bg-slate-900': {},
+        },
+      });
+    }),
+  ],
 } satisfies Config;
