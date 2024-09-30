@@ -8,6 +8,10 @@ import {
 
 import './tailwind.css';
 
+export const links = () => {
+  return [{ rel: 'stylesheet', href: './tailwind.css' }];
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -18,6 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           content="width=device-width, initial-scale=1"
         />
         <Meta />
+        <Links />
       </head>
       <body>
         {children}
