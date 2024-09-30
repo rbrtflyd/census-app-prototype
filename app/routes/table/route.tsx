@@ -106,10 +106,10 @@ export default function TableRoute() {
         <div className="flex flex-row px-6 py-3 border-b border-base">
           <Text className="text-lg font-medium">Datasets</Text>
         </div>
-        <div>
+        <div className="flex flex-row w-full">
           <Tabs
             defaultValue="columns"
-            className="w-[400px]">
+            className="w-full">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="preview">Preview</TabsTrigger>
@@ -124,9 +124,8 @@ export default function TableRoute() {
         <div className="flex flex-row justify-between px-6 py-3 border-b border-base">
           <Text className="text font-medium">Columns</Text>
           <div className="flex items-center space-x-2 text-sm">
-            <Text className="text-lighter">Group by </Text>
             <div className="flex items-center space-x-2 text-light">
-              <Text>Cateogry</Text>
+              <Text>Grouped</Text>
               <Switch
                 checked={showAlphabetical}
                 onCheckedChange={(checked) => setShowAlphabetical(checked)}
@@ -144,7 +143,8 @@ export default function TableRoute() {
                     <TableHead className="w-[200px]">Column Name</TableHead>
                     <TableHead>Data Type</TableHead>
                     <TableHead>Nulls</TableHead>
-                    <TableHead>Source</TableHead>
+                    <TableHead>PII</TableHead>
+                    <TableHead>Enumerated</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -153,7 +153,6 @@ export default function TableRoute() {
                       <TableCell className="font-medium">{fieldName}</TableCell>
                       <TableCell>{fieldInfo.type}</TableCell>
                       <TableCell>{fieldInfo.nullCount}</TableCell>
-                      <TableCell>{fieldInfo.source}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -163,13 +162,14 @@ export default function TableRoute() {
                 <Collapsible
                   key={category}
                   className="flex flex-col space-y-2">
-                  <CollapsibleTrigger className="px-2 py-3 border-b border-base w-full items-start flex flex-row justify-between text-sm">
-                    <div className="flex flex-row space-x-2">
+                  <CollapsibleTrigger className="px-2 py-3  w-full space-x-4 flex flex-row justify-between text-sm items-center">
+                    <div className="flex flex-row space-x-2 shrink-0">
                       <Text className="capitalize font-medium">{category}</Text>
                       <Text className="text-lighter">
                         {Object.keys(fields).length}
                       </Text>
                     </div>
+                    <div className="h-px border-base border-b w-full" />
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <Table>
