@@ -50,7 +50,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
         {navLinks.map((group) => (
           <div
             key={group.group}
-            className="flex flex-col space-y-1">
+            className="flex flex-col space-y-0.5">
             {group.group !== 'Home' && (
               <Text className="text-xs leading-none mb-2 text-white/75 font-medium">
                 {group.group}
@@ -62,9 +62,9 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `block py-2 px-2 rounded leading-none ${
+                    `block py-2 px-2 rounded leading-none transition-all duration-75 ${
                       isActive
-                        ? 'bg-white/10 text-white/90'
+                        ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
                         : 'text-white/75 hover:text-white/90 hover:bg-white/20'
                     }`
                   }>
