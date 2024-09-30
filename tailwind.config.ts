@@ -78,8 +78,8 @@ export default {
         '.icon-white': {
           '@apply text-white': {},
         },
-        '.border': {
-          '@apply border-slate-50 dark:border-slate-700': {},
+        '.border-base': {
+          '@apply border-slate-50': {},
         },
         '.bg-subtle': {
           '@apply bg-slate-12 dark:bg-slate-800': {},
