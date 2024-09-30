@@ -10,7 +10,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 import { Switch } from '~/components/ui/switch';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 import {
   Table,
   TableBody,
@@ -99,6 +100,17 @@ export default function TableRoute() {
     a.localeCompare(b)
   );
 
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
+    {}
+  );
+
+  const toggleCategory = (category: string) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
+
   return (
     <div className="flex flex-row h-screen w-full overflow-hidden">
       <SidebarNavigation />
@@ -161,7 +173,9 @@ export default function TableRoute() {
               Object.entries(datasetSchema).map(([category, fields]) => (
                 <Collapsible
                   key={category}
-                  className="flex flex-col space-y-2">
+                  className="flex flex-col space-y-2"
+                  open={openCategories[category]}
+                  onOpenChange={() => toggleCategory(category)}>
                   <CollapsibleTrigger className="px-2 py-3  w-full space-x-4 flex flex-row justify-between text-sm items-center">
                     <div className="flex flex-row space-x-2 shrink-0">
                       <Text className="capitalize font-medium">{category}</Text>
@@ -170,6 +184,12 @@ export default function TableRoute() {
                       </Text>
                     </div>
                     <div className="h-px border-base border-b w-full" />
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      className={`icon-lighter h-3 transition-transform duration-75 rotate-90 ${
+                        openCategories[category] ? 'rotate-0' : ''
+                      }`}
+                    />
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <Table>
