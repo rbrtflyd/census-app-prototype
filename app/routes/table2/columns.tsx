@@ -1,3 +1,5 @@
+import { faCaretUp } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '~/components/ui/button';
@@ -24,8 +26,13 @@ export const columns: ColumnDef<DatasetColumn>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Column Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <div className="flex flex-row space-x-1 items-center">
+            Column Name
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className="ml-2 h-3 w-3"
+            />
+          </div>
         </Button>
       );
     },
@@ -37,8 +44,13 @@ export const columns: ColumnDef<DatasetColumn>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Data Type
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <div className="flex flex-row space-x-1 items-center">
+            Data Type
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className="ml-2 h-3 w-3"
+            />
+          </div>
         </Button>
       );
     },
@@ -50,8 +62,13 @@ export const columns: ColumnDef<DatasetColumn>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Nulls
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <div className="flex flex-row space-x-1 items-center">
+            Nulls
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className="ml-2 h-3 w-3"
+            />
+          </div>
         </Button>
       );
     },

@@ -17,6 +17,13 @@ import {
 } from '@tanstack/react-table';
 
 import { Input } from '~/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select';
 
 import {
   Table,
@@ -28,7 +35,8 @@ import {
   TableRow,
 } from '~/components/ui/table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/pro-solid-svg-icons';
+import { faLayerGroup } from '@fortawesome/pro-solid-svg-icons';
+import { Text } from '@radix-ui/themes';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,6 +53,10 @@ export function DataTable<TData, TValue>({
   );
   const [grouping, setGrouping] = React.useState<GroupingState>([]);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
+
+  const handleGroupingChange = (columnId: string) => {
+    setGrouping(columnId === 'none' ? [] : [columnId]);
+  };
 
   const table = useReactTable({
     data,
@@ -68,7 +80,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border ">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 px-6">
         <Input
           placeholder="Search for a column..."
           value={
@@ -100,9 +112,11 @@ export function DataTable<TData, TValue>({
                             marginLeft: '5px',
                           }}>
                           <FontAwesomeIcon
-                            icon={faCaretUp}
+                            icon={faLayerGroup}
                             className={`${
-                              header.column.getIsGrouped() ? '' : 'rotate-180'
+                              header.column.getIsGrouped()
+                                ? 'text-plum-500'
+                                : ''
                             }`}
                           />
                         </button>
@@ -125,24 +139,23 @@ export function DataTable<TData, TValue>({
                     {cell.getIsGrouped() ? (
                       <>
                         <button
+                          className="text-sm font-medium flex flex-row space-x-2 items-center"
                           onClick={row.getToggleExpandedHandler()}
                           style={{
                             cursor: 'pointer',
                             marginRight: '5px',
                           }}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}{' '}
-                          ({row.subRows.length})
+                          <Text className="capitalize">
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </Text>
+                          <Text className="text-lighter">
+                            {row.subRows.length}
+                          </Text>
                         </button>
                       </>
-                    ) : cell.getIsAggregated() ? (
-                      flexRender(
-                        cell.column.columnDef.aggregatedCell ??
-                          cell.column.columnDef.cell,
-                        cell.getContext()
-                      )
                     ) : cell.getIsPlaceholder() ? null : (
                       flexRender(cell.column.columnDef.cell, cell.getContext())
                     )}
