@@ -59,6 +59,7 @@ export const columns: ColumnDef<DatasetColumn>[] = [
   {
     accessorKey: 'source',
     header: 'Source',
+    enableGrouping: true,
   },
   {
     accessorKey: 'pii',

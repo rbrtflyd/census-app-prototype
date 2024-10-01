@@ -12,6 +12,8 @@ import {
   getSortedRowModel,
   useReactTable,
   GroupingState,
+  getExpandedRowModel,
+  ExpandedState,
 } from '@tanstack/react-table';
 
 import { Input } from '~/components/ui/input';
@@ -25,6 +27,8 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretUp } from '@fortawesome/pro-solid-svg-icons';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +44,7 @@ export function DataTable<TData, TValue>({
     []
   );
   const [grouping, setGrouping] = React.useState<GroupingState>([]);
+  const [expanded, setExpanded] = React.useState<ExpandedState>({});
 
   const table = useReactTable({
     data,
@@ -51,10 +56,13 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getGroupedRowModel: getGroupedRowModel(),
     onGroupingChange: setGrouping,
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel(),
     state: {
       sorting,
       columnFilters,
       grouping,
+      expanded,
     },
   });
 
@@ -76,18 +84,33 @@ export function DataTable<TData, TValue>({
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder ? null : (
+                    <div>
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                      {header.column.getCanGroup() && (
+                        <button
+                          onClick={header.column.getToggleGroupingHandler()}
+                          style={{
+                            cursor: 'pointer',
+                            marginLeft: '5px',
+                          }}>
+                          <FontAwesomeIcon
+                            icon={faCaretUp}
+                            className={`${
+                              header.column.getIsGrouped() ? '' : 'rotate-180'
+                            }`}
+                          />
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -99,7 +122,30 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {cell.getIsGrouped() ? (
+                      <>
+                        <button
+                          onClick={row.getToggleExpandedHandler()}
+                          style={{
+                            cursor: 'pointer',
+                            marginRight: '5px',
+                          }}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}{' '}
+                          ({row.subRows.length})
+                        </button>
+                      </>
+                    ) : cell.getIsAggregated() ? (
+                      flexRender(
+                        cell.column.columnDef.aggregatedCell ??
+                          cell.column.columnDef.cell,
+                        cell.getContext()
+                      )
+                    ) : cell.getIsPlaceholder() ? null : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
