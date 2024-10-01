@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '~/components/ui/button';
+import { Checkbox } from '~/components/ui/checkbox';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -18,7 +19,16 @@ export type DatasetColumn = {
 export const columns: ColumnDef<DatasetColumn>[] = [
   {
     accessorKey: 'columnName',
-    header: 'Column Name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Column Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'dataType',
@@ -53,6 +63,13 @@ export const columns: ColumnDef<DatasetColumn>[] = [
   {
     accessorKey: 'pii',
     header: 'PII',
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.original.pii}
+        onCheckedChange={() => {}}
+        aria-label="Toggle PII"
+      />
+    ),
   },
   {
     accessorKey: 'enumeration',
