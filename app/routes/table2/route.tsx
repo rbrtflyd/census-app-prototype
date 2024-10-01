@@ -47,16 +47,6 @@ export default function TableRoute() {
         </div>
         <div className="flex flex-row justify-between px-6 py-3 border-b border-base">
           <Text className="text font-medium">Columns</Text>
-          <div className="flex items-center space-x-2 text-sm">
-            <div className="flex items-center space-x-2 text-light">
-              <Text>Grouped</Text>
-              <Switch
-                checked={showAlphabetical}
-                onCheckedChange={(checked) => setShowAlphabetical(checked)}
-              />
-              <Text>Alphabetical</Text>
-            </div>
-          </div>
         </div>
         <DataTable
           columns={columns}

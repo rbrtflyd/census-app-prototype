@@ -54,10 +54,6 @@ export function DataTable<TData, TValue>({
   const [grouping, setGrouping] = React.useState<GroupingState>([]);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
 
-  const handleGroupingChange = (columnId: string) => {
-    setGrouping(columnId === 'none' ? [] : [columnId]);
-  };
-
   const table = useReactTable({
     data,
     columns,
@@ -78,9 +74,17 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const handleGroupingChange = React.useCallback(
+    (columnId: string) => {
+      table.setGrouping(columnId === 'none' ? [] : [columnId]);
+      table.resetExpanded();
+    },
+    [table]
+  );
+
   return (
     <div className="rounded-md border ">
-      <div className="flex items-center py-4 px-6">
+      <div className="flex items-center py-4 px-6 w-full justify-between">
         <Input
           placeholder="Search for a column..."
           value={
@@ -91,35 +95,44 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <div className="flex flex-row items-center space-x-2">
+          <Text>Group by</Text>
+          <Select
+            onValueChange={handleGroupingChange}
+            value={grouping[0] || 'none'}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Group by..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">No grouping</SelectItem>
+              {table.getAllColumns().map((column) =>
+                column.getCanGroup() ? (
+                  <SelectItem
+                    key={column.id}
+                    value={column.id}>
+                    {column.columnDef.header as string}
+                  </SelectItem>
+                ) : null
+              )}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
+                <TableHead
+                  key={header.id}
+                  className={
+                    header.column.getIsGrouped() ? 'text-plum-500' : ''
+                  }>
                   {header.isPlaceholder ? null : (
-                    <div>
+                    <div className="flex flex-row items-center">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
-                      )}
-                      {header.column.getCanGroup() && (
-                        <button
-                          onClick={header.column.getToggleGroupingHandler()}
-                          style={{
-                            cursor: 'pointer',
-                            marginLeft: '5px',
-                          }}>
-                          <FontAwesomeIcon
-                            icon={faLayerGroup}
-                            className={`${
-                              header.column.getIsGrouped()
-                                ? 'text-plum-500'
-                                : ''
-                            }`}
-                          />
-                        </button>
                       )}
                     </div>
                   )}
@@ -133,13 +146,16 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
+                data-state={row.getIsSelected() && 'selected'}
+                className={
+                  row.getIsGrouped() ? 'bg-subtle text-xs !py-2 !h-auto' : ''
+                }>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {cell.getIsGrouped() ? (
                       <>
                         <button
-                          className="text-sm font-medium flex flex-row space-x-2 items-center"
+                          className="font-medium flex flex-row space-x-2 items-center"
                           onClick={row.getToggleExpandedHandler()}
                           style={{
                             cursor: 'pointer',

@@ -1,7 +1,11 @@
-import { faCaretUp } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faCaretUp,
+  faCaretDown,
+  faLayerGroup,
+} from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Text } from '@radix-ui/themes';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Checkbox } from '~/components/ui/checkbox';
 
@@ -24,13 +28,17 @@ export const columns: ColumnDef<DatasetColumn>[] = [
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          <div className="flex flex-row space-x-1 items-center">
-            Column Name
+          variant="table"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="w-full">
+          <div className="flex flex-row space-x-1 items-center justify-start w-full">
+            <Text>Column Name</Text>
             <FontAwesomeIcon
-              icon={faCaretUp}
-              className="ml-2 h-3 w-3"
+              icon={faCaretDown}
+              className={`ml-1 size-3 icon-lighter transition-all duration-75 ${
+                column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              }`}
             />
           </div>
         </Button>
@@ -43,12 +51,15 @@ export const columns: ColumnDef<DatasetColumn>[] = [
       return (
         <Button
           variant="ghost"
+          size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           <div className="flex flex-row space-x-1 items-center">
             Data Type
             <FontAwesomeIcon
-              icon={faCaretUp}
-              className="ml-2 h-3 w-3"
+              icon={faCaretDown}
+              className={`ml-1 size-3 icon-lighter transition-all duration-75 ${
+                column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              }`}
             />
           </div>
         </Button>
@@ -59,17 +70,24 @@ export const columns: ColumnDef<DatasetColumn>[] = [
     accessorKey: 'nulls',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          <div className="flex flex-row space-x-1 items-center">
-            Nulls
-            <FontAwesomeIcon
-              icon={faCaretUp}
-              className="ml-2 h-3 w-3"
-            />
-          </div>
-        </Button>
+        <>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <div className="flex flex-row space-x-1 items-center">
+              Nulls
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                className={`ml-1 size-3 icon-lighter transition-all duration-75 ${
+                  column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+                }`}
+              />
+            </div>
+          </Button>
+        </>
       );
     },
   },
