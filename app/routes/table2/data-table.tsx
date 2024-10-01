@@ -17,6 +17,8 @@ import {
 } from '@tanstack/react-table';
 
 import { Input } from '~/components/ui/input';
+
+import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
 import {
   Select,
   SelectContent,
@@ -47,6 +49,9 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [viewMode, setViewMode] = React.useState<'alphabetical' | 'grouped'>(
+    'alphabetical'
+  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -74,13 +79,14 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const handleGroupingChange = React.useCallback(
-    (columnId: string) => {
-      table.setGrouping(columnId === 'none' ? [] : [columnId]);
-      table.resetExpanded();
-    },
-    [table]
-  );
+  React.useEffect(() => {
+    if (viewMode === 'grouped') {
+      setGrouping(['source']);
+    } else {
+      setGrouping([]);
+    }
+    table.resetExpanded();
+  }, [viewMode, table]);
 
   return (
     <div className="rounded-md border ">
@@ -96,26 +102,16 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
         <div className="flex flex-row items-center space-x-2">
-          <Text>Group by</Text>
-          <Select
-            onValueChange={handleGroupingChange}
-            value={grouping[0] || 'none'}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Group by..." />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">No grouping</SelectItem>
-              {table.getAllColumns().map((column) =>
-                column.getCanGroup() ? (
-                  <SelectItem
-                    key={column.id}
-                    value={column.id}>
-                    {column.columnDef.header as string}
-                  </SelectItem>
-                ) : null
-              )}
-            </SelectContent>
-          </Select>
+          <Text>View</Text>
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value: 'alphabetical' | 'grouped') =>
+              setViewMode(value)
+            }>
+            <ToggleGroupItem value="alphabetical">Alphabetical</ToggleGroupItem>
+            <ToggleGroupItem value="grouped">Grouped</ToggleGroupItem>
+          </ToggleGroup>
         </div>
       </div>
       <Table>
