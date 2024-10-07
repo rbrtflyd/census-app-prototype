@@ -1,5 +1,11 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { DatasetType } from './types/datasets';
+import {
+  DatasetType,
+  SyncType,
+  ConnectionType,
+  SegmentType,
+  ColumnType,
+} from './types';
 import datasetsData from './data/datasets_data';
 
 let indexedDB: IDBFactory;

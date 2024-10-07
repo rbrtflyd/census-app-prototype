@@ -2,7 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import SidebarNavigation from '~/components/Navigation/Sidebar/SidebarNavigation';
 import { getDatasets } from '~/db/db';
 import { useLoaderData, Form } from '@remix-run/react';
-import { DatasetType } from '~/db/types/datasets';
+import { DatasetType } from '~/db/types/dataset';
 
 export const meta: MetaFunction = () => {
   return [
