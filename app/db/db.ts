@@ -6,6 +6,7 @@ import {
   SegmentType,
   ColumnType,
 } from './types';
+import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 import datasetsData from './data/datasets_data';
 
 let indexedDB: IDBFactory;
@@ -63,8 +64,11 @@ export async function getDataset(id: any) {
   return await db.datasets.get({ id });
 }
 
-export async function initializeDatabase() {
-  await db.seedDatabase();
+export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
+  await db.seedDatabase(); // Ensure database is seeded
+
+  const datasets = await db.datasets.toArray();
+  return { datasets };
 }
 
 export default db;

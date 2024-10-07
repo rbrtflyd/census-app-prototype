@@ -5,12 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import { initializeDatabase } from './db/db';
 
-export async function loader() {
-  await initializeDatabase();
-  return null;
-}
 import styles from './tailwind.css?url';
 
 export const links = () => {
