@@ -1,3 +1,5 @@
+import type { ColumnType } from './column';
+import type { RowType } from './row';
 declare module '../db' {
   interface DatasetType {
     id: number;
@@ -6,8 +8,8 @@ declare module '../db' {
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    rows: Array<any>;
-    columns: Array<any>;
+    rows: Array<RowType>;
+    columns: Array<ColumnType>;
     tags: string[];
     schema: string;
     uniques: Array<any>;
