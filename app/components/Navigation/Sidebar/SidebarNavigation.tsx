@@ -52,7 +52,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
             key={group.group}
             className="flex flex-col space-y-0.5">
             {group.group !== 'Home' && (
-              <Text className="text-xs leading-none mb-2 text-white/75 font-medium">
+              <Text className="text-xxs leading-none mb-2 text-white/50 font-medium">
                 {group.group}
               </Text>
             )}
