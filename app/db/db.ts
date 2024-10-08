@@ -6,31 +6,8 @@ import {
   SegmentType,
   ColumnType,
 } from './types';
-import type { ClientLoaderFunctionArgs } from '@remix-run/react';
+
 import datasetsData from './data/datasets_data';
-
-let indexedDB: IDBFactory;
-let IDBKeyRange: typeof globalThis.IDBKeyRange;
-
-if (typeof window === 'undefined') {
-  const importFakeIndexedDB = async () => {
-    const { default: fakeIndexedDB } = await import('fake-indexeddb');
-    const { default: fakeIDBKeyRange } = await import('fake-indexeddb');
-    return { fakeIndexedDB, fakeIDBKeyRange };
-  };
-
-  importFakeIndexedDB().then(({ fakeIndexedDB, fakeIDBKeyRange }) => {
-    indexedDB = fakeIndexedDB as unknown as IDBFactory;
-    IDBKeyRange = fakeIDBKeyRange as unknown as typeof IDBKeyRange;
-    Dexie.dependencies.indexedDB = indexedDB;
-    Dexie.dependencies.IDBKeyRange = IDBKeyRange;
-  });
-} else {
-  indexedDB = window.indexedDB;
-  IDBKeyRange = window.IDBKeyRange;
-  Dexie.dependencies.indexedDB = indexedDB;
-  Dexie.dependencies.IDBKeyRange = IDBKeyRange;
-}
 
 class PrototypeDatabase extends Dexie {
   datasets: EntityTable<DatasetType, 'id'>;
@@ -62,13 +39,6 @@ export async function getDatasets() {
 
 export async function getDataset(id: any) {
   return await db.datasets.get({ id });
-}
-
-export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
-  await db.seedDatabase(); // Ensure database is seeded
-
-  const datasets = await db.datasets.toArray();
-  return { datasets };
 }
 
 export default db;
