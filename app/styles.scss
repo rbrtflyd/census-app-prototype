@@ -1,0 +1,112 @@
+:root {
+  // Colors
+  --slate-0: hsla(0, 0%, 100%, 1);
+  --slate-25: hsla(240, 7%, 96%, 1);
+  --slate-50: hsla(240, 9%, 94%, 1);
+  --slate-75: hsla(240, 13%, 91%, 1);
+  --slate-100: hsla(242, 16%, 84%, 1);
+  --slate-200: hsla(242, 14%, 71%, 1);
+  --slate-300: hsla(242, 12%, 58%, 1);
+  --slate-400: hsla(242, 10%, 46%, 1);
+  --slate-500: hsla(240, 13%, 36%, 1);
+  --slate-600: hsla(240, 14%, 25%, 1);
+  --slate-700: hsla(240, 15%, 15%, 1);
+  --slate-800: hsla(240, 14%, 10%, 1);
+  --slate-900: hsla(240, 15%, 5%, 1);
+
+  --plum-100: hsla(240, 100%, 95%, 1);
+  --plum-200: hsla(242, 98%, 84%, 1);
+  --plum-300: hsla(242, 95%, 74%, 1);
+  --plum-400: hsla(242, 89%, 65%, 1);
+  --plum-500: hsla(243, 82%, 59%, 1);
+  --plum-600: hsla(243, 61%, 46%, 1);
+  --plum-700: hsla(243, 63%, 31%, 1);
+
+  --green-100: hsla(155, 48%, 90%, 1);
+  --green-200: hsla(155, 70%, 76%, 1);
+  --green-300: hsla(155, 65%, 61%, 1);
+  --green-400: hsla(155, 61%, 46%, 1);
+  --green-500: hsla(155, 75%, 34%, 1);
+  --green-600: hsla(155, 86%, 22%, 1);
+  --green-700: hsla(155, 91%, 13%, 1);
+
+  --red-100: hsla(348, 100%, 95%, 1);
+  --red-200: hsla(347, 98%, 82%, 1);
+  --red-300: hsla(347, 96%, 70%, 1);
+  --red-400: hsla(347, 92%, 60%, 1);
+  --red-500: hsla(347, 83%, 53%, 1);
+  --red-600: hsla(347, 85%, 40%, 1);
+  --red-700: hsla(347, 91%, 26%, 1);
+
+  --orange-500: hsla(23, 93%, 53%, 1);
+  --yellow-500: hsla(47, 100%, 53%, 1);
+  --teal-500: hsla(172, 85%, 38%, 1);
+  --mint-500: hsla(167, 70%, 72%, 1);
+  --sky-500: hsla(210, 100%, 62%, 1);
+  --lightBlue-500: hsla(193, 98%, 74%, 1);
+  --purple-500: hsla(272, 51%, 54%, 1);
+  --pink-500: hsla(323, 68%, 59%, 1);
+  --fuchsia-500: hsla(336, 80%, 58%, 1);
+  --wisteria-500: hsla(241, 79%, 72%, 1);
+
+  //Semantic Colors
+
+  --accent-base: var(--plum-500);
+  --accent-light: var(--plum-100);
+  --accent-dark: var(--plum-700);
+
+  --success-base: var(--green-500);
+  --danger-base: var(--red-500);
+
+  --text-dark: var(--slate-600);
+  --text-light: var(--slate-400);
+  --text-lighter: var(--slate-300);
+  --text-white: var(--slate-0);
+  --text-accent: var(--accent-base);
+  --text-success: var(--success-base);
+  --text-danger: var(--danger-base);
+
+  --icon-light: var(--slate-300);
+  --icon-lighter: var(--slate-200);
+  --icon-lightest: var(--slate-100);
+  --icon-white: var(--slate-0);
+  --icon-accent: var(--accent-base);
+  --icon-success: var(--success-base);
+  --icon-danger: var(--danger-base);
+
+  --border-base: var(--slate-200);
+
+  --bg-deep: var(--slate-100);
+  --bg-surface: var(--slate-12);
+  --bg-subtle: var(--slate-50);
+
+  // Spacing
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 1rem;
+  --spacing-4: 1.5rem;
+  --spacing-5: 3rem;
+
+  // Borders
+  --border-width: 1px;
+  --border-radius: 0.25rem;
+  --border-radius-lg: 0.3rem;
+  --border-radius-sm: 0.2rem;
+
+  // Box-shadows
+  --box-shadow-sm: 0 1.5px 3px 0 rgba(10, 10, 13, 0.1);
+  --box-shadow-md: 0 4px 12px 0 rgba(10, 10, 13, 0.1);
+  --box-shadow-lg: 0 12px 24px 0 rgba(10, 10, 13, 0.15);
+
+  // Transitions
+  --transition-base: all 0.2s ease-in-out;
+
+  // Z-index
+  --zindex-dropdown: 1000;
+  --zindex-sticky: 1020;
+  --zindex-fixed: 1030;
+  --zindex-modal-backdrop: 1040;
+  --zindex-modal: 1050;
+  --zindex-popover: 1060;
+  --zindex-tooltip: 1070;
+}
