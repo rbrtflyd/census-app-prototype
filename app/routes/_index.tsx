@@ -1,10 +1,8 @@
 import type { MetaFunction } from '@remix-run/node';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { useLoaderData } from '@remix-run/react';
-import { getDatasets } from '~/db/db';
-import { DatasetType } from '~/db/types';
-
-import { initializeDatabase } from '~/db/db';
+import { getDatasets, getSyncs, initializeDatabase } from '~/db/db';
+import { DatasetType, SyncType } from '~/db/types';
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,21 +14,26 @@ export const meta: MetaFunction = () => {
 export const clientLoader = async () => {
   await initializeDatabase();
   const datasets = await getDatasets();
-  return datasets;
+  const syncs = await getSyncs();
+  return { datasets, syncs };
 };
 
 interface LoaderData {
-  datasets: any; // Replace 'any' with the actual type of datasets
+  datasets: DatasetType[];
+  syncs: SyncType[];
 }
 
 export default function Index() {
-  const datasets = useLoaderData<LoaderData>();
+  const { datasets, syncs } = useLoaderData<LoaderData>();
   return (
     <>
       <PageHeader title="Home" />
       <div className="flex flex-col gap-4">
-        {(datasets as DatasetType[]).map((dataset: any) => (
+        {datasets.map((dataset) => (
           <div key={dataset.id}>{dataset.name}</div>
+        ))}
+        {syncs.map((sync) => (
+          <div key={sync.id}>{sync.name}</div>
         ))}
       </div>
     </>
