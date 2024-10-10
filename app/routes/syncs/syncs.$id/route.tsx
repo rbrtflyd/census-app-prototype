@@ -1,7 +1,7 @@
+import React from 'react';
 import type { MetaFunction } from '@remix-run/node';
 
 import { Outlet } from '@remix-run/react';
-import PageHeader from '~/components/Structural/Headers/PageHeader';
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,10 +10,9 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
+export default function Route() {
   return (
     <>
-      <PageHeader title="Syncs" />
       <Outlet />
     </>
   );

@@ -1,3 +1,4 @@
+import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 import {
   Links,
   Meta,

@@ -11,18 +11,23 @@ import {
 } from '~/components/ui/breadcrumb';
 
 interface BreadcrumbItem {
-  name: string;
-  href: string;
+  label: string;
+  href?: string;
 }
 
 interface BreadcrumbProps {
   items: Array<BreadcrumbItem>;
 }
 
+interface ButtonProps {
+  label: string;
+  href?: string;
+}
+
 interface PageHeaderProps {
   title: string;
-  breadcrumb?: Array<BreadcrumbProps>;
-  button?: React.ReactNode;
+  breadcrumb?: BreadcrumbProps;
+  button?: ButtonProps;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
@@ -31,27 +36,32 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   button,
 }) => {
   return (
-    <header className="flex items-center justify-between py-4 px-6 bg-white border-b border-base">
+    <header className="flex items-center justify-between py-4 px-6 bg-white border-b border-base h-16">
       <div className="flex items-center">
-        {breadcrumb && (
-          <div className="mr-4">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <div>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                </div>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        )}
-        <Text className="text-xl font-medium leading-none">{title}</Text>
+        <div className="mr-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              {breadcrumb &&
+                breadcrumb.items.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink href={item.href}>
+                        <Text>{item.label}</Text>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                  </React.Fragment>
+                ))}
+              <BreadcrumbPage>
+                <Text>{title}</Text>
+              </BreadcrumbPage>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
       </div>
       {button && (
         <div className="flex space-x-2">
-          <Button>New</Button>
+          <Button size="sm">{button.label}</Button>
         </div>
       )}
     </header>

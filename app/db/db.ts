@@ -33,6 +33,10 @@ interface PrototypeDatabase extends Dexie {}
 
 const db = new PrototypeDatabase();
 
+export async function initializeDatabase() {
+  await db.seedDatabase();
+}
+
 export async function getDatasets() {
   return await db.datasets.toArray();
 }
