@@ -1,11 +1,10 @@
 declare module '../db' {
   interface ConnectionType {
     id: number;
-    name: string;
-    connectionServiceName: string;
-    connectionServiceType: string;
+    connectionId: number;
     createdAt: Date;
     updatedAt: Date;
+    createdBy: string;
   }
 }
 

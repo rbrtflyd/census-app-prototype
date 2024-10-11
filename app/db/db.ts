@@ -3,16 +3,24 @@ import {
   DatasetType,
   SyncType,
   ConnectionType,
+  ConnectionServiceType,
   SegmentType,
   ColumnType,
   UserConfigType,
 } from './types';
-import { datasetsData, syncsData, userConfigData } from './data';
+import {
+  datasetsData,
+  syncsData,
+  userConfigData,
+  connectionsData,
+} from './data';
 
 class PrototypeDatabase extends Dexie {
   datasets: EntityTable<DatasetType, 'id'>;
   syncs: EntityTable<SyncType, 'id'>;
   userConfig: EntityTable<UserConfigType, 'id'>;
+  connections: EntityTable<ConnectionServiceType, 'id'>;
+  workspaceConnections: EntityTable<ConnectionType, 'id'>;
 
   constructor() {
     super('PrototypeDatabase');
@@ -22,16 +30,22 @@ class PrototypeDatabase extends Dexie {
       syncs:
         'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
       userConfig: 'id, name, syncs_populated, datasets_populated',
+      connections: 'id, connectionServiceName, connectionServiceType, logo',
+      workspaceConnections: 'id, connectionId',
     });
     this.datasets = this.table('datasets');
     this.syncs = this.table('syncs');
     this.userConfig = this.table('userConfig');
+    this.connections = this.table('connections');
+    this.workspaceConnections = this.table('workspaceConnections');
   }
 
   async seedDatabase() {
     const datasets = await this.datasets.toArray();
     const syncs = await this.syncs.toArray();
     const userConfig = await this.userConfig.toArray();
+    const connections = await this.connections.toArray();
+    const workspaceConnections = await this.workspaceConnections.toArray();
 
     if (datasets.length === 0 || syncs.length === 0) {
       if (datasets.length === 0) {
@@ -42,6 +56,9 @@ class PrototypeDatabase extends Dexie {
       }
       if (userConfig.length === 0) {
         await this.userConfig.bulkAdd(userConfigData);
+      }
+      if (connections.length === 0) {
+        await this.connections.bulkAdd(connectionsData);
       }
     }
   }
@@ -73,6 +90,10 @@ export async function getSyncs() {
 
 export async function getSync(id: any) {
   return await db.syncs.get({ id });
+}
+
+export async function getConnections() {
+  return await db.connections.toArray();
 }
 
 export default db;
