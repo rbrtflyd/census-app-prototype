@@ -112,117 +112,110 @@ export default function TableRoute() {
   };
 
   return (
-    <div className="flex flex-row h-screen w-full overflow-hidden">
-      <SidebarNavigation />
-      <div className="flex flex-col w-full">
-        <div className="flex flex-row px-6 py-3 border-b border-base">
-          <Text className="text-lg font-medium">Datasets</Text>
-        </div>
-        <div className="flex flex-row w-full">
-          <Tabs
-            defaultValue="columns"
-            className="w-full">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="relationships">Relationships</TabsTrigger>
-              <TabsTrigger value="columns">Columns</TabsTrigger>
-              <TabsTrigger value="syncs">Syncs</TabsTrigger>
-              <TabsTrigger value="segments">Segments</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        <div className="flex flex-row justify-between px-6 py-3 border-b border-base">
-          <Text className="text font-medium">Columns</Text>
-          <div className="flex items-center space-x-2 text-sm">
-            <div className="flex items-center space-x-2 text-light">
-              <Text>Grouped</Text>
-              <Switch
-                checked={showAlphabetical}
-                onCheckedChange={(checked) => setShowAlphabetical(checked)}
-              />
-              <Text>Alphabetical</Text>
-            </div>
+    <div className="flex flex-col w-full">
+      <div className="flex flex-row px-6 py-3 border-b border-base">
+        <Text className="text-lg font-medium">Datasets</Text>
+      </div>
+      <div className="flex flex-row w-full">
+        <Tabs
+          defaultValue="columns"
+          className="w-full">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="preview">Preview</TabsTrigger>
+            <TabsTrigger value="relationships">Relationships</TabsTrigger>
+            <TabsTrigger value="columns">Columns</TabsTrigger>
+            <TabsTrigger value="syncs">Syncs</TabsTrigger>
+            <TabsTrigger value="segments">Segments</TabsTrigger>
+            <TabsTrigger value="activity">Activity</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      <div className="flex flex-row justify-between px-6 py-3 border-b border-base">
+        <Text className="text font-medium">Columns</Text>
+        <div className="flex items-center space-x-2 text-sm">
+          <div className="flex items-center space-x-2 text-light">
+            <Text>Grouped</Text>
+            <Switch
+              checked={showAlphabetical}
+              onCheckedChange={(checked) => setShowAlphabetical(checked)}
+            />
+            <Text>Alphabetical</Text>
           </div>
         </div>
-        <div className="flex flex-col h-full w-full overflow-y-auto">
-          <div className="flex flex-col max-w-[1200px] w-full mx-auto space-y-4 px-6 pt-3 h-full">
-            {showAlphabetical ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[200px]">Column Name</TableHead>
-                    <TableHead>Data Type</TableHead>
-                    <TableHead>Nulls</TableHead>
-                    <TableHead>PII</TableHead>
-                    <TableHead>Enumerated</TableHead>
+      </div>
+      <div className="flex flex-col h-full w-full overflow-y-auto">
+        <div className="flex flex-col max-w-[1200px] w-full mx-auto space-y-4 px-6 pt-3 h-full">
+          {showAlphabetical ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[200px]">Column Name</TableHead>
+                  <TableHead>Data Type</TableHead>
+                  <TableHead>Nulls</TableHead>
+                  <TableHead>PII</TableHead>
+                  <TableHead>Enumerated</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedFields.map(([fieldName, fieldInfo]) => (
+                  <TableRow key={fieldName}>
+                    <TableCell className="font-medium">{fieldName}</TableCell>
+                    <TableCell>{fieldInfo.type}</TableCell>
+                    <TableCell>{fieldInfo.nullCount}</TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sortedFields.map(([fieldName, fieldInfo]) => (
-                    <TableRow key={fieldName}>
-                      <TableCell className="font-medium">{fieldName}</TableCell>
-                      <TableCell>{fieldInfo.type}</TableCell>
-                      <TableCell>{fieldInfo.nullCount}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            ) : (
-              Object.entries(datasetSchema).map(([category, fields]) => (
-                <Collapsible
-                  key={category}
-                  className="flex flex-col space-y-2"
-                  open={openCategories[category]}
-                  onOpenChange={() => toggleCategory(category)}>
-                  <CollapsibleTrigger className="px-2 py-3  w-full space-x-4 flex flex-row justify-between text-sm items-center">
-                    <div className="flex flex-row space-x-2 shrink-0">
-                      <Text className="capitalize font-medium">{category}</Text>
-                      <Text className="text-lighter">
-                        {Object.keys(fields).length}
-                      </Text>
-                    </div>
-                    <div className="h-px border-base border-b w-full" />
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className={`icon-lighter h-3 transition-transform duration-75 rotate-90 ${
-                        openCategories[category] ? 'rotate-0' : ''
-                      }`}
-                    />
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="w-[200px]">
-                            Column Name
-                          </TableHead>
-                          <TableHead>Data Type</TableHead>
-                          <TableHead>Nulls</TableHead>
-                          <TableHead>Source</TableHead>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            Object.entries(datasetSchema).map(([category, fields]) => (
+              <Collapsible
+                key={category}
+                className="flex flex-col space-y-2"
+                open={openCategories[category]}
+                onOpenChange={() => toggleCategory(category)}>
+                <CollapsibleTrigger className="px-2 py-3  w-full space-x-4 flex flex-row justify-between text-sm items-center">
+                  <div className="flex flex-row space-x-2 shrink-0">
+                    <Text className="capitalize font-medium">{category}</Text>
+                    <Text className="text-lighter">
+                      {Object.keys(fields).length}
+                    </Text>
+                  </div>
+                  <div className="h-px border-base border-b w-full" />
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={`icon-lighter h-3 transition-transform duration-75 rotate-90 ${
+                      openCategories[category] ? 'rotate-0' : ''
+                    }`}
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[200px]">Column Name</TableHead>
+                        <TableHead>Data Type</TableHead>
+                        <TableHead>Nulls</TableHead>
+                        <TableHead>Source</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {Object.entries(fields).map(([fieldName, fieldInfo]) => (
+                        <TableRow key={fieldName}>
+                          <TableCell className="font-medium">
+                            {fieldName}
+                          </TableCell>
+                          <TableCell>{fieldInfo.type}</TableCell>
+                          <TableCell>{fieldInfo.nullCount}</TableCell>
+                          <TableCell>{fieldInfo.source}</TableCell>
                         </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {Object.entries(fields).map(
-                          ([fieldName, fieldInfo]) => (
-                            <TableRow key={fieldName}>
-                              <TableCell className="font-medium">
-                                {fieldName}
-                              </TableCell>
-                              <TableCell>{fieldInfo.type}</TableCell>
-                              <TableCell>{fieldInfo.nullCount}</TableCell>
-                              <TableCell>{fieldInfo.source}</TableCell>
-                            </TableRow>
-                          )
-                        )}
-                      </TableBody>
-                    </Table>
-                  </CollapsibleContent>
-                </Collapsible>
-              ))
-            )}
-          </div>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CollapsibleContent>
+              </Collapsible>
+            ))
+          )}
         </div>
       </div>
     </div>

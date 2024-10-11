@@ -92,4 +92,4 @@ const datasetsData = [
   },
 ];
 
-export default datasetsData;
+export { datasetsData };

@@ -5,14 +5,15 @@ import {
   ConnectionType,
   SegmentType,
   ColumnType,
+  UserConfigType,
 } from './types';
-
-import datasetsData from './data/datasets/datasets_data';
-import syncsData from './data/syncs/syncs_data';
+import { datasetsData, syncsData, userConfigData } from './data';
 
 class PrototypeDatabase extends Dexie {
   datasets: EntityTable<DatasetType, 'id'>;
   syncs: EntityTable<SyncType, 'id'>;
+  userConfig: EntityTable<UserConfigType, 'id'>;
+
   constructor() {
     super('PrototypeDatabase');
     this.version(1).stores({
@@ -20,14 +21,17 @@ class PrototypeDatabase extends Dexie {
         'id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
       syncs:
         'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
+      userConfig: 'id, name, syncs_populated, datasets_populated',
     });
     this.datasets = this.table('datasets');
     this.syncs = this.table('syncs');
+    this.userConfig = this.table('userConfig');
   }
 
   async seedDatabase() {
     const datasets = await this.datasets.toArray();
     const syncs = await this.syncs.toArray();
+    const userConfig = await this.userConfig.toArray();
 
     if (datasets.length === 0 || syncs.length === 0) {
       if (datasets.length === 0) {
@@ -35,6 +39,9 @@ class PrototypeDatabase extends Dexie {
       }
       if (syncs.length === 0) {
         await this.syncs.bulkAdd(syncsData);
+      }
+      if (userConfig.length === 0) {
+        await this.userConfig.bulkAdd(userConfigData);
       }
     }
   }
@@ -54,6 +61,10 @@ export async function getDatasets() {
 
 export async function getDataset(id: any) {
   return await db.datasets.get({ id });
+}
+
+export async function getUserConfig() {
+  return await db.userConfig.toArray();
 }
 
 export async function getSyncs() {

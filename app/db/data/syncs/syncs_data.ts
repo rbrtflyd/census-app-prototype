@@ -25,4 +25,4 @@ const syncsData = [
   },
 ];
 
-export default syncsData;
+export { syncsData };
