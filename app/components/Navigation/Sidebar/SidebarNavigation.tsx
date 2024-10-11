@@ -52,9 +52,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
             key={group.group}
             className="flex flex-col space-y-0.5">
             {group.group !== 'Home' && (
-              <Text className="text-xxs leading-none mb-2 text-white/50 font-medium">
-                {group.group}
-              </Text>
+              <div className="px-2">
+                <Text className="text-xxs leading-none mb-2 text-white/50 font-medium">
+                  {group.group}
+                </Text>
+              </div>
             )}
             <div className="flex flex-col space-y-2">
               {group.links.map((link) => (
