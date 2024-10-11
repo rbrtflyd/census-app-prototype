@@ -21,7 +21,7 @@ interface BreadcrumbProps {
 
 interface ButtonProps {
   label: string;
-  href?: string;
+  onClick?: () => void;
 }
 
 interface PageHeaderProps {
@@ -61,7 +61,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       </div>
       {button && (
         <div className="flex space-x-2">
-          <Button size="sm">{button.label}</Button>
+          <Button
+            size="sm"
+            onClick={button.onClick}>
+            {button.label}
+          </Button>
         </div>
       )}
     </header>
