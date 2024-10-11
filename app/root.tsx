@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import SidebarNavigation from './components/Navigation/Sidebar/SidebarNavigation';
+import { BreadcrumbProvider } from './providers/breadcrumbContext';
 
 import styles from './tailwind.css?url';
 import './styles.scss';
@@ -29,8 +30,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="flex h-screen flex-row">
-          <SidebarNavigation />
-          <div className="grow">{children}</div>
+          <BreadcrumbProvider>
+            <SidebarNavigation />
+            <div className="grow">{children}</div>
+          </BreadcrumbProvider>
         </div>
 
         <ScrollRestoration />

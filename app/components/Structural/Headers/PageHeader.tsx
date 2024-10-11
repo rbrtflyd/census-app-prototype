@@ -10,14 +10,12 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 
-interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 
-interface BreadcrumbProps {
-  items: Array<BreadcrumbItem>;
-}
+import {
+  useBreadcrumb,
+  BreadcrumbItem as BreadcrumbItemType,
+} from '~/hooks/useBreadcrumb';
 
 interface ButtonProps {
   label: string;
@@ -26,23 +24,20 @@ interface ButtonProps {
 
 interface PageHeaderProps {
   title: string;
-  breadcrumb?: BreadcrumbProps;
+  initialBreadcrumbs?: BreadcrumbItemType[];
   button?: ButtonProps;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({
-  title,
-  breadcrumb,
-  button,
-}) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, button }) => {
+  const { items: breadcrumbs } = useBreadcrumbContext();
   return (
     <header className="flex items-center justify-between py-4 px-6 bg-white border-b border-base h-16">
       <div className="flex items-center">
         <div className="mr-4">
           <Breadcrumb>
             <BreadcrumbList>
-              {breadcrumb &&
-                breadcrumb.items.map((item, index) => (
+              {breadcrumbs &&
+                breadcrumbs.map((item, index) => (
                   <React.Fragment key={index}>
                     <BreadcrumbItem>
                       <BreadcrumbLink href={item.href}>

@@ -13,6 +13,7 @@ import {
   syncsData,
   userConfigData,
   connectionsData,
+  workspaceConnectionsData,
 } from './data';
 
 class PrototypeDatabase extends Dexie {
@@ -47,7 +48,13 @@ class PrototypeDatabase extends Dexie {
     const connections = await this.connections.toArray();
     const workspaceConnections = await this.workspaceConnections.toArray();
 
-    if (datasets.length === 0 || syncs.length === 0) {
+    if (
+      datasets.length === 0 ||
+      syncs.length === 0 ||
+      connections.length === 0 ||
+      userConfig.length === 0 ||
+      workspaceConnections.length === 0
+    ) {
       if (datasets.length === 0) {
         await this.datasets.bulkAdd(datasetsData);
       }
@@ -59,6 +66,9 @@ class PrototypeDatabase extends Dexie {
       }
       if (connections.length === 0) {
         await this.connections.bulkAdd(connectionsData);
+      }
+      if (workspaceConnections.length === 0) {
+        await this.workspaceConnections.bulkAdd(workspaceConnectionsData);
       }
     }
   }
@@ -94,6 +104,10 @@ export async function getSync(id: any) {
 
 export async function getConnections() {
   return await db.connections.toArray();
+}
+
+export async function getWorkspaceConnections() {
+  return await db.workspaceConnections.toArray();
 }
 
 export default db;

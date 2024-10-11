@@ -10,10 +10,6 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const breadcrumb = {
-  items: [{ label: 'Syncs', href: '/syncs' }],
-};
-
 export default function Route() {
   return (
     <>
