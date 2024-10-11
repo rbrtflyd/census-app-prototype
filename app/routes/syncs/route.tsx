@@ -20,7 +20,7 @@ export const clientLoader = async () => {
 };
 
 interface LoaderData {
-  datasets: any; // Replace 'any' with the actual type of datasets
+  syncs: any; // Replace 'any' with the actual type of datasets
 }
 
 export default function Index() {

@@ -81,6 +81,15 @@ const datasetsData = [
     updatedAt: new Date(),
     rows: 100,
   },
+  {
+    id: 8,
+    name: 'Dataset 8',
+    source: 10,
+    description: 'Description 7',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    rows: 100,
+  },
 ];
 
 export default datasetsData;

@@ -9,7 +9,7 @@ interface SyncType {
   createdAt?: Date;
   status?: SyncStatusType;
   updatedAt?: Date;
-  rows?: Array<any>;
+  rows?: number;
   columns?: Array<any>;
   tags?: string[];
   foreignKeys?: Array<any>;

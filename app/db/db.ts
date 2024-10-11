@@ -15,11 +15,11 @@ class PrototypeDatabase extends Dexie {
   syncs: EntityTable<SyncType, 'id'>;
   constructor() {
     super('PrototypeDatabase');
-    this.version(2).stores({
+    this.version(1).stores({
       datasets:
-        '++id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
+        'id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
       syncs:
-        '++id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
+        'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
     });
     this.datasets = this.table('datasets');
     this.syncs = this.table('syncs');
@@ -28,12 +28,14 @@ class PrototypeDatabase extends Dexie {
   async seedDatabase() {
     const datasets = await this.datasets.toArray();
     const syncs = await this.syncs.toArray();
-    if (datasets.length === 0 && syncs.length === 0) {
-      const datasets = datasetsData;
-      const syncs = syncsData;
 
-      await this.datasets.bulkAdd(datasets);
-      await this.syncs.bulkAdd(syncs);
+    if (datasets.length === 0 || syncs.length === 0) {
+      if (datasets.length === 0) {
+        await this.datasets.bulkAdd(datasetsData);
+      }
+      if (syncs.length === 0) {
+        await this.syncs.bulkAdd(syncsData);
+      }
     }
   }
 }

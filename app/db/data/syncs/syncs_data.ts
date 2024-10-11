@@ -1,17 +1,15 @@
 import { SyncType, SyncStatusType } from '~/db/types';
 
-const syncsData: SyncType[] = [
+const syncsData = [
   {
     id: 1,
-    datasetId: 1,
+
     name: 'Daily Sync for Dataset 1',
-    description: 'Syncs Dataset 1 every day at midnight',
   },
   {
     id: 2,
-    datasetId: 2,
+
     name: 'Weekly Sync for Dataset 2',
-    description: 'Syncs Dataset 2 every Sunday at 2 AM',
   },
   {
     id: 3,

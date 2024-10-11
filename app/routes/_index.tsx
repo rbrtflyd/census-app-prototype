@@ -13,8 +13,10 @@ export const meta: MetaFunction = () => {
 
 export const clientLoader = async () => {
   await initializeDatabase();
+  console.log('Database initialized');
   const datasets = await getDatasets();
   const syncs = await getSyncs();
+  console.log('Syncs retrieved:', syncs.length);
   return { datasets, syncs };
 };
 
