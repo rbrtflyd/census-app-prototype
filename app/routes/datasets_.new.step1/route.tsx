@@ -12,17 +12,23 @@ import { Button } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
 import { RadioGroupIndicator } from '@radix-ui/react-radio-group';
-import { initializeDatabase, getConnections } from '~/db/db';
+import {
+  initializeDatabase,
+  getConnections,
+  getWorkspaceConnections,
+} from '~/db/db';
 
 export const clientLoader = async () => {
   await initializeDatabase();
   console.log('Database initialized');
   const connections = await getConnections();
-  return { connections };
+  const workspaceConnections = await getWorkspaceConnections();
+  return { connections, workspaceConnections };
 };
 
 export default function NewDataset() {
-  const { connections } = useLoaderData<typeof clientLoader>();
+  const { connections, workspaceConnections } =
+    useLoaderData<typeof clientLoader>();
   const [selectedTab, setSelectedTab] = React.useState('everything');
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
@@ -145,8 +151,15 @@ export default function NewDataset() {
                   key={connection.id}
                   value={connection.id.toString()}
                   id={`option-${connection.id}`}
-                  className="px-3 py-2 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
-                  <Text className="ml-2">
+                  className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
+                  {connection.logo && (
+                    <img
+                      src={connection.logo}
+                      alt={connection.connectionServiceName}
+                      className="size-7"
+                    />
+                  )}
+                  <Text className="ml-4">
                     {connection.connectionServiceName}
                   </Text>
                 </RadioGroupItem>
@@ -174,9 +187,18 @@ export default function NewDataset() {
     return (
       <div className="space-y-4 p-6 border-l border-base w-1/3 flex flex-col">
         <div className="flex flex-col space-y-2">
-          <Text className="text-lg font-medium">
-            {connection.connectionServiceName}
-          </Text>
+          <div className="flex flex-row gap-2 items-center">
+            {connection.logo && (
+              <img
+                src={connection.logo}
+                alt={connection.connectionServiceName}
+                className="size-10"
+              />
+            )}
+            <Text className="text-lg font-medium">
+              {connection.connectionServiceName}
+            </Text>
+          </div>
           <Text className="text-light">{connection.description}</Text>
         </div>
         <div>
