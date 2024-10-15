@@ -3,6 +3,7 @@ declare module '../db' {
     id: number;
     connectionServiceName: string;
     connectionServiceCategory: string;
+    connectionServiceType: string;
     logo: string;
   }
 }

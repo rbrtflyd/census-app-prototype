@@ -31,7 +31,8 @@ class PrototypeDatabase extends Dexie {
       syncs:
         'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
       userConfig: 'id, name, syncs_populated, datasets_populated',
-      connections: 'id, connectionServiceName, connectionServiceType, logo',
+      connections:
+        'id, connectionServiceName, connectionServiceType, logo, connectionServiceCategory',
       workspaceConnections: 'id, connectionId',
     });
     this.datasets = this.table('datasets');

@@ -57,7 +57,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, button }) => {
       {button && (
         <div className="flex space-x-2">
           <Button
-            size="sm"
+            size="small"
             onClick={button.onClick}>
             {button.label}
           </Button>

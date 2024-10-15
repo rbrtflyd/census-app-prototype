@@ -27,7 +27,7 @@ export default function NewDataset() {
           started.
         </Text>
       </div>
-      <div className="px-6 h-full pb-6 -mt-10">
+      <div className="px-6 h-full pb-6 -mt-7">
         <Outlet />
       </div>
     </div>
