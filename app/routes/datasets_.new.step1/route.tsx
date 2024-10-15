@@ -12,22 +12,34 @@ const tabs = [
   {
     id: 'warehouses',
     label: 'Warehouses',
-    content: 'Warehouses',
+    content: {
+      header: 'Warehouses',
+      description: 'Warehouses',
+    },
   },
   {
     id: 'databases',
     label: 'Databases',
-    content: 'Databases',
+    content: {
+      header: 'Databases',
+      description: 'Databases',
+    },
   },
   {
     id: 'event_streams',
     label: 'Event Streams',
-    content: 'Event Streams',
+    content: {
+      header: 'Event Streams',
+      description: 'Event Streams',
+    },
   },
   {
     id: 'business_apps',
     label: 'Business Apps',
-    content: 'Business Apps',
+    content: {
+      header: 'Business Apps',
+      description: 'Business Apps',
+    },
   },
 ];
 
@@ -65,7 +77,12 @@ export default function NewDataset() {
           <TabsContent
             key={tab.id}
             value={tab.id}>
-            {tab.content}
+            <div className="px-4 py-2 border-b border-base">
+              <Text className="leading-none font-medium text-dark">
+                {tab.content.header}
+              </Text>
+            </div>
+            <div></div>
           </TabsContent>
         ))}
       </div>
