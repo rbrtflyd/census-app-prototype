@@ -12,7 +12,7 @@ export default function Datasets() {
         title="Datasets"
         button={{
           label: 'New Dataset',
-          onClick: () => navigate('/datasets/new'),
+          onClick: () => navigate('/datasets/new/step1'),
         }}
       />
     </div>
