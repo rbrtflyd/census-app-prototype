@@ -10,6 +10,7 @@ import {
   TabsTrigger,
 } from '~/components/ui/tabs-vertical';
 import { Button } from '~/components/ui/button';
+import { Badge } from '~/components/ui/badge';
 import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
 import { RadioGroupIndicator } from '@radix-ui/react-radio-group';
@@ -147,25 +148,37 @@ export default function NewDataset() {
             className="h-full overflow-y-auto grow flex flex-col space-y-2"
             onValueChange={setSelectedConnection}>
             {groupedConnections[selectedTab] &&
-              groupedConnections[selectedTab].map((connection: any) => (
-                <RadioGroupItem
-                  key={connection.id}
-                  indicator={false}
-                  value={connection.id.toString()}
-                  id={`option-${connection.id}`}
-                  className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
-                  {connection.logo && (
-                    <img
-                      src={connection.logo}
-                      alt={connection.connectionServiceName}
-                      className="size-7"
-                    />
-                  )}
-                  <Text className="ml-4">
-                    {connection.connectionServiceName}
-                  </Text>
-                </RadioGroupItem>
-              ))}
+              groupedConnections[selectedTab].map((connection: any) => {
+                const hasExistingConnection = workspaceConnections.some(
+                  (wc) => wc.connectionId === connection.id
+                );
+                return (
+                  <RadioGroupItem
+                    key={connection.id}
+                    indicator={false}
+                    value={connection.id.toString()}
+                    id={`option-${connection.id}`}
+                    className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
+                    {connection.logo && (
+                      <img
+                        src={connection.logo}
+                        alt={connection.connectionServiceName}
+                        className="size-7"
+                      />
+                    )}
+                    <Text className="ml-4">
+                      {connection.connectionServiceName}
+                    </Text>
+                    {hasExistingConnection && (
+                      <Badge
+                        variant="secondary"
+                        className="ml-2">
+                        Connected
+                      </Badge>
+                    )}
+                  </RadioGroupItem>
+                );
+              })}
           </RadioGroup>
           {selectedConnection && (
             <ConnectionDetails
