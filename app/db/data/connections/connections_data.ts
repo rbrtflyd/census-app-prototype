@@ -73,7 +73,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'warehouse',
     description:
       'A cloud-based data warehousing platform. It offers scalable storage and compute resources for data analytics and big data processing.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Snowflake_Logo.svg',
+    logo: '/logos/connections/snowflake-logo.svg',
   },
   {
     id: 9,
@@ -81,7 +81,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceType: 'Data Warehouse',
     connectionServiceCategory: 'warehouse',
     description: `A fully-managed, serverless data warehouse that enables super-fast SQL queries. It's designed to analyze large datasets efficiently.`,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Google_BigQuery_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/google-bigquery-logo-1.svg',
   },
   {
     id: 10,
@@ -90,7 +90,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'warehouse',
     description:
       'A fully managed, petabyte-scale data warehouse service in the cloud. It allows you to analyze large volumes of data using your existing business intelligence tools.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/AmazonWebservices_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/aws-redshift-logo.svg',
   },
   {
     id: 11,
@@ -108,7 +108,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'warehouse',
     description:
       'A unified analytics platform for big data processing and machine learning. It provides a collaborative environment for data scientists, data engineers, and business analysts.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Databricks_Logo.png',
+    logo: 'https://cdn.brandfetch.io/idSUrLOWbH/theme/dark/symbol.svg?k=bfHSJFAPEG',
   },
 
   // Social Media Ads Destinations
@@ -155,7 +155,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'An advertising platform for the popular short-form video app TikTok. It enables businesses to create engaging video ads and reach a younger demographic.',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/tiktok-icon-2.svg',
   },
   {
     id: 18,
@@ -200,7 +200,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'event_stream',
     description:
       'A fully-managed real-time messaging service that allows you to send and receive messages between independent applications. It provides reliable, many-to-many, asynchronous messaging.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/google-cloud-pub-sub-logo.svg',
   },
   {
     id: 23,
@@ -227,6 +227,52 @@ const connectionsData: ConnectionServiceType[] = [
     description:
       'A cloud-native, distributed messaging and streaming platform. It provides scalable, low-latency messaging with built-in geo-replication and multi-tenancy support.',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/3/38/Apache_Pulsar_Logo.svg',
+  },
+  // App Database Services
+  {
+    id: 26,
+    connectionServiceName: 'MongoDB',
+    connectionServiceType: 'NoSQL Database',
+    connectionServiceCategory: 'database',
+    description:
+      'A popular document-oriented NoSQL database. It offers high performance, high availability, and easy scalability for modern applications.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg',
+  },
+  {
+    id: 27,
+    connectionServiceName: 'PostgreSQL',
+    connectionServiceType: 'Relational Database',
+    connectionServiceCategory: 'database',
+    description:
+      'A powerful, open-source object-relational database system. It has a strong reputation for reliability, feature robustness, and performance.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg',
+  },
+  {
+    id: 28,
+    connectionServiceName: 'MySQL',
+    connectionServiceType: 'Relational Database',
+    connectionServiceCategory: 'database',
+    description:
+      'An open-source relational database management system. It is widely used for web applications and is known for its speed, reliability, and ease of use.',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg',
+  },
+  {
+    id: 29,
+    connectionServiceName: 'Redis',
+    connectionServiceType: 'In-Memory Database',
+    connectionServiceCategory: 'database',
+    description:
+      'An open-source, in-memory data structure store, used as a database, cache, and message broker. It supports various data structures and is known for its high performance.',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg',
+  },
+  {
+    id: 30,
+    connectionServiceName: 'Cassandra',
+    connectionServiceType: 'NoSQL Database',
+    connectionServiceCategory: 'database',
+    description:
+      'A highly scalable, distributed NoSQL database designed to handle large amounts of structured data across many commodity servers.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Cassandra_logo.svg',
   },
 ];
 

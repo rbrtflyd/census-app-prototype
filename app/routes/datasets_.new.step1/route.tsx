@@ -188,13 +188,13 @@ export default function NewDataset() {
 
     return (
       <div className="space-y-8 p-6 border-l border-base w-1/3 flex flex-col">
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-4">
           <div className="flex flex-row gap-4 items-center">
             {connection.logo && (
               <img
                 src={connection.logo}
                 alt={connection.connectionServiceName}
-                className="size-9"
+                className="size-7"
               />
             )}
             <Text className="text-lg font-medium">
@@ -203,25 +203,27 @@ export default function NewDataset() {
           </div>
           <Text className="text-light">{connection.description}</Text>
         </div>
-        <div className="flex flex-col gap-2">
-          <Text className="font-medium">
-            Existing {connection.connectionServiceName} Connections
-          </Text>
+        {matchingWorkspaceConnections.length > 0 && (
           <div className="flex flex-col gap-2">
-            {matchingWorkspaceConnections.map((wc) => (
-              <div
-                key={wc.id}
-                className="flex flex-col gap-3 p-4 rounded border border-base">
-                <Text className="font-medium">{wc.name}</Text>
-                <Button
-                  variant="secondary"
-                  size="small">
-                  Use Connection
-                </Button>
-              </div>
-            ))}
+            <Text className="font-medium">
+              Existing {connection.connectionServiceName} Connections
+            </Text>
+            <div className="flex flex-col gap-2">
+              {matchingWorkspaceConnections.map((wc) => (
+                <div
+                  key={wc.id}
+                  className="flex flex-col gap-3 p-4 rounded border border-base">
+                  <Text className="font-medium">{wc.name}</Text>
+                  <Button
+                    variant="secondary"
+                    size="small">
+                    Use Connection
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div>
           <Text className="text-light">Connect New</Text>
