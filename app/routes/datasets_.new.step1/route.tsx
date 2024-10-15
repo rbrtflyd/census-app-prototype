@@ -98,7 +98,7 @@ export default function NewDataset() {
 
   return (
     <Tabs
-      className="flex flex-row gap-4 max-w-[1200px] mx-auto w-full h-full overflow-hidden"
+      className="flex flex-row gap-4 w-full h-full overflow-hidden"
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
@@ -173,8 +173,19 @@ export default function NewDataset() {
 
     return (
       <div className="space-y-4 p-6 border-l border-base w-1/3 flex flex-col">
+        <div className="flex flex-col space-y-2">
+          <Text className="text-lg font-medium">
+            {connection.connectionServiceName}
+          </Text>
+          <Text className="text-light">{connection.description}</Text>
+        </div>
         <div>
-          <Text>{connection.connectionServiceName}</Text>
+          <Text className="font-medium">
+            Existing {connection.connectionServiceName} Connections
+          </Text>
+        </div>
+        <div>
+          <Text className="text-light">Connect New</Text>
         </div>
       </div>
     );
