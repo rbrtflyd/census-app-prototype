@@ -136,7 +136,7 @@ export default function NewDataset() {
           </Text>
         </div>
         <div className="flex flex-row w-full *:p-6 overflow-hidden h-full">
-          <RadioGroup className="h-full overflow-y-auto grow">
+          <RadioGroup className="h-full overflow-y-auto grow flex flex-col space-y-2">
             {groupedConnections[selectedTab] &&
               groupedConnections[selectedTab].map((connection: any) => (
                 <RadioGroupItem
