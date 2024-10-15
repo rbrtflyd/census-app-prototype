@@ -2,6 +2,7 @@ import React from 'react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
+import { ConnectionServiceType } from '~/db/types';
 import {
   Tabs,
   TabsContent,
@@ -149,6 +150,7 @@ export default function NewDataset() {
               groupedConnections[selectedTab].map((connection: any) => (
                 <RadioGroupItem
                   key={connection.id}
+                  indicator={false}
                   value={connection.id.toString()}
                   id={`option-${connection.id}`}
                   className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
@@ -177,22 +179,22 @@ export default function NewDataset() {
     </Tabs>
   );
 
-  interface ConnectionDetailsProps {
-    connection: any;
-  }
-
-  function ConnectionDetails({ connection }: ConnectionDetailsProps) {
+  function ConnectionDetails({ connection }: ConnectionServiceType) {
     if (!connection) return null;
 
+    const matchingWorkspaceConnections = workspaceConnections.filter(
+      (wc) => wc.connectionId === connection.id
+    );
+
     return (
-      <div className="space-y-4 p-6 border-l border-base w-1/3 flex flex-col">
+      <div className="space-y-8 p-6 border-l border-base w-1/3 flex flex-col">
         <div className="flex flex-col space-y-2">
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row gap-4 items-center">
             {connection.logo && (
               <img
                 src={connection.logo}
                 alt={connection.connectionServiceName}
-                className="size-10"
+                className="size-9"
               />
             )}
             <Text className="text-lg font-medium">
@@ -201,11 +203,26 @@ export default function NewDataset() {
           </div>
           <Text className="text-light">{connection.description}</Text>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <Text className="font-medium">
             Existing {connection.connectionServiceName} Connections
           </Text>
+          <div className="flex flex-col gap-2">
+            {matchingWorkspaceConnections.map((wc) => (
+              <div
+                key={wc.id}
+                className="flex flex-col gap-3 p-4 rounded border border-base">
+                <Text className="font-medium">{wc.name}</Text>
+                <Button
+                  variant="secondary"
+                  size="small">
+                  Use Connection
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
+
         <div>
           <Text className="text-light">Connect New</Text>
         </div>

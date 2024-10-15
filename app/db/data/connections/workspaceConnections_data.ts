@@ -1,30 +1,102 @@
 const workspaceConnectionsData = [
+  // Business Apps
   {
     id: 1,
-    connectionId: 1,
-    connectionServiceName: 'Local PostgreSQL',
-    connectionServiceType: 'PostgreSQL',
-    createdAt: new Date('2023-06-01T10:00:00Z'),
-    updatedAt: new Date('2023-06-01T10:00:00Z'),
-    createdBy: 'John Doe',
+    connectionId: 1, // Salesforce
+    workspaceId: 1,
+    name: 'Sales Team CRM',
+
+    createdAt: new Date('2023-01-15'),
+    updatedAt: new Date('2023-12-01'),
   },
   {
     id: 2,
-    connectionId: 2,
-    connectionServiceName: 'Production MySQL',
-    connectionServiceType: 'MySQL',
-    createdAt: new Date('2023-06-02T14:30:00Z'),
-    updatedAt: new Date('2023-06-02T14:30:00Z'),
-    createdBy: 'Jane Smith',
+    connectionId: 2, // HubSpot
+    workspaceId: 1,
+    name: 'Marketing Hub',
+
+    createdAt: new Date('2023-02-20'),
+    updatedAt: new Date('2023-11-10'),
   },
   {
     id: 3,
-    connectionId: 3,
-    connectionServiceName: 'Analytics BigQuery',
-    connectionServiceType: 'BigQuery',
-    createdAt: new Date('2023-06-03T09:15:00Z'),
-    updatedAt: new Date('2023-06-03T09:15:00Z'),
-    createdBy: 'John Doe',
+    connectionId: 3, // Zendesk
+    workspaceId: 2,
+    name: 'Customer Support Portal',
+
+    createdAt: new Date('2023-03-05'),
+    updatedAt: new Date('2023-10-15'),
+  },
+  {
+    id: 4,
+    connectionId: 4, // Slack
+    workspaceId: 1,
+    name: 'Company-wide Slack',
+
+    createdAt: new Date('2023-01-01'),
+    updatedAt: new Date('2023-12-31'),
+  },
+  {
+    id: 5,
+    connectionId: 5, // Jira
+    workspaceId: 3,
+    name: 'Development Tracker',
+
+    createdAt: new Date('2023-04-10'),
+    updatedAt: new Date('2023-11-30'),
+  },
+  {
+    id: 6,
+    connectionId: 6, // Asana
+    workspaceId: 2,
+    name: 'Project Management',
+
+    createdAt: new Date('2023-05-01'),
+    updatedAt: new Date('2023-12-15'),
+  },
+  {
+    id: 7,
+    connectionId: 7, // Intercom
+    workspaceId: 1,
+    name: 'Customer Engagement Platform',
+    createdAt: new Date('2023-06-15'),
+    updatedAt: new Date('2023-11-20'),
+  },
+  {
+    id: 8,
+    connectionId: 1, // Salesforce (second instance)
+    workspaceId: 3,
+    name: 'Partner Relationship Management',
+    createdAt: new Date('2023-07-01'),
+    updatedAt: new Date('2023-12-10'),
+  },
+  {
+    id: 9,
+    connectionId: 2, // HubSpot (second instance)
+    workspaceId: 2,
+    name: 'Sales Enablement Hub',
+
+    createdAt: new Date('2023-08-05'),
+    updatedAt: new Date('2023-11-25'),
+  },
+
+  // Data Warehouses
+  {
+    id: 10,
+    connectionId: 8, // Assuming 8 is Snowflake in connections_data
+    workspaceId: 1,
+    name: 'Central Data Warehouse',
+
+    createdAt: new Date('2023-01-10'),
+    updatedAt: new Date('2023-12-20'),
+  },
+  {
+    id: 11,
+    connectionId: 9, // Assuming 9 is BigQuery in connections_data
+    workspaceId: 2,
+    name: 'Marketing Analytics Warehouse',
+    createdAt: new Date('2023-03-15'),
+    updatedAt: new Date('2023-11-05'),
   },
 ];
 
