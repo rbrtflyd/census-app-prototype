@@ -16,7 +16,7 @@ export default function NewDataset() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col w-full h-full pb-5">
+    <div className="flex flex-col w-full h-full">
       <PageHeader title="Create New Dataset" />
       <div className="flex flex-col w-full h-[180px] bg-subtle border-b border-base px-6 *:max-w-[1200px] *:mx-auto *:w-full justify-center">
         <Text className="text-2xl font-medium">
@@ -27,7 +27,7 @@ export default function NewDataset() {
           started.
         </Text>
       </div>
-      <div className="px-6">
+      <div className="px-6 h-full pb-6 -mt-10">
         <Outlet />
       </div>
     </div>

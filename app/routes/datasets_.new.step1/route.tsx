@@ -1,3 +1,4 @@
+import React from 'react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
@@ -52,11 +53,13 @@ export const loader = async () => {
 
 export default function NewDataset() {
   const data = useLoaderData<typeof loader>();
+  const [selectedTab, setSelectedTab] = React.useState('warehouses');
 
   return (
     <Tabs
-      className="flex flex-row gap-4 -mt-10 max-w-[1200px] mx-auto w-full"
-      defaultValue="warehouses"
+      className="flex flex-row gap-4 max-w-[1200px] mx-auto w-full h-full"
+      defaultValue={selectedTab}
+      onValueChange={setSelectedTab}
       orientation="vertical">
       <TabsList className="bg-white border border-base rounded-md grow flex flex-col">
         <div className="p-4 border-b border-base">
@@ -72,20 +75,20 @@ export default function NewDataset() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="bg-white border border-base rounded-md w-3/4 flex flex-col">
-        {tabs.map((tab) => (
-          <TabsContent
-            key={tab.id}
-            value={tab.id}>
-            <div className="px-4 py-2 border-b border-base">
-              <Text className="leading-none font-medium text-dark">
-                {tab.content.header}
-              </Text>
-            </div>
-            <div></div>
-          </TabsContent>
-        ))}
-      </div>
+
+      <TabsContent
+        value={selectedTab}
+        className="flex flex-col h-full bg-white border border-base rounded-md w-3/4">
+        <div className="px-4 py-2 border-b border-base">
+          <Text className="leading-none font-medium text-dark">
+            {tabs.find((tab) => tab.id === selectedTab)?.content.header}
+          </Text>
+        </div>
+        <div className="flex flex-row w-full h-full *:p-6">
+          <div className="grow">List of things</div>
+          <div className="w-1/3 border-l border-base">Selected thing</div>
+        </div>
+      </TabsContent>
     </Tabs>
   );
 }
