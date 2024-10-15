@@ -18,7 +18,7 @@ export default function NewDataset() {
   return (
     <div className="flex flex-col w-full h-full">
       <PageHeader title="Create New Dataset" />
-      <div className="flex flex-col w-full h-[180px] bg-subtle border-b border-base px-6 *:max-w-[1200px] *:mx-auto *:w-full justify-center">
+      <div className="flex flex-col w-full h-[180px] bg-subtle border-b border-base px-6 *:max-w-[1200px] *:mx-auto *:w-full justify-center shrink-0">
         <Text className="text-2xl font-medium">
           Get started with a new dataset
         </Text>

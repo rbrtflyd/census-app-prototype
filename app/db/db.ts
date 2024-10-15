@@ -25,14 +25,14 @@ class PrototypeDatabase extends Dexie {
 
   constructor() {
     super('PrototypeDatabase');
-    this.version(1).stores({
+    this.version(4).stores({
       datasets:
         'id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
       syncs:
         'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
       userConfig: 'id, name, syncs_populated, datasets_populated',
       connections:
-        'id, connectionServiceName, connectionServiceType, logo, connectionServiceCategory',
+        'id, connectionServiceName, connectionServiceType, logo, connectionServiceCategory, description',
       workspaceConnections: 'id, connectionId',
     });
     this.datasets = this.table('datasets');

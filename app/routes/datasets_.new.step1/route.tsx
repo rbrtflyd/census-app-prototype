@@ -24,14 +24,26 @@ export const clientLoader = async () => {
 export default function NewDataset() {
   const { connections } = useLoaderData<typeof clientLoader>();
   const [selectedTab, setSelectedTab] = React.useState('everything');
+  const [selectedConnection, setSelectedConnection] = React.useState<
+    string | null
+  >(null);
 
   const groupedConnections = React.useMemo(() => {
     return connections.reduce((acc, connection) => {
       const category = connection.connectionServiceCategory.toLowerCase();
+
+      // Add to specific category
       if (!acc[category]) {
         acc[category] = [];
       }
       acc[category].push(connection);
+
+      // Add to "everything" category
+      if (!acc['everything']) {
+        acc['everything'] = [];
+      }
+      acc['everything'].push(connection);
+
       return acc;
     }, {} as Record<string, typeof connections>);
   }, [connections]);
@@ -47,7 +59,7 @@ export default function NewDataset() {
       },
     },
     {
-      id: 'warehouses',
+      id: 'warehouse',
       label: 'Warehouses',
       content: {
         header: 'Warehouses',
@@ -56,7 +68,7 @@ export default function NewDataset() {
       },
     },
     {
-      id: 'databases',
+      id: 'database',
       label: 'Databases',
       content: {
         header: 'Databases',
@@ -65,7 +77,7 @@ export default function NewDataset() {
       },
     },
     {
-      id: 'event_streams',
+      id: 'event_stream',
       label: 'Event Streams',
       content: {
         header: 'Event Streams',
@@ -74,7 +86,7 @@ export default function NewDataset() {
       },
     },
     {
-      id: 'business_apps',
+      id: 'business_app',
       label: 'Business Apps',
       content: {
         header: 'Business Apps',
@@ -86,7 +98,7 @@ export default function NewDataset() {
 
   return (
     <Tabs
-      className="flex flex-row gap-4 max-w-[1200px] mx-auto w-full h-full"
+      className="flex flex-row gap-4 max-w-[1200px] mx-auto w-full h-full overflow-hidden"
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
@@ -117,34 +129,63 @@ export default function NewDataset() {
 
       <TabsContent
         value={selectedTab}
-        className="flex flex-col h-full bg-white border border-base rounded-md w-3/4">
+        className="flex flex-col bg-white border border-base rounded-md w-3/4 overflow-hidden">
         <div className="px-6 py-4 border-b border-base">
           <Text className="leading-none font-medium text-dark">
             {tabs.find((tab) => tab.id === selectedTab)?.content.header}
           </Text>
         </div>
-        <div className="flex flex-row w-full h-full *:p-6">
-          <div className="grow">
-            <RadioGroup>
-              {groupedConnections[selectedTab] &&
-                groupedConnections[selectedTab].map((connection: any) => (
-                  <RadioGroupItem
-                    key={connection.id}
-                    value={connection.id.toString()}
-                    id={`option-${connection.id}`}
-                    className="px-3 py-2 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
-                    <Text className="ml-2">
-                      {connection.connectionServiceName}
-                    </Text>
-                  </RadioGroupItem>
-                ))}
-            </RadioGroup>
-          </div>
-          <div className="w-1/3 border-l border-base">
-            {tabs.find((tab) => tab.id === selectedTab)?.content.description}
-          </div>
+        <div className="flex flex-row w-full *:p-6 overflow-hidden">
+          <RadioGroup className="h-full overflow-y-auto grow">
+            {groupedConnections[selectedTab] &&
+              groupedConnections[selectedTab].map((connection: any) => (
+                <RadioGroupItem
+                  key={connection.id}
+                  value={connection.id.toString()}
+                  id={`option-${connection.id}`}
+                  className="px-3 py-2 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark">
+                  <Text className="ml-2">
+                    {connection.connectionServiceName}
+                  </Text>
+                </RadioGroupItem>
+              ))}
+          </RadioGroup>
+          {selectedConnection && (
+            <ConnectionDetails
+              connection={groupedConnections[selectedTab].find(
+                (c: any) => c.id.toString() === selectedConnection
+              )}
+            />
+          )}
         </div>
       </TabsContent>
     </Tabs>
   );
+
+  interface ConnectionDetailsProps {
+    connection: any;
+  }
+
+  function ConnectionDetails({ connection }: ConnectionDetailsProps) {
+    if (!connection) return null;
+
+    return (
+      <div className="space-y-4 p-6 border-l border-base">
+        <Text className="font-medium">Connection Details</Text>
+        <div>
+          <Text className="font-medium">Name:</Text>
+          <Text>{connection.connectionServiceName}</Text>
+        </div>
+        <div>
+          <Text
+            as="p"
+            className="font-medium">
+            Category:
+          </Text>
+          <Text>{connection.connectionServiceCategory}</Text>
+        </div>
+        {/* Add more connection details as needed */}
+      </div>
+    );
+  }
 }
