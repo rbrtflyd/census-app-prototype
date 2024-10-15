@@ -135,7 +135,7 @@ export default function NewDataset() {
             {tabs.find((tab) => tab.id === selectedTab)?.content.header}
           </Text>
         </div>
-        <div className="flex flex-row w-full *:p-6 overflow-hidden">
+        <div className="flex flex-row w-full *:p-6 overflow-hidden h-full">
           <RadioGroup className="h-full overflow-y-auto grow">
             {groupedConnections[selectedTab] &&
               groupedConnections[selectedTab].map((connection: any) => (
