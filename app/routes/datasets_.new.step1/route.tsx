@@ -136,7 +136,9 @@ export default function NewDataset() {
           </Text>
         </div>
         <div className="flex flex-row w-full *:p-6 overflow-hidden h-full">
-          <RadioGroup className="h-full overflow-y-auto grow flex flex-col space-y-2">
+          <RadioGroup
+            className="h-full overflow-y-auto grow flex flex-col space-y-2"
+            onValueChange={setSelectedConnection}>
             {groupedConnections[selectedTab] &&
               groupedConnections[selectedTab].map((connection: any) => (
                 <RadioGroupItem
@@ -170,21 +172,10 @@ export default function NewDataset() {
     if (!connection) return null;
 
     return (
-      <div className="space-y-4 p-6 border-l border-base">
-        <Text className="font-medium">Connection Details</Text>
+      <div className="space-y-4 p-6 border-l border-base w-1/3 flex flex-col">
         <div>
-          <Text className="font-medium">Name:</Text>
           <Text>{connection.connectionServiceName}</Text>
         </div>
-        <div>
-          <Text
-            as="p"
-            className="font-medium">
-            Category:
-          </Text>
-          <Text>{connection.connectionServiceCategory}</Text>
-        </div>
-        {/* Add more connection details as needed */}
       </div>
     );
   }
