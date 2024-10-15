@@ -18,7 +18,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'An inbound marketing and sales platform. It provides tools for content management, web analytics, and social media marketing.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/hubspot-1.svg',
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'A customer service software and support ticket system. It helps businesses provide seamless customer support across multiple channels.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Zendesk_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/zendesk-3.svg',
   },
   {
     id: 4,
@@ -44,7 +44,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceType: 'Project Management',
     connectionServiceCategory: 'business_app',
     description: `An issue tracking and project management tool. It's widely used for software development to plan, track, and manage agile projects.`,
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Jira_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/jira-1.svg',
   },
   {
     id: 6,
@@ -53,7 +53,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'A web and mobile application designed to help teams organize, track, and manage their work. It offers features for task management, team collaboration, and workflow planning.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Asana_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/asana-logo.svg',
   },
   {
     id: 7,
@@ -62,7 +62,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'A customer messaging platform that allows businesses to communicate with prospective and existing customers. It offers tools for live chat, marketing automation, and customer support.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/9f/Intercom_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/intercom-2.svg',
   },
 
   // Data Warehouses
