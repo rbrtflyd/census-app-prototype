@@ -33,7 +33,7 @@ export const clientLoader = async () => {
 export default function NewDataset() {
   const { connections, workspaceConnections } =
     useLoaderData<typeof clientLoader>();
-  const [selectedTab, setSelectedTab] = React.useState('everything');
+  const [selectedTab, setSelectedTab] = React.useState('sql_query');
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
   >(null);
@@ -60,48 +60,30 @@ export default function NewDataset() {
 
   const tabs = [
     {
-      id: 'everything',
-      label: 'Everything',
+      id: 'sql_query',
+      label: 'SQL Query',
       content: {
-        header: 'Everything',
+        header: 'SQL Query',
         listId: null,
         description: 'Everything',
       },
     },
     {
-      id: 'warehouse',
-      label: 'Warehouses',
+      id: 'python_query',
+      label: 'Python Query',
       content: {
-        header: 'Warehouses',
-        listId: 'warehouses',
-        description: 'Warehouses',
+        header: 'Python Query',
+        listId: 'python_query',
+        description: 'Python Query',
       },
     },
     {
-      id: 'database',
-      label: 'Databases',
+      id: 'table',
+      label: 'Table',
       content: {
-        header: 'Databases',
-        listId: 'databases',
-        description: 'Databases',
-      },
-    },
-    {
-      id: 'event_stream',
-      label: 'Event Streams',
-      content: {
-        header: 'Event Streams',
-        listId: 'event_streams',
-        description: 'Event Streams',
-      },
-    },
-    {
-      id: 'business_app',
-      label: 'Business Apps',
-      content: {
-        header: 'Business Apps',
-        listId: 'business_apps',
-        description: 'Business Apps',
+        header: 'Tables',
+        listId: 'tables',
+        description: 'Tables',
       },
     },
   ];
@@ -112,88 +94,48 @@ export default function NewDataset() {
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
-      <TabsList className="bg-white border border-base rounded-md grow flex flex-col justify-between">
-        <div>
-          <div className="p-4 border-b border-base">
-            <Text className="text-lg font-medium text-dark">
-              Select where your data is
+      <div className="flex flex-col space-y-4 w-1/4">
+        <TabsList className="bg-white border border-base rounded-md flex flex-col justify-between grow">
+          <div>
+            <div className="p-4 border-b border-base">
+              <Text className="text-lg font-medium text-dark">Snowflake</Text>
+            </div>
+            <div className="flex flex-col">
+              {tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.id}
+                  value={tab.id}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </div>
+          </div>
+          <div className="p-6 flex flex-col gap-2 items-start bg-deep">
+            <Text className="text-sm font-medium text-dark">
+              Connect a query repository like dbt, Looker, or Sigma to import
+              and run queries in Census
             </Text>
+            <Button
+              variant="link"
+              size="link">
+              Connect an external query repository
+            </Button>
           </div>
-          <div className="flex flex-col">
-            {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab.id}
-                value={tab.id}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </div>
+        </TabsList>
+        <div className="flex flex-col p-4 bg-white border border-base rounded-md grow">
+          More stuff
         </div>
-        <div className="p-6 flex flex-col gap-2 items-stretch justify-stretch ">
-          <Text className="text-sm font-medium text-dark">
-            Or create a one-off SQL Query
-          </Text>
-          <Button variant="secondary">Create Query</Button>
-        </div>
-      </TabsList>
+      </div>
 
       <TabsContent
         value={selectedTab}
-        className="flex flex-col bg-white border border-base rounded-md w-3/4 overflow-hidden">
+        className="flex flex-col bg-white border border-base rounded-md w-3/4 overflow-hidden grow">
         <div className="px-6 py-4 border-b border-base">
           <Text className="leading-none font-medium text-dark">
             {tabs.find((tab) => tab.id === selectedTab)?.content.header}
           </Text>
         </div>
-        <div className="flex flex-row w-full *:p-6 overflow-hidden h-full">
-          <RadioGroup
-            className="h-full overflow-auto grow flex flex-col space-y-2"
-            onValueChange={setSelectedConnection}>
-            {groupedConnections[selectedTab] &&
-              groupedConnections[selectedTab].map((connection: any) => {
-                const hasExistingConnection = workspaceConnections.some(
-                  (wc) => wc.connectionId === connection.id
-                );
-                return (
-                  <RadioGroupItem
-                    key={connection.id}
-                    indicator={false}
-                    value={connection.id.toString()}
-                    id={`option-${connection.id}`}
-                    className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 bg-white hover:bg-slate-50 transition-all duration-75 data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between hover:border-slate-100 hover:text-slate-900 ">
-                    <div className="flex flex-row items-center">
-                      {connection.logo && (
-                        <img
-                          src={connection.logo}
-                          alt={connection.connectionServiceName}
-                          className="size-7"
-                        />
-                      )}
-                      <Text className="ml-4">
-                        {connection.connectionServiceName}
-                      </Text>
-                    </div>
-                    {hasExistingConnection && (
-                      <Badge className="ml-2">
-                        <FontAwesomeIcon
-                          icon={faPlug}
-                          className="mr-1 icon-light"
-                        />
-                        <Text className="text-light">Connected</Text>
-                      </Badge>
-                    )}
-                  </RadioGroupItem>
-                );
-              })}
-          </RadioGroup>
-          {selectedConnection && (
-            <ConnectionDetails
-              connection={groupedConnections[selectedTab].find(
-                (c: any) => c.id.toString() === selectedConnection
-              )}
-            />
-          )}
-        </div>
+        <div className="flex flex-row w-full *:p-6 overflow-hidden h-full"></div>
       </TabsContent>
     </Tabs>
   );

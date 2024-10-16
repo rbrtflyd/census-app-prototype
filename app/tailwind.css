@@ -25,11 +25,7 @@
 
 html,
 body {
-  @apply bg-white dark:bg-slate-800 text-dark font-regular antialiased tabular-nums text-base;
+  @apply bg-white  text-dark font-regular antialiased tabular-nums text-base;
 
   font-stretch: 85%;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
 }
