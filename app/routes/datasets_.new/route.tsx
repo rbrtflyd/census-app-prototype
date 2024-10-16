@@ -49,7 +49,7 @@ const StepContent = () => {
         )}
         <Text
           className={`${
-            currentStep === 'step1' ? 'text-2xl' : 'text-xl'
+            currentStep === 'step1' ? 'text-xl' : 'text-lg'
           } font-medium`}>
           {content.title}
         </Text>

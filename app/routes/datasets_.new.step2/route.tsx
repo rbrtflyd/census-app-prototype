@@ -22,6 +22,7 @@ import {
   getWorkspaceConnections,
 } from '~/db/db';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTable, faCode, faEye } from '@fortawesome/pro-solid-svg-icons';
 import Editor from '@monaco-editor/react';
 import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
 
@@ -52,6 +53,7 @@ export default function NewDataset() {
     {
       id: 'sql_query',
       label: 'SQL Query',
+      icon: faCode,
       content: {
         header: 'SQL Query',
         listId: null,
@@ -61,6 +63,7 @@ export default function NewDataset() {
     {
       id: 'python_query',
       label: 'Python Query',
+      icon: faCode,
       content: {
         header: 'Python Query',
         listId: 'python_query',
@@ -70,6 +73,7 @@ export default function NewDataset() {
     {
       id: 'table',
       label: 'Table',
+      icon: faTable,
       content: {
         header: 'Tables',
         listId: 'tables',
@@ -94,8 +98,13 @@ export default function NewDataset() {
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
-                  value={tab.id}>
-                  {tab.label}
+                  value={tab.id}
+                  className="flex flex-row items-center">
+                  <FontAwesomeIcon
+                    icon={tab.icon}
+                    className="mr-2"
+                  />
+                  <Text>{tab.label}</Text>
                 </TabsTrigger>
               ))}
             </div>
