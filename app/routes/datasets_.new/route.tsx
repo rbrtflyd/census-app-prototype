@@ -3,6 +3,8 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import { Outlet } from '@remix-run/react';
+
+import { Button } from '~/components/ui/button';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import {
   NewDatasetProvider,
@@ -10,7 +12,7 @@ import {
 } from '../../contexts/NewDatasetContext';
 
 const StepContent = () => {
-  const { currentStep } = useNewDatasetContext();
+  const { currentStep, setCurrentStep } = useNewDatasetContext();
 
   const stepContent = {
     step1: {
@@ -32,8 +34,26 @@ const StepContent = () => {
   const content = stepContent[currentStep];
 
   return (
-    <div className="flex flex-col w-full h-[180px] bg-subtle border-b border-base px-6 *:max-w-[1400px] *:mx-auto *:w-full justify-center shrink-0">
-      <Text className="text-2xl font-medium">{content.title}</Text>
+    <div className="flex flex-col w-full h-[140px] 2xl:h-[180px] bg-subtle border-b border-base px-6 *:max-w-[1400px] *:mx-auto *:w-full justify-center shrink-0">
+      <div className="flex flex-row gap-2">
+        {currentStep !== 'step1' && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              const prevStep = currentStep === 'step3' ? 'step2' : 'step1';
+              setCurrentStep(prevStep);
+              window.history.back();
+            }}>
+            Back
+          </Button>
+        )}
+        <Text
+          className={`${
+            currentStep === 'step1' ? 'text-2xl' : 'text-xl'
+          } font-medium`}>
+          {content.title}
+        </Text>
+      </div>
       <Text className="text-lg text-lighter">{content.description}</Text>
     </div>
   );

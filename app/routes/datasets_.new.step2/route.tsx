@@ -9,6 +9,12 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/ui/tabs-vertical';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '~/components/ui/collapsible';
+
 import { Button } from '~/components/ui/button';
 import {
   initializeDatabase,
@@ -40,6 +46,7 @@ export default function NewDataset() {
     setCurrentStep('step2');
   }, [setCurrentStep]);
   const code = 'SELECT * FROM USERS';
+  const pythonCode = 'print("Hello, World!")';
 
   const tabs = [
     {
@@ -113,14 +120,24 @@ export default function NewDataset() {
       <TabsContent
         value={selectedTab}
         className="flex flex-col bg-white border border-base rounded-md w-3/4 overflow-hidden grow">
-        <div className="px-6 py-4 border-b border-base">
-          <Text className="leading-none font-medium text-dark">
-            {tabs.find((tab) => tab.id === selectedTab)?.content.header}
-          </Text>
+        <div className="flex flex-col grow">
+          <div className="px-6 py-4 border-b border-base">
+            <Text className="leading-none font-medium text-dark">
+              {tabs.find((tab) => tab.id === selectedTab)?.content.header}
+            </Text>
+          </div>
+          <div className="flex flex-row w-full overflow-hidden h-full p-2">
+            {selectedTab !== 'table' ? <QueryEditor /> : <TableSelector />}
+          </div>
         </div>
-        <div className="flex flex-row w-full overflow-hidden h-full">
-          {selectedTab !== 'table' ? <QueryEditor /> : <TableSelector />}
-        </div>
+        <Collapsible className="min-h-[200px] flex flex-col bg-subtle">
+          <CollapsibleTrigger className="flex flex-row items-center px-6 py-4">
+            Preview Results
+          </CollapsibleTrigger>
+          <CollapsibleContent className="h-full flex flex-col items-center justify-center bg-subtle">
+            The results of your query will appear here.
+          </CollapsibleContent>
+        </Collapsible>
       </TabsContent>
     </Tabs>
   );
@@ -130,7 +147,7 @@ export default function NewDataset() {
       <Editor
         height="100%"
         language={selectedTab === 'sql_query' ? 'sql' : 'python'}
-        value={code}
+        value={selectedTab === 'sql_query' ? code : pythonCode}
       />
     );
   }
