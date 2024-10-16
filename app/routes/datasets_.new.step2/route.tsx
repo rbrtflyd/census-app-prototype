@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
@@ -10,17 +10,14 @@ import {
   TabsTrigger,
 } from '~/components/ui/tabs-vertical';
 import { Button } from '~/components/ui/button';
-import { Badge } from '~/components/ui/badge';
-import { Label } from '~/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
-import { RadioGroupIndicator } from '@radix-ui/react-radio-group';
 import {
   initializeDatabase,
   getConnections,
   getWorkspaceConnections,
 } from '~/db/db';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlug } from '@fortawesome/pro-solid-svg-icons';
+import Editor from '@monaco-editor/react';
+import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
 
 export const clientLoader = async () => {
   await initializeDatabase();
@@ -33,30 +30,16 @@ export const clientLoader = async () => {
 export default function NewDataset() {
   const { connections, workspaceConnections } =
     useLoaderData<typeof clientLoader>();
+  const { setCurrentStep } = useNewDatasetContext();
   const [selectedTab, setSelectedTab] = React.useState('sql_query');
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
   >(null);
 
-  const groupedConnections = React.useMemo(() => {
-    return connections.reduce((acc, connection) => {
-      const category = connection.connectionServiceCategory.toLowerCase();
-
-      // Add to specific category
-      if (!acc[category]) {
-        acc[category] = [];
-      }
-      acc[category].push(connection);
-
-      // Add to "everything" category
-      if (!acc['everything']) {
-        acc['everything'] = [];
-      }
-      acc['everything'].push(connection);
-
-      return acc;
-    }, {} as Record<string, typeof connections>);
-  }, [connections]);
+  useEffect(() => {
+    setCurrentStep('step2');
+  }, [setCurrentStep]);
+  const code = 'SELECT * FROM USERS';
 
   const tabs = [
     {
@@ -135,61 +118,24 @@ export default function NewDataset() {
             {tabs.find((tab) => tab.id === selectedTab)?.content.header}
           </Text>
         </div>
-        <div className="flex flex-row w-full *:p-6 overflow-hidden h-full"></div>
+        <div className="flex flex-row w-full overflow-hidden h-full">
+          {selectedTab !== 'table' ? <QueryEditor /> : <TableSelector />}
+        </div>
       </TabsContent>
     </Tabs>
   );
 
-  function ConnectionDetails({ connection }: ConnectionServiceType) {
-    if (!connection) return null;
-
-    const matchingWorkspaceConnections = workspaceConnections.filter(
-      (wc) => wc.connectionId === connection.id
-    );
-
+  function QueryEditor() {
     return (
-      <div className="space-y-8 p-6 border-l border-base w-1/3 flex flex-col">
-        <div className="flex flex-col space-y-4">
-          <div className="flex flex-row gap-4 items-center">
-            {connection.logo && (
-              <img
-                src={connection.logo}
-                alt={connection.connectionServiceName}
-                className="size-7"
-              />
-            )}
-            <Text className="text-lg font-medium">
-              {connection.connectionServiceName}
-            </Text>
-          </div>
-          <Text className="text-light">{connection.description}</Text>
-        </div>
-        {matchingWorkspaceConnections.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <Text className="font-medium">
-              Existing {connection.connectionServiceName} Connections
-            </Text>
-            <div className="flex flex-col gap-2">
-              {matchingWorkspaceConnections.map((wc) => (
-                <div
-                  key={wc.id}
-                  className="flex flex-col gap-3 p-4 rounded border border-base">
-                  <Text className="font-medium">{wc.name}</Text>
-                  <Button
-                    variant="secondary"
-                    size="small">
-                    Use Connection
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div>
-          <Text className="text-light">Connect New</Text>
-        </div>
-      </div>
+      <Editor
+        height="100%"
+        language={selectedTab === 'sql_query' ? 'sql' : 'python'}
+        value={code}
+      />
     );
+  }
+
+  function TableSelector() {
+    return <div>Table Selector</div>;
   }
 }

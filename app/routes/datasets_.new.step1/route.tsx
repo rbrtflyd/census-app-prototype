@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
@@ -11,9 +12,8 @@ import {
 } from '~/components/ui/tabs-vertical';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
-import { Label } from '~/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
-import { RadioGroupIndicator } from '@radix-ui/react-radio-group';
+
 import {
   initializeDatabase,
   getConnections,
@@ -21,6 +21,7 @@ import {
 } from '~/db/db';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
+import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
 
 export const clientLoader = async () => {
   await initializeDatabase();
@@ -31,12 +32,19 @@ export const clientLoader = async () => {
 };
 
 export default function NewDataset() {
+  const navigate = useNavigate();
   const { connections, workspaceConnections } =
     useLoaderData<typeof clientLoader>();
+  const { setCurrentStep } = useNewDatasetContext();
+
   const [selectedTab, setSelectedTab] = React.useState('everything');
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
   >(null);
+
+  useEffect(() => {
+    setCurrentStep('step1');
+  }, [setCurrentStep]);
 
   const groupedConnections = React.useMemo(() => {
     return connections.reduce((acc, connection) => {
@@ -160,7 +168,7 @@ export default function NewDataset() {
                     indicator={false}
                     value={connection.id.toString()}
                     id={`option-${connection.id}`}
-                    className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 bg-white hover:bg-slate-50 transition-all duration-75 data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between hover:border-slate-100 hover:text-slate-900 ">
+                    className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 bg-white hover:bg-slate-25 transition-all duration-75 data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between hover:border-slate-100 hover:text-slate-900 ">
                     <div className="flex flex-row items-center">
                       {connection.logo && (
                         <img
@@ -235,7 +243,12 @@ export default function NewDataset() {
                   <Text className="font-medium">{wc.name}</Text>
                   <Button
                     variant="secondary"
-                    size="small">
+                    size="small"
+                    onClick={() =>
+                      navigate('/datasets/new/step2', {
+                        state: { connectionId: wc.id },
+                      })
+                    }>
                     Use Connection
                   </Button>
                 </div>
