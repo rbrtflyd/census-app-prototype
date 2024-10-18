@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node';
-
 import { Outlet } from '@remix-run/react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 

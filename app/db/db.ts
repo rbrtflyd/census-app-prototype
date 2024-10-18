@@ -42,6 +42,14 @@ class PrototypeDatabase extends Dexie {
     this.workspaceConnections = this.table('workspaceConnections');
   }
 
+  private dataMatches(existingData: any[], initialData: any[]): boolean {
+    if (existingData.length !== initialData.length) return false;
+    return existingData.every(
+      (item, index) =>
+        JSON.stringify(item) === JSON.stringify(initialData[index])
+    );
+  }
+
   async seedDatabase() {
     const datasets = await this.datasets.toArray();
     const syncs = await this.syncs.toArray();
@@ -49,28 +57,26 @@ class PrototypeDatabase extends Dexie {
     const connections = await this.connections.toArray();
     const workspaceConnections = await this.workspaceConnections.toArray();
 
-    if (
-      datasets.length === 0 ||
-      syncs.length === 0 ||
-      connections.length === 0 ||
-      userConfig.length === 0 ||
-      workspaceConnections.length === 0
-    ) {
-      if (datasets.length === 0) {
-        await this.datasets.bulkAdd(datasetsData);
-      }
-      if (syncs.length === 0) {
-        await this.syncs.bulkAdd(syncsData);
-      }
-      if (userConfig.length === 0) {
-        await this.userConfig.bulkAdd(userConfigData);
-      }
-      if (connections.length === 0) {
-        await this.connections.bulkAdd(connectionsData);
-      }
-      if (workspaceConnections.length === 0) {
-        await this.workspaceConnections.bulkAdd(workspaceConnectionsData);
-      }
+    // Compare existing data with initial data
+    if (!this.dataMatches(datasets, datasetsData)) {
+      await this.datasets.clear();
+      await this.datasets.bulkAdd(datasetsData);
+    }
+    if (!this.dataMatches(syncs, syncsData)) {
+      await this.syncs.clear();
+      await this.syncs.bulkAdd(syncsData);
+    }
+    if (!this.dataMatches(userConfig, userConfigData)) {
+      await this.userConfig.clear();
+      await this.userConfig.bulkAdd(userConfigData);
+    }
+    if (!this.dataMatches(connections, connectionsData)) {
+      await this.connections.clear();
+      await this.connections.bulkAdd(connectionsData);
+    }
+    if (!this.dataMatches(workspaceConnections, workspaceConnectionsData)) {
+      await this.workspaceConnections.clear();
+      await this.workspaceConnections.bulkAdd(workspaceConnectionsData);
     }
   }
 }
