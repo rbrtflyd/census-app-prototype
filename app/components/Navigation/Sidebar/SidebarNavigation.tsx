@@ -76,7 +76,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
           </div>
           <Text>Sales Team</Text>
         </button>
-        <button className="flex flex-row items-center justify-center space-x-1 px-4 py-2 rounded-md hover:bg-white/20 bg-white/10">
+        <button className="flex flex-row items-center justify-center space-x-1 px-4 py-3 rounded-md hover:bg-white/20 bg-white/10 leading-none">
           <FontAwesomeIcon
             icon={faSearch}
             className="mr-2 text-sm"
@@ -117,19 +117,17 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                         color="#2EBE82"
                       />
                     )}
-                    {link.icon !== faHome &&
-                      link.label !== 'Getting Started' &&
-                      (typeof link.icon === 'string' ? (
-                        <img
-                          src={link.icon}
-                          alt={link.label}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={link.icon}
-                          className="mr-2 text-sm"
-                        />
-                      ))}
+                    {typeof link.icon === 'string' ? (
+                      <img
+                        src={link.icon}
+                        alt={link.label}
+                      />
+                    ) : link.icon ? (
+                      <FontAwesomeIcon
+                        icon={link.icon}
+                        className="mr-2 text-sm"
+                      />
+                    ) : null}
                   </div>
                   <Text>{link.label}</Text>
                 </NavLink>
