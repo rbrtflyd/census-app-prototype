@@ -121,6 +121,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                       <img
                         src={link.icon}
                         alt={link.label}
+                        className="w-4 h-4"
                       />
                     ) : link.icon ? (
                       <FontAwesomeIcon

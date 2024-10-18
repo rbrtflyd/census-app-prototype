@@ -17,7 +17,7 @@ export const loader = async () => {
 const steps = [
   {
     id: 1,
-    title: 'Connect a datasource',
+    title: 'Connect a data source',
     description: 'Connect your data to the platform',
   },
   {
@@ -27,7 +27,7 @@ const steps = [
   },
   {
     id: 3,
-    title: 'Create a sync',
+    title: 'Sync your data',
     description: 'Connect your data to the platform',
   },
 ];
@@ -59,12 +59,12 @@ export default function GetStarted() {
           {steps.map((step) => (
             <button
               key={step.id}
-              className="flex flex-row gap-5 border border-base rounded-md p-4 leading-none hover:bg-plum-100 hover:border-plum-500 transition-all duration-75 group">
-              <div className="rounded-full size-9 bg-slate-50 place-items-center justify-center flex group-hover:bg-plum-500 group-hover:text-white">
+              className="flex flex-row gap-5 border border-base rounded-lg p-4 leading-none hover:bg-plum-100 hover:border-plum-500 transition-all duration-75 group">
+              <div className="rounded-full size-9 bg-slate-50 leading-none font-bold place-items-center justify-center flex group-hover:bg-plum-500 group-hover:text-white">
                 <Text>{step.id}</Text>
               </div>
               <div className="flex flex-col gap-1 items-start ">
-                <Text className="text-lg text-dark group-hover:text-plum-500">
+                <Text className="text-lg text-dark group-hover:text-plum-500 font-medium">
                   {step.title}
                 </Text>
                 <Text className="text-sm text-lighter group-hover:text-plum-500">

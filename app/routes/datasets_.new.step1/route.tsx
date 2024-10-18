@@ -124,7 +124,7 @@ export default function NewDataset() {
         <div>
           <div className="p-4 border-b border-base">
             <Text className="text-lg font-medium text-dark">
-              Select where your data is
+              Select a data source
             </Text>
           </div>
           <div className="flex flex-col">
@@ -138,7 +138,7 @@ export default function NewDataset() {
           </div>
         </div>
         <div className="p-6 flex flex-col gap-2 items-stretch justify-stretch ">
-          <Text className="text-sm font-medium text-dark">
+          <Text className="text-sm font-medium text-lighter">
             Or create a one-off SQL Query
           </Text>
           <Button variant="secondary">Create Query</Button>
@@ -150,7 +150,8 @@ export default function NewDataset() {
         className="flex flex-row bg-white border border-base rounded-md w-3/4 overflow-hidden">
         <div className="flex flex-col grow">
           <div className="px-6 py-4 border-b border-base">
-            <Text className="leading-none font-medium text-dark">
+            <Text className="leading-none font-medium text-lighter">
+              Browse{' '}
               {tabs.find((tab) => tab.id === selectedTab)?.content.header}
             </Text>
           </div>

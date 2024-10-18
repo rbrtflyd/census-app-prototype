@@ -28,4 +28,6 @@ body {
   @apply bg-white  text-dark font-regular antialiased tabular-nums text-base;
 
   font-stretch: 85%;
+  scrollbar-color: var(--slate-100) transparent;
+  scrollbar-width: thin;
 }
