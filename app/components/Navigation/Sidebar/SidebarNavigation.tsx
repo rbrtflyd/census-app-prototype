@@ -6,6 +6,16 @@ import CircularProgressIndicator from '~/components/Progress/CircularProgressInd
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/pro-solid-svg-icons';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
+import {
+  CensusSyncs,
+  CensusDestinations,
+  CensusSources,
+  CensusModels,
+  CensusSegments,
+  CensusEntities,
+  CensusNotifications,
+} from '../../../../public/census-icons';
+
 interface SidebarNavigationProps {
   newSidebar?: boolean;
 }
@@ -20,24 +30,24 @@ const navLinks = [
   },
   {
     group: 'Activate',
-    links: [{ to: '/syncs', label: 'Syncs' }],
+    links: [{ to: '/syncs', label: 'Syncs', icon: CensusSyncs }],
   },
   {
     group: 'Audience Hub',
     links: [
-      { to: '/explorer', label: 'Explorer' },
-      { to: '/segments', label: 'Segments' },
+      { to: '/explorer', label: 'Explorer', icon: CensusSegments },
+      { to: '/segments', label: 'Segments', icon: CensusSegments },
     ],
   },
   {
     group: 'Define',
-    links: [{ to: '/datasets', label: 'Datasets' }],
+    links: [{ to: '/datasets', label: 'Datasets', icon: CensusModels }],
   },
   {
     group: 'Connections',
     links: [
-      { to: '/sources', label: 'Sources' },
-      { to: '/destinations', label: 'Destinations' },
+      { to: '/sources', label: 'Sources', icon: CensusSources },
+      { to: '/destinations', label: 'Destinations', icon: CensusDestinations },
     ],
   },
 ];
@@ -98,21 +108,29 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                         : 'text-white/75 hover:text-white/90 hover:bg-white/10'
                     }`
                   }>
-                  {link.label === 'Getting Started' && (
-                    <CircularProgressIndicator
-                      className="mr-2"
-                      size={16}
-                      strokeWidth={2}
-                      progress={15}
-                      color="#2EBE82"
-                    />
-                  )}
-                  {link.icon && (
-                    <FontAwesomeIcon
-                      icon={link.icon}
-                      className="mr-2 text-sm"
-                    />
-                  )}
+                  <div className="w-4 mr-2">
+                    {link.label === 'Getting Started' && (
+                      <CircularProgressIndicator
+                        size={16}
+                        strokeWidth={2.2}
+                        progress={15}
+                        color="#2EBE82"
+                      />
+                    )}
+                    {link.icon !== faHome &&
+                      link.label !== 'Getting Started' &&
+                      (typeof link.icon === 'string' ? (
+                        <img
+                          src={link.icon}
+                          alt={link.label}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={link.icon}
+                          className="mr-2 text-sm"
+                        />
+                      ))}
+                  </div>
                   <Text>{link.label}</Text>
                 </NavLink>
               ))}
