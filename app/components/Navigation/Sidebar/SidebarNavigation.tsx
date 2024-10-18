@@ -5,7 +5,7 @@ import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/pro-solid-svg-icons';
-
+import { faSearch } from '@fortawesome/pro-regular-svg-icons';
 interface SidebarNavigationProps {
   newSidebar?: boolean;
 }
@@ -59,6 +59,21 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
           className="w-auto h-7"
         />
       </div>
+      <div className="flex flex-col px-3 space-y-4">
+        <button className="flex flex-row items-center space-x-2 px-4 py-2 rounded-md hover:bg-white/10">
+          <div className="bg-white/10 size-6 rounded font-bold flex items-center justify-center leading-none text-xs">
+            <Text>S</Text>
+          </div>
+          <Text>Sales Team</Text>
+        </button>
+        <button className="flex flex-row items-center justify-center space-x-1 px-4 py-2 rounded-md hover:bg-white/20 bg-white/10">
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="mr-2 text-sm"
+          />
+          <Text>Search Census...</Text>
+        </button>
+      </div>
       <div className="flex flex-col px-3 py-2 space-y-6">
         {navLinks.map((group) => (
           <div
@@ -88,14 +103,16 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                       className="mr-2"
                       size={16}
                       strokeWidth={2}
-                      progress={30}
-                      color="#159660"
+                      progress={15}
+                      color="#2EBE82"
                     />
                   )}
-                  <FontAwesomeIcon
-                    icon={link.icon}
-                    className="mr-2 text-sm"
-                  />
+                  {link.icon && (
+                    <FontAwesomeIcon
+                      icon={link.icon}
+                      className="mr-2 text-sm"
+                    />
+                  )}
                   <Text>{link.label}</Text>
                 </NavLink>
               ))}

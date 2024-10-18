@@ -30,7 +30,7 @@ const CircularProgressIndicator: React.FC<CircularProgressIndicatorProps> = ({
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="rgba(255,255,255,0.4)"
+        stroke="rgba(255,255,255,0.25)"
         strokeWidth={strokeWidth}
       />
       <circle
