@@ -113,7 +113,7 @@ export default function GetStarted() {
                 <button
                   key={useCase.id}
                   className="flex flex-col gap-1 items-start text-left hover:bg-plum-100 transition-all duration-75 p-2 rounded-md">
-                  <Text className="font-medium leading-none">
+                  <Text className="font-medium leading-tight">
                     {useCase.title}
                   </Text>
                   <Text className="text-sm text-lighter">
