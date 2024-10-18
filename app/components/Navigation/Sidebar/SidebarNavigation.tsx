@@ -121,6 +121,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                       link.label !== 'Getting Started' &&
                       (typeof link.icon === 'string' ? (
                         <img
+                          className="fill-white"
                           src={link.icon}
                           alt={link.label}
                         />
