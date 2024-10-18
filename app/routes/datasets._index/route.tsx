@@ -35,7 +35,7 @@ const benefits = [
 export default function Datasets() {
   const navigate = useNavigate();
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-screen flex flex-col">
       <PageHeader
         title="Datasets"
         button={{
@@ -43,8 +43,8 @@ export default function Datasets() {
           onClick: () => navigate('/datasets/new/step1'),
         }}
       />
-      <div className="flex flex-col overflow-y-auto">
-        <div className="flex flex-col bg-deep rounded-md p-20 max-w-[1400px] mx-auto w-full gap-9">
+      <div className="flex flex-col overflow-y-auto p-6 h-full">
+        <div className="flex flex-col bg-deep rounded-md p-12 max-w-[1400px] mx-auto w-full gap-9 min-h-full">
           <div className="flex flex-row gap-12 items-center justify-between">
             <div className="flex flex-col gap-2  items-start max-w-xl">
               <Text className="text-2xl font-medium">
@@ -61,7 +61,7 @@ export default function Datasets() {
                 <Button variant="secondary">Learn More</Button>
               </div>
             </div>
-            <div className="bg-slate-100/50 grow h-[450px] rounded-lg"></div>
+            <div className="bg-slate-100/50 grow h-[350px] rounded-lg"></div>
           </div>
           <div className="grid grid-cols-3 gap-6">
             {benefits.map((benefit) => (

@@ -4,13 +4,16 @@ import { NavLink } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 
 interface SidebarNavigationProps {
-  // Define your props here
+  newSidebar?: boolean;
 }
 
 const navLinks = [
   {
     group: 'Home',
-    links: [{ to: '/', label: 'Home' }],
+    links: [
+      { to: '/get-started', label: 'Getting Started' },
+      { to: '/', label: 'Home' },
+    ],
   },
   {
     group: 'Activate',
@@ -37,8 +40,15 @@ const navLinks = [
 ];
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
+  const newSidebar = props.newSidebar ?? false;
+
   return (
-    <nav className="flex flex-col h-full shrink-0 w-[220px] bg-gradient-to-b from-[#1B1636] to-[#34162F] text-white space-y-4">
+    <nav
+      className={`flex flex-col h-full shrink-0 w-[220px] text-white space-y-4 ${
+        !newSidebar
+          ? 'bg-gradient-to-b from-[#1B1636] to-[#34162F]'
+          : 'bg-slate-12'
+      }`}>
       <div className="px-3 pt-8 pb-3 border-b border-white/10">
         <img
           src="census-logo-full.svg"
@@ -64,10 +74,10 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `block py-2 px-2 rounded leading-none transition-all duration-75 ${
+                    `block py-3 px-4 rounded-md leading-none transition-all duration-75 ${
                       isActive
                         ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
-                        : 'text-white/75 hover:text-white/90 hover:bg-white/20'
+                        : 'text-white/75 hover:text-white/90 hover:bg-white/10'
                     }`
                   }>
                   <Text>{link.label}</Text>

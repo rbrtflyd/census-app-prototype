@@ -120,7 +120,7 @@ export default function NewDataset() {
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
-      <TabsList className="bg-white border border-base rounded-md grow flex flex-col justify-between">
+      <TabsList className="bg-white border border-base rounded-md grow flex flex-col justify-between max-w-[250px]">
         <div>
           <div className="p-4 border-b border-base">
             <Text className="text-lg font-medium text-dark">

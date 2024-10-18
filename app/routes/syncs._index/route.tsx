@@ -55,8 +55,8 @@ export default function Index() {
   const syncs = useLoaderData<LoaderData>();
   const navigate = useNavigate();
   return (
-    <>
-      <div className="flex flex-col m-6 bg-deep rounded-md p-20 w-full max-w-[1400px] mx-auto gap-9">
+    <div className="flex flex-col items-center justify-center h-full p-6">
+      <div className="flex flex-col bg-deep rounded-md p-12 w-full gap-9">
         <div className="flex flex-row gap-12 items-center justify-between">
           <div className="flex flex-col gap-2  items-start max-w-xl">
             <Text className="text-2xl font-medium">
@@ -71,7 +71,17 @@ export default function Index() {
               <Button variant="secondary">Learn More</Button>
             </div>
           </div>
-          <div className="bg-slate-100/50 grow h-[450px] rounded-lg"></div>
+          <div className="bg-slate-100/50 grow h-[350px] rounded-lg"></div>
+        </div>
+        <div className="flex flex-row gap-2 p-5 rounded-md bg-plum-100/50 border-plum-500/20 border items-center justify-between">
+          <Text className="text-lg font-medium">
+            Syncs are better with datasets.
+          </Text>
+          <Button
+            variant="secondary"
+            onClick={() => navigate('/datasets/new/step1')}>
+            Create a New Dataset
+          </Button>
         </div>
         <div className="grid grid-cols-3 gap-6">
           {benefits.map((benefit) => (
@@ -83,15 +93,7 @@ export default function Index() {
             </div>
           ))}
         </div>
-        <div className="flex flex-row gap-2 p-5 rounded-md bg-plum-100 border-plum-500 border items-center justify-between">
-          <Text className="text-lg font-medium">
-            Syncs are better with datasets.
-          </Text>
-          <Button onClick={() => navigate('/datasets/new/step1')}>
-            New Dataset
-          </Button>
-        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -11,13 +11,13 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <PageHeader
         title="All Syncs"
         button={{ label: 'New Sync', onClick: () => {} }}
       />
 
       <Outlet />
-    </>
+    </div>
   );
 }
