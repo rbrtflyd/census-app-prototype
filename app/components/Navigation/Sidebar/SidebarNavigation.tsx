@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from '@remix-run/react';
 import { NavLink } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
+import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/pro-solid-svg-icons';
 
 interface SidebarNavigationProps {
   newSidebar?: boolean;
@@ -12,7 +15,7 @@ const navLinks = [
     group: 'Home',
     links: [
       { to: '/get-started', label: 'Getting Started' },
-      { to: '/', label: 'Home' },
+      { to: '/', label: 'Home', icon: faHome },
     ],
   },
   {
@@ -74,12 +77,25 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `block py-3 px-4 rounded-md leading-none transition-all duration-75 ${
+                    ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
                       isActive
                         ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
                         : 'text-white/75 hover:text-white/90 hover:bg-white/10'
                     }`
                   }>
+                  {link.label === 'Getting Started' && (
+                    <CircularProgressIndicator
+                      className="mr-2"
+                      size={16}
+                      strokeWidth={2}
+                      progress={30}
+                      color="#159660"
+                    />
+                  )}
+                  <FontAwesomeIcon
+                    icon={link.icon}
+                    className="mr-2 text-sm"
+                  />
                   <Text>{link.label}</Text>
                 </NavLink>
               ))}
