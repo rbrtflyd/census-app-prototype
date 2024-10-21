@@ -52,7 +52,7 @@ export default function DatasetIndex() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full overflow-hidden">
       <div className="flex flex-col">
         <PageHeader title={thisDataset.name} />
         <Tabs
