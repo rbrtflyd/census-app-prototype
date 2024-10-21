@@ -8,7 +8,8 @@ import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/pro-solid-svg-icons';
-
+import { useNavigate } from '@remix-run/react';
+import { useHref } from '@remix-run/react';
 export const loader = async () => {
   // Add any necessary data fetching logic here
   return json({});
@@ -62,10 +63,12 @@ const useCases = [
 
 export default function GetStarted() {
   const data = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+  const docsUrl = 'https://docs.getcensus.com/';
 
   return (
     <div className="flex flex-col w-full h-screen">
-      <PageHeader title="Get Started" />
+      <PageHeader title="Getting Started" />
       <div className="px-6 pt-10 h-full overflow-hidden *:max-w-[900px] *:mx-auto *:w-full space-y-9">
         <div className="flex flex-row justify-between">
           <div className="flex flex-col gap-2">
@@ -74,7 +77,11 @@ export default function GetStarted() {
             </Text>
           </div>
           <div>
-            <Button variant="secondary">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                window.open(docsUrl, '_blank');
+              }}>
               <FontAwesomeIcon
                 icon={faBook}
                 className="mr-2 icon-light text-sm"
