@@ -51,11 +51,11 @@ export default function DatasetIndex() {
           {thisDataset.description}
         </div>
       </div>
-      <div className="flex flex-col w-1/5 bg-deep border-l border-base p-6 space-y-8">
+      <div className="flex flex-col min-w-1/5 w-1/3 max-w-[500px] bg-subtle border-l border-base p-6 space-y-8 overflow-hidden">
         <Text className="text-lg font-medium">
           Things to do with this dataset
         </Text>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 overflow-y-auto">
           {datasetUseCases.map((useCase) => (
             <div className="rounded-md border border-base p-4 bg-white flex flex-col gap-1.5 items-start">
               <Text className="leading-none font-medium">{useCase.title}</Text>
