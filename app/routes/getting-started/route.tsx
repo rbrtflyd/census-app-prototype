@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/pro-solid-svg-icons';
 import { useNavigate } from '@remix-run/react';
 import { useHref } from '@remix-run/react';
+import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 export const loader = async () => {
   // Add any necessary data fetching logic here
   return json({});
@@ -72,10 +73,11 @@ export default function GetStarted() {
       <PageHeader title="Getting Started" />
       <div className="px-6 pt-10 h-full overflow-hidden *:max-w-[1200px] *:mx-auto *:w-full space-y-9">
         <div className="flex flex-row justify-between">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-row gap-2 items-center">
             <Text className="text-xl font-medium text-dark">
               Welcome to Census
             </Text>
+            <CircularProgressIndicator progress={0.5} />
           </div>
           <div>
             <Button
