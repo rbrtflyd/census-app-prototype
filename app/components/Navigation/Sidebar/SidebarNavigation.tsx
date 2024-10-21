@@ -64,7 +64,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
       }`}>
       <div className="px-3 pt-8 pb-3 border-b border-white/10">
         <img
-          src="census-logo-full.svg"
+          src="/logos/census/census-logo-full.svg"
           alt="Census Logo"
           className="w-auto h-7"
         />

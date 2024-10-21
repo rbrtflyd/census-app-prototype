@@ -48,9 +48,11 @@ export default function DatasetIndex() {
         <Text className="text-lg font-medium">
           Things to do with this dataset
         </Text>
-        <div className="flex flex-row gap-4 overflow-x-auto w-full">
+        <div className="flex flex-row gap-4 overflow-x-auto w-full justify-start items-start">
           {datasetUseCases.map((useCase) => (
-            <div className="rounded-md border border-base p-4 bg-white flex flex-col gap-3 items-start w-[300px]">
+            <div
+              className="rounded-md border border-base p-4 bg-white flex flex-col gap-3 items-start w-[500px]"
+              key={useCase.title}>
               <div className="flex flex-col gap-1.5 items-start">
                 <Text className="leading-none font-medium">
                   {useCase.title}
