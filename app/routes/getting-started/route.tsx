@@ -91,7 +91,7 @@ export default function GetStarted() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-row gap-8 h-full">
+        <div className="flex flex-row gap-8">
           <div className="flex flex-col gap-4 grow">
             <Text className="text-lg font-medium">Get Started with Census</Text>
             {steps.map((step) => (
@@ -112,11 +112,11 @@ export default function GetStarted() {
               </button>
             ))}
           </div>
-          <div className="flex flex-col gap-4 w-1/3 bg-subtle rounded-lg p-6 relative overflow-hidden">
+          <div className="flex flex-col gap-6 w-1/3 bg-subtle rounded-lg p-9 relative overflow-hidden border border-base">
             <Text className="text-lg font-medium text-dark z-10">
               What to use Census for
             </Text>
-            <div className="flex flex-col gap-3 z-10">
+            <div className="flex flex-col gap-4 z-10">
               {useCases.map((useCase) => (
                 <button
                   key={useCase.id}
@@ -131,8 +131,8 @@ export default function GetStarted() {
               ))}
             </div>
             <DotPattern
-              width={16}
-              height={16}
+              width={10}
+              height={10}
               cx={1}
               cy={1}
               cr={1.2}
