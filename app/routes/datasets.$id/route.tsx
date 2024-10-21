@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from '@remix-run/node';
+import { json, LoaderFunction, redirect } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { getDatasets, initializeDatabase } from '../../db/db';
 import { useParams, Link, useLocation } from '@remix-run/react';
@@ -8,8 +8,15 @@ import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
-export const clientLoader = async () => {
+export const clientLoader = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
   const datasets = await getDatasets();
+  const id = params.id;
 
   return { datasets };
 };
@@ -45,9 +52,9 @@ export default function DatasetIndex() {
   }
 
   return (
-    <div>
-      <PageHeader title={thisDataset.name} />
-      <div className="flex flex-row w-full">
+    <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col">
+        <PageHeader title={thisDataset.name} />
         <Tabs
           value={activeTab}
           className="w-full">
@@ -80,9 +87,8 @@ export default function DatasetIndex() {
           </TabsList>
         </Tabs>
       </div>
-      <div className="flex flex-col w-full h-full">
-        <Outlet />
-      </div>
+
+      <Outlet context={thisDataset} />
     </div>
   );
 }
