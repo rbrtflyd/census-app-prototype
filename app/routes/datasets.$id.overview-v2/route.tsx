@@ -5,7 +5,7 @@ import { useParams } from '@remix-run/react';
 import { DatasetType } from '../../db/types';
 import { Text } from '@radix-ui/themes';
 import React from 'react';
-import { Button } from '~/components/ui/button';
+import { Button } from '../../components/ui/button';
 
 const datasetUseCases = [
   {

@@ -3,7 +3,8 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import { Outlet } from '@remix-run/react';
-
+import DotPattern from '~/components/ui/dot-pattern';
+import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -69,7 +70,7 @@ export default function GetStarted() {
   return (
     <div className="flex flex-col w-full h-screen">
       <PageHeader title="Getting Started" />
-      <div className="px-6 pt-10 h-full overflow-hidden *:max-w-[900px] *:mx-auto *:w-full space-y-9">
+      <div className="px-6 pt-10 h-full overflow-hidden *:max-w-[1200px] *:mx-auto *:w-full space-y-9">
         <div className="flex flex-row justify-between">
           <div className="flex flex-col gap-2">
             <Text className="text-xl font-medium text-dark">
@@ -90,7 +91,7 @@ export default function GetStarted() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-row gap-8">
+        <div className="flex flex-row gap-8 h-full">
           <div className="flex flex-col gap-4 grow">
             <Text className="text-lg font-medium">Get Started with Census</Text>
             {steps.map((step) => (
@@ -111,15 +112,15 @@ export default function GetStarted() {
               </button>
             ))}
           </div>
-          <div className="flex flex-col gap-4 w-1/3 bg-white rounded-lg p-4 shadow">
-            <Text className="text-lg font-medium text-dark">
+          <div className="flex flex-col gap-4 w-1/3 bg-subtle rounded-lg p-6 relative overflow-hidden">
+            <Text className="text-lg font-medium text-dark z-10">
               What to use Census for
             </Text>
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-3 z-10">
               {useCases.map((useCase) => (
                 <button
                   key={useCase.id}
-                  className="flex flex-col gap-1 items-start text-left hover:bg-plum-100 transition-all duration-75 p-2 rounded-md">
+                  className="flex flex-col gap-1 items-start text-left hover:scale-[1.02] transition-all duration-75 p-4 rounded-md bg-white shadow">
                   <Text className="font-medium leading-tight">
                     {useCase.title}
                   </Text>
@@ -129,6 +130,16 @@ export default function GetStarted() {
                 </button>
               ))}
             </div>
+            <DotPattern
+              width={16}
+              height={16}
+              cx={1}
+              cy={1}
+              cr={1.2}
+              className={cn(
+                '[mask-image:linear-gradient(white,transparent,transparent)] z-0'
+              )}
+            />
           </div>
         </div>
       </div>
