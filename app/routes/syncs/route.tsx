@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node';
-
 import { Outlet } from '@remix-run/react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 
@@ -12,13 +11,13 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <PageHeader
         title="All Syncs"
         button={{ label: 'New Sync', onClick: () => {} }}
       />
 
       <Outlet />
-    </>
+    </div>
   );
 }

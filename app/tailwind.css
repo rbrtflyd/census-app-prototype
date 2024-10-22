@@ -21,6 +21,20 @@
     src: url('/app/assets/fonts/MessinaSans_Complete_Upright_Variable_Web.woff')
       format('woff');
   }
+  :root {
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+  }
+  .dark {
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+  }
 }
 
 html,
@@ -28,4 +42,6 @@ body {
   @apply bg-white  text-dark font-regular antialiased tabular-nums text-base;
 
   font-stretch: 85%;
+  scrollbar-color: var(--slate-100) transparent;
+  scrollbar-width: thin;
 }

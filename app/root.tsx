@@ -32,7 +32,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex h-screen flex-row">
           <BreadcrumbProvider>
             <SidebarNavigation />
-            <div className="grow">{children}</div>
+            <div className="grow overflow-hidden">{children}</div>
           </BreadcrumbProvider>
         </div>
 

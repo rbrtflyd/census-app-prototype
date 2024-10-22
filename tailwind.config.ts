@@ -5,53 +5,70 @@ export default {
   darkMode: ['class'],
   content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    fontSize: {
-      xxs: '11px',
-      xs: '12px',
-      sm: '13px',
-      base: '14px',
-      lg: '16px',
-      xl: '20px',
-      '2xl': '24px',
-    },
-    extend: {
-      fontFamily: {
-        sans: ['Messina Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-      },
-
-      fontWeight: {
-        light: '450',
-        regular: '550',
-        medium: '650',
-        bold: '750',
-      },
-      colors: {
-        slate: {
-          12: '#FAFAFA',
-          25: '#F4F4F6',
-          50: '#EFEFF2',
-          75: '#E4E4EB',
-          100: '#D0CFDC',
-          200: '#AAA9BF',
-          300: '#8887A1',
-          400: '#6B6A83',
-          500: '#505066',
-          600: '#383748',
-          700: '#20202A',
-          800: '#15151C',
-          900: '#0A0A0D',
-        },
-        plum: {
-          100: '#E6E6FF',
-          200: '#B0ADFE',
-          300: '#817DFC',
-          400: '#5E59F5',
-          500: '#4640EB',
-          600: '#2F2BBE',
-          700: '#1D1980',
-        },
-      },
-    },
+  	fontSize: {
+  		xxs: '11px',
+  		xs: '12px',
+  		sm: '13px',
+  		base: '14px',
+  		lg: '16px',
+  		xl: '20px',
+  		'2xl': '24px'
+  	},
+  	extend: {
+  		fontFamily: {
+  			sans: ['Messina Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
+  		},
+  		fontWeight: {
+  			light: '450',
+  			regular: '550',
+  			medium: '650',
+  			bold: '750'
+  		},
+  		colors: {
+  			slate: {
+  				'12': '#FAFAFA',
+  				'25': '#F4F4F6',
+  				'50': '#EFEFF2',
+  				'75': '#E4E4EB',
+  				'100': '#D0CFDC',
+  				'200': '#AAA9BF',
+  				'300': '#8887A1',
+  				'400': '#6B6A83',
+  				'500': '#505066',
+  				'600': '#383748',
+  				'700': '#20202A',
+  				'800': '#15151C',
+  				'900': '#0A0A0D'
+  			},
+  			plum: {
+  				'100': '#E6E6FF',
+  				'200': '#B0ADFE',
+  				'300': '#817DFC',
+  				'400': '#5E59F5',
+  				'500': '#4640EB',
+  				'600': '#2F2BBE',
+  				'700': '#1D1980'
+  			},
+  			'color-1': 'hsl(var(--color-1))',
+  			'color-2': 'hsl(var(--color-2))',
+  			'color-3': 'hsl(var(--color-3))',
+  			'color-4': 'hsl(var(--color-4))',
+  			'color-5': 'hsl(var(--color-5))'
+  		},
+  		animation: {
+  			rainbow: 'rainbow var(--speed, 2s) infinite linear'
+  		},
+  		keyframes: {
+  			rainbow: {
+  				'0%': {
+  					'background-position': '0%'
+  				},
+  				'100%': {
+  					'background-position': '200%'
+  				}
+  			}
+  		}
+  	}
   },
   plugins: [
     require('tailwindcss-animate'),
