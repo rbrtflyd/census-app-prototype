@@ -95,24 +95,7 @@ export default function DatasetIndex() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <div className="flex flex-row px-6 py-3 border-b border-base">
-        {thisDataset.name}
-      </div>
-      <div className="flex flex-row w-full h-full overflow-hidden">
-        <div className="flex flex-col bg-white border-r border-base p-2 space-y-2 shrink-0">
-          {pages.map((page) => (
-            <Link
-              to="#"
-              className="size-9 rounded hover:bg-deep icon-light flex items-center justify-center">
-              <FontAwesomeIcon
-                icon={page.icon}
-                className="size-4.5 leading-none"
-              />
-            </Link>
-          ))}
-        </div>
-        <div>Content</div>
-      </div>
+      <div>Source</div>
     </div>
   );
 }
