@@ -21,11 +21,11 @@ const Checkbox = React.forwardRef<
       className={cn('flex items-center justify-center text-current')}>
       <FontAwesomeIcon
         icon={faCheck}
-        className="text-xxs group-data-[state=indeterminate]:hidden"
+        className="text-xxs group-data-[state=checked]:block hidden"
       />
       <FontAwesomeIcon
         icon={faMinus}
-        className="text-xxs group-data-[state=checked]:hidden"
+        className="text-xxs group-data-[state=indeterminate]:block hidden"
       />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
