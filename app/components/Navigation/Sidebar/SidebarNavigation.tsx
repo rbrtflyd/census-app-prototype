@@ -25,7 +25,7 @@ const navLinks = [
     group: 'Home',
     links: [
       { to: '/getting-started', label: 'Getting Started' },
-      { to: '/', label: 'Home', icon: faHome },
+      { to: '/home', label: 'Home', icon: faHome },
     ],
   },
   {

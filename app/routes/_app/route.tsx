@@ -34,7 +34,7 @@ export default function Index() {
     <div className="flex flex-row h-full w-full overflow-hidden">
       <SidebarNavigation />
       <div className="flex flex-col h-full w-full overflow-hidden">
-        <Outlet />
+        <Outlet context={{ datasets, syncs }} />
       </div>
     </div>
   );
