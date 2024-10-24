@@ -22,6 +22,15 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+const tableActions = [
+  {
+    label: 'Enrich',
+  },
+  {
+    label: 'Dedupe',
+  },
+];
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -40,10 +49,16 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md">
       <div className="flex flex-row gap-3 px-6 py-3">
-        <Button>Enrich</Button>
-        <Button>Dedupe</Button>
+        {tableActions.map((action) => (
+          <Button
+            key={action.label}
+            variant="secondary"
+            size="small">
+            {action.label}
+          </Button>
+        ))}
       </div>
       <Table>
         <TableHeader>
