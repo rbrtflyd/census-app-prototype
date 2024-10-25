@@ -12,7 +12,7 @@ export const columns: ColumnDef<DatasetType>[] = [
   {
     id: 'select',
     header: ({ table }) => (
-      <div className="flex w-full h-full items-center">
+      <div className="flex h-full items-center">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -24,7 +24,7 @@ export const columns: ColumnDef<DatasetType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div className="flex w-full h-full items-center">
+      <div className="flex h-full items-center">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -32,6 +32,7 @@ export const columns: ColumnDef<DatasetType>[] = [
         />
       </div>
     ),
+    size: 20,
     enableSorting: false,
     enableHiding: false,
   },
@@ -61,6 +62,7 @@ export const columns: ColumnDef<DatasetType>[] = [
         </div>
       );
     },
+    size: 100,
   },
   {
     accessorKey: 'source',
