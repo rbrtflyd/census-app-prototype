@@ -4,6 +4,8 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  SortingState,
+  getSortedRowModel,
   useReactTable,
   getPaginationRowModel,
 } from '@tanstack/react-table';
@@ -36,6 +38,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -43,14 +46,17 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       rowSelection,
+      sorting,
     },
   });
 
   return (
     <div className="rounded-md">
-      <div className="flex flex-row gap-3 px-6 py-3">
+      {/* <div className="flex flex-row gap-3 px-6 py-3">
         {tableActions.map((action) => (
           <Button
             key={action.label}
@@ -59,7 +65,7 @@ export function DataTable<TData, TValue>({
             {action.label}
           </Button>
         ))}
-      </div>
+      </div> */}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

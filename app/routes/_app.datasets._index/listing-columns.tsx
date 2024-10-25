@@ -1,7 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 import type { DatasetType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
-import { format } from 'date-fns';
+import { Button } from '~/components/ui/button';
+import { ArrowUpDown } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSort } from '@fortawesome/pro-solid-svg-icons';
+import { Text } from '@radix-ui/themes';
+import { Toggle } from '~/components/ui/toggle';
 
 export const columns: ColumnDef<DatasetType>[] = [
   {
@@ -28,10 +33,33 @@ export const columns: ColumnDef<DatasetType>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => {
+      return (
+        <div className="flex flex-row gap-2 items-center">
+          <Text>Name</Text>
+          <Toggle
+            size="sm"
+            variant="default"
+            className="px-1.5 py-1.5 flex items-center justify-center hover:bg-deep rounded-sm group icon-lighter hover:icon-light text-[11px] data-[state=on]:bg-deep data-[state=on]:icon-light"
+            onPressedChange={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <FontAwesomeIcon icon={faSort} />
+          </Toggle>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.name}
+          {row.original.source}
+        </div>
+      );
+    },
   },
   {
-    accessorKey: 'sourceId',
+    accessorKey: 'source',
     header: 'Source',
   },
   {
@@ -68,7 +96,7 @@ export const columns: ColumnDef<DatasetType>[] = [
         formatted = `${months} month${months !== 1 ? 's' : ''} ago`;
       }
 
-      return <div className="font-medium">{formatted}</div>;
+      return <div>{formatted}</div>;
     },
   },
 ];
