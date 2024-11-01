@@ -21,7 +21,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 const StartSendingData = () => {
-  return <div className="p-4 h-[600px]">Some content</div>;
+  return (
+    <div className="p-4 h-full bg-slate-300">
+      <Text className="text-lg font-medium w-[600px]">
+        Getting started with Census is easy. We'll walk you through the steps
+        here to help you activate important business data anywhere you need it.
+      </Text>
+    </div>
+  );
 };
 const DataSelection = () => {
   return (
@@ -41,30 +48,36 @@ const SyncMapping = () => {
   );
 };
 
+type SectionStatus = 'not-started' | 'in-progress' | 'completed';
+
 const sections = [
   {
     id: 'start-sending-data',
     title: 'Start Sending Data',
     content: <StartSendingData />,
     color: 'bg-plum-500',
+    status: 'completed',
   },
   {
     id: 'tell-us-which-data-you-want-to-send',
     title: 'Tell us which data you want to send',
     content: <DataSelection />,
     color: 'bg-yellow-500',
+    status: 'not-started',
   },
   {
     id: 'enhance-your-data-before-sending',
     title: 'Enhance your data before sending',
     content: <DataEnhancement />,
     color: 'bg-orange-500',
+    status: 'not-started',
   },
   {
     id: 'tell-us-where-this-data-should-go',
     title: 'Tell us where this data should go',
     content: <SyncMapping />,
     color: 'bg-green-500',
+    status: 'not-started',
   },
 ];
 
@@ -72,42 +85,31 @@ export default function ActivatePage() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col gap-4 *:w-full *:mx-auto *:max-w-[1300px] pt-9 px-8 h-full overflow-y-auto justify-start">
-      <div className="flex flex-col gap-4  justify-center h-[350px] shrink-0">
-        <Text className="text-2xl font-medium w-[600px]">
-          Getting started with Census is easy. We'll walk you through the steps
-          here to help you activate important business data anywhere you need
-          it.
-        </Text>
-        <div className="flex flex-row gap-2">
-          <Button
-            size="default"
-            onClick={() => setActiveSection('start-sending-data')}>
-            Start
-          </Button>
-          <Button
-            size="default"
-            variant="link">
-            I know what I'm doing, skip
-          </Button>
-        </div>
-      </div>
+    <div className="flex flex-col *:w-full *:mx-auto *:max-w-[1300px] pt-9 px-8 h-full overflow-hidden justify-start gap-y-6">
       {sections.map((section) => (
         <Collapsible
-          className={`w-full bg-white rounded-lg border border-base overflow-hidden h-full`}
+          className={`w-full overflow-hidden shrink-0 border border-base ${
+            activeSection === section.id ? 'grow' : ''
+          } ${section.status === 'completed' ? 'h-[50px]' : ''}`}
           key={section.id}
           open={activeSection === section.id}
           onOpenChange={(isOpen) =>
             setActiveSection(isOpen ? section.id : null)
           }>
           <CollapsibleTrigger asChild>
-            <button className="w-full border-b border-base p-8 flex flex-row justify-between items-center">
+            <button className="w-full  p-5 flex flex-row justify-between items-center">
               <div className="flex flex-row gap-2 items-stretch">
                 <div className={`w-1 rounded-full ${section.color}`} />
                 <Text className="text-xl font-medium leading-none">
                   {section.title}
                 </Text>
+                <div>
+                  {section.status === 'completed' && (
+                    <Text>This appears when the section is completed</Text>
+                  )}
+                </div>
               </div>
+
               <div>
                 <FontAwesomeIcon
                   icon={faChevronLeft}
