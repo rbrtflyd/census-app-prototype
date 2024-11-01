@@ -21,11 +21,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 const StartSendingData = () => {
-  return <div className="p-4 h-[600px]">Some content</div>;
+  return <div className="p-4 h-[100px]">Some content</div>;
 };
 const DataSelection = () => {
   return (
-    <div className="p-4 min-h-[200px]">
+    <div className="p-4 min-h-[100px]">
       I am the best data you've ever chosen. Just the best.
     </div>
   );
@@ -94,7 +94,7 @@ export default function ActivatePage() {
       </div>
       {sections.map((section) => (
         <Collapsible
-          className={`w-full bg-white rounded-lg border border-base overflow-hidden h-full`}
+          className={`w-full bg-white rounded-lg border border-base overflow-hidden grow`}
           key={section.id}
           open={activeSection === section.id}
           onOpenChange={(isOpen) =>
