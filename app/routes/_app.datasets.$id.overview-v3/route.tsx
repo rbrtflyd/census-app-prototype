@@ -58,7 +58,7 @@ export default function DatasetIndex() {
         </div>
       </div>
       {isVisible && (
-        <div className="flex flex-col gap-6 w-1/3 max-w-[450px] bg-subtle rounded-lg p-9 relative overflow-hidden border border-base">
+        <div className="flex flex-col gap-6 w-1/3 max-w-[450px] min-w-[350px] bg-subtle rounded-lg p-9 relative overflow-hidden border border-base">
           <div className="flex flex-row justify-between items-center z-10">
             <Text className="text-lg font-medium text-dark z-10">
               Manage your dataset
