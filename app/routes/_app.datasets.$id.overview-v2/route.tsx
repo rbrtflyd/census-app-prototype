@@ -193,18 +193,19 @@ export default function DatasetIndex() {
               <div className="flex flex-col items-stretch justify-stretch gap-2 flex-wrap shrink-0">
                 {useCases.map((useCase) => (
                   <button
+                    key={useCase.action}
                     onClick={() => setSelectedUseCase(useCase.action)}
-                    className={`px-3 py-1 rounded border border-transparent text-left h-[40px] w-[220px] ${
+                    className={`px-3 py-1 rounded border border-transparent text-left h-[40px] w-[220px] group transition-all duration-75 ${
                       selectedUseCase === useCase.action
-                        ? 'bg-white border-base shadow'
-                        : ''
+                        ? 'bg-white border-base shadow text-dark'
+                        : 'text-lighter hover:bg-deep hover:text-dark'
                     }`}>
                     <FontAwesomeIcon
                       icon={useCase.icon}
                       className={` mr-2  ${
                         selectedUseCase === useCase.action
                           ? 'text-plum-500'
-                          : 'icon-light'
+                          : 'icon-lighter group-hover:icon-light'
                       }`}
                     />
                     <Text>{useCase.action}</Text>
