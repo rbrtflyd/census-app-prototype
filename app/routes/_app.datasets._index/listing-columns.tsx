@@ -55,12 +55,7 @@ export const columns: ColumnDef<DatasetType>[] = [
       );
     },
     cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.name}
-          {row.original.source}
-        </div>
-      );
+      return <div>{row.original.name}</div>;
     },
     size: 100,
   },

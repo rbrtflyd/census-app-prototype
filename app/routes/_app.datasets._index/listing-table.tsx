@@ -56,16 +56,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md">
-      {/* <div className="flex flex-row gap-3 px-6 py-3">
-        {tableActions.map((action) => (
-          <Button
-            key={action.label}
-            variant="secondary"
-            size="small">
-            {action.label}
-          </Button>
-        ))}
-      </div> */}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
