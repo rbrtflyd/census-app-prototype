@@ -1,12 +1,20 @@
-import { useState, useMemo } from 'react';
-import { useOutletContext } from '@remix-run/react';
-import { DatasetType } from '../../db/types';
+import { json, LoaderFunction, redirect } from '@remix-run/node';
+import { Outlet, useLoaderData } from '@remix-run/react';
+import { getDatasets, initializeDatabase } from '../../db/db';
+import {
+  useParams,
+  Link,
+  useLocation,
+  useOutletContext,
+} from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import { Button } from '~/components/ui/button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { Separator } from '~/components/ui/separator';
-import { ThumbsUpIcon } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { DatasetType } from '~/db/types';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faCircle } from '@fortawesome/pro-regular-svg-icons';
 import {
   faBringFront,
   faDiagramPrevious,
@@ -119,7 +127,7 @@ const issues = [
   },
 ];
 
-export default function DatasetIndex() {
+export default function DatasetOverview() {
   const thisDataset = useOutletContext<DatasetType>();
   const [selectedUseCase, setSelectedUseCase] = useState<string | null>(
     'Add relationship'
@@ -160,7 +168,8 @@ export default function DatasetIndex() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full overflow-y-auto">
+    <div className="flex flex-col h-full w-full overflow-hidden">
+      {' '}
       <div className="flex  px-6 py-8 bg-subtle">
         <div className="flex flex-col gap-6 items-start w-full max-w-[1400px] mx-auto">
           <div className="flex flex-row gap-4 items-center justify-between w-full">
@@ -236,50 +245,6 @@ export default function DatasetIndex() {
               />
             </div>
           )}
-        </div>
-      </div>
-      <div className="flex flex-col px-6 py-8 grow *:w-full *:max-w-[1400px] *:mx-auto gap-6">
-        <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full ">
-          <div className="flex flex-row justify-between items-center *:leading-none">
-            <Text className=" font-medium ">Issues</Text>
-            <Text className="text-light">{issues.length} issues</Text>
-          </div>
-          <div className="flex flex-col rounded overflow-hidden border border-base">
-            {sortedIssues.map((issue) => (
-              <button
-                key={issue.title}
-                className="hover:bg-subtle text-left overflow-hidden flex flex-row items-center space-x-3 h-9 border-b border-base last-of-type:border-b-0 text-sm leading-none">
-                <div
-                  className={`h-full w-1 ${statusColor({
-                    status: issue.status,
-                    element: 'bg',
-                  })}`}
-                />
-                <div className="flex flex-row space-x-4 w-full justify-between h-full items-center">
-                  <Text className="font-medium">{issue.title}</Text>
-                  <div className="flex flex-row items-center gap-4 w-[400px]">
-                    <div className="flex flex-row items-center gap-1.5">
-                      <FontAwesomeIcon
-                        icon={statusIcon({ status: issue.status })}
-                        className={`text-xxs ${statusColor({
-                          status: issue.status,
-                          element: 'text',
-                        })}`}
-                      />
-                      <Text className="capitalize">{issue.status}</Text>
-                    </div>
-                    <Text className="text-light">
-                      {issue.status_description}
-                    </Text>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
-          <Text className="leading-none text-lg font-medium ">Definition</Text>
-          <div className="h-[300px] w-full bg-subtle rounded-md" />
         </div>
       </div>
     </div>

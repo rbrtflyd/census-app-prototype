@@ -29,49 +29,59 @@ export const clientLoader = async ({
   const datasets = await getDatasets();
   const id = params.id;
 
-  return { datasets };
+  return { datasets, id };
 };
 
 interface LoaderData {
   datasets: DatasetType[];
+  id: string;
 }
 
-const pages = [
+const pages = (id: string) => [
   {
     name: 'Overview',
     icon: faChartLine,
+    link: `/datasets-v2/${id}/overview`,
   },
   {
     name: 'Preview',
     icon: faEye,
+    link: `/datasets-v2/${id}/preview`,
   },
   {
     name: 'Relationships',
     icon: faLink,
+    link: `/datasets-v2/${id}/relationships`, // Add links for all pages
   },
   {
     name: 'Columns',
     icon: faColumns,
+    link: `/datasets-v2/${id}/columns`,
   },
   {
     name: 'Sources',
     icon: faDatabase,
+    link: `/datasets-v2/${id}/sources`,
   },
   {
     name: 'Segments',
     icon: faFilter,
+    link: `/datasets-v2/${id}/segments`,
   },
   {
     name: 'Activity',
     icon: faHistory,
+    link: `/datasets-v2/${id}/activity`,
   },
 ];
 
 export default function DatasetIndex() {
   const { datasets } = useLoaderData<LoaderData>();
   const params = useParams();
-  const id = params.id;
+  const id = params.id!;
   const location = useLocation();
+
+  const navigationPages = pages(id);
 
   const thisDataset = datasets.find(
     (dataset: DatasetType) => dataset.id.toString() === id
@@ -101,9 +111,9 @@ export default function DatasetIndex() {
       </div>
       <div className="flex flex-row w-full h-full overflow-hidden">
         <div className="flex flex-col bg-white border-r border-base p-2 space-y-2 shrink-0">
-          {pages.map((page) => (
+          {navigationPages.map((page) => (
             <Link
-              to="#"
+              to={page.link}
               className="size-9 rounded hover:bg-deep icon-light flex items-center justify-center">
               <FontAwesomeIcon
                 icon={page.icon}
@@ -112,8 +122,8 @@ export default function DatasetIndex() {
             </Link>
           ))}
         </div>
-        <div>
-          <Outlet />
+        <div className="flex flex-col w-full h-full">
+          <Outlet context={thisDataset} />
         </div>
       </div>
     </div>
