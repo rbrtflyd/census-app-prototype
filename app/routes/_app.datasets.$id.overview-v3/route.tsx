@@ -9,6 +9,34 @@ import cn from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-regular-svg-icons';
 
+const issues = [
+  {
+    title: 'Issue 1',
+    description: 'Description 1',
+    severity: 'high',
+  },
+  {
+    title: 'Issue 2',
+    description: 'Description 1',
+    severity: 'medium',
+  },
+  {
+    title: 'Issue 3',
+    description: 'Description 1',
+    severity: 'low',
+  },
+  {
+    title: 'Issue 4',
+    description: 'Description 1',
+    severity: 'low',
+  },
+  {
+    title: 'Issue 5',
+    description: 'Description 1',
+    severity: 'low',
+  },
+];
+
 const useCases = [
   {
     title: 'Deduplicate with entity resolution',
@@ -51,6 +79,16 @@ export default function DatasetIndex() {
       <div className="flex flex-col w-full max-w-[1400px] gap-6">
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
           <Text className="leading-none text-lg font-medium ">Issues</Text>
+          <div className="flex flex-col rounded overflow-hidden border border-base">
+            {issues.map((issue) => (
+              <button
+                key={issue.title}
+                className="hover:bg-subtle text-left overflow-hidden flex flex-row items-center gap-2 h-9 border-b border-base last-of-type:border-b-0">
+                <div className="h-full w-1 bg-red-500" />
+                {issue.title}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
           <Text className="leading-none text-lg font-medium ">Definition</Text>

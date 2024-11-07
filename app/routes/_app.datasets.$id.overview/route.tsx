@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { Separator } from '~/components/ui/separator';
 import { ThumbsUpIcon } from 'lucide-react';
-
+import { DotPattern } from '~/components/ui/dot-pattern';
+import { cn } from '~/lib/utils';
 const CreateRelationship = ({ button }: { button: string }) => {
   return (
     <div className="flex flex-col gap-4 items-start w-full h-[150px]">
@@ -140,7 +141,7 @@ export default function DatasetIndex() {
           <div className="flex flex-row gap-6 justify-between items-center w-full">
             {isVisible && (
               <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3">
-                <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full">
+                <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full relative">
                   <div className="items-center justify-between">
                     <Text className="font-medium leading-none text-lg">
                       Get the most out of your dataset
@@ -188,6 +189,16 @@ export default function DatasetIndex() {
                       </div>
                     )}
                   </div>
+                  <DotPattern
+                    width={10}
+                    height={10}
+                    cx={1}
+                    cy={1}
+                    cr={1.2}
+                    className={cn(
+                      '[mask-image:linear-gradient(white,transparent,transparent)] z-0'
+                    )}
+                  />
                 </div>
               </div>
             )}

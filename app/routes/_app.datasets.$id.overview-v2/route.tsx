@@ -7,6 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { Separator } from '~/components/ui/separator';
 import { ThumbsUpIcon } from 'lucide-react';
+import {
+  faBringFront,
+  faDiagramPrevious,
+  faDiagramProject,
+  faSparkles,
+} from '@fortawesome/pro-solid-svg-icons';
 
 const CreateRelationship = ({ button }: { button: string }) => {
   return (
@@ -54,6 +60,7 @@ const useCases = [
     action: 'Add relationship',
     button: 'Create a relationship',
     children: <CreateRelationship button="Create a relationship" />,
+    icon: faDiagramProject,
   },
   {
     title: 'Deduplicate with entity resolution',
@@ -61,6 +68,7 @@ const useCases = [
     action: 'Deduplicate',
     button: 'Deduplicate',
     children: <Deduplicate button="Deduplicate" />,
+    icon: faBringFront,
   },
 
   {
@@ -69,6 +77,7 @@ const useCases = [
     action: 'Enhance with AI',
     button: 'Create a GPT Column',
     children: <Enhance button="Create a GPT Column" />,
+    icon: faSparkles,
   },
   {
     title: 'Enrich with AI or Clearbit',
@@ -76,6 +85,7 @@ const useCases = [
     action: 'Enrich',
     button: 'Enrich',
     children: <Enrich button="Enrich" />,
+    icon: faDiagramPrevious,
   },
 ];
 const issues = [
@@ -152,27 +162,29 @@ export default function DatasetIndex() {
                   </div>
 
                   <div className="gap-12">
-                    <div className="flex flex-col items-stretch gap-2 flex-wrap shrink-0">
+                    <div className="flex flex-col items-stretch justify-stretch gap-2 flex-wrap shrink-0">
                       {useCases.map((useCase) => (
                         <button
                           onClick={() => setSelectedUseCase(useCase.action)}
-                          className={`px-3 py-1 rounded border border-transparent text-left ${
+                          className={`px-3 py-1 rounded border border-transparent text-left grow ${
                             selectedUseCase === useCase.action
-                              ? 'bg-subtle border-plum-100 shadow-md'
+                              ? 'bg-white border-base shadow'
                               : ''
                           }`}>
                           <FontAwesomeIcon
-                            icon={faCircle}
-                            className="text-sm mr-2 icon-lighter"
+                            icon={useCase.icon}
+                            className={` mr-2  ${
+                              selectedUseCase === useCase.action
+                                ? 'text-plum-500'
+                                : 'icon-light'
+                            }`}
                           />
                           <Text>{useCase.action}</Text>
                         </button>
                       ))}
                     </div>
-                    <Separator orientation="vertical" />
-                    {!thisUseCase && <ThumbsUpIcon />}
                     {thisUseCase && (
-                      <div className="flex flex-col gap-1 w-full items-start h-full">
+                      <div className="flex flex-col gap-4 w-full items-start h-full">
                         <div className="flex flex-col gap-2 *:leading-none">
                           <Text className="font-medium">
                             {thisUseCase?.title}
