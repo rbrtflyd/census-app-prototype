@@ -46,14 +46,14 @@ export default function DatasetIndex() {
   const thisDataset = useOutletContext<DatasetType>();
 
   return (
-    <div className="flex flex-row w-full h-full overflow-hidden px-6 py-8 gap-6">
+    <div className="flex flex-row w-full h-full overflow-hidden px-6 py-8 gap-6 ">
       <div className="flex flex-col grow *:w-full *:max-w-[1400px] *:mx-auto">
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
           <Text className="leading-none text-lg font-medium ">Summary</Text>
           {thisDataset.description}
         </div>
       </div>
-      <div className="flex flex-col gap-6 w-1/3 bg-subtle rounded-lg p-9 relative overflow-hidden border border-base">
+      <div className="flex flex-col gap-6 w-1/3 max-w-[450px] bg-subtle rounded-lg p-9 relative overflow-hidden border border-base">
         <Text className="text-lg font-medium text-dark z-10">
           Manage your dataset
         </Text>
