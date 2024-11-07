@@ -50,8 +50,7 @@ export default function DatasetIndex() {
     <div className="flex flex-row w-full h-full overflow-hidden items-start px-6 py-8 gap-6 justify-center">
       <div className="flex flex-col w-full max-w-[1400px] gap-6">
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
-          <Text className="leading-none text-lg font-medium ">Summary</Text>
-          {thisDataset.description}
+          <Text className="leading-none text-lg font-medium ">Issues</Text>
         </div>
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">
           <Text className="leading-none text-lg font-medium ">Definition</Text>
