@@ -4,18 +4,63 @@ import { DatasetType } from '../../db/types';
 import { Text } from '@radix-ui/themes';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/pro-regular-svg-icons';
+import { faCircle, faTimes } from '@fortawesome/pro-regular-svg-icons';
+import { Separator } from '~/components/ui/separator';
+import { ThumbsUpIcon } from 'lucide-react';
+
+const CreateRelationship = ({ button }: { button: string }) => {
+  return (
+    <div className="flex flex-col gap-4 items-start w-full h-[150px]">
+      <div className="grow w-full bg-deep rounded-md" />
+      <Button variant="secondary">{button}</Button>
+    </div>
+  );
+};
+
+const Deduplicate = ({ button }: { button: string }) => {
+  return (
+    <div className="flex flex-col gap-4 items-start w-full h-[150px]">
+      <div className="grow w-full bg-deep rounded-md" />
+      <Button variant="secondary">{button}</Button>
+    </div>
+  );
+};
+
+const Enhance = ({ button }: { button: string }) => {
+  return (
+    <div className="flex flex-col gap-4 items-start w-full h-[150px]">
+      <div className="grow w-full bg-deep rounded-md" />
+      <Button variant="secondary">{button}</Button>
+    </div>
+  );
+};
+
+const Enrich = ({ button }: { button: string }) => {
+  return (
+    <div className="flex flex-col gap-4 items-start  w-full h-[150px]">
+      <div className="grow w-full bg-deep rounded-md" />
+      <div className="flex flex-row gap-2">
+        <Button variant="secondary">Enrich with Clearbit</Button>
+        <Button variant="secondary">Enrich with Apollo</Button>
+      </div>
+    </div>
+  );
+};
 
 const useCases = [
   {
     title: 'Add relationships to other datasets',
+    description: 'Create a relationship to another dataset',
     action: 'Add relationship',
     button: 'Create a relationship',
+    children: <CreateRelationship button="Create a relationship" />,
   },
   {
     title: 'Deduplicate with entity resolution',
+    description: 'Use entity resolution to find duplicates',
     action: 'Deduplicate',
     button: 'Deduplicate',
+    children: <Deduplicate button="Deduplicate" />,
   },
 
   {
@@ -23,12 +68,14 @@ const useCases = [
     description: 'Create a column to add new data',
     action: 'Enhance with AI',
     button: 'Create a GPT Column',
+    children: <Enhance button="Create a GPT Column" />,
   },
   {
     title: 'Enrich with AI or Clearbit',
     description: 'Create a view to share your data',
     action: 'Enrich',
     button: 'Enrich',
+    children: <Enrich button="Enrich" />,
   },
 ];
 const issues = [
@@ -66,7 +113,9 @@ const issues = [
 
 export default function DatasetIndex() {
   const thisDataset = useOutletContext<DatasetType>();
-  const [selectedUseCase, setSelectedUseCase] = useState<string | null>(null);
+  const [selectedUseCase, setSelectedUseCase] = useState<string | null>(
+    'Add relationship'
+  );
   const [isVisible, setIsVisible] = useState(true);
 
   const thisUseCase = useMemo(() => {
@@ -79,10 +128,18 @@ export default function DatasetIndex() {
     <div className="flex flex-col w-full h-full">
       <div className="flex  px-6 py-8 bg-subtle">
         <div className="flex flex-col gap-6 items-start w-full max-w-[1400px] mx-auto">
-          <Text className="text-2xl font-medium">{thisDataset.name}</Text>
+          <div className="flex flex-row gap-4 items-center justify-between w-full">
+            <Text className="text-2xl font-medium">{thisDataset.name}</Text>
+            <div className="flex flex-row space-x-2">
+              <Button variant="secondary">Sync</Button>
+              <Button variant="secondary">Edit</Button>
+              <Separator orientation="vertical" />
+              <Button variant="secondary">Delete</Button>
+            </div>
+          </div>
           <div className="flex flex-row gap-6 justify-between items-center w-full">
-            <div className="flex flex-col gap-5 items-start grow h-full">
-              {isVisible && (
+            {isVisible && (
+              <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3">
                 <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full">
                   <div className="items-center justify-between">
                     <Text className="font-medium leading-none text-lg">
@@ -98,6 +155,7 @@ export default function DatasetIndex() {
                       />
                     </Button>
                   </div>
+
                   <div className="gap-12">
                     <div className="flex flex-col items-stretch gap-2 flex-wrap shrink-0">
                       {useCases.map((useCase) => (
@@ -108,26 +166,32 @@ export default function DatasetIndex() {
                               ? 'bg-subtle border-plum-100 shadow-md'
                               : ''
                           }`}>
-                          {useCase.action}
+                          <FontAwesomeIcon
+                            icon={faCircle}
+                            className="text-sm mr-2 icon-lighter"
+                          />
+                          <Text>{useCase.action}</Text>
                         </button>
                       ))}
                     </div>
+                    <Separator orientation="vertical" />
+                    {!thisUseCase && <ThumbsUpIcon />}
                     {thisUseCase && (
                       <div className="flex flex-col gap-1 w-full items-start h-full">
-                        <Text className="font-medium">
-                          {thisUseCase?.title}
-                        </Text>
-                        <Text>{thisUseCase?.description}</Text>
-                        <Button variant="secondary">
-                          {thisUseCase?.button}
-                        </Button>
+                        <div className="flex flex-col gap-2 *:leading-none">
+                          <Text className="font-medium">
+                            {thisUseCase?.title}
+                          </Text>
+                          <Text>{thisUseCase?.description}</Text>
+                        </div>
+                        {thisUseCase.children}
                       </div>
                     )}
                   </div>
                 </div>
-              )}
-            </div>
-            <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3 max-w-[525px] w-full">
+              </div>
+            )}
+            <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full h-full">
               <div className="flex flex-row justify-between items-center *:leading-none">
                 <Text className=" font-medium ">Issues</Text>
                 <Text className="text-light">{issues.length} issues</Text>
