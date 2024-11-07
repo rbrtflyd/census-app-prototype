@@ -1,5 +1,5 @@
 import { json, LoaderFunction, redirect } from '@remix-run/node';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 import { getDatasets, initializeDatabase } from '../../db/db';
 import { useParams, Link, useLocation } from '@remix-run/react';
 import { DatasetType } from '../../db/types';
@@ -26,7 +26,7 @@ interface LoaderData {
 }
 
 export default function DatasetIndex() {
-  const { datasets } = useLoaderData<LoaderData>();
+  const { datasets } = useOutletContext() as { datasets: DatasetType[] };
   const params = useParams();
   const id = params.id;
   const location = useLocation();

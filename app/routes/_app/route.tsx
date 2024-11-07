@@ -1,10 +1,11 @@
 import type { MetaFunction } from '@remix-run/node';
-import PageHeader from '~/components/Structural/Headers/PageHeader';
+import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useLoaderData } from '@remix-run/react';
-import { getDatasets, getSyncs, initializeDatabase } from '~/db/db';
-import { DatasetType, SyncType } from '~/db/types';
-import SidebarNavigation from '~/components/Navigation/Sidebar/SidebarNavigation';
+import { getDatasets, getSyncs, initializeDatabase } from '../../db/db';
+import { DatasetType, SyncType } from '../../db/types';
+import SidebarNavigation from '../../components/Navigation/Sidebar/SidebarNavigation';
 import { Outlet } from '@remix-run/react';
+import React from 'react';
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,7 +32,10 @@ export default function Index() {
   const { datasets, syncs } = useLoaderData<LoaderData>();
   return (
     <div className="flex flex-row h-full w-full overflow-hidden">
-      Tippy top index
+      <SidebarNavigation />
+      <div className="flex flex-col h-full w-full overflow-hidden">
+        <Outlet context={{ datasets, syncs }} />
+      </div>
     </div>
   );
 }
