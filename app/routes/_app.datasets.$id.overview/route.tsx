@@ -140,8 +140,8 @@ export default function DatasetIndex() {
           </div>
           <div className="flex flex-row gap-6 justify-between items-center w-full">
             {isVisible && (
-              <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3">
-                <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full relative">
+              <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3 ">
+                <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full relative bg-sublte shadow overflow-hidden">
                   <div className="items-center justify-between">
                     <Text className="font-medium leading-none text-lg">
                       Get the most out of your dataset

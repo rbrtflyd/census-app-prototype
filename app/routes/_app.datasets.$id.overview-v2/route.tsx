@@ -13,6 +13,8 @@ import {
   faDiagramProject,
   faSparkles,
 } from '@fortawesome/pro-solid-svg-icons';
+import { DotPattern } from '~/components/ui/dot-pattern';
+import { cn } from '~/lib/utils';
 
 const CreateRelationship = ({ button }: { button: string }) => {
   return (
@@ -142,67 +144,72 @@ export default function DatasetIndex() {
               <Button variant="secondary">Delete</Button>
             </div>
           </div>
-          <div className="flex flex-row gap-6 justify-between items-center w-full">
-            {isVisible && (
-              <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3">
-                <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full">
-                  <div className="items-center justify-between">
-                    <Text className="font-medium leading-none text-lg">
-                      Get the most out of your dataset
-                    </Text>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setIsVisible(false)}>
-                      <FontAwesomeIcon
-                        icon={faTimes}
-                        className="text-xs"
-                      />
-                    </Button>
-                  </div>
 
-                  <div className="gap-12">
-                    <div className="flex flex-col items-stretch justify-stretch gap-2 flex-wrap shrink-0">
-                      {useCases.map((useCase) => (
-                        <button
-                          onClick={() => setSelectedUseCase(useCase.action)}
-                          className={`px-3 py-1 rounded border border-transparent text-left grow ${
-                            selectedUseCase === useCase.action
-                              ? 'bg-white border-base shadow'
-                              : ''
-                          }`}>
-                          <FontAwesomeIcon
-                            icon={useCase.icon}
-                            className={` mr-2  ${
-                              selectedUseCase === useCase.action
-                                ? 'text-plum-500'
-                                : 'icon-light'
-                            }`}
-                          />
-                          <Text>{useCase.action}</Text>
-                        </button>
-                      ))}
-                    </div>
-                    {thisUseCase && (
-                      <div className="flex flex-col gap-4 w-full items-start h-full">
-                        <div className="flex flex-col gap-2 *:leading-none">
-                          <Text className="font-medium">
-                            {thisUseCase?.title}
-                          </Text>
-                          <Text>{thisUseCase?.description}</Text>
-                        </div>
-                        {thisUseCase.children}
-                      </div>
-                    )}
-                  </div>
-                </div>
+          {isVisible && (
+            <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full bg-sublte shadow overflow-hidden relative">
+              <div className="items-center justify-between z-10">
+                <Text className="font-medium leading-none text-lg">
+                  Get the most out of your dataset
+                </Text>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsVisible(false)}>
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className="text-xs"
+                  />
+                </Button>
               </div>
-            )}
-          </div>
+
+              <div className="gap-12 z-10">
+                <div className="flex flex-col items-stretch justify-stretch gap-2 flex-wrap shrink-0">
+                  {useCases.map((useCase) => (
+                    <button
+                      onClick={() => setSelectedUseCase(useCase.action)}
+                      className={`px-3 py-1 rounded border border-transparent text-left grow ${
+                        selectedUseCase === useCase.action
+                          ? 'bg-white border-base shadow'
+                          : ''
+                      }`}>
+                      <FontAwesomeIcon
+                        icon={useCase.icon}
+                        className={` mr-2  ${
+                          selectedUseCase === useCase.action
+                            ? 'text-plum-500'
+                            : 'icon-light'
+                        }`}
+                      />
+                      <Text>{useCase.action}</Text>
+                    </button>
+                  ))}
+                </div>
+                {thisUseCase && (
+                  <div className="flex flex-col gap-4 w-full items-start h-full">
+                    <div className="flex flex-col gap-2 *:leading-none">
+                      <Text className="font-medium">{thisUseCase?.title}</Text>
+                      <Text>{thisUseCase?.description}</Text>
+                    </div>
+                    {thisUseCase.children}
+                  </div>
+                )}
+              </div>
+              <DotPattern
+                width={10}
+                height={10}
+                cx={1}
+                cy={1}
+                cr={1.2}
+                className={cn(
+                  '[mask-image:linear-gradient(white,transparent,transparent)] z-0'
+                )}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col px-6 py-8 grow *:w-full *:max-w-[1400px] *:mx-auto gap-6">
-        <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full h-full">
+        <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full ">
           <div className="flex flex-row justify-between items-center *:leading-none">
             <Text className=" font-medium ">Issues</Text>
             <Text className="text-light">{issues.length} issues</Text>
