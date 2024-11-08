@@ -29,7 +29,7 @@ export const columns: ColumnDef<DatasetColumn>[] = [
       return (
         <Button
           variant="table"
-          size="sm"
+          size="small"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="w-full">
           <div className="flex flex-row space-x-1 items-center justify-start w-full">
@@ -51,7 +51,7 @@ export const columns: ColumnDef<DatasetColumn>[] = [
       return (
         <Button
           variant="ghost"
-          size="sm"
+          size="small"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           <div className="flex flex-row space-x-1 items-center">
             Data Type
@@ -73,7 +73,7 @@ export const columns: ColumnDef<DatasetColumn>[] = [
         <>
           <Button
             variant="ghost"
-            size="sm"
+            size="small"
             onClick={() =>
               column.toggleSorting(column.getIsSorted() === 'asc')
             }>
