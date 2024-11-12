@@ -8,6 +8,7 @@ import {
 } from '@remix-run/react';
 import SidebarNavigation from './components/Navigation/Sidebar/SidebarNavigation';
 import { BreadcrumbProvider } from './providers/breadcrumbContext';
+import { MigrationNotification } from './components/Toasts/MigrationNotification';
 
 import styles from './tailwind.css?url';
 import './styles.scss';
@@ -29,6 +30,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <MigrationNotification />
         <div className="flex h-screen flex-row">
           <BreadcrumbProvider>
             <div className="grow overflow-hidden">
