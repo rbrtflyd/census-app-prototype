@@ -30,10 +30,7 @@ interface HeaderNavigationProps {
 
 const navLinks = [
   {
-    links: [
-      { to: '/v2/getting-started', label: 'Getting Started' },
-      { to: '/v2/home', label: 'Home', icon: faHome },
-    ],
+    links: [{ to: '/v2/home', label: 'Home', icon: faHome }],
   },
   {
     links: [{ to: '/v2/syncs', label: 'Syncs', icon: CensusSyncs }],
@@ -66,7 +63,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
 
   return (
     <nav
-      className={`flex flex-row h-[60px] shrink-0 w-full text-light space-y-4 border-b border-base bg-subtle `}>
+      className={`flex flex-row h-[60px] shrink-0 w-full text-light space-x-5 border-b border-base bg-subtle `}>
       <div className="h-full flex flex-row items-center px-3 space-x-4">
         <img
           src="/logos/census/census-logo-mark.svg"
@@ -89,7 +86,6 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Sales Team</DropdownMenuLabel>
               <DropdownMenuItem>Workspace Settings</DropdownMenuItem>
               <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
               <DropdownMenuItem>Sales Team</DropdownMenuItem>
@@ -99,12 +95,12 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="flex flex-row px-3 py-2 space-x-6">
+      <div className="flex flex-row px-3  space-x-6">
         <div className="flex flex-row">
           {navLinks.map((group) =>
             group.links.map((link) => (
-              <>
-                {group.parent && (
+              <React.Fragment key={link.to}>
+                {group.parent ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Text>{group.parent}</Text>
@@ -118,8 +114,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
                       <DropdownMenuItem>Subscription</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                )}
-                {!group.parent && (
+                ) : (
                   <NavLink
                     key={link.to}
                     to={link.to}
@@ -141,7 +136,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
                     <Text>{link.label}</Text>
                   </NavLink>
                 )}
-              </>
+              </React.Fragment>
             ))
           )}
         </div>
