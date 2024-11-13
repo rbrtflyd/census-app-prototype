@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
+import { migrations } from './migration';
 import {
   DatasetType,
   SyncType,
@@ -16,7 +17,7 @@ import {
   workspaceConnectionsData,
 } from './data';
 
-class PrototypeDatabase extends Dexie {
+export class PrototypeDatabase extends Dexie {
   datasets: EntityTable<DatasetType, 'id'>;
   syncs: EntityTable<SyncType, 'id'>;
   userConfig: EntityTable<UserConfigType, 'id'>;
@@ -25,16 +26,22 @@ class PrototypeDatabase extends Dexie {
 
   constructor() {
     super('PrototypeDatabase');
-    this.version(4).stores({
-      datasets:
-        'id, name, description, source, columns, rows, tags, schema, uniques, indexes, foreignKeys',
-      syncs:
-        'id, name, description, datasetId, destinationId, createdAt, updatedAt, status, rows, columns, tags, foreignKeys',
-      userConfig: 'id, name, syncs_populated, datasets_populated',
-      connections:
-        'id, connectionServiceName, connectionServiceType, logo, connectionServiceCategory, description',
+
+    // Define initial schema
+    this.version(1).stores({
+      datasets: 'id, name, source',
+      syncs: 'id, name, datasetId',
+      userConfig: 'id',
+      connections: 'id, connectionServiceName, connectionServiceType',
       workspaceConnections: 'id, connectionId',
     });
+
+    // Apply all migrations
+    migrations.forEach((migration) => {
+      this.version(migration.version).stores({}).upgrade(migration.upgrade);
+    });
+
+    // Define table properties
     this.datasets = this.table('datasets');
     this.syncs = this.table('syncs');
     this.userConfig = this.table('userConfig');
@@ -81,12 +88,16 @@ class PrototypeDatabase extends Dexie {
   }
 }
 
-interface PrototypeDatabase extends Dexie {}
-
 const db = new PrototypeDatabase();
 
 export async function initializeDatabase() {
   await db.seedDatabase();
+}
+
+export async function clearDatabase() {
+  await db.datasets.clear();
+  await db.syncs.clear();
+  await db.userConfig.clear();
 }
 
 export async function getDatasets() {

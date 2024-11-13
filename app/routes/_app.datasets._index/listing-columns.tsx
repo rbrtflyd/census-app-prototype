@@ -55,7 +55,7 @@ export const columns: ColumnDef<DatasetType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div>{row.original.name}</div>;
+      return <Text className="truncate">{row.original.name}</Text>;
     },
     size: 100,
   },

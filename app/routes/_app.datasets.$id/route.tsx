@@ -7,6 +7,7 @@ import React from 'react';
 import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { useBreadcrumb } from '../../hooks/useBreadcrumb';
 
 export const clientLoader = async ({
   params,
@@ -34,6 +35,8 @@ export default function DatasetIndex() {
   const thisDataset = datasets.find(
     (dataset: DatasetType) => dataset.id.toString() === id
   );
+
+  const { addBreadcrumb } = useBreadcrumb();
 
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
