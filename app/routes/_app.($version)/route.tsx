@@ -2,14 +2,15 @@ import type { MetaFunction } from '@remix-run/node';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
-import { checkMigrations } from '~/db/utils/migrationUtils';
+import { checkMigrations } from '../../db/utils/migrationUtils';
 import { getDatasets, getSyncs, initializeDatabase } from '../../db/db';
 import { DatasetType, SyncType } from '../../db/types';
 import SidebarNavigation from '../../components/Navigation/Sidebar/SidebarNavigation';
 import db from '../../db/db';
 import { Toaster } from '../../components/ui/sonner';
-import { Outlet } from '@remix-run/react';
+import { Outlet, useParams } from '@remix-run/react';
 import React from 'react';
+import HeaderNavigation from '../../components/Navigation/Header/HeaderNavigation';
 
 export const meta: MetaFunction = () => {
   return [
@@ -34,6 +35,8 @@ interface LoaderData {
 
 export default function Index() {
   const { datasets, syncs } = useLoaderData<LoaderData>();
+  const { version } = useParams();
+
   useEffect(() => {
     // Check for migrations every 5 minutes
     const checkForMigrations = async () => {
@@ -45,13 +48,26 @@ export default function Index() {
 
     return () => clearInterval(interval);
   }, []);
-  return (
-    <div className="flex flex-row h-full w-full overflow-hidden">
-      <Toaster />
-      <SidebarNavigation />
-      <div className="flex flex-col h-full w-full overflow-hidden">
-        <Outlet context={{ datasets, syncs }} />
+
+  if (version === 'v1') {
+    return (
+      <div className="flex flex-row h-full w-full overflow-hidden">
+        <Toaster />
+        <SidebarNavigation />
+        <div className="flex flex-col h-full w-full overflow-hidden">
+          <Outlet context={{ datasets, syncs }} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else
+    return (
+      <div className="flex flex-row h-full w-full overflow-hidden">
+        <Toaster />
+        <HeaderNavigation />
+
+        <div className="flex flex-col h-full w-full overflow-hidden">
+          <Outlet context={{ datasets, syncs }} />
+        </div>
+      </div>
+    );
 }

@@ -57,7 +57,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
 
   return (
     <nav
-      className={`flex flex-col h-full shrink-0 w-[220px] text-white space-y-4 ${
+      className={`flex flex-col h-full shrink-0 w-[220px] text-white space-y-4 border-r border-base ${
         !newSidebar
           ? 'bg-gradient-to-b from-[#1B1636] to-[#34162F]'
           : 'bg-slate-12'
