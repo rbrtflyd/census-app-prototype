@@ -30,32 +30,33 @@ interface HeaderNavigationProps {
 
 const navLinks = [
   {
-    group: 'Home',
     links: [
-      { to: '/getting-started', label: 'Getting Started' },
-      { to: '/home', label: 'Home', icon: faHome },
+      { to: '/v2/getting-started', label: 'Getting Started' },
+      { to: '/v2/home', label: 'Home', icon: faHome },
     ],
   },
   {
-    group: 'Activate',
-    links: [{ to: '/syncs', label: 'Syncs', icon: CensusSyncs }],
+    links: [{ to: '/v2/syncs', label: 'Syncs', icon: CensusSyncs }],
   },
   {
-    group: 'Audience Hub',
+    parent: 'Audience Hub',
     links: [
-      { to: '/explorer', label: 'Explorer', icon: CensusSegments },
-      { to: '/segments', label: 'Segments', icon: CensusSegments },
+      { to: '/v2/explorer', label: 'Explorer', icon: CensusSegments },
+      { to: '/v2/segments', label: 'Segments', icon: CensusSegments },
     ],
   },
   {
-    group: 'Define',
-    links: [{ to: '/datasets', label: 'Datasets', icon: CensusModels }],
+    links: [{ to: '/v2/datasets', label: 'Datasets', icon: CensusModels }],
   },
   {
-    group: 'Connections',
+    parent: 'Connections',
     links: [
-      { to: '/sources', label: 'Sources', icon: CensusSources },
-      { to: '/destinations', label: 'Destinations', icon: CensusDestinations },
+      { to: '/v2/sources', label: 'Sources', icon: CensusSources },
+      {
+        to: '/v2/destinations',
+        label: 'Destinations',
+        icon: CensusDestinations,
+      },
     ],
   },
 ];
@@ -99,34 +100,51 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
         </div>
       </div>
       <div className="flex flex-row px-3 py-2 space-x-6">
-        {navLinks.map((group) => (
-          <div
-            key={group.group}
-            className="flex flex-row">
-            {group.links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                    isActive ? ' text-light' : 'text-dark'
-                  }`
-                }>
-                <div className="w-4 mr-2">
-                  {link.label === 'Getting Started' && (
-                    <CircularProgressIndicator
-                      size={16}
-                      strokeWidth={2.2}
-                      progress={15}
-                      color="#2EBE82"
-                    />
-                  )}
-                </div>
-                <Text>{link.label}</Text>
-              </NavLink>
-            ))}
-          </div>
-        ))}
+        <div className="flex flex-row">
+          {navLinks.map((group) =>
+            group.links.map((link) => (
+              <>
+                {group.parent && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Text>{group.parent}</Text>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+                {!group.parent && (
+                  <NavLink
+                    key={link.to}
+                    to={link.to}
+                    className={({ isActive }) =>
+                      ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                        isActive ? ' text-light' : 'text-dark'
+                      }`
+                    }>
+                    <div className="w-4 mr-2">
+                      {link.label === 'Getting Started' && (
+                        <CircularProgressIndicator
+                          size={16}
+                          strokeWidth={2.2}
+                          progress={15}
+                          color="#2EBE82"
+                        />
+                      )}
+                    </div>
+                    <Text>{link.label}</Text>
+                  </NavLink>
+                )}
+              </>
+            ))
+          )}
+        </div>
       </div>
     </nav>
   );

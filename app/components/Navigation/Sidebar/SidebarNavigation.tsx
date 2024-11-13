@@ -24,30 +24,34 @@ const navLinks = [
   {
     group: 'Home',
     links: [
-      { to: '/getting-started', label: 'Getting Started' },
-      { to: '/home', label: 'Home', icon: faHome },
+      { to: '/v1/getting-started', label: 'Getting Started' },
+      { to: '/v1/home', label: 'Home', icon: faHome },
     ],
   },
   {
     group: 'Activate',
-    links: [{ to: '/syncs', label: 'Syncs', icon: CensusSyncs }],
+    links: [{ to: '/v1/syncs', label: 'Syncs', icon: CensusSyncs }],
   },
   {
     group: 'Audience Hub',
     links: [
-      { to: '/explorer', label: 'Explorer', icon: CensusSegments },
-      { to: '/segments', label: 'Segments', icon: CensusSegments },
+      { to: '/v1/explorer', label: 'Explorer', icon: CensusSegments },
+      { to: '/v1/segments', label: 'Segments', icon: CensusSegments },
     ],
   },
   {
     group: 'Define',
-    links: [{ to: '/datasets', label: 'Datasets', icon: CensusModels }],
+    links: [{ to: '/v1/datasets', label: 'Datasets', icon: CensusModels }],
   },
   {
     group: 'Connections',
     links: [
-      { to: '/sources', label: 'Sources', icon: CensusSources },
-      { to: '/destinations', label: 'Destinations', icon: CensusDestinations },
+      { to: '/v1/sources', label: 'Sources', icon: CensusSources },
+      {
+        to: '/v1/destinations',
+        label: 'Destinations',
+        icon: CensusDestinations,
+      },
     ],
   },
 ];
