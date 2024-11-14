@@ -5,7 +5,8 @@ import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/pro-solid-svg-icons';
-import { faAnglesUpDown, faSearch } from '@fortawesome/pro-regular-svg-icons';
+import { faSearch } from '@fortawesome/pro-regular-svg-icons';
+import { faAnglesUpDown } from '@fortawesome/pro-solid-svg-icons';
 import {
   CensusSyncs,
   CensusDestinations,
@@ -51,14 +52,8 @@ const navLinks = [
   },
   {
     id: 5,
-    parent: 'Connections',
     links: [
-      { to: '/v2/sources', label: 'Sources', icon: CensusSources },
-      {
-        to: '/v2/destinations',
-        label: 'Destinations',
-        icon: CensusDestinations,
-      },
+      { to: '/v2/connections', label: 'Connections', icon: CensusSources },
     ],
   },
 ];
@@ -86,7 +81,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
               <button className="flex flex-row items-center space-x-1 px-2 py-1 rounded-md hover:bg-slate-100 transition-all duration-75 h-full bg-white/10 leading-none group">
                 <FontAwesomeIcon
                   icon={faAnglesUpDown}
-                  className="text-xs group-hover:text-light transition-all duration-75"
+                  className="text-[10px] group-hover:text-light transition-all duration-75"
                 />
               </button>
             </DropdownMenuTrigger>
@@ -132,7 +127,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
                     to={link.to}
                     className={({ isActive }) =>
                       `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                        isActive ? 'text-light' : 'text-dark'
+                        isActive ? 'text-dark' : 'text-lighter'
                       }`
                     }>
                     <Text>{link.label}</Text>

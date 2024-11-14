@@ -3,8 +3,14 @@ import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect } from 'react';
 import { checkMigrations } from '../../db/utils/migrationUtils';
-import { getDatasets, getSyncs, initializeDatabase } from '../../db/db';
-import { DatasetType, SyncType } from '../../db/types';
+import {
+  getDatasets,
+  getSyncs,
+  initializeDatabase,
+  getConnections,
+  getWorkspaceConnections,
+} from '../../db/db';
+import { DatasetType, SyncType, ConnectionType } from '../../db/types';
 import SidebarNavigation from '../../components/Navigation/Sidebar/SidebarNavigation';
 import db from '../../db/db';
 import { Toaster } from '../../components/ui/sonner';
@@ -24,17 +30,23 @@ export const clientLoader = async () => {
   console.log('Database initialized');
   const datasets = await getDatasets();
   const syncs = await getSyncs();
+
   console.log('Syncs retrieved:', syncs.length);
-  return { datasets, syncs };
+  const connections = await getConnections();
+  const workspaceConnections = await getWorkspaceConnections();
+  return { datasets, syncs, connections, workspaceConnections };
 };
 
 interface LoaderData {
   datasets: DatasetType[];
   syncs: SyncType[];
+  connections: ConnectionType[];
+  workspaceConnections: ConnectionType[];
 }
 
 export default function Index() {
-  const { datasets, syncs } = useLoaderData<LoaderData>();
+  const { datasets, syncs, connections, workspaceConnections } =
+    useLoaderData<LoaderData>();
   const { version } = useParams();
 
   useEffect(() => {
@@ -49,7 +61,7 @@ export default function Index() {
     return () => clearInterval(interval);
   }, []);
 
-  const data = { datasets, syncs, version };
+  const data = { datasets, syncs, version, connections, workspaceConnections };
 
   if (version === 'v1') {
     return (
