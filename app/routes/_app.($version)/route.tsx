@@ -49,24 +49,26 @@ export default function Index() {
     return () => clearInterval(interval);
   }, []);
 
+  const data = { datasets, syncs, version };
+
   if (version === 'v1') {
     return (
       <div className="flex flex-row h-full w-full overflow-hidden">
         <Toaster />
         <SidebarNavigation />
         <div className="flex flex-col h-full w-full overflow-hidden">
-          <Outlet context={{ datasets, syncs }} />
+          <Outlet context={data} />
         </div>
       </div>
     );
   } else
     return (
-      <div className="flex flex-row h-full w-full overflow-hidden">
+      <div className="flex flex-col h-full w-full overflow-hidden">
         <Toaster />
         <HeaderNavigation />
 
         <div className="flex flex-col h-full w-full overflow-hidden">
-          <Outlet context={{ datasets, syncs }} />
+          <Outlet context={data} />
         </div>
       </div>
     );

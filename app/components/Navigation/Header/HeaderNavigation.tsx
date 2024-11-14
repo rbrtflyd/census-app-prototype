@@ -30,12 +30,15 @@ interface HeaderNavigationProps {
 
 const navLinks = [
   {
+    id: 1,
     links: [{ to: '/v2/home', label: 'Home', icon: faHome }],
   },
   {
+    id: 2,
     links: [{ to: '/v2/syncs', label: 'Syncs', icon: CensusSyncs }],
   },
   {
+    id: 3,
     parent: 'Audience Hub',
     links: [
       { to: '/v2/explorer', label: 'Explorer', icon: CensusSegments },
@@ -43,9 +46,11 @@ const navLinks = [
     ],
   },
   {
+    id: 4,
     links: [{ to: '/v2/datasets', label: 'Datasets', icon: CensusModels }],
   },
   {
+    id: 5,
     parent: 'Connections',
     links: [
       { to: '/v2/sources', label: 'Sources', icon: CensusSources },
@@ -95,50 +100,47 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = (props) => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="flex flex-row px-3  space-x-6">
-        <div className="flex flex-row">
-          {navLinks.map((group) =>
-            group.links.map((link) => (
-              <React.Fragment key={link.to}>
-                {group.parent ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
+      <div className="flex flex-row px-3 space-x-6">
+        <div className="flex flex-row *:leading-none items-center">
+          {navLinks.map((group) => (
+            <React.Fragment key={group.id}>
+              {group.parent ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex flex-row items-center space-x-1 px-2 py-1 rounded-md hover:bg-slate-100 transition-all duration-75 h-full my-3 leading-none group">
                       <Text>{group.parent}</Text>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {group.links.map((link) => (
+                      <DropdownMenuItem
+                        key={link.to}
+                        asChild>
+                        <Link
+                          to={link.to}
+                          className="flex items-center gap-2">
+                          <Text>{link.label}</Text>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                group.links.map((link) => (
                   <NavLink
                     key={link.to}
                     to={link.to}
                     className={({ isActive }) =>
-                      ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                        isActive ? ' text-light' : 'text-dark'
+                      `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                        isActive ? 'text-light' : 'text-dark'
                       }`
                     }>
-                    <div className="w-4 mr-2">
-                      {link.label === 'Getting Started' && (
-                        <CircularProgressIndicator
-                          size={16}
-                          strokeWidth={2.2}
-                          progress={15}
-                          color="#2EBE82"
-                        />
-                      )}
-                    </div>
                     <Text>{link.label}</Text>
                   </NavLink>
-                )}
-              </React.Fragment>
-            ))
-          )}
+                ))
+              )}
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </nav>

@@ -21,7 +21,7 @@ export function MigrationNotification() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 p-4 bg-white border border-base rounded-md shadow-lg max-w-sm">
+    <div className="fixed bottom-4 right-4 p-4 bg-white border border-base rounded-md shadow-lg max-w-sm z-[9999]">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />

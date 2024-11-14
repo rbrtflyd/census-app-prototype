@@ -3,22 +3,22 @@ import { useNavigate } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
-import { ConnectionServiceType } from '~/db/types';
+import { ConnectionServiceType } from '../../db/types';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '~/components/ui/tabs-vertical';
-import { Button } from '~/components/ui/button';
-import { Badge } from '~/components/ui/badge';
-import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
+} from '../../components/ui/tabs-vertical';
+import { Button } from '../../components/ui/button';
+import { Badge } from '../../components/ui/badge';
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 
 import {
   initializeDatabase,
   getConnections,
   getWorkspaceConnections,
-} from '~/db/db';
+} from '../../db/db';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
