@@ -35,7 +35,7 @@ export default function Connections() {
                 key={wc.id}
                 className="w-full flex flex-row items-center justify-between px-6 py-4 border border-base rounded-md hover:bg-slate-50 *:leading-none"
                 onClick={() => {
-                  navigate(`/v2/connections/${wc.id}`);
+                  navigate(`/${version}/connections/${wc.id}`);
                 }}>
                 <div className="flex flex-row items-center gap-4">
                   {connectionDetails?.logo && (

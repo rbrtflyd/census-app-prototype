@@ -162,7 +162,8 @@ export default function DatasetIndex() {
 
   return (
     <div className="flex flex-col w-full h-full overflow-y-auto">
-      <div className="flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto pb-12">
+      <div
+        className={`flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto py-12`}>
         {version === 'v1' && (
           <div className="flex flex-row gap-4 py-12 items-center justify-between w-full">
             <Text className="text-2xl font-medium">{thisDataset.name}</Text>
