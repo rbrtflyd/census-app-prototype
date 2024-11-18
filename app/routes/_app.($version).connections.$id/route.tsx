@@ -3,6 +3,7 @@ import { useOutletContext, useParams } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
+import { Badge } from '~/components/ui/badge';
 
 export default function ConnectionDetail() {
   const { id } = useParams();
@@ -40,7 +41,7 @@ export default function ConnectionDetail() {
             alt={connectionDetails.connectionServiceName}
             className="w-8 h-8"
           />
-          <Text className="font-medium">{workspaceConnection.name}</Text>
+          <Text className="font-medium">{connectionDetails.name}</Text>
         </div>
         <div>
           <Button variant="secondary">Test Connection</Button>

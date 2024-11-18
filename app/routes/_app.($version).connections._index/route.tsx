@@ -3,6 +3,7 @@ import { Text } from '@radix-ui/themes';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { ConnectionType, ConnectionServiceType } from '../../db/types';
 import { useOutletContext, useNavigate } from '@remix-run/react';
+import { Badge } from '~/components/ui/badge';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -50,6 +51,7 @@ export default function Connections() {
                       {wc.name}
                     </Text>
                   </div>
+                  <Badge>{wc.lastTestStatus}</Badge>
                 </div>
                 <div className="flex flex-row items-center gap-4">
                   <Text className="text-sm text-slate-500">

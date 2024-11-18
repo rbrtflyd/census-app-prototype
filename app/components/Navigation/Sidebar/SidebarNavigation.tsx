@@ -46,6 +46,11 @@ const navLinks = [
   {
     group: 'Connections',
     links: [
+      {
+        to: '/v1/connections',
+        label: 'Connections',
+        icon: CensusNotifications,
+      },
       { to: '/v1/sources', label: 'Sources', icon: CensusSources },
       {
         to: '/v1/destinations',
@@ -101,42 +106,46 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
               </div>
             )}
             <div className="flex flex-col space-y-2">
-              {group.links.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className={({ isActive }) =>
-                    ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                      isActive
-                        ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
-                        : 'text-white/75 hover:text-white/90 hover:bg-white/10'
-                    }`
-                  }>
-                  <div className="w-4 mr-2">
-                    {link.label === 'Getting Started' && (
-                      <CircularProgressIndicator
-                        size={16}
-                        strokeWidth={2.2}
-                        progress={15}
-                        color="#2EBE82"
-                      />
-                    )}
-                    {typeof link.icon === 'string' ? (
-                      <img
-                        src={link.icon}
-                        alt={link.label}
-                        className="w-4 h-4"
-                      />
-                    ) : link.icon ? (
-                      <FontAwesomeIcon
-                        icon={link.icon}
-                        className="mr-2 text-sm"
-                      />
-                    ) : null}
-                  </div>
-                  <Text>{link.label}</Text>
-                </NavLink>
-              ))}
+              {group.links.map(
+                (link) =>
+                  link.to !== '/v1/sources' &&
+                  link.to !== '/v1/destinations' && (
+                    <NavLink
+                      key={link.to}
+                      to={link.to}
+                      className={({ isActive }) =>
+                        ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                          isActive
+                            ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
+                            : 'text-white/75 hover:text-white/90 hover:bg-white/10'
+                        }`
+                      }>
+                      <div className="w-4 mr-2">
+                        {link.label === 'Getting Started' && (
+                          <CircularProgressIndicator
+                            size={16}
+                            strokeWidth={2.2}
+                            progress={15}
+                            color="#2EBE82"
+                          />
+                        )}
+                        {typeof link.icon === 'string' ? (
+                          <img
+                            src={link.icon}
+                            alt={link.label}
+                            className="w-4 h-4"
+                          />
+                        ) : link.icon ? (
+                          <FontAwesomeIcon
+                            icon={link.icon}
+                            className="mr-2 text-sm"
+                          />
+                        ) : null}
+                      </div>
+                      <Text>{link.label}</Text>
+                    </NavLink>
+                  )
+              )}
             </div>
           </div>
         ))}
