@@ -4,6 +4,7 @@ import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { ConnectionType, ConnectionServiceType } from '../../db/types';
 import { useOutletContext, useNavigate } from '@remix-run/react';
 import { Badge } from '~/components/ui/badge';
+import { useBreadcrumb } from '~/hooks/useBreadcrumb';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -51,7 +52,10 @@ export default function Connections() {
                       {wc.name}
                     </Text>
                   </div>
-                  <Badge>{wc.lastTestStatus}</Badge>
+                  <Badge>
+                    <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
+                    <Text className="capitalize">{wc.lastTestStatus}</Text>
+                  </Badge>
                 </div>
                 <div className="flex flex-row items-center gap-4">
                   <Text className="text-sm text-slate-500">

@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '../../components/ui/table';
-import { useNavigate } from '@remix-run/react';
+import { useNavigate, useParams } from '@remix-run/react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,6 +38,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { version } = useParams();
   const navigate = useNavigate();
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -49,7 +50,7 @@ export function DataTable<TData, TValue>({
     }
 
     // Assuming each row has an id field - adjust according to your data structure
-    navigate(`/datasets/${row.original.id}/overview`);
+    navigate(`/${version}/datasets/${row.original.id}/overview`);
   };
 
   const table = useReactTable({

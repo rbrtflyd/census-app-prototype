@@ -1,10 +1,11 @@
 import { Text } from '@radix-ui/themes';
-import { useOutletContext, useParams } from '@remix-run/react';
+import React, { useEffect } from 'react';
+import { useOutletContext, useParams, Link } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
-
+import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 export default function ConnectionDetail() {
   const { id } = useParams();
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -21,6 +22,19 @@ export default function ConnectionDetail() {
     (c) => c.id === workspaceConnection?.connectionId
   );
 
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
+
+  useEffect(() => {
+    // Clear any existing breadcrumbs
+    clearBreadcrumbs();
+
+    // Add the connections list breadcrumb
+    addBreadcrumb({
+      label: 'Connections',
+      href: `/${version}/connections`,
+    });
+  }, [version, workspaceConnection, addBreadcrumb, clearBreadcrumbs]);
+
   if (!workspaceConnection || !connectionDetails) {
     return (
       <div className="flex flex-col h-full w-full overflow-hidden">
@@ -34,19 +48,11 @@ export default function ConnectionDetail() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <div className="flex flex-row items-center border-b border-base *:flex *:flex-row *:items-center *:gap-4 px-6 py-4 justify-between">
-        <div>
-          <img
-            src={connectionDetails.logo}
-            alt={connectionDetails.connectionServiceName}
-            className="w-8 h-8"
-          />
-          <Text className="font-medium">{connectionDetails.name}</Text>
-        </div>
-        <div>
-          <Button variant="secondary">Test Connection</Button>
-        </div>
-      </div>
+      <PageHeader
+        title={workspaceConnection.name}
+        button={{ label: 'Test Connection' }}
+      />
+
       <main className="flex-grow p-4 overflow-y-auto"></main>
     </div>
   );
