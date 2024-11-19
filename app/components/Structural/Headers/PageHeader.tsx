@@ -56,7 +56,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, button, children }) => {
           </Breadcrumb>
         </div>
       </div>
-      {!button && <div className="flex items-center gap-2">{children}</div>}
+      {!button && <div className="flex items-center gap-4">{children}</div>}
       {button && (
         <div className="flex space-x-2">
           <Button
