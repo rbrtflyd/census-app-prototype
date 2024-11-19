@@ -96,7 +96,7 @@ export default function DatasetIndex() {
               <Badge className="group-hover:bg-deep">
                 <FontAwesomeIcon
                   icon={faCoin}
-                  className="text-xxs mr-1 text-emerald-600"
+                  className="text-xs mr-1 text-emerald-600"
                 />
                 <Text>90/100 Census Credits</Text>
               </Badge>
