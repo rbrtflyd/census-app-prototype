@@ -122,20 +122,6 @@ export default function Index() {
             </button>
           ))}
         </div>
-        {(import.meta.env.VITE_VERCEL_ENV === 'preview' ||
-          process.env.NODE_ENV === 'development') && (
-          <div className="p-14 flex flex-col gap-4 items-start bg-white rounded">
-            <Text className="text-lg font-medium">Internal Workflows:</Text>
-            {internalWorkflows.map((workflow) => (
-              <button
-                className="flex flex-col gap-2 border border-base rounded-md p-4 *:leading-none"
-                onClick={workflow.onClick}>
-                <Text className="font-medium">{workflow.name}</Text>
-                <Text>{workflow.description}</Text>
-              </button>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
