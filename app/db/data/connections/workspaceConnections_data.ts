@@ -5,7 +5,8 @@ const workspaceConnectionsData = [
     connectionId: 1, // Salesforce
     workspaceId: 1,
     name: 'Sales Team CRM',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-12-01'),
   },
@@ -14,7 +15,8 @@ const workspaceConnectionsData = [
     connectionId: 2, // HubSpot
     workspaceId: 1,
     name: 'Marketing Hub',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-02-20'),
     updatedAt: new Date('2023-11-10'),
   },
@@ -23,7 +25,8 @@ const workspaceConnectionsData = [
     connectionId: 3, // Zendesk
     workspaceId: 2,
     name: 'Customer Support Portal',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-03-05'),
     updatedAt: new Date('2023-10-15'),
   },
@@ -32,7 +35,8 @@ const workspaceConnectionsData = [
     connectionId: 4, // Slack
     workspaceId: 1,
     name: 'Company-wide Slack',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-01-01'),
     updatedAt: new Date('2023-12-31'),
   },
@@ -41,7 +45,8 @@ const workspaceConnectionsData = [
     connectionId: 5, // Jira
     workspaceId: 3,
     name: 'Development Tracker',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-04-10'),
     updatedAt: new Date('2023-11-30'),
   },
@@ -50,7 +55,8 @@ const workspaceConnectionsData = [
     connectionId: 6, // Asana
     workspaceId: 2,
     name: 'Project Management',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-05-01'),
     updatedAt: new Date('2023-12-15'),
   },
@@ -59,6 +65,8 @@ const workspaceConnectionsData = [
     connectionId: 7, // Intercom
     workspaceId: 1,
     name: 'Customer Engagement Platform',
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-06-15'),
     updatedAt: new Date('2023-11-20'),
   },
@@ -67,6 +75,8 @@ const workspaceConnectionsData = [
     connectionId: 1, // Salesforce (second instance)
     workspaceId: 3,
     name: 'Partner Relationship Management',
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-07-01'),
     updatedAt: new Date('2023-12-10'),
   },
@@ -75,7 +85,8 @@ const workspaceConnectionsData = [
     connectionId: 2, // HubSpot (second instance)
     workspaceId: 2,
     name: 'Sales Enablement Hub',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-08-05'),
     updatedAt: new Date('2023-11-25'),
   },
@@ -86,7 +97,8 @@ const workspaceConnectionsData = [
     connectionId: 8, // Assuming 8 is Snowflake in connections_data
     workspaceId: 1,
     name: 'Central Data Warehouse',
-
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-01-10'),
     updatedAt: new Date('2023-12-20'),
   },
@@ -95,6 +107,8 @@ const workspaceConnectionsData = [
     connectionId: 9, // Assuming 9 is BigQuery in connections_data
     workspaceId: 2,
     name: 'Marketing Analytics Warehouse',
+    lastTestedAt: new Date('2023-12-01'),
+    lastTestStatus: 'connected',
     createdAt: new Date('2023-03-15'),
     updatedAt: new Date('2023-11-05'),
   },

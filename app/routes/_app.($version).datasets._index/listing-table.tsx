@@ -1,4 +1,4 @@
-import { Button } from '~/components/ui/button';
+import { Button } from '../../components/ui/button';
 import React from 'react';
 import {
   ColumnDef,
@@ -17,7 +17,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '~/components/ui/table';
+} from '../../components/ui/table';
+import { useNavigate, useParams } from '@remix-run/react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,8 +38,20 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { version } = useParams();
+  const navigate = useNavigate();
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  const handleRowClick = (event: React.MouseEvent, row: any) => {
+    // Prevent navigation when clicking checkbox
+    if ((event.target as HTMLElement).closest('[role="checkbox"]')) {
+      return;
+    }
+
+    // Assuming each row has an id field - adjust according to your data structure
+    navigate(`/${version}/datasets/${row.original.id}/overview`);
+  };
 
   const table = useReactTable({
     data,
@@ -55,7 +68,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md">
+    <div className="flex flex-col h-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -82,7 +95,8 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
+                data-state={row.getIsSelected() && 'selected'}
+                onClick={(e) => handleRowClick(e, row)}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -101,15 +115,17 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 pt-2 pb-4 px-8 bg-subtle border-t border-base justify-self-end">
         <Button
-          variant="ghost"
+          variant="secondary"
+          size="small"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}>
           Previous
         </Button>
         <Button
-          variant="ghost"
+          variant="secondary"
+          size="small"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}>
           Next

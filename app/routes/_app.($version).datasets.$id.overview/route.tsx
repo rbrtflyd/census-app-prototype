@@ -1,14 +1,14 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useOutletContext } from '@remix-run/react';
 import { DatasetType } from '../../db/types';
 import { Text } from '@radix-ui/themes';
-import { Button } from '~/components/ui/button';
+import { Button } from '../../components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faTimes } from '@fortawesome/pro-regular-svg-icons';
-import { Separator } from '~/components/ui/separator';
+import { Separator } from '../../components/ui/separator';
 import { ThumbsUpIcon } from 'lucide-react';
-import { DotPattern } from '~/components/ui/dot-pattern';
-import { cn } from '~/lib/utils';
+import { DotPattern } from '../../components/ui/dot-pattern';
+import { cn } from '../../lib/utils';
 const CreateRelationship = ({ button }: { button: string }) => {
   return (
     <div className="flex flex-col gap-4 items-start w-full h-[150px]">
@@ -114,6 +114,7 @@ const issues = [
 
 export default function DatasetIndex() {
   const thisDataset = useOutletContext<DatasetType>();
+  const { version } = useOutletContext() as { version: string };
   const [selectedUseCase, setSelectedUseCase] = useState<string | null>(
     'Add relationship'
   );
@@ -129,15 +130,17 @@ export default function DatasetIndex() {
     <div className="flex flex-col w-full h-full">
       <div className="flex  px-6 py-8 bg-subtle">
         <div className="flex flex-col gap-6 items-start w-full max-w-[1400px] mx-auto">
-          <div className="flex flex-row gap-4 items-center justify-between w-full">
-            <Text className="text-2xl font-medium">{thisDataset.name}</Text>
-            <div className="flex flex-row space-x-2">
-              <Button variant="secondary">Sync</Button>
-              <Button variant="secondary">Edit</Button>
-              <Separator orientation="vertical" />
-              <Button variant="secondary">Delete</Button>
+          {version === 'v1' && (
+            <div className="flex flex-row gap-4 items-center justify-between w-full">
+              <Text className="text-2xl font-medium">{thisDataset.name}</Text>
+              <div className="flex flex-row space-x-2">
+                <Button variant="secondary">Sync</Button>
+                <Button variant="secondary">Edit</Button>
+                <Separator orientation="vertical" />
+                <Button variant="secondary">Delete</Button>
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex flex-row gap-6 justify-between items-center w-full">
             {isVisible && (
               <div className="flex flex-col gap-5 items-start grow h-full shrink-0 w-2/3 ">

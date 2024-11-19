@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useOutletContext } from '@remix-run/react';
 import { DatasetType } from '../../db/types';
 import { Text } from '@radix-ui/themes';
@@ -121,6 +121,7 @@ const issues = [
 
 export default function DatasetIndex() {
   const thisDataset = useOutletContext<DatasetType>();
+  const { version } = useOutletContext() as { version: string };
   const [selectedUseCase, setSelectedUseCase] = useState<string | null>(
     'Add relationship'
   );
@@ -161,17 +162,19 @@ export default function DatasetIndex() {
 
   return (
     <div className="flex flex-col w-full h-full overflow-y-auto">
-      <div className="flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto pb-12">
-        <div className="flex flex-row gap-4 py-12 items-center justify-between w-full">
-          <Text className="text-2xl font-medium">{thisDataset.name}</Text>
-          <div className="flex flex-row space-x-2">
-            <Button variant="secondary">Sync</Button>
-            <Button variant="secondary">Edit</Button>
-            <Separator orientation="vertical" />
-            <Button variant="secondary">Delete</Button>
+      <div
+        className={`flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto py-12`}>
+        {version === 'v1' && (
+          <div className="flex flex-row gap-4 py-12 items-center justify-between w-full">
+            <Text className="text-2xl font-medium">{thisDataset.name}</Text>
+            <div className="flex flex-row space-x-2">
+              <Button variant="secondary">Sync</Button>
+              <Button variant="secondary">Edit</Button>
+              <Separator orientation="vertical" />
+              <Button variant="secondary">Delete</Button>
+            </div>
           </div>
-        </div>
-
+        )}
         {isVisible && (
           <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full bg-sublte shadow overflow-hidden relative">
             <div className="items-center justify-between z-10">

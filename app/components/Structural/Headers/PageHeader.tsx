@@ -9,17 +9,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 
 import {
   useBreadcrumb,
   BreadcrumbItem as BreadcrumbItemType,
 } from '~/hooks/useBreadcrumb';
-
+import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
 interface ButtonProps {
   label: string;
   onClick?: () => void;
+  icon?: IconDefinition;
 }
 
 interface PageHeaderProps {
@@ -59,6 +60,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, button }) => {
           <Button
             size="small"
             onClick={button.onClick}>
+            {button.icon && (
+              <FontAwesomeIcon
+                icon={button.icon}
+                className="mr-1.5 text-xs"
+              />
+            )}
             {button.label}
           </Button>
         </div>

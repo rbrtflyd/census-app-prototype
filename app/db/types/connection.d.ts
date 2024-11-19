@@ -5,6 +5,9 @@ declare module '../db' {
     createdAt: Date;
     updatedAt: Date;
     createdBy: string;
+    name: string;
+    lastTestedAt: Date;
+    lastTestStatus: 'connected' | 'failed';
   }
 }
 
