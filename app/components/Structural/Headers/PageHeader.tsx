@@ -27,9 +27,10 @@ interface PageHeaderProps {
   title: string;
   initialBreadcrumbs?: BreadcrumbItemType[];
   button?: ButtonProps;
+  children?: React.ReactNode;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, button }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, button, children }) => {
   const { items: breadcrumbs } = useBreadcrumbContext();
   return (
     <header className="flex items-center justify-between py-4 px-6 bg-white border-b border-base h-16">
@@ -55,6 +56,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, button }) => {
           </Breadcrumb>
         </div>
       </div>
+      {!button && <div className="flex items-center gap-2">{children}</div>}
       {button && (
         <div className="flex space-x-2">
           <Button

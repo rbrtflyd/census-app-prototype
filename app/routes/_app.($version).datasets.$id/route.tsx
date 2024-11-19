@@ -8,7 +8,25 @@ import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { useBreadcrumb } from '../../hooks/useBreadcrumb';
-import { faPlus, faSparkle } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faCaretDown,
+  faPlus,
+  faSparkle,
+} from '@fortawesome/pro-solid-svg-icons';
+import { Text } from '@radix-ui/themes';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import { Button } from '~/components/ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const clientLoader = async ({
   params,
@@ -58,16 +76,45 @@ export default function DatasetIndex() {
   return (
     <div className="flex flex-col w-full h-full overflow-hidden">
       <div className="flex flex-col">
-        <PageHeader
-          title={thisDataset.name}
-          button={{
-            label: 'Enrich & Enhance',
-            icon: faSparkle,
-            onClick: () => {
-              console.log('New Column');
-            },
-          }}
-        />
+        <PageHeader title={thisDataset.name}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="small">
+                <Text>Enrich & Enhance</Text>{' '}
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  className="text-xxs ml-2"
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-48"
+              align="end">
+              <DropdownMenuItem>Lookup</DropdownMenuItem>
+              <DropdownMenuItem>Rollup</DropdownMenuItem>
+              <DropdownMenuItem>Equation</DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>GPT</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent className="w-48">
+                  <DropdownMenuLabel>AI Providers</DropdownMenuLabel>
+                  <DropdownMenuItem>OpenAI</DropdownMenuItem>
+                  <DropdownMenuItem>Claude</DropdownMenuItem>
+                  <DropdownMenuItem>Gemini</DropdownMenuItem>
+                  <DropdownMenuItem>Mistral</DropdownMenuItem>
+                  <DropdownMenuItem>Groq</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Enrichment</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent className="w-48">
+                  <DropdownMenuLabel>Enrichment Providers</DropdownMenuLabel>
+                  <DropdownMenuItem>Clearbit</DropdownMenuItem>
+                  <DropdownMenuItem>Apollo</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </PageHeader>
         <Tabs
           value={activeTab}
           className="w-full">
