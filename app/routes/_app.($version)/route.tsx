@@ -63,11 +63,12 @@ export default function Index() {
 
   const data = { datasets, syncs, version, connections, workspaceConnections };
 
-  if (version === 'v1') {
+  if (version === 'v2') {
     return (
-      <div className="flex flex-row h-full w-full overflow-hidden">
+      <div className="flex flex-col h-full w-full overflow-hidden">
         <Toaster />
-        <SidebarNavigation />
+        <HeaderNavigation />
+
         <div className="flex flex-col h-full w-full overflow-hidden">
           <Outlet context={data} />
         </div>
@@ -75,10 +76,9 @@ export default function Index() {
     );
   } else
     return (
-      <div className="flex flex-col h-full w-full overflow-hidden">
+      <div className="flex flex-row h-full w-full overflow-hidden">
         <Toaster />
-        <HeaderNavigation />
-
+        <SidebarNavigation />
         <div className="flex flex-col h-full w-full overflow-hidden">
           <Outlet context={data} />
         </div>

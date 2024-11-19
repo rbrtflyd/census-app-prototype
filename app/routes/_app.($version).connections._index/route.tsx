@@ -5,6 +5,8 @@ import { ConnectionType, ConnectionServiceType } from '../../db/types';
 import { useOutletContext, useNavigate } from '@remix-run/react';
 import { Badge } from '~/components/ui/badge';
 import { useBreadcrumb } from '~/hooks/useBreadcrumb';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -26,7 +28,10 @@ export default function Connections() {
     <div className="flex flex-col h-full w-full overflow-hidden">
       <PageHeader
         title="Connections"
-        button={{ label: 'Add Connection' }}
+        button={{
+          label: 'Add Connection',
+          icon: faPlus,
+        }}
       />
       <main className="flex-grow p-4 overflow-y-auto">
         <div className="flex flex-col gap-2 w-full">
@@ -35,7 +40,7 @@ export default function Connections() {
             return (
               <button
                 key={wc.id}
-                className="w-full flex flex-row items-center justify-between px-6 py-4 border border-base rounded-md hover:bg-slate-50 *:leading-none"
+                className="w-full flex flex-row items-center justify-between px-6 py-4 border border-base rounded-md hover:bg-slate-25 transition-colors duration-75 *:leading-none"
                 onClick={() => {
                   navigate(`/${version}/connections/${wc.id}`);
                 }}>
