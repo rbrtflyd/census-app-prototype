@@ -117,7 +117,7 @@ export default function DatasetIndex() {
                   </div>
                   <Text className="font-medium">Census Credits Left</Text>
                 </div>
-                <div className="flex flex-col gap-1 text-xs">
+                <div className="flex flex-col gap-1 text-sm text-light">
                   <Text className="leading-tight">
                     Census Credits are used for GPT columns. After using your
                     credits, you will need to provide your own API key for
