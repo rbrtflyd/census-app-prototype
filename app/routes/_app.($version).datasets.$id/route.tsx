@@ -8,6 +8,7 @@ import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { useBreadcrumb } from '../../hooks/useBreadcrumb';
+import { faPlus, faSparkle } from '@fortawesome/pro-solid-svg-icons';
 
 export const clientLoader = async ({
   params,
@@ -57,7 +58,16 @@ export default function DatasetIndex() {
   return (
     <div className="flex flex-col w-full h-full overflow-hidden">
       <div className="flex flex-col">
-        <PageHeader title={thisDataset.name} />
+        <PageHeader
+          title={thisDataset.name}
+          button={{
+            label: 'Enrich & Enhance',
+            icon: faSparkle,
+            onClick: () => {
+              console.log('New Column');
+            },
+          }}
+        />
         <Tabs
           value={activeTab}
           className="w-full">
