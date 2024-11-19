@@ -36,9 +36,9 @@ export class PrototypeDatabase extends Dexie {
       workspaceConnections: 'id, connectionId',
     });
 
-    // Apply all migrations
+    // Apply migrations sequentially
     migrations.forEach((migration) => {
-      this.version(migration.version).stores({}).upgrade(migration.upgrade);
+      this.version(migration.version).stores(migration.upgrade(this));
     });
 
     // Define table properties

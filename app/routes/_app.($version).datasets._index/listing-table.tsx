@@ -1,4 +1,4 @@
-import { Button } from '~/components/ui/button';
+import { Button } from '../../components/ui/button';
 import React from 'react';
 import {
   ColumnDef,
@@ -17,8 +17,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '~/components/ui/table';
-import { useNavigate } from '@remix-run/react';
+} from '../../components/ui/table';
+import { useNavigate, useParams } from '@remix-run/react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,6 +38,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { version } = useParams();
   const navigate = useNavigate();
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -49,7 +50,7 @@ export function DataTable<TData, TValue>({
     }
 
     // Assuming each row has an id field - adjust according to your data structure
-    navigate(`/datasets/${row.original.id}`);
+    navigate(`/${version}/datasets/${row.original.id}/overview`);
   };
 
   const table = useReactTable({
@@ -67,7 +68,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md">
+    <div className="flex flex-col h-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -114,15 +115,17 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 pt-2 pb-4 px-8 bg-subtle border-t border-base justify-self-end">
         <Button
-          variant="ghost"
+          variant="secondary"
+          size="small"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}>
           Previous
         </Button>
         <Button
-          variant="ghost"
+          variant="secondary"
+          size="small"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}>
           Next

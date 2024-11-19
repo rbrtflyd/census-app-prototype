@@ -25,8 +25,10 @@ export async function checkMigrations(db: PrototypeDatabase) {
         description: m.description,
       }))
     );
+    useMigrationStore.getState().setNeedsMigration(true);
+  } else {
+    useMigrationStore.getState().setNeedsMigration(false);
   }
-  useMigrationStore.getState().setNeedsMigration(true);
 
   return pendingMigrations.length > 0;
 }

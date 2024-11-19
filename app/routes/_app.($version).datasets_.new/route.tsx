@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import { Outlet } from '@remix-run/react';
 
-import { Button } from '~/components/ui/button';
+import { Button } from '../../components/ui/button';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import {
   NewDatasetProvider,
