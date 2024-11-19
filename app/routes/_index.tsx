@@ -122,7 +122,7 @@ export default function Index() {
             </button>
           ))}
         </div>
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === 'test' && (
           <div className="p-14 flex flex-col gap-4 items-start bg-white rounded">
             <Text className="text-lg font-medium">Internal Workflows:</Text>
             {internalWorkflows.map((workflow) => (
