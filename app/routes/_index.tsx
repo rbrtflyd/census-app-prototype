@@ -122,6 +122,7 @@ export default function Index() {
             </button>
           ))}
         </div>
+        {process.env.INTERNAL === 'staging' && <div>Some text</div>}
       </div>
     </div>
   );
