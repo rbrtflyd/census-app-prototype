@@ -79,6 +79,16 @@ export default function Index() {
     },
   ];
 
+  const internalWorkflows = [
+    {
+      name: 'Internal Workflow',
+      description: 'Internal workflow',
+      onClick: () => {
+        window.location.href = '/v2/getting-started';
+      },
+    },
+  ];
+
   return (
     <div className="flex flex-col h-full w-full overflow-hidden bg-subtle">
       <div className="p-14 flex flex-row items-center gap-8">
@@ -112,6 +122,7 @@ export default function Index() {
             </button>
           ))}
         </div>
+        <div></div>
       </div>
     </div>
   );
