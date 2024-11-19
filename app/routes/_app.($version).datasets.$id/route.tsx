@@ -14,12 +14,13 @@ import {
   faCoins,
   faDiagramNext,
   faFunction,
+  faKey,
   faListTree,
   faPlus,
   faSparkle,
   faSparkles,
 } from '@fortawesome/pro-solid-svg-icons';
-import { faSearch } from '@fortawesome/pro-regular-svg-icons';
+import { faArrowUpRight, faSearch } from '@fortawesome/pro-regular-svg-icons';
 import { Text } from '@radix-ui/themes';
 import {
   DropdownMenu,
@@ -96,12 +97,56 @@ export default function DatasetIndex() {
               <Badge className="group-hover:bg-deep">
                 <FontAwesomeIcon
                   icon={faCoin}
-                  className="text-xs mr-1 text-emerald-600"
+                  className="text-xs mr-1 text-emerald-500"
                 />
                 <Text>90/100 Census Credits</Text>
               </Badge>
             </PopoverTrigger>
-            <PopoverContent>Place content for the popover here.</PopoverContent>
+            <PopoverContent
+              className="w-[300px]"
+              align="end">
+              <div className="flex flex-col gap-3 text-sm ">
+                <div className="flex items-center gap-2 leading-none">
+                  <FontAwesomeIcon
+                    icon={faCoin}
+                    className="text-xs text-emerald-500"
+                  />
+                  <div className="flex flex-row">
+                    <Text className="text-emerald-500">90</Text>
+                    <Text>/100</Text>
+                  </div>
+                  <Text className="font-medium">Census Credits Left</Text>
+                </div>
+                <div className="flex flex-col gap-1 text-xs">
+                  <Text className="leading-tight">
+                    Census Credits are used for GPT columns. After using your
+                    credits, you will need to provide your own API key for
+                    OpenAI.
+                  </Text>
+                  <Link
+                    to="https://platform.openai.com/docs/overview"
+                    target="_blank"
+                    className="flex items-center gap-1 group hover:text-plum-500 transition-colors duration-75">
+                    <Text className="group-hover:underline transition-all duration-75">
+                      Setup an OpenAI API Key
+                    </Text>
+                    <FontAwesomeIcon
+                      icon={faArrowUpRight}
+                      className="text-xs icon-light group-hover:text-plum-500 transition-colors duration-75"
+                    />
+                  </Link>
+                </div>
+                <Button
+                  size="small"
+                  variant="secondary">
+                  <FontAwesomeIcon
+                    icon={faKey}
+                    className="icon-light text-xs mr-1"
+                  />
+                  <Text>Add Your API Key</Text>
+                </Button>
+              </div>
+            </PopoverContent>
           </Popover>
 
           <DropdownMenu>
@@ -150,7 +195,7 @@ export default function DatasetIndex() {
                   <Badge>
                     <FontAwesomeIcon
                       icon={faCoin}
-                      className="text-xs mr-1 text-emerald-600"
+                      className="text-xs mr-1 text-emerald-500"
                     />
                     <Text>8</Text>
                   </Badge>
