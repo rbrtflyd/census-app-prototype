@@ -77,6 +77,13 @@ export default function Index() {
         window.location.href = '/v2/getting-started';
       },
     },
+    {
+      name: 'Source and Destination Unification',
+      description: 'Unifying source and destination pages/workflows',
+      onClick: () => {
+        window.location.href = '/v1/connections';
+      },
+    },
   ];
 
   const internalWorkflows = [
@@ -111,18 +118,17 @@ export default function Index() {
             </button>
           ))}
         </div>
-        <div className="p-14 flex flex-col gap-4 items-start bg-white rounded">
+        <div className="p-14 flex flex-col gap-4 items-stretch bg-white rounded">
           <Text className="text-lg font-medium">Workflows:</Text>
           {workflows.map((workflow) => (
             <button
-              className="flex flex-col gap-2 border border-base rounded-md p-4 *:leading-none"
+              className="flex flex-col gap-2 border border-base rounded-md p-4 *:leading-none max-w-[300px] text-left"
               onClick={workflow.onClick}>
               <Text className="font-medium">{workflow.name}</Text>
-              <Text>{workflow.description}</Text>
+              <Text className="text-sm">{workflow.description}</Text>
             </button>
           ))}
         </div>
-        {process.env.INTERNAL === 'staging' && <div>Some text</div>}
       </div>
     </div>
   );
