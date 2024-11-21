@@ -21,7 +21,9 @@ interface ButtonProps {
   label: string;
   onClick?: () => void;
   icon?: IconDefinition;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'link' | 'table' | 'fancy';
 }
+import { Slot, Slottable } from '@radix-ui/react-slot';
 
 interface PageHeaderProps {
   title: string;
@@ -30,8 +32,28 @@ interface PageHeaderProps {
   children?: React.ReactNode;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, button, children }) => {
+const TitleSlot = ({ children }: { children: React.ReactNode }) => {
+  return <div className="flex items-center gap-2">{children}</div>;
+};
+
+const RightSlot = ({ children }: { children: React.ReactNode }) => {
+  return <div className="flex flex-row items-center gap-4">{children}</div>;
+};
+
+const PageHeader: React.FC<PageHeaderProps> & {
+  TitleSlot: typeof TitleSlot;
+  RightSlot: typeof RightSlot;
+} = ({ title, button = { variant: 'primary' }, children }) => {
   const { items: breadcrumbs } = useBreadcrumbContext();
+
+  const titleSlotChild = React.Children.toArray(children).find(
+    (child) => React.isValidElement(child) && child.type === TitleSlot
+  );
+
+  const rightSlotChild = React.Children.toArray(children).find(
+    (child) => React.isValidElement(child) && child.type === RightSlot
+  );
+
   return (
     <header className="flex items-center justify-between py-4 px-6 bg-white border-b border-base h-16">
       <div className="flex items-center">
@@ -50,30 +72,39 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, button, children }) => {
                   </React.Fragment>
                 ))}
               <BreadcrumbPage>
-                <Text>{title}</Text>
+                <div className="flex items-center gap-4">
+                  <Text>{title}</Text>
+                  {titleSlotChild}
+                </div>
               </BreadcrumbPage>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </div>
-      {!button && <div className="flex items-center gap-4">{children}</div>}
-      {button && (
-        <div className="flex space-x-2">
-          <Button
-            size="small"
-            onClick={button.onClick}>
-            {button.icon && (
-              <FontAwesomeIcon
-                icon={button.icon}
-                className="mr-1.5 text-xs"
-              />
-            )}
-            {button.label}
-          </Button>
-        </div>
-      )}
+      <div className="flex items-center gap-4">
+        {rightSlotChild}
+        {button.label && (
+          <div className="flex space-x-2 items-center">
+            <Button
+              size="small"
+              variant={button.variant}
+              onClick={button.onClick}>
+              {button.icon && (
+                <FontAwesomeIcon
+                  icon={button.icon}
+                  className="mr-1.5 text-xs"
+                />
+              )}
+              {button.label}
+            </Button>
+          </div>
+        )}
+      </div>
     </header>
   );
 };
+
+PageHeader.TitleSlot = TitleSlot;
+PageHeader.RightSlot = RightSlot;
 
 export default PageHeader;

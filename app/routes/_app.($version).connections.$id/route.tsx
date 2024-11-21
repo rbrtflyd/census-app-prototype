@@ -6,6 +6,8 @@ import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { format, compareAsc } from 'date-fns';
+
 export default function ConnectionDetail() {
   const { id } = useParams();
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -53,7 +55,14 @@ export default function ConnectionDetail() {
         button={{ label: 'Test Connection' }}
       />
 
-      <main className="flex-grow p-4 overflow-y-auto"></main>
+      <main className="flex-grow p-4 overflow-y-auto">
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col gap-2">
+            <Text>Connection Details</Text>
+          </div>
+          <Text>{format(workspaceConnection.lastTestedAt)}</Text>
+        </div>
+      </main>
     </div>
   );
 }
