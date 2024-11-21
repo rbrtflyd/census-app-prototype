@@ -6,7 +6,7 @@ import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
-import { format, compareAsc } from 'date-fns';
+import { format } from 'date-fns';
 
 export default function ConnectionDetail() {
   const { id } = useParams();
@@ -25,6 +25,21 @@ export default function ConnectionDetail() {
   );
 
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
+
+  const metaInfo = [
+    {
+      label: 'Last Tested',
+      value: format(workspaceConnection?.lastTestedAt, 'MMM d, yyyy'),
+    },
+    {
+      label: 'Created',
+      value: format(workspaceConnection?.createdAt, 'MMM d, yyyy'),
+    },
+    {
+      label: 'Last Updated',
+      value: format(workspaceConnection?.updatedAt, 'MMM d, yyyy'),
+    },
+  ];
 
   useEffect(() => {
     // Clear any existing breadcrumbs
@@ -55,12 +70,16 @@ export default function ConnectionDetail() {
         button={{ label: 'Test Connection' }}
       />
 
-      <main className="flex-grow p-4 overflow-y-auto">
-        <div className="flex flex-row gap-4">
-          <div className="flex flex-col gap-2">
-            <Text>Connection Details</Text>
-          </div>
-          <Text>{format(workspaceConnection.lastTestedAt)}</Text>
+      <main className="flex-grow px-6 overflow-y-auto">
+        <div className="flex flex-row gap-6 py-4">
+          {metaInfo.map((info) => (
+            <div className="flex flex-row gap-2">
+              <div className="flex flex-col gap-2">
+                <Text className="font-medium">{info.label}</Text>
+              </div>
+              <Text>{info.value}</Text>
+            </div>
+          ))}
         </div>
       </main>
     </div>
