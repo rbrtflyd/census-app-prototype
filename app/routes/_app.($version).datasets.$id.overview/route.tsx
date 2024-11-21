@@ -86,27 +86,27 @@ const issues = [
     severity: 'high',
   },
   {
-    title: 'Issue 1',
+    title: 'Issue 2',
     description: 'Description 1',
     severity: 'medium',
   },
   {
-    title: 'Issue 1',
+    title: 'Issue 3',
     description: 'Description 1',
     severity: 'low',
   },
   {
-    title: 'Issue 1',
+    title: 'Issue 4',
     description: 'Description 1',
     severity: 'low',
   },
   {
-    title: 'Issue 1',
+    title: 'Issue 5',
     description: 'Description 1',
     severity: 'low',
   },
   {
-    title: 'Issue 1',
+    title: 'Issue 6',
     description: 'Description 1',
     severity: 'low',
   },
