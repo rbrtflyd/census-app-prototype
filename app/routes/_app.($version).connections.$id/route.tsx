@@ -7,6 +7,8 @@ import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { format } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGauge, faPencil, faTrash } from '@fortawesome/pro-solid-svg-icons';
 
 export default function ConnectionDetail() {
   const { id } = useParams();
@@ -16,12 +18,12 @@ export default function ConnectionDetail() {
     connections: ConnectionServiceType[];
   };
 
-  const workspaceConnection = workspaceConnections.find(
+  const thisWorkspaceConnection = workspaceConnections.find(
     (wc) => wc.id === parseInt(id!, 10)
   );
 
-  const connectionDetails = connections.find(
-    (c) => c.id === workspaceConnection?.connectionId
+  const thisConnection = connections.find(
+    (c) => c.id === thisWorkspaceConnection?.connectionId
   );
 
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
@@ -29,15 +31,15 @@ export default function ConnectionDetail() {
   const metaInfo = [
     {
       label: 'Last Tested',
-      value: format(workspaceConnection?.lastTestedAt, 'MMM d, yyyy'),
+      value: format(thisWorkspaceConnection?.lastTestedAt, 'MMM d, yyyy'),
     },
     {
       label: 'Created',
-      value: format(workspaceConnection?.createdAt, 'MMM d, yyyy'),
+      value: format(thisWorkspaceConnection?.createdAt, 'MMM d, yyyy'),
     },
     {
       label: 'Last Updated',
-      value: format(workspaceConnection?.updatedAt, 'MMM d, yyyy'),
+      value: format(thisWorkspaceConnection?.updatedAt, 'MMM d, yyyy'),
     },
   ];
 
@@ -50,9 +52,9 @@ export default function ConnectionDetail() {
       label: 'Connections',
       href: `/${version}/connections`,
     });
-  }, [version, workspaceConnection, addBreadcrumb, clearBreadcrumbs]);
+  }, [version, thisWorkspaceConnection, addBreadcrumb, clearBreadcrumbs]);
 
-  if (!workspaceConnection || !connectionDetails) {
+  if (!thisWorkspaceConnection || !thisConnection) {
     return (
       <div className="flex flex-col h-full w-full overflow-hidden">
         <PageHeader title="Connection Not Found" />
@@ -67,30 +69,65 @@ export default function ConnectionDetail() {
     <div className="flex flex-col h-full w-full overflow-hidden">
       <PageHeader
         title={
-          workspaceConnection.name
-            ? workspaceConnection.name
-            : connectionDetails.connectionServiceName
+          thisWorkspaceConnection.name
+            ? thisWorkspaceConnection.name
+            : thisConnection.connectionServiceName
         }
-        button={{ label: 'Test Connection' }}
       />
 
-      <main className="flex-grow px-6 overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
-        <div className="flex flex-row gap-4 py-6 border-b border-slate-50">
-          <img
-            src={connectionDetails.logo}
-            alt={connectionDetails.name}
-            className="w-6 h-6"
-          />
-          {workspaceConnection.name ? (
-            <Text className="text-lg font-medium">
-              {workspaceConnection.name}
-            </Text>
-          ) : (
-            <Text className="text-lg font-medium">
-              {connectionDetails.connectionServiceName}
-            </Text>
-          )}
-          <Badge>{workspaceConnection.lastTestStatus}</Badge>
+      <main className="h-full px-6 overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
+        <div className="flex flex-row gap-4 py-6 border-b border-slate-50 justify-between">
+          <div className="flex flex-row items-center gap-4">
+            <img
+              src={thisConnection.logo}
+              alt={thisConnection.connectionServiceName}
+              className="w-6 h-6"
+            />
+            {thisWorkspaceConnection.name ? (
+              <Text className="text-lg font-medium">
+                {thisWorkspaceConnection.name}
+              </Text>
+            ) : (
+              <Text className="text-lg font-medium">
+                {thisConnection.connectionServiceName}
+              </Text>
+            )}
+            <Badge>
+              <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
+              <Text className="capitalize">
+                {thisWorkspaceConnection.lastTestStatus}
+              </Text>
+            </Badge>
+          </div>
+          <div className="flex flex-row items-center gap-4">
+            <Button
+              variant="secondary"
+              size="small">
+              <FontAwesomeIcon
+                icon={faGauge}
+                className="mr-2 icon-lighter"
+              />
+              Test
+            </Button>
+            <Button
+              variant="secondary"
+              size="small">
+              <FontAwesomeIcon
+                icon={faPencil}
+                className="mr-2 icon-lighter"
+              />
+              Edit
+            </Button>
+            <Button
+              variant="secondary"
+              size="small">
+              <FontAwesomeIcon
+                icon={faTrash}
+                className="mr-2 icon-lighter"
+              />
+              Delete
+            </Button>
+          </div>
         </div>
         <div className="flex flex-row gap-6 py-4">
           {metaInfo.map((info) => (
@@ -101,6 +138,9 @@ export default function ConnectionDetail() {
               <Text>{info.value}</Text>
             </div>
           ))}
+        </div>
+        <div className="h-full w-full bg-slate-75 rounded-lg p-4 flex items-center justify-center">
+          <Text>So much space for possibilities</Text>
         </div>
       </main>
     </div>
