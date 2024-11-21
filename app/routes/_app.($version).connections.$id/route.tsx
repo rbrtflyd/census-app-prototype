@@ -66,11 +66,32 @@ export default function ConnectionDetail() {
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       <PageHeader
-        title={workspaceConnection.name}
+        title={
+          workspaceConnection.name
+            ? workspaceConnection.name
+            : connectionDetails.connectionServiceName
+        }
         button={{ label: 'Test Connection' }}
       />
 
-      <main className="flex-grow px-6 overflow-y-auto">
+      <main className="flex-grow px-6 overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
+        <div className="flex flex-row gap-4 py-6 border-b border-slate-50">
+          <img
+            src={connectionDetails.logo}
+            alt={connectionDetails.name}
+            className="w-6 h-6"
+          />
+          {workspaceConnection.name ? (
+            <Text className="text-lg font-medium">
+              {workspaceConnection.name}
+            </Text>
+          ) : (
+            <Text className="text-lg font-medium">
+              {connectionDetails.connectionServiceName}
+            </Text>
+          )}
+          <Badge>{workspaceConnection.lastTestStatus}</Badge>
+        </div>
         <div className="flex flex-row gap-6 py-4">
           {metaInfo.map((info) => (
             <div className="flex flex-row gap-2">
