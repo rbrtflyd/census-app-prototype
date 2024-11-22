@@ -39,7 +39,7 @@ export default function Connections() {
           label: 'Add Connection',
           icon: faPlus,
           onClick: () => {
-            navigate(`/${version}/connections/new`);
+            navigate(`/${version}/connections/new/step1`);
           },
         }}
       />
