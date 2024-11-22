@@ -38,6 +38,9 @@ export default function Connections() {
         button={{
           label: 'Add Connection',
           icon: faPlus,
+          onClick: () => {
+            navigate(`/${version}/connections/new`);
+          },
         }}
       />
       <main className="flex-grow p-4 overflow-y-auto">
