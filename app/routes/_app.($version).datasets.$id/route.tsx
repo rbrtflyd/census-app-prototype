@@ -125,14 +125,20 @@ export default function DatasetIndex() {
           </PageHeader.TitleSlot>
           <PageHeader.RightSlot>
             <Popover>
-              <PopoverTrigger className="group">
-                <Badge className="group-hover:bg-deep">
+              <PopoverTrigger asChild>
+                <button className="hover:bg-deep text-sm px-3 py-2 rounded leading-none data-[state=open]:bg-deep flex items-center justify-between gap-2">
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faCoin}
+                      className=" mr-1 text-emerald-500"
+                    />
+                    <Text>90/100 Credits</Text>
+                  </div>
                   <FontAwesomeIcon
-                    icon={faCoin}
-                    className="text-xs mr-1 text-emerald-500"
+                    icon={faCaretDown}
+                    className="text-xs icon-lighter"
                   />
-                  <Text>90/100 Census Credits</Text>
-                </Badge>
+                </button>
               </PopoverTrigger>
               <PopoverContent
                 className="w-[300px]"
@@ -144,18 +150,18 @@ export default function DatasetIndex() {
                       className="text-xs text-emerald-500"
                     />
                     <div className="flex flex-row">
-                      <Text className="text-emerald-500">90</Text>
-                      <Text>/100</Text>
+                      <Text className="text-emerald-600">90</Text>
+                      <Text className="text-light">/100</Text>
                     </div>
-                    <Text className="font-medium">Census Credits Left</Text>
+                    <Text className="font-medium">Credits Left</Text>
                   </div>
                   <div className="flex flex-col gap-1 text-sm text-light">
                     <Text className="leading-tight">
-                      Census Credits are used for GPT columns. After using your
+                      Credits are used for GPT columns. After using your
                       credits, you will need to provide your own API key for
                       OpenAI.
                     </Text>
-                    <Link
+                    {/* <Link
                       to="https://platform.openai.com/docs/overview"
                       target="_blank"
                       className="flex items-center gap-1 group hover:text-plum-500 transition-colors duration-75">
@@ -166,7 +172,7 @@ export default function DatasetIndex() {
                         icon={faArrowUpRight}
                         className="text-xs icon-light group-hover:text-plum-500 transition-colors duration-75"
                       />
-                    </Link>
+                    </Link> */}
                   </div>
                   <Button
                     size="small"
