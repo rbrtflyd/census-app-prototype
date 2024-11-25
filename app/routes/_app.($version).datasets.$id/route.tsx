@@ -43,6 +43,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '~/components/ui/popover';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog';
+
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,7 +135,7 @@ export default function DatasetIndex() {
           <PageHeader.RightSlot>
             <Popover>
               <PopoverTrigger asChild>
-                <button className="hover:bg-deep text-sm px-3 py-2 rounded leading-none data-[state=open]:bg-deep flex items-center justify-between gap-2">
+                <button className="hover:bg-deep text-sm px-3 py-2 rounded leading-none data-[state=open]:bg-deep flex items-center justify-between gap-2 group">
                   <div>
                     <FontAwesomeIcon
                       icon={faCoin}
@@ -136,7 +145,7 @@ export default function DatasetIndex() {
                   </div>
                   <FontAwesomeIcon
                     icon={faCaretDown}
-                    className="text-xs icon-lighter"
+                    className="text-xs icon-lighter group-data-[state=open]:rotate-180 transition-transform duration-75"
                   />
                 </button>
               </PopoverTrigger>
@@ -161,28 +170,42 @@ export default function DatasetIndex() {
                       credits, you will need to provide your own API key for
                       OpenAI.
                     </Text>
-                    {/* <Link
-                      to="https://platform.openai.com/docs/overview"
+                    <Link
+                      to="#"
                       target="_blank"
                       className="flex items-center gap-1 group hover:text-plum-500 transition-colors duration-75">
                       <Text className="group-hover:underline transition-all duration-75">
-                        Setup an OpenAI API Key
+                        View Credit Usage
                       </Text>
                       <FontAwesomeIcon
                         icon={faArrowUpRight}
                         className="text-xs icon-light group-hover:text-plum-500 transition-colors duration-75"
                       />
-                    </Link> */}
+                    </Link>
                   </div>
-                  <Button
-                    size="small"
-                    variant="secondary">
-                    <FontAwesomeIcon
-                      icon={faKey}
-                      className="icon-light text-xs mr-1"
-                    />
-                    <Text>Add Your API Key</Text>
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        size="small"
+                        variant="secondary">
+                        <FontAwesomeIcon
+                          icon={faKey}
+                          className="icon-light text-xs mr-1"
+                        />
+                        <Text>Add Your API Key</Text>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </PopoverContent>
             </Popover>
