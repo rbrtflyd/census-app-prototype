@@ -87,9 +87,9 @@ export default function NewConnection() {
       <div className="flex flex-col h-full w-full overflow-hidden">
         <PageHeader title="New Connection" />
         <StepContent />
-        <main className="h-full px-6 overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
+        <div className="px-6 h-full pb-6 -mt-7 overflow-hidden *:max-w-[1400px] *:mx-auto *:w-full">
           <Outlet context={{ connections, workspaceConnections }} />
-        </main>
+        </div>
       </div>
     </NewConnectionProvider>
   );
