@@ -52,12 +52,11 @@ export default function NewDataset() {
       <div className="flex flex-row items-center justify-between p-4 border-b border-base">
         <Text className="text-lg font-medium">Configure Connection</Text>
       </div>
-      <div className="flex flex-col h-full w-full p-4">
+      <div className="flex flex-col h-full w-full p-4 gap-5">
         Configure Connnection
-        <div className="w-48 h-48 relative bg-slate-500 overflow-hidden">
-          some more stuff
+        <div className="w-full h-full relative  overflow-hidden border border-dashed border-slate-800/10 rounded">
           <svg
-            className="absolute inset-0 size-full stroke-gray-900 opacity-10"
+            className="absolute inset-0 size-full stroke-slate-800/10"
             fill="none">
             <defs>
               <pattern

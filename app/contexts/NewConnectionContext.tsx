@@ -9,6 +9,8 @@ interface NewConnectionContextType {
   setCurrentStep: (step: Step) => void;
   setSelectedSource: (source: ConnectionServiceType) => void;
   selectedSource: ConnectionServiceType | null;
+  setSelectedConnectionId: (id: string) => void;
+  selectedConnectionId: string | null;
 }
 
 const NewConnectionContext = createContext<
@@ -21,6 +23,9 @@ export const NewConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentStep, setCurrentStep] = useState<Step>('step1');
   const [selectedSource, setSelectedSource] =
     useState<ConnectionServiceType | null>(null);
+  const [selectedConnectionId, setSelectedConnectionId] = useState<
+    string | null
+  >(null);
   return (
     <NewConnectionContext.Provider
       value={{
@@ -28,6 +33,8 @@ export const NewConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
         setCurrentStep,
         selectedSource,
         setSelectedSource,
+        setSelectedConnectionId,
+        selectedConnectionId,
       }}>
       {children}
     </NewConnectionContext.Provider>

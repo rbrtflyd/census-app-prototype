@@ -54,8 +54,8 @@ export default function NewDataset() {
           Choose how Census can access this connection
         </Text>
       </div>
-      <div className="flex flex-row h-full">
-        <div className="flex flex-row gap-4 p-4">
+      <div className="flex flex-col h-full">
+        <div className="flex flex-row gap-4 p-4 grow">
           {['read', 'write'].map((useCase) => (
             <div
               key={useCase}
@@ -71,18 +71,17 @@ export default function NewDataset() {
                 <div className="flex flex-col gap-1">
                   <label htmlFor={useCase}>
                     <Text className="text-lg font-medium leading-none">
-                      {useCase === 'read' ? 'Read from' : 'Write to'} this
-                      connection
+                      {useCase === 'read' ? 'Read from' : 'Write to'}
                     </Text>
                   </label>{' '}
                   {useCase === 'read' && (
                     <Text className="text-light">
-                      Some text describing what read from connection means.
+                      Census can read data from this connection.
                     </Text>
                   )}
                   {useCase === 'write' && (
                     <Text className=" text-light">
-                      Some text describing what write to connection means.
+                      Census can write data to this connection.
                     </Text>
                   )}
                 </div>
@@ -118,6 +117,24 @@ export default function NewDataset() {
               )}
             </div>
           ))}
+        </div>
+        <div className="flex flex-col gap-6 p-4 border-t border-base leading-none">
+          <div className="flex flex-col gap-2">
+            <Text className=" font-medium">Summary of selections</Text>
+            <Text>
+              You have selected to read from and write to this connection. This
+              will require the following permissions:
+            </Text>
+          </div>
+          <div className="flex flex-row gap-2 bg-subtle border border-base rounded-md p-3 items-center justify-between">
+            <Text className="font-medium">
+              Generate a connect link requesting{' '}
+              {Array.from(selectedUseCases).join(' and ')} permissions to{' '}
+              $selected_connection
+            </Text>
+
+            <Button>Create Link</Button>
+          </div>
         </div>
       </div>
     </div>

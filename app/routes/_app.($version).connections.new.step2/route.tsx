@@ -19,13 +19,15 @@ import { faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewConnectionContext } from '~/contexts/NewConnectionContext';
 import { Checkbox } from '~/components/ui/checkbox';
 
-export default function NewDataset() {
+export default function NewConnectionStep2() {
   const navigate = useNavigate();
-  const { setCurrentStep } = useNewConnectionContext();
+  const { setCurrentStep, selectedConnectionId } = useNewConnectionContext();
   setCurrentStep('step2');
   const { connections, workspaceConnections } = useOutletContext() as {
     connections: ConnectionServiceType[];
     workspaceConnections: ConnectionType[];
+    setSelectedConnectionId: (id: string) => void;
+    selectedConnectionId: string | null;
   };
 
   const [useCase, setUseCase] = useState<'read' | 'write'>('read');
@@ -33,6 +35,10 @@ export default function NewDataset() {
 
   const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(
     new Set()
+  );
+
+  const selectedConnection = connections.find(
+    (c) => c.id.toString() === selectedConnectionId
   );
 
   const handleUseCaseClick = (useCase: string) => {

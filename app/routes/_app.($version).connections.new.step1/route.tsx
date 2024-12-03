@@ -20,10 +20,12 @@ import { Separator } from '~/components/ui/separator';
 
 export default function NewDataset() {
   const navigate = useNavigate();
-  const { connections, workspaceConnections } = useOutletContext() as {
-    connections: ConnectionServiceType[];
-    workspaceConnections: ConnectionType[];
-  };
+  const { connections, workspaceConnections, setSelectedConnectionId } =
+    useOutletContext() as {
+      connections: ConnectionServiceType[];
+      workspaceConnections: ConnectionType[];
+      setSelectedConnectionId: (id: string) => void;
+    };
   const [selectedTab, setSelectedTab] = React.useState('everything');
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
@@ -254,11 +256,10 @@ export default function NewDataset() {
           <Text className="text-light font-medium">Connect New</Text>
           <Button
             variant="secondary"
-            onClick={() =>
-              navigate('/connections/new/step2', {
-                state: { connectionId: matchingWorkspaceConnections[0].id },
-              })
-            }>
+            onClick={() => {
+              setSelectedConnectionId(connection.id.toString());
+              navigate('/connections/new/step2');
+            }}>
             Connect New {connection.connectionServiceName}
           </Button>
         </div>

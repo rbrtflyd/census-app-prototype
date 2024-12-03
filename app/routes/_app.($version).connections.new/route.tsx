@@ -20,10 +20,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export default function NewConnection() {
   const { version } = useLoaderData<typeof loader>();
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
-  const { connections, workspaceConnections } = useOutletContext() as {
-    connections: ConnectionServiceType[];
-    workspaceConnections: ConnectionType[];
-  };
+  const { connections, workspaceConnections, setSelectedConnectionId } =
+    useOutletContext() as {
+      connections: ConnectionServiceType[];
+      workspaceConnections: ConnectionType[];
+      setSelectedConnectionId: (id: string) => void;
+    };
 
   useEffect(() => {
     clearBreadcrumbs();
@@ -43,14 +45,14 @@ export default function NewConnection() {
           'Select a warehouse, database, event stream, or business app to get started.',
       },
       step2: {
-        title: 'Configure your new connection',
+        title: 'Choose how Census can access this connection',
         description:
-          'Set up the connection details for your selected data source.',
+          'Select the permissions you want Census to have for this connection.',
       },
       step3: {
-        title: 'Preview your dataset',
+        title: 'Configure credentials and test',
         description:
-          'Review and confirm the data before creating your dataset.',
+          'Enter the credentials for your connection and test it to make sure it works.',
       },
     };
 
@@ -88,7 +90,13 @@ export default function NewConnection() {
         <PageHeader title="New Connection" />
         <StepContent />
         <div className="px-6 h-full pb-6 -mt-7 overflow-hidden *:max-w-[1400px] *:mx-auto *:w-full">
-          <Outlet context={{ connections, workspaceConnections }} />
+          <Outlet
+            context={{
+              connections,
+              workspaceConnections,
+              setSelectedConnectionId,
+            }}
+          />
         </div>
       </div>
     </NewConnectionProvider>
