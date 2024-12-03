@@ -23,10 +23,16 @@ export default function NewDataset() {
   const navigate = useNavigate();
   const { setCurrentStep } = useNewConnectionContext();
   setCurrentStep('step2');
-  const { connections, workspaceConnections } = useOutletContext() as {
-    connections: ConnectionServiceType[];
-    workspaceConnections: ConnectionType[];
-  };
+  const { connections, workspaceConnections, selectedConnectionId } =
+    useOutletContext() as {
+      connections: ConnectionServiceType[];
+      workspaceConnections: ConnectionType[];
+      selectedConnectionId: string | null;
+    };
+
+  const selectedConnection = connections.find(
+    (c) => c.id.toString() === selectedConnectionId
+  );
 
   const [useCase, setUseCase] = useState<'read' | 'write'>('read');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
@@ -117,20 +123,23 @@ export default function NewDataset() {
               )}
             </div>
           ))}
+          <div className="h-full w-1/4 bg-subtle border border-base rounded-md flex flex-col">
+            <div className="flex flex-col gap-2 p-4">
+              <Text className=" font-medium">Summary of selections</Text>
+              <Text>
+                You have selected to read from and write to this connection.
+                This will require the following permissions:
+              </Text>
+            </div>
+            Credentials/Auth
+          </div>
         </div>
         <div className="flex flex-col gap-6 p-4 border-t border-base leading-none">
-          <div className="flex flex-col gap-2">
-            <Text className=" font-medium">Summary of selections</Text>
-            <Text>
-              You have selected to read from and write to this connection. This
-              will require the following permissions:
-            </Text>
-          </div>
           <div className="flex flex-row gap-2 bg-subtle border border-base rounded-md p-3 items-center justify-between">
             <Text className="font-medium">
               Generate a connect link requesting{' '}
               {Array.from(selectedUseCases).join(' and ')} permissions to{' '}
-              $selected_connection
+              {selectedConnection?.connectionServiceName}
             </Text>
 
             <Button>Create Link</Button>

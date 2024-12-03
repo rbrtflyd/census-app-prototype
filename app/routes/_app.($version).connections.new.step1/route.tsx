@@ -217,6 +217,14 @@ export default function NewDataset() {
             </Text>
           </div>
           <Text className="text-light">{connection.description}</Text>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              navigate('/connections/new/step2');
+              setSelectedConnectionId(connection.id.toString());
+            }}>
+            Connect New {connection.connectionServiceName}
+          </Button>
         </div>
         <Separator />
         {matchingWorkspaceConnections.length > 0 && (
@@ -228,35 +236,16 @@ export default function NewDataset() {
               {matchingWorkspaceConnections.map((wc) => (
                 <div
                   key={wc.id}
-                  className="flex flex-col gap-3 p-4 rounded border border-base">
-                  <Text className="font-medium">{wc.name}</Text>
-                  <Button
-                    variant="secondary"
-                    size="small"
-                    onClick={() =>
-                      navigate('/connections/new/step2', {
-                        state: { connectionId: wc.id },
-                      })
-                    }>
-                    Use Connection
-                  </Button>
+                  className="flex flex-row justify-between gap-3 px-4 py-3 rounded border border-base text-sm">
+                  <Text className="font-medium truncate">
+                    {wc.name || connection.connectionServiceName}
+                  </Text>
+                  <Text className="text-lighter">connection:{wc.id}</Text>
                 </div>
               ))}
             </div>
           </div>
         )}
-
-        <div className="flex flex-col gap-4">
-          <Text className="text-light font-medium">Connect New</Text>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setSelectedConnectionId(connection.id.toString());
-              navigate('/connections/new/step2');
-            }}>
-            Connect New {connection.connectionServiceName}
-          </Button>
-        </div>
       </div>
     );
   }
