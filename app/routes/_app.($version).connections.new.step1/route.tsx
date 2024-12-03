@@ -105,7 +105,7 @@ export default function NewDataset() {
 
   return (
     <Tabs
-      className="flex flex-row gap-4 w-full h-full overflow-hidden"
+      className="flex flex-row gap-4 shrink-0 w-full h-full overflow-hidden"
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
@@ -130,7 +130,7 @@ export default function NewDataset() {
 
       <TabsContent
         value={selectedTab}
-        className="flex flex-row bg-white border border-base rounded-md w-3/4 overflow-hidden">
+        className="flex flex-row bg-white border border-base rounded-md grow overflow-hidden">
         <div className="flex flex-col grow">
           <div className="px-6 py-4 border-b border-base">
             <Text className="leading-none font-medium text-lighter">

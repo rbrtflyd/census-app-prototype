@@ -61,67 +61,69 @@ export default function NewDataset() {
       </div>
       <div className="flex flex-col h-full">
         <div className="flex flex-row gap-4 p-4 grow">
-          {['read', 'write'].map((useCase) => (
-            <div
-              key={useCase}
-              className="flex flex-col gap-2">
+          <div className="w-3/4 flex flex-col gap-4">
+            {['read', 'write'].map((useCase) => (
               <div
-                onClick={() => handleUseCaseClick(useCase)}
-                className="flex flex-row gap-2 items-baseline  p-4 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer">
-                <Checkbox
-                  id={useCase}
-                  checked={selectedUseCases.has(useCase)}
-                  onCheckedChange={() => handleUseCaseClick(useCase)}
-                />
-                <div className="flex flex-col gap-1">
-                  <label htmlFor={useCase}>
-                    <Text className="text-lg font-medium leading-none">
-                      {useCase === 'read' ? 'Read from' : 'Write to'}
-                    </Text>
-                  </label>{' '}
-                  {useCase === 'read' && (
-                    <Text className="text-light">
-                      Census can read data from this connection.
-                    </Text>
-                  )}
-                  {useCase === 'write' && (
-                    <Text className=" text-light">
-                      Census can write data to this connection.
-                    </Text>
-                  )}
+                key={useCase}
+                className="flex flex-col gap-2">
+                <div
+                  onClick={() => handleUseCaseClick(useCase)}
+                  className="flex flex-row gap-2 items-baseline  p-4 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer">
+                  <Checkbox
+                    id={useCase}
+                    checked={selectedUseCases.has(useCase)}
+                    onCheckedChange={() => handleUseCaseClick(useCase)}
+                  />
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor={useCase}>
+                      <Text className="text-lg font-medium leading-none">
+                        {useCase === 'read' ? 'Read from' : 'Write to'}
+                      </Text>
+                    </label>{' '}
+                    {useCase === 'read' && (
+                      <Text className="text-light">
+                        Census can read data from this connection.
+                      </Text>
+                    )}
+                    {useCase === 'write' && (
+                      <Text className=" text-light">
+                        Census can write data to this connection.
+                      </Text>
+                    )}
+                  </div>
                 </div>
+                {/* Add radio group for read options */}
+                {useCase === 'read' && selectedUseCases.has('read') && (
+                  <div className="flex flex-col gap-2 p-4 bg-subtle border border-base rounded-md">
+                    <Text className="font-medium">
+                      Select how to read from this connection
+                    </Text>
+                    <RadioGroup
+                      className="flex flex-col gap-2"
+                      value={readType}
+                      onValueChange={(value: 'Basic' | 'Advanced') =>
+                        setReadType(value)
+                      }>
+                      {['Basic', 'Advanced'].map((type) => (
+                        <RadioGroupItem
+                          indicator={false}
+                          className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
+                          value={type}
+                          id={type}>
+                          <Text>{type}</Text>
+                          {type === 'Basic' ? (
+                            <Badge>Easier to Setup</Badge>
+                          ) : (
+                            <Badge>Better Performance</Badge>
+                          )}
+                        </RadioGroupItem>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                )}
               </div>
-              {/* Add radio group for read options */}
-              {useCase === 'read' && selectedUseCases.has('read') && (
-                <div className="flex flex-col gap-2 p-4 bg-subtle border border-base rounded-md">
-                  <Text className="font-medium">
-                    Select how to read from this connection
-                  </Text>
-                  <RadioGroup
-                    className="flex flex-col gap-2"
-                    value={readType}
-                    onValueChange={(value: 'Basic' | 'Advanced') =>
-                      setReadType(value)
-                    }>
-                    {['Basic', 'Advanced'].map((type) => (
-                      <RadioGroupItem
-                        indicator={false}
-                        className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
-                        value={type}
-                        id={type}>
-                        <Text>{type}</Text>
-                        {type === 'Basic' ? (
-                          <Badge>Easier to Setup</Badge>
-                        ) : (
-                          <Badge>Better Performance</Badge>
-                        )}
-                      </RadioGroupItem>
-                    ))}
-                  </RadioGroup>
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
           <div className="h-full w-1/4 bg-subtle border border-base rounded-md flex flex-col">
             <div className="flex flex-col gap-2 p-4">
               <Text className=" font-medium">Summary of selections</Text>
