@@ -109,7 +109,7 @@ export default function NewDataset() {
         <div>
           <div className="p-4 border-b border-base">
             <Text className="text-lg font-medium text-dark">
-              Select a data source
+              Select a connection type
             </Text>
           </div>
           <div className="flex flex-col">
@@ -121,12 +121,6 @@ export default function NewDataset() {
               </TabsTrigger>
             ))}
           </div>
-        </div>
-        <div className="p-6 flex flex-col gap-2 items-stretch justify-stretch ">
-          <Text className="text-sm font-medium text-lighter">
-            Or create a one-off SQL Query
-          </Text>
-          <Button variant="secondary">Create Query</Button>
         </div>
       </TabsList>
 
@@ -208,7 +202,7 @@ export default function NewDataset() {
     );
 
     return (
-      <div className="space-y-8 p-6 border-l border-base w-2/5 flex flex-col">
+      <div className="space-y-8 p-6 border-l border-base w-2/5 flex flex-col overflow-y-auto">
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row gap-4 items-center">
             {connection.logo && (
