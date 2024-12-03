@@ -21,14 +21,13 @@ import { Checkbox } from '../../components/ui/checkbox';
 
 export default function NewDataset() {
   const navigate = useNavigate();
-  const { setCurrentStep } = useNewConnectionContext();
+  const { setCurrentStep, selectedConnectionId } = useNewConnectionContext();
   setCurrentStep('step2');
-  const { connections, workspaceConnections, selectedConnectionId } =
-    useOutletContext() as {
-      connections: ConnectionServiceType[];
-      workspaceConnections: ConnectionType[];
-      selectedConnectionId: string | null;
-    };
+  const { connections, workspaceConnections } = useOutletContext() as {
+    connections: ConnectionServiceType[];
+    workspaceConnections: ConnectionType[];
+    selectedConnectionId: string | null;
+  };
 
   const selectedConnection = connections.find(
     (c) => c.id.toString() === selectedConnectionId

@@ -21,11 +21,14 @@ export const NewConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [currentStep, setCurrentStep] = useState<Step>('step1');
+
   const [selectedSource, setSelectedSource] =
     useState<ConnectionServiceType | null>(null);
+
   const [selectedConnectionId, setSelectedConnectionId] = useState<
     string | null
   >(null);
+
   return (
     <NewConnectionContext.Provider
       value={{

@@ -17,16 +17,20 @@ import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { Separator } from '~/components/ui/separator';
+import { useNewConnectionContext } from '~/contexts/NewConnectionContext';
 
 export default function NewDataset() {
   const navigate = useNavigate();
-  const { connections, workspaceConnections, setSelectedConnectionId } =
-    useOutletContext() as {
-      connections: ConnectionServiceType[];
-      workspaceConnections: ConnectionType[];
-      setSelectedConnectionId: (id: string) => void;
-    };
+  const { setCurrentStep, setSelectedConnectionId } = useNewConnectionContext();
+
+  const { connections, workspaceConnections } = useOutletContext() as {
+    connections: ConnectionServiceType[];
+    workspaceConnections: ConnectionType[];
+    setSelectedConnectionId: (id: string) => void;
+  };
+
   const [selectedTab, setSelectedTab] = React.useState('everything');
+
   const [selectedConnection, setSelectedConnection] = React.useState<
     string | null
   >(null);
@@ -220,8 +224,8 @@ export default function NewDataset() {
           <Button
             variant="secondary"
             onClick={() => {
-              navigate('/connections/new/step2');
               setSelectedConnectionId(connection.id.toString());
+              navigate('/connections/new/step2-v2');
             }}>
             Connect New {connection.connectionServiceName}
           </Button>
