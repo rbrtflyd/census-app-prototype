@@ -43,7 +43,7 @@ export default function NewConnection() {
           'Select a warehouse, database, event stream, or business app to get started.',
       },
       step2: {
-        title: 'Configure your data source',
+        title: 'Configure your new connection',
         description:
           'Set up the connection details for your selected data source.',
       },

@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
+import { Separator } from '~/components/ui/separator';
 
 export default function NewDataset() {
   const navigate = useNavigate();
@@ -169,9 +170,15 @@ export default function NewDataset() {
                         <Badge className="ml-2">
                           <FontAwesomeIcon
                             icon={faPlug}
-                            className="mr-1 icon-light"
+                            className="mr-2 icon-light text-xxs"
                           />
-                          <Text className="text-light">Connected</Text>
+                          <Text className="text-light">
+                            {
+                              workspaceConnections.filter(
+                                (wc) => wc.connectionId === connection.id
+                              ).length
+                            }
+                          </Text>
                         </Badge>
                       )}
                     </RadioGroupItem>
@@ -215,6 +222,7 @@ export default function NewDataset() {
           </div>
           <Text className="text-light">{connection.description}</Text>
         </div>
+        <Separator />
         {matchingWorkspaceConnections.length > 0 && (
           <div className="flex flex-col gap-2">
             <Text className="font-medium">
@@ -230,7 +238,7 @@ export default function NewDataset() {
                     variant="secondary"
                     size="small"
                     onClick={() =>
-                      navigate('/datasets/new/step2', {
+                      navigate('/connections/new/step2', {
                         state: { connectionId: wc.id },
                       })
                     }>
@@ -242,8 +250,17 @@ export default function NewDataset() {
           </div>
         )}
 
-        <div>
-          <Text className="text-light">Connect New</Text>
+        <div className="flex flex-col gap-4">
+          <Text className="text-light font-medium">Connect New</Text>
+          <Button
+            variant="secondary"
+            onClick={() =>
+              navigate('/connections/new/step2', {
+                state: { connectionId: matchingWorkspaceConnections[0].id },
+              })
+            }>
+            Connect New {connection.connectionServiceName}
+          </Button>
         </div>
       </div>
     );
