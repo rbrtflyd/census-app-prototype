@@ -55,6 +55,10 @@ export default function NewDataset() {
     }, {} as Record<string, typeof connections>);
   }, [connections]);
 
+  const [filteredConnections, setFilteredConnections] = React.useState(
+    groupedConnections[selectedTab] || []
+  );
+
   const tabs = [
     {
       id: 'everything',
@@ -103,13 +107,18 @@ export default function NewDataset() {
     },
   ];
 
+  // Add useEffect to update filteredConnections when tab changes
+  useEffect(() => {
+    setFilteredConnections(groupedConnections[selectedTab] || []);
+  }, [selectedTab, groupedConnections]);
+
   return (
     <Tabs
-      className="flex flex-row gap-4 shrink-0 w-full h-full overflow-hidden"
+      className="flex flex-row gap-4  w-full h-full overflow-hidden"
       defaultValue={selectedTab}
       onValueChange={setSelectedTab}
       orientation="vertical">
-      <TabsList className="bg-white border border-base rounded-md grow flex flex-col justify-between max-w-[250px]">
+      <TabsList className="bg-white border border-base rounded-md  flex flex-col justify-between w-[250px] shrink-0">
         <div>
           <div className="p-4 border-b border-base">
             <Text className="text-lg font-medium text-dark">
@@ -138,52 +147,68 @@ export default function NewDataset() {
               {tabs.find((tab) => tab.id === selectedTab)?.content.header}
             </Text>
           </div>
+          <div className="px-6 py-4 border-b border-base w-full">
+            <input
+              type="search"
+              placeholder="Search..."
+              className="w-full px-3 py-2 border border-base rounded-md focus:outline-none focus:ring-2 focus:ring-plum-200 focus:border-transparent"
+              onChange={(e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filtered = groupedConnections[selectedTab].filter(
+                  (connection: any) =>
+                    connection.connectionServiceName
+                      .toLowerCase()
+                      .includes(searchTerm)
+                );
+                setFilteredConnections(filtered);
+              }}
+            />
+          </div>
           <div className="flex flex-row w-full *:p-6 overflow-hidden h-full">
             <RadioGroup
               className="h-full overflow-auto grow flex flex-col space-y-2"
               onValueChange={setSelectedConnection}>
-              {groupedConnections[selectedTab] &&
-                groupedConnections[selectedTab].map((connection: any) => {
-                  const hasExistingConnection = workspaceConnections.some(
-                    (wc) => wc.connectionId === connection.id
-                  );
-                  return (
-                    <RadioGroupItem
-                      key={connection.id}
-                      indicator={false}
-                      value={connection.id.toString()}
-                      id={`option-${connection.id}`}
-                      className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 bg-white hover:bg-slate-25 transition-all duration-75 data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between hover:border-slate-100 hover:text-slate-900 ">
-                      <div className="flex flex-row items-center">
-                        {connection.logo && (
-                          <img
-                            src={connection.logo}
-                            alt={connection.connectionServiceName}
-                            className="size-7"
-                          />
-                        )}
-                        <Text className="ml-4">
-                          {connection.connectionServiceName}
-                        </Text>
-                      </div>
-                      {hasExistingConnection && (
-                        <Badge className="ml-2">
-                          <FontAwesomeIcon
-                            icon={faPlug}
-                            className="mr-2 icon-light text-xxs"
-                          />
-                          <Text className="text-light">
-                            {
-                              workspaceConnections.filter(
-                                (wc) => wc.connectionId === connection.id
-                              ).length
-                            }
-                          </Text>
-                        </Badge>
+              {filteredConnections.map((connection: any) => {
+                const hasExistingConnection = workspaceConnections.some(
+                  (wc) => wc.connectionId === connection.id
+                );
+                return (
+                  <RadioGroupItem
+                    key={connection.id}
+                    indicator={false}
+                    value={connection.id.toString()}
+                    id={`option-${connection.id}`}
+                    className="px-3 py-2.5 rounded-md border data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 bg-white hover:bg-slate-25 transition-all duration-75 data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between hover:border-slate-100 hover:text-slate-900 ">
+                    <div className="flex flex-row items-center">
+                      {connection.logo && (
+                        <img
+                          src={connection.logo}
+                          alt={connection.connectionServiceName}
+                          className="size-7"
+                        />
                       )}
-                    </RadioGroupItem>
-                  );
-                })}
+                      <Text className="ml-4">
+                        {connection.connectionServiceName}
+                      </Text>
+                    </div>
+                    {hasExistingConnection && (
+                      <Badge className="ml-2">
+                        <FontAwesomeIcon
+                          icon={faPlug}
+                          className="mr-2 icon-light text-xxs"
+                        />
+                        <Text className="text-light">
+                          {
+                            workspaceConnections.filter(
+                              (wc) => wc.connectionId === connection.id
+                            ).length
+                          }
+                        </Text>
+                      </Badge>
+                    )}
+                  </RadioGroupItem>
+                );
+              })}
             </RadioGroup>
           </div>
         </div>
@@ -206,7 +231,7 @@ export default function NewDataset() {
     );
 
     return (
-      <div className="space-y-8 p-6 border-l border-base w-2/5 flex flex-col overflow-y-auto">
+      <div className="space-y-8 p-6 border-l border-base w-1/3 flex flex-col overflow-y-auto">
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row gap-4 items-center">
             {connection.logo && (
@@ -227,28 +252,31 @@ export default function NewDataset() {
               setSelectedConnectionId(connection.id.toString());
               navigate('/connections/new/step2-v2');
             }}>
-            Connect New {connection.connectionServiceName}
+            Connect New {connection.connectionServiceName} Instance
           </Button>
         </div>
-        <Separator />
+
         {matchingWorkspaceConnections.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <Text className="font-medium">
-              Existing {connection.connectionServiceName} Connections
-            </Text>
+          <>
+            <Separator />
             <div className="flex flex-col gap-2">
-              {matchingWorkspaceConnections.map((wc) => (
-                <div
-                  key={wc.id}
-                  className="flex flex-row justify-between gap-3 px-4 py-3 rounded border border-base text-sm">
-                  <Text className="font-medium truncate">
-                    {wc.name || connection.connectionServiceName}
-                  </Text>
-                  <Text className="text-lighter">connection:{wc.id}</Text>
-                </div>
-              ))}
+              <Text className="font-medium">
+                Existing {connection.connectionServiceName} Connections
+              </Text>
+              <div className="flex flex-col gap-2">
+                {matchingWorkspaceConnections.map((wc) => (
+                  <div
+                    key={wc.id}
+                    className="flex flex-row justify-between gap-3 px-4 py-3 rounded border border-base text-sm">
+                    <Text className="font-medium truncate">
+                      {wc.name || connection.connectionServiceName}
+                    </Text>
+                    <Text className="text-lighter">connection:{wc.id}</Text>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     );
