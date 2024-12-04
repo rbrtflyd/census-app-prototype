@@ -151,7 +151,7 @@ export default function NewDataset() {
             <input
               type="search"
               placeholder="Search..."
-              className="w-full px-3 py-2 border border-base rounded-md focus:outline-none focus:ring-2 focus:ring-plum-200 focus:border-transparent"
+              className="w-full px-3 py-2 border border-base rounded-md focus:outline-none focus:ring-2 focus:ring-plum-200 focus:border- before:content-['search'] before:text-lighter before:text-xs before:mr-2 before:absolute before:left-2"
               onChange={(e) => {
                 const searchTerm = e.target.value.toLowerCase();
                 const filtered = groupedConnections[selectedTab].filter(
