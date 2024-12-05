@@ -108,6 +108,30 @@ export const columns: ColumnDef<ConnectionType>[] = [
     size: 100,
   },
   {
+    accessorKey: 'connected',
+    header: ({ column }) => {
+      return (
+        <div className="flex flex-row gap-2 items-center">
+          <Text>Connected</Text>
+          <Toggle
+            size="sm"
+            variant="default"
+            className="px-1.5 py-1.5 flex items-center justify-center hover:bg-deep rounded-sm group icon-lighter hover:icon-light text-[11px] data-[state=on]:bg-deep data-[state=on]:icon-light"
+            onPressedChange={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <FontAwesomeIcon icon={faSort} />
+          </Toggle>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <Text>{new Date(row.original.createdAt).toLocaleDateString()}</Text>
+      );
+    },
+  },
+  {
     accessorKey: 'connectionMode',
     header: ({ column }) => {
       return (
@@ -139,6 +163,15 @@ export const columns: ColumnDef<ConnectionType>[] = [
       );
     },
     enableSorting: true,
+  },
+  {
+    accessorKey: 'lastTestedAt',
+    header: 'Last Tested',
+    cell: ({ row }) => {
+      return (
+        <Text>{new Date(row.original.lastTestedAt).toLocaleDateString()}</Text>
+      );
+    },
   },
   {
     accessorKey: 'lastTestStatus',
