@@ -7,7 +7,10 @@ import { Badge } from '~/components/ui/badge';
 import { useBreadcrumb } from '~/hooks/useBreadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
-import ConnectionListingVersion1 from './versions/ConnectionListingVersion1';
+import {
+  ConnectionListingVersion1,
+  ConnectionListingVersion2,
+} from './versions';
 import { useOperator } from '~/contexts/OperatorContext';
 
 import {
@@ -37,7 +40,8 @@ export default function Connections() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {selectedLayout === 'default' && <ConnectionListingVersion1 />}
+      {selectedLayout === 'connections-v1' && <ConnectionListingVersion1 />}
+      {selectedLayout === 'connections-v2' && <ConnectionListingVersion2 />}
     </div>
   );
 }

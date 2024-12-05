@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 import { Text } from '@radix-ui/themes';
+import { useOperator } from '~/contexts/OperatorContext';
 
 interface VersionConfig {
   id: string;
@@ -41,20 +42,20 @@ const layouts: LayoutConfig[] = [
     id: 'connections-v1',
     label: 'Connections V1',
     description: 'Original connections layout',
-    availableIn: ['v1'],
+    availableIn: ['v1', 'v2'],
   },
   {
     id: 'connections-v2',
     label: 'Connections V2',
     description: 'New unified connections layout',
-    availableIn: ['v2'],
+    availableIn: ['v2', 'v1'],
   },
 ];
 
 export default function OperatorToolbar() {
   const navigate = useNavigate();
   const { version } = useParams();
-  const [selectedLayout, setSelectedLayout] = React.useState('default');
+  const { selectedLayout, setSelectedLayout } = useOperator();
 
   const handleVersionChange = (newVersion: string) => {
     const currentPath = window.location.pathname;
@@ -64,7 +65,6 @@ export default function OperatorToolbar() {
 
   const handleLayoutChange = (layoutId: string) => {
     setSelectedLayout(layoutId);
-    // Here you could emit an event or update a context to change the layout
   };
 
   const availableLayouts = layouts.filter((layout) =>

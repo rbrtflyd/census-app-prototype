@@ -10,7 +10,7 @@ const OperatorContext = createContext<OperatorContextType | undefined>(
 );
 
 export function OperatorProvider({ children }: { children: React.ReactNode }) {
-  const [selectedLayout, setSelectedLayout] = useState('default');
+  const [selectedLayout, setSelectedLayout] = useState('connections-v1');
 
   return (
     <OperatorContext.Provider value={{ selectedLayout, setSelectedLayout }}>
