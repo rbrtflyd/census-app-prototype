@@ -11,22 +11,20 @@ import {
 } from '~/components/ui/tooltip';
 import { ConnectionServiceType, ConnectionType } from '~/db/types';
 
-export default function ConnectionListingVersion1() {
-  const { version, workspaceConnections, connections } = useOutletContext() as {
-    version: string;
-    workspaceConnections: ConnectionType[];
-    connections: ConnectionServiceType[];
-  };
-
+export default function ConnectionListingVersion1({
+  version,
+  workspaceConnections,
+  formatWorkspaceConnection,
+  connections,
+}: {
+  version: string;
+  workspaceConnections: ConnectionType[];
+  formatWorkspaceConnection: (
+    workspaceConnection: ConnectionType
+  ) => ConnectionServiceType | undefined;
+  connections: ConnectionServiceType[];
+}) {
   const navigate = useNavigate();
-
-  const formatWorkspaceConnection = (workspaceConnection: ConnectionType) => {
-    const connection = connections.find(
-      (c) => c.id === workspaceConnection.connectionId
-    );
-    return connection;
-  };
-
   return (
     <>
       <PageHeader

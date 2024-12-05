@@ -38,10 +38,21 @@ export default function Connections() {
     return connection;
   };
 
+  const data = {
+    version,
+    formatWorkspaceConnection,
+    connections,
+    workspaceConnections,
+  };
+
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {selectedLayout === 'connections-v1' && <ConnectionListingVersion1 />}
-      {selectedLayout === 'connections-v2' && <ConnectionListingVersion2 />}
+      {selectedLayout === 'connections-v1' && (
+        <ConnectionListingVersion1 {...data} />
+      )}
+      {selectedLayout === 'connections-v2' && (
+        <ConnectionListingVersion2 {...data} />
+      )}
     </div>
   );
 }
