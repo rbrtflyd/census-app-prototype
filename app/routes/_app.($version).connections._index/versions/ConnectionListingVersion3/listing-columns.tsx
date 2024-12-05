@@ -80,7 +80,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
             <TooltipProvider>
               <Tooltip delayDuration={75}>
                 <TooltipTrigger className="group">
-                  <Text className="text-light underline decoration-dashed group-hover:text-dark decoration-[0.07rem] underline-offset-2 decoration-slate-100 group-hover:decoration-slate-500 transition-all duration-75">
+                  <Text className="text-light text-xs underline decoration-dashed group-hover:text-dark decoration-[0.07rem] underline-offset-2 decoration-slate-100 group-hover:decoration-slate-500 transition-all duration-75">
                     {row.original.connectionServiceName === 'Snowflake' ? (
                       <span>data_warehouse</span>
                     ) : (
