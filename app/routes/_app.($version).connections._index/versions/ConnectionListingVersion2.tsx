@@ -13,16 +13,10 @@ import { ConnectionServiceType, ConnectionType } from '~/db/types';
 
 export default function ConnectionListingVersion2({
   version,
-  workspaceConnections,
-  connections,
-  formatWorkspaceConnection,
+  combinedConnections,
 }: {
   version: string;
-  workspaceConnections: ConnectionType[];
-  connections: ConnectionServiceType[];
-  formatWorkspaceConnection: (
-    workspaceConnection: ConnectionType
-  ) => ConnectionServiceType | undefined;
+  combinedConnections: any;
 }) {
   const navigate = useNavigate();
   return (
@@ -32,13 +26,12 @@ export default function ConnectionListingVersion2({
         button={{
           label: 'New Connection',
           icon: faPlus,
-          onClick: () => navigate(`/${version}/connections/new`),
+          onClick: () => navigate(`/${version}/connections/new/step1`),
         }}
       />
       <main className="flex-grow p-4 overflow-y-auto">
         <div className="flex flex-col max-w-[1400px] mx-auto w-full gap-2">
-          {workspaceConnections.map((wc) => {
-            const connectionDetails = formatWorkspaceConnection(wc);
+          {combinedConnections.map((wc: any) => {
             return (
               <button
                 key={wc.id}
@@ -48,20 +41,18 @@ export default function ConnectionListingVersion2({
                 }}>
                 <div className="flex flex-row items-center justify-between px-5 py-4">
                   <div className="flex flex-row items-center gap-4">
-                    {connectionDetails?.logo && (
+                    {wc.logo && (
                       <div className="size-8 flex items-center justify-center border border-base rounded-md bg-white">
                         <img
-                          src={connectionDetails.logo}
-                          alt={connectionDetails.connectionServiceName}
+                          src={wc.logo}
+                          alt={wc.connectionServiceName}
                           className="size-4"
                         />
                       </div>
                     )}
                     <div className="flex flex-row items-start gap-2">
                       <Text className="font-medium text-slate-500">
-                        {wc.name
-                          ? wc.name
-                          : connectionDetails?.connectionServiceName}
+                        {wc.name || wc.connectionServiceName}
                       </Text>
                       <Text>{wc.id}</Text>
                     </div>

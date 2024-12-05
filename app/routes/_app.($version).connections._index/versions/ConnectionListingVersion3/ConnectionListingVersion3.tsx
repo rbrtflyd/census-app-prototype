@@ -15,20 +15,15 @@ import { DataTable } from './listing-table';
 
 export default function ConnectionListingVersion3({
   version,
-  workspaceConnections,
-  connections,
-  formatWorkspaceConnection,
+  combinedConnections,
 }: {
   version: string;
-  workspaceConnections: ConnectionType[];
-  connections: ConnectionServiceType[];
-  formatWorkspaceConnection: (
-    workspaceConnection: ConnectionType
-  ) => ConnectionServiceType | undefined;
+  combinedConnections: any;
 }) {
   const navigate = useNavigate();
 
-  const data = workspaceConnections;
+  const data = combinedConnections;
+
   return (
     <>
       <PageHeader
@@ -36,7 +31,7 @@ export default function ConnectionListingVersion3({
         button={{
           label: 'New Connection',
           icon: faPlus,
-          onClick: () => navigate(`/${version}/connections/new`),
+          onClick: () => navigate(`/${version}/connections/new/step1`),
         }}
       />
 

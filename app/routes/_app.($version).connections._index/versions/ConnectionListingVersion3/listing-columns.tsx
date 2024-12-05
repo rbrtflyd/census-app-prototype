@@ -3,6 +3,7 @@ import type { ConnectionType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
+import { Badge } from '~/components/ui/badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
@@ -63,9 +64,37 @@ export const columns: ColumnDef<ConnectionType>[] = [
     },
     size: 100,
   },
+
+  {
+    accessorKey: 'connectionServiceName',
+    header: 'Service',
+    cell: ({ row }) => {
+      return (
+        <Text className="truncate">{row.original.connectionServiceName}</Text>
+      );
+    },
+  },
+  {
+    accessorKey: 'lastTestStatus',
+    header: 'Status',
+    cell: ({ row }) => {
+      return (
+        <Badge>
+          <div
+            className={`w-2 h-2 rounded-full ${
+              row.original.lastTestStatus === 'connected'
+                ? 'bg-green-500'
+                : 'bg-red-500'
+            } mr-1`}
+          />
+          <Text className="capitalize">{row.original.lastTestStatus}</Text>
+        </Badge>
+      );
+    },
+  },
   {
     accessorKey: 'lastTestedAt',
-    header: 'Modified',
+    header: 'Last Tested',
     cell: ({ row }) => {
       const date = new Date(row.getValue('lastTestedAt'));
       const now = new Date();

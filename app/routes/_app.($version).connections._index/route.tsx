@@ -39,9 +39,18 @@ export default function Connections() {
     return connection;
   };
 
+  const combinedConnections = [...workspaceConnections].map((wc) => {
+    const connectionDetails = formatWorkspaceConnection(wc);
+    return {
+      ...wc,
+      logo: connectionDetails?.logo || '',
+      connectionServiceName: connectionDetails?.connectionServiceName || '',
+    };
+  });
+
   const data = {
     version,
-    formatWorkspaceConnection,
+    combinedConnections,
     connections,
     workspaceConnections,
     navigate,

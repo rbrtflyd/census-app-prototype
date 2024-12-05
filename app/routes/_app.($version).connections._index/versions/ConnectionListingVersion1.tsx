@@ -13,16 +13,10 @@ import { ConnectionServiceType, ConnectionType } from '~/db/types';
 
 export default function ConnectionListingVersion1({
   version,
-  workspaceConnections,
-  formatWorkspaceConnection,
-  connections,
+  combinedConnections,
 }: {
   version: string;
-  workspaceConnections: ConnectionType[];
-  formatWorkspaceConnection: (
-    workspaceConnection: ConnectionType
-  ) => ConnectionServiceType | undefined;
-  connections: ConnectionServiceType[];
+  combinedConnections: any;
 }) {
   const navigate = useNavigate();
   return (
@@ -32,13 +26,12 @@ export default function ConnectionListingVersion1({
         button={{
           label: 'New Connection',
           icon: faPlus,
-          onClick: () => navigate(`/${version}/connections/new`),
+          onClick: () => navigate(`/${version}/connections/new/step1`),
         }}
       />
       <main className="flex-grow p-4 overflow-y-auto">
         <div className="flex flex-col max-w-[1400px] mx-auto w-full">
-          {workspaceConnections.map((wc) => {
-            const connectionDetails = formatWorkspaceConnection(wc);
+          {combinedConnections.map((wc: any) => {
             return (
               <button
                 key={wc.id}
@@ -48,15 +41,15 @@ export default function ConnectionListingVersion1({
                 }}>
                 <div className="flex flex-row items-center justify-between px-6 py-4">
                   <div className="flex flex-row items-center gap-4">
-                    {connectionDetails?.logo && (
+                    {wc.logo && (
                       <div className="h-7 px-1.5 flex items-center justify-center border border-base rounded bg-white gap-2 shadow">
                         <img
-                          src={connectionDetails.logo}
-                          alt={connectionDetails.connectionServiceName}
+                          src={wc.logo}
+                          alt={wc.connectionServiceName}
                           className="size-4"
                         />
                         <Text className="text-xxs text-light">
-                          {connectionDetails?.connectionServiceName}
+                          {wc.connectionServiceName}
                         </Text>
                       </div>
                     )}
