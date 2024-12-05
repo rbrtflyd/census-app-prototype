@@ -6,4 +6,5 @@ export type ConnectionColumns = {
   lastTestStatus: string;
   lastTestedAt: string;
   connectionServiceId: string;
+  connectionMode: string;
 };
