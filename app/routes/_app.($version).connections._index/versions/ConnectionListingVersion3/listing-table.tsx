@@ -50,7 +50,7 @@ export function DataTable<TData, TValue>({
     }
 
     // Assuming each row has an id field - adjust according to your data structure
-    navigate(`/${version}/datasets/${row.original.id}/overview`);
+    navigate(`/${version}/connections/${row.original.id}/`);
   };
 
   const table = useReactTable({

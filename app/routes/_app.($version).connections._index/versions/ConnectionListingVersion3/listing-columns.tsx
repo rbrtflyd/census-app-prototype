@@ -57,20 +57,39 @@ export const columns: ColumnDef<ConnectionType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Text className="truncate">
-          {row.original.name || row.original.connectionServiceName}
-        </Text>
+        <div className="flex flex-row items-center">
+          {row.original.logo && (
+            <div className="size-8 flex items-center justify-center border border-base rounded-md bg-white mr-2">
+              <img
+                src={row.original.logo}
+                alt={row.original.connectionServiceName}
+                className="size-4"
+              />
+            </div>
+          )}
+          <Text className="truncate">
+            {row.original.name || row.original.connectionServiceName}
+          </Text>
+        </div>
       );
     },
     size: 100,
   },
 
   {
-    accessorKey: 'connectionServiceName',
-    header: 'Service',
+    accessorKey: 'connectionMode',
+    header: 'Mode',
     cell: ({ row }) => {
       return (
-        <Text className="truncate">{row.original.connectionServiceName}</Text>
+        <div className="flex flex-row gap-2">
+          {row.original.mode.map((mode: string) => (
+            <Badge
+              key={mode}
+              className="capitalize">
+              {mode}
+            </Badge>
+          ))}
+        </div>
       );
     },
   },

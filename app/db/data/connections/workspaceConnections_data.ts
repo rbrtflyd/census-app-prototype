@@ -9,6 +9,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-12-01'),
+    mode: ['source', 'destination'],
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-02-20'),
     updatedAt: new Date('2023-11-10'),
+    mode: ['source'],
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-03-05'),
     updatedAt: new Date('2023-10-15'),
+    mode: ['source'],
   },
   {
     id: 4,
@@ -39,6 +42,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-01-01'),
     updatedAt: new Date('2023-12-31'),
+    mode: ['destination'],
   },
   {
     id: 5,
@@ -49,6 +53,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-04-10'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['source'],
   },
   {
     id: 6,
@@ -59,6 +64,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-05-01'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['source'],
   },
   {
     id: 7,
@@ -69,6 +75,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-06-15'),
     updatedAt: new Date('2023-11-20'),
+    mode: ['source', 'destination'],
   },
   {
     id: 8,
@@ -79,6 +86,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-07-01'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source', 'destination'],
   },
   {
     id: 9,
@@ -89,6 +97,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-08-05'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['source'],
   },
 
   // Data Warehouses
@@ -101,6 +110,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-01-10'),
     updatedAt: new Date('2023-12-20'),
+    mode: ['destination'],
   },
   {
     id: 11,
@@ -111,6 +121,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-03-15'),
     updatedAt: new Date('2023-11-05'),
+    mode: ['destination'],
   },
   {
     id: 12,
@@ -121,6 +132,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-04-01'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['destination'],
   },
   {
     id: 13,
@@ -131,6 +143,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-05-12'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['destination'],
   },
   {
     id: 14,
@@ -141,6 +154,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-06-20'),
     updatedAt: new Date('2023-12-05'),
+    mode: ['source', 'destination'],
   },
   {
     id: 15,
@@ -151,6 +165,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-07-15'),
     updatedAt: new Date('2023-12-01'),
+    mode: ['source'],
   },
   {
     id: 16,
@@ -161,6 +176,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-08-01'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['source'],
   },
   {
     id: 17,
@@ -171,6 +187,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-09-05'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source'],
   },
   {
     id: 18,
@@ -181,6 +198,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-10-10'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['source'],
   },
   {
     id: 19,
@@ -191,6 +209,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-11-15'),
     updatedAt: new Date('2023-12-20'),
+    mode: ['source', 'destination'],
   },
   {
     id: 20,
@@ -201,6 +220,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-01-20'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['source', 'destination'],
   },
   {
     id: 21,
@@ -211,6 +231,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-02-25'),
     updatedAt: new Date('2023-12-05'),
+    mode: ['destination'],
   },
   {
     id: 22,
@@ -221,6 +242,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-03-30'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['destination'],
   },
   {
     id: 23,
@@ -231,6 +253,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-04-05'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source', 'destination'],
   },
   {
     id: 24,
@@ -241,6 +264,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-05-10'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['source'],
   },
   {
     id: 25,
@@ -251,6 +275,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-06-15'),
     updatedAt: new Date('2023-12-20'),
+    mode: ['source'],
   },
   {
     id: 26,
@@ -261,6 +286,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-07-20'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['source'],
   },
   {
     id: 27,
@@ -271,6 +297,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-08-25'),
     updatedAt: new Date('2023-12-05'),
+    mode: ['source'],
   },
   {
     id: 28,
@@ -281,6 +308,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-09-30'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['source', 'destination'],
   },
   {
     id: 29,
@@ -291,6 +319,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-10-05'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source', 'destination'],
   },
   {
     id: 30,
@@ -301,6 +330,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-11-10'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['destination'],
   },
   {
     id: 31,
@@ -311,6 +341,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-12-20'),
+    mode: ['destination'],
   },
   {
     id: 32,
@@ -321,6 +352,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-02-20'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['source', 'destination'],
   },
   {
     id: 33,
@@ -331,6 +363,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-03-25'),
     updatedAt: new Date('2023-12-05'),
+    mode: ['source'],
   },
   {
     id: 34,
@@ -341,6 +374,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-04-30'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['source'],
   },
   {
     id: 35,
@@ -351,6 +385,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-05-05'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source'],
   },
   {
     id: 36,
@@ -361,6 +396,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-06-10'),
     updatedAt: new Date('2023-12-15'),
+    mode: ['source'],
   },
   {
     id: 37,
@@ -371,6 +407,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-07-15'),
     updatedAt: new Date('2023-12-20'),
+    mode: ['source', 'destination'],
   },
   {
     id: 38,
@@ -381,6 +418,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-08-20'),
     updatedAt: new Date('2023-11-30'),
+    mode: ['source', 'destination'],
   },
   {
     id: 39,
@@ -391,6 +429,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'error',
     createdAt: new Date('2023-09-25'),
     updatedAt: new Date('2023-12-05'),
+    mode: ['destination'],
   },
   {
     id: 40,
@@ -401,6 +440,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-10-30'),
     updatedAt: new Date('2023-11-25'),
+    mode: ['destination'],
   },
   {
     id: 41,
@@ -411,6 +451,7 @@ const workspaceConnectionsData = [
     lastTestStatus: 'connected',
     createdAt: new Date('2023-11-05'),
     updatedAt: new Date('2023-12-10'),
+    mode: ['source', 'destination'],
   },
 ];
 
