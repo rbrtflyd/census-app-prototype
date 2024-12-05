@@ -94,7 +94,7 @@ export default function OperatorToolbar() {
   if (!isVisible) return null;
 
   return (
-    <div className="absolute inset-x-4 bottom-2 max-w-[1440px] mx-auto flex flex-row gap-6 bg-slate-800 px-8 py-1 rounded-full shadow-lg text-white/60 leading-none justify-between text-xs">
+    <div className="absolute inset-x-12 bottom-2 max-w-[800px] mx-auto flex flex-row gap-6 bg-slate-800 px-8 py-1 rounded-full shadow-lg text-white/60 leading-none justify-between text-xs">
       <div className="flex flex-row gap-6">
         <div className="flex flex-row gap-2 items-center">
           <Text className="text-sm font-medium shrink-0">App Layout</Text>
@@ -137,12 +137,17 @@ export default function OperatorToolbar() {
         </div>
       </div>
       <div className="flex flex-row items-center gap-2">
-        <Text className="text-xs font-medium">Hide</Text>
-        <div className="flex flex-row items-center gap-1 leading-none *:px-1 *:py-1.5 *:rounded *:bg-slate-700 font-mono text-slate-200/60">
-          <span>⌘</span>
-          <span className="text-sm">⬆</span>
-          <span>,</span>
-        </div>
+        <Button
+          onClick={() => setIsVisible(false)}
+          variant="ghost"
+          className="gap-4">
+          <Text className="text-xs font-medium">Hide</Text>
+          <div className="flex flex-row items-stretch gap-1 leading-none *:px-1 *:py-1 *:rounded *:bg-slate-700 font-mono text-slate-200 ">
+            <span>⌘</span>
+            <span>↑</span>
+            <span>,</span>
+          </div>
+        </Button>
       </div>
     </div>
   );
