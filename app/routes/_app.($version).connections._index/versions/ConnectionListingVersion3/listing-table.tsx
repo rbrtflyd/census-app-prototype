@@ -1,5 +1,6 @@
 import { Button } from '../../../../components/ui/button';
 import React from 'react';
+import { Text } from '@radix-ui/themes';
 import {
   ColumnDef,
   flexRender,
@@ -8,6 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getPaginationRowModel,
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import {
@@ -18,11 +20,20 @@ import {
   TableHeader,
   TableRow,
 } from '../../../../components/ui/table';
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '../../../../components/ui/dropdown-menu';
+
 import { useNavigate, useParams } from '@remix-run/react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  count: number;
 }
 
 const tableActions = [
@@ -40,11 +51,14 @@ const tableActions = [
 export function DataTable<TData, TValue>({
   columns,
   data,
+  count,
 }: DataTableProps<TData, TValue>) {
   const { version } = useParams();
   const navigate = useNavigate();
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
 
   const handleRowClick = (event: React.MouseEvent, row: any) => {
     // Prevent navigation when clicking checkbox
@@ -64,14 +78,47 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       rowSelection,
       sorting,
+      columnVisibility,
     },
   });
 
   return (
     <div className="flex flex-col h-full">
+      <div className="px-8 py-3 border-b border-base text-sm leading-none justify-between flex items-center">
+        <Text>{count} connections</Text>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              className="ml-auto"
+              variant="secondary">
+              Display
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }>
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div></div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

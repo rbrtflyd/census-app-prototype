@@ -34,10 +34,9 @@ export default function ConnectionListingVersion3({
           onClick: () => navigate(`/${version}/connections/new/step1`),
         }}
       />
-      <div className="px-8 py-5 border-b border-base text-sm leading-none">
-        {combinedConnections.length} connections
-      </div>
+
       <DataTable
+        count={combinedConnections.length}
         columns={columns}
         data={data}
       />
