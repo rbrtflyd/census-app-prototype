@@ -29,6 +29,9 @@ export default function ConnectionListingVersion2({
           onClick: () => navigate(`/${version}/connections/new/step1`),
         }}
       />
+      <div className="px-8 py-5 border-b border-base text-sm leading-none">
+        {combinedConnections.length} connections
+      </div>
       <main className="flex-grow p-4 overflow-y-auto">
         <div className="flex flex-col max-w-[1400px] mx-auto w-full gap-2">
           {combinedConnections.map((wc: any) => {
@@ -65,7 +68,7 @@ export default function ConnectionListingVersion2({
                             <Badge>
                               <div
                                 className={`w-2 h-2 rounded-full ${
-                                  wc.lastTestStatus === 'connected'
+                                  wc.lastTestStatus === 'healthy'
                                     ? 'bg-green-500'
                                     : 'bg-red-500'
                                 } mr-1`}
