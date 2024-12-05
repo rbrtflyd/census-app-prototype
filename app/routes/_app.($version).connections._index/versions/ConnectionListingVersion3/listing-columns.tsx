@@ -147,9 +147,9 @@ export const columns: ColumnDef<ConnectionType>[] = [
     cell: ({ row }) => {
       return (
         <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Badge>
+          <Tooltip delayDuration={75}>
+            <TooltipTrigger className="group">
+              <Badge className="group-hover:border-plum-200 group-hover:bg-slate-50  transition-all duration-75">
                 <div
                   className={`w-2 h-2 rounded-full ${
                     row.original.lastTestStatus === 'healthy'
