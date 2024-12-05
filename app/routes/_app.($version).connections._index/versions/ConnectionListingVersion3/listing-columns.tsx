@@ -55,7 +55,11 @@ export const columns: ColumnDef<ConnectionType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <Text className="truncate">{row.original.name}</Text>;
+      return (
+        <Text className="truncate">
+          {row.original.name || row.original.connectionServiceName}
+        </Text>
+      );
     },
     size: 100,
   },
