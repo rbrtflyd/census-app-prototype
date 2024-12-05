@@ -107,7 +107,6 @@ export const columns: ColumnDef<ConnectionType>[] = [
     },
     size: 100,
   },
-
   {
     accessorKey: 'connectionMode',
     header: ({ column }) => {

@@ -29,6 +29,9 @@ import {
 } from '../../../../components/ui/dropdown-menu';
 
 import { useNavigate, useParams } from '@remix-run/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faChevronDown } from '@fortawesome/pro-solid-svg-icons';
+import { faSliders } from '@fortawesome/pro-regular-svg-icons';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -95,7 +98,16 @@ export function DataTable<TData, TValue>({
             <Button
               className="ml-auto"
               variant="secondary">
-              Display
+              <FontAwesomeIcon
+                icon={faSliders}
+                className="mr-1 text-xs icon-light"
+              />
+              <Text>Display</Text>
+
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                className="text-sm icon-light ml-2"
+              />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -111,7 +123,10 @@ export function DataTable<TData, TValue>({
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
                     }>
-                    {column.id}
+                    {column.id
+                      .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+                      .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+                      .trim()}
                   </DropdownMenuCheckboxItem>
                 );
               })}
