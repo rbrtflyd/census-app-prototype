@@ -8,6 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/components/ui/tooltip';
 
 export const columns: ColumnDef<ConnectionType>[] = [
   {
@@ -67,9 +73,10 @@ export const columns: ColumnDef<ConnectionType>[] = [
               />
             </div>
           )}
-          <Text className="truncate">
+          <Text className="truncate mr-2">
             {row.original.name || row.original.connectionServiceName}
           </Text>
+          <Text className=" text-light">connection:{row.original.id}</Text>
         </div>
       );
     },
@@ -78,7 +85,22 @@ export const columns: ColumnDef<ConnectionType>[] = [
 
   {
     accessorKey: 'connectionMode',
-    header: 'Mode',
+    header: ({ column }) => {
+      return (
+        <div className="flex flex-row gap-2 items-center">
+          <Text>Mode</Text>
+          <Toggle
+            size="sm"
+            variant="default"
+            className="px-1.5 py-1.5 flex items-center justify-center hover:bg-deep rounded-sm group icon-lighter hover:icon-light text-[11px] data-[state=on]:bg-deep data-[state=on]:icon-light"
+            onPressedChange={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <FontAwesomeIcon icon={faSort} />
+          </Toggle>
+        </div>
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex flex-row gap-2">
@@ -92,56 +114,38 @@ export const columns: ColumnDef<ConnectionType>[] = [
         </div>
       );
     },
+    enableSorting: true,
   },
   {
     accessorKey: 'lastTestStatus',
     header: 'Status',
     cell: ({ row }) => {
       return (
-        <Badge>
-          <div
-            className={`w-2 h-2 rounded-full ${
-              row.original.lastTestStatus === 'connected'
-                ? 'bg-green-500'
-                : 'bg-red-500'
-            } mr-1`}
-          />
-          <Text className="capitalize">{row.original.lastTestStatus}</Text>
-        </Badge>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Badge>
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    row.original.lastTestStatus === 'connected'
+                      ? 'bg-green-500'
+                      : 'bg-red-500'
+                  } mr-1`}
+                />
+                <Text className="capitalize">
+                  {row.original.lastTestStatus}
+                </Text>
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent>
+              <Text className="capitalize">
+                Last tested on{' '}
+                {new Date(row.original.createdAt).toLocaleDateString()}
+              </Text>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       );
-    },
-  },
-  {
-    accessorKey: 'lastTestedAt',
-    header: 'Last Tested',
-    cell: ({ row }) => {
-      const date = new Date(row.getValue('lastTestedAt'));
-      const now = new Date();
-      const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-      let formatted;
-
-      if (diffInSeconds < 60) {
-        formatted = `${diffInSeconds} second${
-          diffInSeconds !== 1 ? 's' : ''
-        } ago`;
-      } else if (diffInSeconds < 3600) {
-        const minutes = Math.floor(diffInSeconds / 60);
-        formatted = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-      } else if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600);
-        formatted = `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-      } else if (diffInSeconds < 604800) {
-        const days = Math.floor(diffInSeconds / 86400);
-        formatted = `${days} day${days !== 1 ? 's' : ''} ago`;
-      } else if (diffInSeconds < 2592000) {
-        const weeks = Math.floor(diffInSeconds / 604800);
-        formatted = `${weeks} week${weeks !== 1 ? 's' : ''} ago`;
-      } else {
-        const months = Math.floor(diffInSeconds / 2592000);
-        formatted = `${months} month${months !== 1 ? 's' : ''} ago`;
-      }
-
-      return <div>{formatted}</div>;
     },
   },
 ];

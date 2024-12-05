@@ -27,10 +27,13 @@ interface DataTableProps<TData, TValue> {
 
 const tableActions = [
   {
-    label: 'Enrich',
+    label: 'Test',
   },
   {
-    label: 'Dedupe',
+    label: 'Delete',
+  },
+  {
+    label: 'Reauthorize',
   },
 ];
 
