@@ -36,17 +36,17 @@ export default function ConnectionListingVersion2({
         }}
       />
       <main className="flex-grow p-4 overflow-y-auto">
-        <div className="flex flex-col max-w-[1400px] mx-auto w-full gap-4">
+        <div className="flex flex-col max-w-[1400px] mx-auto w-full gap-2">
           {workspaceConnections.map((wc) => {
             const connectionDetails = formatWorkspaceConnection(wc);
             return (
               <button
                 key={wc.id}
-                className="w-full bg-white shadow-sm rounded-md hover:bg-slate-25 transition-colors duration-75 *:leading-none group"
+                className="w-full bg-white shadow-sm rounded-md  border border-base transition-colors duration-75 *:leading-none group"
                 onClick={() => {
                   navigate(`/${version}/connections/${wc.id}`);
                 }}>
-                <div className="flex flex-row items-center justify-between px-6 py-4">
+                <div className="flex flex-row items-center justify-between px-5 py-4">
                   <div className="flex flex-row items-center gap-4">
                     {connectionDetails?.logo && (
                       <div className="size-8 flex items-center justify-center border border-base rounded-md bg-white">
@@ -72,7 +72,13 @@ export default function ConnectionListingVersion2({
                         <Tooltip delayDuration={100}>
                           <TooltipTrigger>
                             <Badge>
-                              <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
+                              <div
+                                className={`w-2 h-2 rounded-full ${
+                                  wc.lastTestStatus === 'connected'
+                                    ? 'bg-green-500'
+                                    : 'bg-red-500'
+                                } mr-1`}
+                              />
                               <Text className="capitalize">
                                 {wc.lastTestStatus}
                               </Text>

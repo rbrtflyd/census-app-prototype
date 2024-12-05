@@ -50,6 +50,12 @@ const layouts: LayoutConfig[] = [
     description: 'New unified connections layout',
     availableIn: ['v2', 'v1'],
   },
+  {
+    id: 'connections-v3',
+    label: 'Connections V3',
+    description: 'Table layout',
+    availableIn: ['v2', 'v1'],
+  },
 ];
 
 export default function OperatorToolbar() {
@@ -88,7 +94,7 @@ export default function OperatorToolbar() {
   if (!isVisible) return null;
 
   return (
-    <div className="absolute inset-x-0 bottom-2 max-w-[1440px] mx-auto flex flex-row gap-6 bg-slate-800 px-8 py-2 rounded-full shadow-lg text-white leading-none justify-between">
+    <div className="absolute inset-x-4 bottom-2 max-w-[1440px] mx-auto flex flex-row gap-6 bg-slate-800 px-8 py-1 rounded-full shadow-lg text-white leading-none justify-between">
       <div className="flex flex-row gap-6">
         <div className="flex flex-row gap-2 items-center">
           <Text className="text-sm font-medium shrink-0">App Layout</Text>

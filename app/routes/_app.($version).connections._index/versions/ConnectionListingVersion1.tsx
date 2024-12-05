@@ -49,21 +49,24 @@ export default function ConnectionListingVersion1({
                 <div className="flex flex-row items-center justify-between px-6 py-4">
                   <div className="flex flex-row items-center gap-4">
                     {connectionDetails?.logo && (
-                      <div className="size-8 flex items-center justify-center border border-base rounded-md bg-white">
+                      <div className="h-7 px-1.5 flex items-center justify-center border border-base rounded bg-white gap-2 shadow">
                         <img
                           src={connectionDetails.logo}
                           alt={connectionDetails.connectionServiceName}
                           className="size-4"
                         />
+                        <Text className="text-xxs text-light">
+                          {connectionDetails?.connectionServiceName}
+                        </Text>
                       </div>
                     )}
-                    <div className="flex flex-row items-start gap-2">
+                    <div className="flex flex-row items-center gap-2">
                       <Text className="font-medium text-slate-500">
-                        {wc.name
-                          ? wc.name
-                          : connectionDetails?.connectionServiceName}
+                        {wc.name}
                       </Text>
-                      <Text>{wc.id}</Text>
+                      <Text className="px-1.5 py-1 bg-subtle font-mono rounded-sm leading-none text-xxs text-lighter ">
+                        connection:{wc.id}
+                      </Text>
                     </div>
                   </div>
                   <div className="flex flex-row items-center gap-4">
@@ -72,7 +75,13 @@ export default function ConnectionListingVersion1({
                         <Tooltip delayDuration={100}>
                           <TooltipTrigger>
                             <Badge>
-                              <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
+                              <div
+                                className={`w-2 h-2 rounded-full ${
+                                  wc.lastTestStatus === 'connected'
+                                    ? 'bg-green-500'
+                                    : 'bg-red-500'
+                                } mr-1`}
+                              />
                               <Text className="capitalize">
                                 {wc.lastTestStatus}
                               </Text>

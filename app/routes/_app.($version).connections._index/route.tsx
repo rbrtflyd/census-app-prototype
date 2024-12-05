@@ -10,6 +10,7 @@ import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 import {
   ConnectionListingVersion1,
   ConnectionListingVersion2,
+  ConnectionListingVersion3,
 } from './versions';
 import { useOperator } from '~/contexts/OperatorContext';
 
@@ -43,6 +44,7 @@ export default function Connections() {
     formatWorkspaceConnection,
     connections,
     workspaceConnections,
+    navigate,
   };
 
   return (
@@ -52,6 +54,9 @@ export default function Connections() {
       )}
       {selectedLayout === 'connections-v2' && (
         <ConnectionListingVersion2 {...data} />
+      )}
+      {selectedLayout === 'connections-v3' && (
+        <ConnectionListingVersion3 {...data} />
       )}
     </div>
   );
