@@ -63,20 +63,36 @@ export const columns: ColumnDef<ConnectionType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center leading-none gap-3">
           {row.original.logo && (
-            <div className="size-8 flex items-center justify-center border border-base rounded-md bg-white mr-2">
+            <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2">
               <img
                 src={row.original.logo}
                 alt={row.original.connectionServiceName}
-                className="size-4"
+                className="size-6"
               />
             </div>
           )}
-          <Text className="truncate mr-2">
-            {row.original.name || row.original.connectionServiceName}
-          </Text>
-          <Text className=" text-light">connection:{row.original.id}</Text>
+          <div className="flex flex-col gap-1.5 items-start">
+            <Text className="truncate font-medium">
+              {row.original.name || row.original.connectionServiceName}
+            </Text>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="group">
+                  <Text className="text-light underline decoration-dashed group-hover:text-dark">
+                    connection:{row.original.id}
+                  </Text>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <Text className="">
+                    Connected by someone@example.com on{' '}
+                    {new Date(row.original.createdAt).toLocaleDateString()}
+                  </Text>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       );
     },
