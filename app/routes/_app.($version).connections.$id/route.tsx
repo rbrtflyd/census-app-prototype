@@ -68,7 +68,7 @@ export default function ConnectionDetail() {
 
   return (
     <>
-      <ConnectionDetailVersion1 />
+      <ConnectionDetailVersion1 {...data} />
     </>
   );
 }

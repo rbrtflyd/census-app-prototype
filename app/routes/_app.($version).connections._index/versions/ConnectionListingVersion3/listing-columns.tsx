@@ -174,6 +174,13 @@ export const columns: ColumnDef<ConnectionType>[] = [
     },
   },
   {
+    accessorKey: 'category',
+    header: 'Category',
+    cell: ({ row }) => {
+      return <Text>{row.original.connectionServiceType}</Text>;
+    },
+  },
+  {
     accessorKey: 'lastTestStatus',
     header: 'Status',
     cell: ({ row }) => {

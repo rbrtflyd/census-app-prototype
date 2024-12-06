@@ -45,6 +45,8 @@ export default function Connections() {
       ...wc,
       logo: connectionDetails?.logo || '',
       connectionServiceName: connectionDetails?.connectionServiceName || '',
+      connectionServiceType: connectionDetails?.connectionServiceType || '',
+      category: connectionDetails?.connectionServiceCategory || '',
     };
   });
 
