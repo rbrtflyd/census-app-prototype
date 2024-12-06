@@ -48,7 +48,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex flex-row gap-2 items-center">
-          <Text>Name</Text>
+          <Text>Connection</Text>
           <Toggle
             size="sm"
             variant="default"
@@ -65,7 +65,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
       return (
         <div className="flex flex-row items-center leading-none gap-3">
           {row.original.logo && (
-            <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2">
+            <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
               <img
                 src={row.original.logo}
                 alt={row.original.connectionServiceName}
@@ -106,6 +106,30 @@ export const columns: ColumnDef<ConnectionType>[] = [
       );
     },
     size: 100,
+  },
+  {
+    accessorKey: 'category',
+    header: ({ column }) => {
+      return (
+        <div className="flex flex-row gap-2 items-center">
+          <Text>Category</Text>
+          <Toggle
+            size="sm"
+            variant="default"
+            className="px-1.5 py-1.5 flex items-center justify-center hover:bg-deep rounded-sm group icon-lighter hover:icon-light text-[11px] data-[state=on]:bg-deep data-[state=on]:icon-light"
+            onPressedChange={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <FontAwesomeIcon icon={faSort} />
+          </Toggle>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <Badge className="truncate">{row.original.connectionServiceType}</Badge>
+      );
+    },
   },
   {
     accessorKey: 'connected',
@@ -155,7 +179,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
           {row.original.mode.map((mode: string) => (
             <Badge
               key={mode}
-              className="capitalize">
+              className="capitalize ">
               {mode}
             </Badge>
           ))}
@@ -173,17 +197,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
       );
     },
   },
-  {
-    accessorKey: 'category',
-    header: 'Category',
-    cell: ({ row }) => {
-      return (
-        <Text className="truncate w-full">
-          {row.original.connectionServiceType}
-        </Text>
-      );
-    },
-  },
+
   {
     accessorKey: 'lastTestStatus',
     header: 'Status',

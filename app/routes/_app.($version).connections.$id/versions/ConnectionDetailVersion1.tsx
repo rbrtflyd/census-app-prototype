@@ -46,12 +46,14 @@ export default function ConnectionDetailVersion1({
 
       <main className="h-full px-6 overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
         <div className="flex flex-row gap-4 py-6 border-b border-slate-50 justify-between">
-          <div className="flex flex-row items-center gap-4">
-            <img
-              src={thisConnection.logo}
-              alt={thisConnection.connectionServiceName}
-              className="w-6 h-6"
-            />
+          <div className="flex flex-row items-center gap-2">
+            <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
+              <img
+                src={thisConnection.logo}
+                alt={thisConnection.connectionServiceName}
+                className="size-6"
+              />
+            </div>
             {thisWorkspaceConnection.name ? (
               <Text className="text-lg font-medium">
                 {thisWorkspaceConnection.name}
