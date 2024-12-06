@@ -44,7 +44,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'connectionId',
+    accessorKey: 'connection',
     header: ({ column }) => {
       return (
         <div className="flex flex-row gap-2 items-center">
@@ -80,7 +80,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
             <TooltipProvider>
               <Tooltip delayDuration={75}>
                 <TooltipTrigger className="group">
-                  <Text className="text-light text-xs underline decoration-dashed group-hover:text-dark decoration-[0.07rem] underline-offset-2 decoration-slate-100 group-hover:decoration-slate-500 transition-all duration-75">
+                  <Text className="text-light text-xs underline decoration-dashed group-hover:text-dark decoration-[0.06rem] underline-offset-2 decoration-slate-100 group-hover:decoration-slate-500 transition-all duration-75">
                     {row.original.connectionServiceName === 'Snowflake' ? (
                       <span>data_warehouse</span>
                     ) : (
@@ -177,7 +177,11 @@ export const columns: ColumnDef<ConnectionType>[] = [
     accessorKey: 'category',
     header: 'Category',
     cell: ({ row }) => {
-      return <Text>{row.original.connectionServiceType}</Text>;
+      return (
+        <Text className="truncate w-full">
+          {row.original.connectionServiceType}
+        </Text>
+      );
     },
   },
   {
