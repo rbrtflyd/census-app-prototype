@@ -28,6 +28,47 @@ export default function ConnectionDetail() {
   const navigate = useNavigate();
   const layout = useOperator();
 
+  const sourceTestSteps = [
+    {
+      step: '1',
+      description: 'Test Network Connectivity',
+      result: 'success',
+    },
+    {
+      step: '2',
+      description: 'Test warehouse credentials',
+      result: 'success',
+    },
+    {
+      step: '3',
+      description: 'Load tables',
+      result: 'Success',
+    },
+    {
+      step: '4',
+      description: 'Verify census schema',
+      result: 'Success',
+    },
+    {
+      step: '5',
+      description: 'Run test sync',
+      result: 'Success',
+    },
+  ];
+
+  const destinationTestSteps = [
+    {
+      step: '1',
+      description: 'Test Service Connectivity',
+      result: 'success',
+    },
+    {
+      step: '2',
+      description: 'Load Service Objects',
+      result: 'success',
+    },
+  ];
+
   const thisWorkspaceConnection = workspaceConnections.find(
     (wc) => wc.id === parseInt(id!, 10)
   );
@@ -49,10 +90,15 @@ export default function ConnectionDetail() {
     });
   }, [version, thisWorkspaceConnection, addBreadcrumb, clearBreadcrumbs]);
 
+  const testSteps = thisWorkspaceConnection?.mode.includes('source')
+    ? sourceTestSteps
+    : destinationTestSteps;
+
   const data = {
     version,
     thisWorkspaceConnection,
     thisConnection,
+    testSteps,
   };
 
   if (!thisWorkspaceConnection || !thisConnection) {
