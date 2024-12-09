@@ -18,9 +18,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 2,
-    connectionId: 2, // HubSpot
-    workspaceId: 1,
-    name: 'Marketing Hub',
+    connectionId: 1, // Salesforce (second instance)
+    workspaceId: 2,
+    name: 'Partner Relationship Management',
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-02-20'),
@@ -30,8 +30,8 @@ const workspaceConnectionsData = [
   },
   {
     id: 3,
-    connectionId: 3, // Zendesk
-    workspaceId: 2,
+    connectionId: 1, // Salesforce (third instance)
+    workspaceId: 3,
     name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
@@ -41,9 +41,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 4,
-    connectionId: 4, // Slack
+    connectionId: 2, // HubSpot
     workspaceId: 1,
-    name: 'Company-wide Slack',
+    name: 'Marketing Hub',
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-01-01'),
@@ -52,7 +52,7 @@ const workspaceConnectionsData = [
   },
   {
     id: 5,
-    connectionId: 5, // Jira
+    connectionId: 3, // Zendesk
     workspaceId: 3,
     name: null,
     lastTestedAt: new Date('2023-12-01'),
@@ -63,9 +63,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 6,
-    connectionId: 6, // Asana
+    connectionId: 4, // Slack
     workspaceId: 2,
-    name: 'Project Management',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-05-01'),
@@ -74,9 +74,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 7,
-    connectionId: 7, // Intercom
+    connectionId: 5, // Jira
     workspaceId: 1,
-    name: null,
+    name: 'Development Tracking',
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-06-15'),
@@ -85,9 +85,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 8,
-    connectionId: 1, // Salesforce (second instance)
+    connectionId: 6, // Asana
     workspaceId: 3,
-    name: 'Partner Relationship Management',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-07-01'),
@@ -101,9 +101,9 @@ const workspaceConnectionsData = [
   },
   {
     id: 9,
-    connectionId: 2, // HubSpot (second instance)
+    connectionId: 7, // Intercom
     workspaceId: 2,
-    name: null,
+    name: 'Customer Engagement',
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-08-05'),
@@ -111,13 +111,11 @@ const workspaceConnectionsData = [
     mode: ['source', 'destination'],
     syncEngine: 'basic',
   },
-
-  // Data Warehouses
   {
     id: 10,
-    connectionId: 8, // Assuming 8 is Snowflake in connections_data
+    connectionId: 8, // Snowflake
     workspaceId: 1,
-    name: 'Central Data Warehouse',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-01-10'),
@@ -133,9 +131,9 @@ const workspaceConnectionsData = [
 
   {
     id: 17,
-    connectionId: 4, // Stripe
+    connectionId: 14, // Zendesk
     workspaceId: 2,
-    name: null,
+    name: 'Support Analytics',
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-09-05'),
@@ -145,9 +143,9 @@ const workspaceConnectionsData = [
 
   {
     id: 20,
-    connectionId: 7, // Intercom
+    connectionId: 17, // MySQL
     workspaceId: 2,
-    name: 'Customer Messaging Platform',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-01-20'),
@@ -157,9 +155,9 @@ const workspaceConnectionsData = [
 
   {
     id: 26,
-    connectionId: 4, // Stripe
+    connectionId: 23, // Tableau
     workspaceId: 2,
-    name: 'Subscription Management',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-07-20'),
@@ -169,7 +167,7 @@ const workspaceConnectionsData = [
 
   {
     id: 29,
-    connectionId: 7, // Intercom
+    connectionId: 26, // Braze
     workspaceId: 2,
     name: null,
     lastTestedAt: new Date('2023-12-01'),
@@ -181,9 +179,9 @@ const workspaceConnectionsData = [
 
   {
     id: 32,
-    connectionId: 1, // Salesforce
+    connectionId: 29, // Mailchimp
     workspaceId: 2,
-    name: 'Global Sales Operations',
+    name: null,
     lastTestedAt: new Date('2023-12-01'),
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-02-20'),
@@ -201,7 +199,7 @@ const workspaceConnectionsData = [
   },
   {
     id: 33,
-    connectionId: 2, // HubSpot
+    connectionId: 30, // Shopify
     workspaceId: 3,
     name: null,
     lastTestedAt: new Date('2023-12-01'),
