@@ -274,6 +274,168 @@ const connectionsData: ConnectionServiceType[] = [
       'A highly scalable, distributed NoSQL database designed to handle large amounts of structured data across many commodity servers.',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Cassandra_logo.svg',
   },
+  {
+    id: 31,
+    connectionServiceName: 'NetSuite',
+    connectionServiceType: 'ERP',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A cloud-based business management suite that includes ERP, financials, CRM, and ecommerce capabilities.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/NetSuite_logo.svg',
+  },
+  {
+    id: 32,
+    connectionServiceName: 'Workday',
+    connectionServiceType: 'HCM',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A cloud-based system for human capital management, financial management, and planning.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Workday_Logo.svg',
+  },
+  {
+    id: 33,
+    connectionServiceName: 'Adobe Analytics',
+    connectionServiceType: 'Analytics',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A web analytics and marketing analytics platform that provides real-time analytics and detailed segmentation.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Adobe_Analytics_logo.svg',
+  },
+  {
+    id: 34,
+    connectionServiceName: 'Oracle',
+    connectionServiceType: 'Database',
+    connectionServiceCategory: 'database',
+    description:
+      'A multi-model database management system. It provides a comprehensive and fully integrated stack of cloud applications and platform services.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/oracle-corporation-logo.svg',
+  },
+  {
+    id: 35,
+    connectionServiceName: 'SAP',
+    connectionServiceType: 'ERP',
+    connectionServiceCategory: 'business_app',
+    description:
+      'An enterprise resource planning software package for large enterprises and mid-size companies. It includes modules for various business processes.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg',
+  },
+  {
+    id: 36,
+    connectionServiceName: 'Stripe',
+    connectionServiceType: 'Payment Processing',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A technology company that builds economic infrastructure for the internet. It provides payment processing software and APIs for e-commerce websites and mobile applications.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg',
+  },
+  {
+    id: 37,
+    connectionServiceName: 'Segment',
+    connectionServiceType: 'Customer Data Platform',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A customer data platform that helps businesses collect, clean, and control their customer data.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/segment-logo.svg',
+  },
+  {
+    id: 38,
+    connectionServiceName: 'Mixpanel',
+    connectionServiceType: 'Analytics',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A business analytics service company that tracks user interactions with web and mobile applications.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/mixpanel.svg',
+  },
+  {
+    id: 39,
+    connectionServiceName: 'Amplitude',
+    connectionServiceType: 'Analytics',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A product analytics platform that helps companies build better products through data-driven decisions.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/amplitude-logo.svg',
+  },
+  {
+    id: 40,
+    connectionServiceName: 'Looker',
+    connectionServiceType: 'Business Intelligence',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A business intelligence software and big data analytics platform that helps you explore, analyze and share real-time business analytics.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Looker.svg',
+  },
+  {
+    id: 41,
+    connectionServiceName: 'Tableau',
+    connectionServiceType: 'Business Intelligence',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A visual analytics platform that helps people see and understand data.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/tableau-software.svg',
+  },
+  {
+    id: 42,
+    connectionServiceName: 'Marketo',
+    connectionServiceType: 'Marketing Automation',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A software platform for marketing automation and revenue generation that helps marketers master the art and science of digital marketing.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/1/1b/Marketo_Logo.svg',
+  },
+  {
+    id: 43,
+    connectionServiceName: 'Klaviyo',
+    connectionServiceType: 'Marketing Automation',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A marketing automation platform for e-commerce businesses that provides email marketing and SMS marketing solutions.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/klaviyo-1.svg',
+  },
+  {
+    id: 44,
+    connectionServiceName: 'Braze',
+    connectionServiceType: 'Customer Engagement',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A customer engagement platform that delivers messaging experiences across push, email, apps, and more.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/braze-1.svg',
+  },
+  {
+    id: 45,
+    connectionServiceName: 'Twilio',
+    connectionServiceType: 'Communications',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A cloud communications platform that enables phone calls, text messages, and other communication functions to be embedded into web and mobile applications.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Twilio-logo-red.svg',
+  },
+  {
+    id: 46,
+    connectionServiceName: 'SendGrid',
+    connectionServiceType: 'Email Service',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A cloud-based email delivery platform that assists businesses with email delivery and management.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/sendgrid-1.svg',
+  },
+  {
+    id: 47,
+    connectionServiceName: 'Mailchimp',
+    connectionServiceType: 'Email Marketing',
+    connectionServiceCategory: 'business_app',
+    description:
+      'An all-in-one marketing platform that helps manage and talk to clients, customers, and other interested parties.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/mailchimp-freddie-icon-2.svg',
+  },
+  {
+    id: 48,
+    connectionServiceName: 'Shopify',
+    connectionServiceType: 'E-commerce',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A complete commerce platform that lets you start, grow, and manage a business with online store capabilities and retail point-of-sale systems.',
+    logo: 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
+  },
 ];
 
 export { connectionsData };
