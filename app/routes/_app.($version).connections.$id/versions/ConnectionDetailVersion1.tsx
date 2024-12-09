@@ -153,7 +153,7 @@ export default function ConnectionDetailVersion1({
                     <Text className=" font-medium">Details</Text>
                     {metaInfo.map((info) => (
                       <div className="flex flex-row gap-1 text-sm leading-none">
-                        <Text className="text-light w-32">{info.label}</Text>
+                        <Text className="text-light w-40">{info.label}</Text>
                         <Text>{info.value}</Text>
                       </div>
                     ))}
@@ -186,7 +186,7 @@ export default function ConnectionDetailVersion1({
                                 <div
                                   key={credKey}
                                   className="flex flex-row">
-                                  <Text className="text-light w-32 capitalize">
+                                  <Text className="text-light w-40 capitalize">
                                     {credKey
                                       .replace(/_/g, ' ')
                                       .replace(/url/gi, 'URL')
