@@ -7,6 +7,19 @@ import { Badge } from '~/components/ui/badge';
 import { useBreadcrumb } from '~/hooks/useBreadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
+import {
+  ConnectionListingVersion1,
+  ConnectionListingVersion2,
+  ConnectionListingVersion3,
+} from './versions';
+import { useOperator } from '~/contexts/OperatorContext';
+
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Tooltip,
+} from '~/components/ui/tooltip';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -14,6 +27,8 @@ export default function Connections() {
     workspaceConnections: ConnectionType[];
     connections: ConnectionServiceType[];
   };
+
+  const { selectedLayout } = useOperator();
 
   const navigate = useNavigate();
 
@@ -24,54 +39,36 @@ export default function Connections() {
     return connection;
   };
 
+  const combinedConnections = [...workspaceConnections].map((wc) => {
+    const connectionDetails = formatWorkspaceConnection(wc);
+    return {
+      ...wc,
+      logo: connectionDetails?.logo || '',
+      connectionServiceName: connectionDetails?.connectionServiceName || '',
+      connectionServiceType: connectionDetails?.connectionServiceType || '',
+      category: connectionDetails?.connectionServiceCategory || '',
+    };
+  });
+
+  const data = {
+    version,
+    combinedConnections,
+    connections,
+    workspaceConnections,
+    navigate,
+  };
+
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <PageHeader
-        title="Connections"
-        button={{
-          label: 'Add Connection',
-          icon: faPlus,
-        }}
-      />
-      <main className="flex-grow p-4 overflow-y-auto">
-        <div className="flex flex-col gap-2 w-full">
-          {workspaceConnections.map((wc) => {
-            const connectionDetails = formatWorkspaceConnection(wc);
-            return (
-              <button
-                key={wc.id}
-                className="w-full flex flex-row items-center justify-between px-6 py-4 border border-base rounded-md hover:bg-slate-25 transition-colors duration-75 *:leading-none"
-                onClick={() => {
-                  navigate(`/${version}/connections/${wc.id}`);
-                }}>
-                <div className="flex flex-row items-center gap-4">
-                  {connectionDetails?.logo && (
-                    <img
-                      src={connectionDetails.logo}
-                      alt={connectionDetails.connectionServiceName}
-                      className="w-6 h-6"
-                    />
-                  )}
-                  <div className="flex flex-col items-start">
-                    <Text className="font-medium text-slate-500">
-                      {wc.name}
-                    </Text>
-                  </div>
-                  <Badge>
-                    <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
-                    <Text className="capitalize">{wc.lastTestStatus}</Text>
-                  </Badge>
-                </div>
-                <div className="flex flex-row items-center gap-4">
-                  <Text className="text-sm text-slate-500">
-                    {new Date(wc.createdAt).toLocaleDateString()}
-                  </Text>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </main>
+      {selectedLayout === 'connections-v1' && (
+        <ConnectionListingVersion1 {...data} />
+      )}
+      {selectedLayout === 'connections-v2' && (
+        <ConnectionListingVersion2 {...data} />
+      )}
+      {selectedLayout === 'connections-v3' && (
+        <ConnectionListingVersion3 {...data} />
+      )}
     </div>
   );
 }

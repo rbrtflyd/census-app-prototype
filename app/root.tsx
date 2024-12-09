@@ -12,6 +12,8 @@ import { MigrationNotification } from './components/Toasts/MigrationNotification
 
 import styles from './tailwind.css?url';
 import './styles.scss';
+import { OperatorProvider } from './contexts/OperatorContext';
+import OperatorToolbar from './components/Toasts/OperatorToolbar/OperatorToolbar';
 
 export const links = () => {
   return [{ rel: 'stylesheet', href: styles }];
@@ -32,11 +34,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <MigrationNotification />
         <div className="flex h-screen flex-row">
-          <BreadcrumbProvider>
-            <div className="grow overflow-hidden">
-              <Outlet />
-            </div>
-          </BreadcrumbProvider>
+          <OperatorProvider>
+            <BreadcrumbProvider>
+              <div className="grow overflow-hidden">
+                <Outlet />
+              </div>
+              <OperatorToolbar />
+            </BreadcrumbProvider>
+          </OperatorProvider>
         </div>
 
         <ScrollRestoration />

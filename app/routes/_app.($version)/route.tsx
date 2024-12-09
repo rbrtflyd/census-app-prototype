@@ -17,6 +17,8 @@ import { Toaster } from '../../components/ui/sonner';
 import { Outlet, useParams } from '@remix-run/react';
 import React from 'react';
 import HeaderNavigation from '../../components/Navigation/Header/HeaderNavigation';
+import { OperatorProvider, useOperator } from '../../contexts/OperatorContext';
+import OperatorToolbar from '~/components/Toasts/OperatorToolbar/OperatorToolbar';
 
 export const meta: MetaFunction = () => {
   return [
@@ -48,6 +50,7 @@ export default function Index() {
   const { datasets, syncs, connections, workspaceConnections } =
     useLoaderData<LoaderData>();
   const { version } = useParams();
+  const { selectedLayout } = useOperator();
 
   useEffect(() => {
     // Check for migrations every 5 minutes

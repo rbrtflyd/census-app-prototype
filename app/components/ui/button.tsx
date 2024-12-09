@@ -17,6 +17,8 @@ const buttonVariants = cva(
         link: 'text-plum-500 underline-offset-1 hover:underline font-medium',
         table:
           'hover:bg-slate-50/50 hover:text-slate-900 dark:hover:bg-slate-800/50 dark:hover:text-slate-50 rounded-none',
+        fancy:
+          'bg-gradient-to-r from-pink-500 to-plum-500 text-white hover:from-plum-500 hover:to-pink-500 transition-all duration-75',
       },
       size: {
         default: 'px-4 py-2 text-base leading-none rounded',
