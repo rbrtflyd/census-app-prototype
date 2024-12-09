@@ -39,21 +39,6 @@ export default function ConnectionDetailVersion1({
     },
   ];
 
-  const credetials = [
-    {
-      label: 'Username',
-      value: thisWorkspaceConnection?.credentials?.username || '********',
-    },
-    {
-      label: 'Password',
-      value: thisWorkspaceConnection?.credentials?.password || '********',
-    },
-    {
-      label: 'Token',
-      value: thisWorkspaceConnection?.credentials?.token || '********',
-    },
-  ];
-
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       <PageHeader
