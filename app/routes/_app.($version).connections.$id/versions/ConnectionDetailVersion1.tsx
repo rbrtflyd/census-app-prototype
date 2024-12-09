@@ -33,6 +33,25 @@ export default function ConnectionDetailVersion1({
       label: 'Last Updated',
       value: format(thisWorkspaceConnection?.updatedAt, 'MMM d, yyyy'),
     },
+    {
+      label: 'Connected By',
+      value: thisWorkspaceConnection?.connectedBy || 'john.doe@example.com',
+    },
+  ];
+
+  const credetials = [
+    {
+      label: 'Username',
+      value: thisWorkspaceConnection?.credentials?.username || '********',
+    },
+    {
+      label: 'Password',
+      value: thisWorkspaceConnection?.credentials?.password || '********',
+    },
+    {
+      label: 'Token',
+      value: thisWorkspaceConnection?.credentials?.token || '********',
+    },
   ];
 
   return (
@@ -42,15 +61,51 @@ export default function ConnectionDetailVersion1({
           thisWorkspaceConnection.name
             ? thisWorkspaceConnection.name
             : thisConnection.connectionServiceName
-        }>
-        <PageHeader.RightSlot>
+        }></PageHeader>
+      <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
+        <div className="flex flex-row gap-4 py-6 px-6  justify-between items-center">
+          <div className="flex flex-row items-center gap-4">
+            <div className="flex flex-row items-center gap-2">
+              <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
+                <img
+                  src={thisConnection.logo}
+                  alt={thisConnection.connectionServiceName}
+                  className="size-6"
+                />
+              </div>
+              <div className="flex flex-col leading-none gap-1">
+                {thisWorkspaceConnection.name ? (
+                  <Text className="text-lg font-medium">
+                    {thisWorkspaceConnection.name}
+                  </Text>
+                ) : (
+                  <Text className="text-lg font-medium">
+                    {thisConnection.connectionServiceName}
+                  </Text>
+                )}
+                <Text className="text-light text-sm">
+                  destination:
+                  <span className="lowercase">
+                    {thisConnection.connectionServiceName}
+                  </span>
+                  -<span>{thisConnection.id}</span>
+                </Text>
+              </div>
+            </div>
+            <Badge>
+              <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
+              <Text className="capitalize">
+                {thisWorkspaceConnection.lastTestStatus}
+              </Text>
+            </Badge>
+          </div>
           <div className="flex flex-row items-center gap-4">
             <Button
               variant="secondary"
               size="small">
               <FontAwesomeIcon
                 icon={faGauge}
-                className="mr-2 icon-lighter"
+                className="mr-2 icon-lighter "
               />
               Test
             </Button>
@@ -73,53 +128,12 @@ export default function ConnectionDetailVersion1({
               Delete
             </Button>
           </div>
-        </PageHeader.RightSlot>
-      </PageHeader>
-      <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
-        <div className="flex flex-row gap-4 py-6 px-6  justify-between items-center">
-          <div className="flex flex-row items-center gap-2">
-            <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
-              <img
-                src={thisConnection.logo}
-                alt={thisConnection.connectionServiceName}
-                className="size-6"
-              />
-            </div>
-            {thisWorkspaceConnection.name ? (
-              <Text className="text-lg font-medium">
-                {thisWorkspaceConnection.name}
-              </Text>
-            ) : (
-              <Text className="text-lg font-medium">
-                {thisConnection.connectionServiceName}
-              </Text>
-            )}
-            <Badge>
-              <div className="w-2 h-2 rounded-full bg-green-500 mr-1" />
-              <Text className="capitalize">
-                {thisWorkspaceConnection.lastTestStatus}
-              </Text>
-            </Badge>
-          </div>
-
-          <div className="flex flex-row gap-6 py-4">
-            {metaInfo.map((info) => (
-              <div className="flex flex-col gap-2 text-xs leading-none">
-                <Text className="font-medium">{info.label}</Text>
-                <Text>{info.value}</Text>
-              </div>
-            ))}
-          </div>
         </div>
 
         <Tabs>
           <TabsList>
             <TabsTrigger value="details">
               <Text>Details</Text>
-            </TabsTrigger>
-
-            <TabsTrigger value="settings">
-              <Text>Settings</Text>
             </TabsTrigger>
             <TabsTrigger value="syncs">
               <Text>Syncs</Text>
@@ -133,8 +147,44 @@ export default function ConnectionDetailVersion1({
           </TabsList>
           <div className="px-6 h-full">
             <TabsContent value="details">
-              <div className="h-full w-full bg-slate-75 rounded-lg p-4 flex items-center justify-center">
-                <Text>So much space for possibilities</Text>
+              <div className="flex flex-row h-full">
+                <div className="flex flex-col grow pr-6">
+                  <div className="flex flex-col gap-4 py-6 border-b border-base">
+                    <Text className=" font-medium">Details</Text>
+                    {metaInfo.map((info) => (
+                      <div className="flex flex-row gap-1 text-sm leading-none">
+                        <Text className="text-light w-32">{info.label}</Text>
+                        <Text>{info.value}</Text>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-4 py-6 border-b border-base">
+                    <Text className=" font-medium">Connection Mode</Text>
+                    <div className="flex flex-row gap-2">
+                      {thisWorkspaceConnection.mode.map((mode: string) => (
+                        <Badge
+                          key={mode}
+                          className="capitalize ">
+                          {mode}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-4 py-6 border-b border-base">
+                    <Text className=" font-medium">Credentials</Text>
+                    {credetials.map((credential) => (
+                      <div className="flex flex-row gap-1 text-sm leading-none">
+                        <Text className="text-light w-32">
+                          {credential.label}
+                        </Text>
+                        <Text>{credential.value}</Text>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 py-4 border border-base rounded-lg p-4 w-[300px]">
+                  <Text className="font-medium">Test Connection</Text>
+                </div>
               </div>
             </TabsContent>
           </div>
