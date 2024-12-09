@@ -8,6 +8,11 @@ declare module '../db' {
     name: string;
     lastTestedAt: Date;
     lastTestStatus: 'connected' | 'failed';
+    mode: 'source' | 'destination';
+    syncEngine?: mode extends ['source'] ? 'basic' | 'advanced' : never;
+    credentials: {
+      [key: string]: string;
+    };
   }
 }
 
