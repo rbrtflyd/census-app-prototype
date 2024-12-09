@@ -130,7 +130,7 @@ export default function ConnectionDetailVersion1({
           </div>
         </div>
 
-        <Tabs>
+        <Tabs defaultValue="details">
           <TabsList>
             <TabsTrigger value="details">
               <Text>Details</Text>
@@ -171,15 +171,39 @@ export default function ConnectionDetailVersion1({
                     </div>
                   </div>
                   <div className="flex flex-col gap-4 py-6 border-b border-base">
-                    <Text className=" font-medium">Credentials</Text>
-                    {credetials.map((credential) => (
-                      <div className="flex flex-row gap-1 text-sm leading-none">
-                        <Text className="text-light w-32">
-                          {credential.label}
-                        </Text>
-                        <Text>{credential.value}</Text>
+                    <Text className="font-medium">Credentials</Text>
+
+                    {thisWorkspaceConnection.credentials ? (
+                      <div className="flex flex-col gap-4 w-full">
+                        {Object.entries(
+                          thisWorkspaceConnection.credentials
+                        ).map(([key, value]) => (
+                          <div
+                            className="flex flex-row gap-1 text-sm leading-none w-full"
+                            key={key}>
+                            {Object.entries(value as object).map(
+                              ([credKey, credValue]) => (
+                                <div
+                                  key={credKey}
+                                  className="flex flex-row">
+                                  <Text className="text-light w-32 capitalize">
+                                    {credKey
+                                      .replace(/_/g, ' ')
+                                      .replace(/url/gi, 'URL')
+                                      .replace(/sftp/gi, 'SFTP')}
+                                  </Text>
+                                  <Text>{credValue}</Text>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    ) : (
+                      <Text className="text-light">
+                        OAuth Connection No Credentials Present
+                      </Text>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col gap-4 py-4 border border-base rounded-lg p-4 w-[300px]">

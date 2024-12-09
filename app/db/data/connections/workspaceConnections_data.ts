@@ -10,6 +10,11 @@ const workspaceConnectionsData = [
     createdAt: new Date('2023-01-15'),
     updatedAt: new Date('2023-12-01'),
     mode: ['source', 'destination'],
+    syncEngine: 'basic',
+    credentials: [
+      { username: 'salesforce_username' },
+      { instance_url: 'https://instance.salesforce.com' },
+    ],
   },
   {
     id: 2,
@@ -21,6 +26,7 @@ const workspaceConnectionsData = [
     createdAt: new Date('2023-02-20'),
     updatedAt: new Date('2023-11-10'),
     mode: ['source', 'destination'],
+    syncEngine: 'basic',
   },
   {
     id: 3,
@@ -87,6 +93,11 @@ const workspaceConnectionsData = [
     createdAt: new Date('2023-07-01'),
     updatedAt: new Date('2023-12-10'),
     mode: ['source', 'destination'],
+    syncEngine: 'basic',
+    credentials: [
+      { username: 'salesforce_username' },
+      { instance_url: 'https://instance.salesforce.com' },
+    ],
   },
   {
     id: 9,
@@ -98,6 +109,7 @@ const workspaceConnectionsData = [
     createdAt: new Date('2023-08-05'),
     updatedAt: new Date('2023-11-25'),
     mode: ['source', 'destination'],
+    syncEngine: 'basic',
   },
 
   // Data Warehouses
@@ -110,7 +122,13 @@ const workspaceConnectionsData = [
     lastTestStatus: 'healthy',
     createdAt: new Date('2023-01-10'),
     updatedAt: new Date('2023-12-20'),
-    mode: ['destination'],
+    mode: ['source'],
+    syncEngine: 'advanced',
+    credentials: [
+      { account: 'iq48949.us-east-1' },
+      { user: 'CENSUS_DEMO_USER' },
+      { warehouse: 'CENSUS_ORG13' },
+    ],
   },
 
   {
@@ -171,6 +189,15 @@ const workspaceConnectionsData = [
     createdAt: new Date('2023-02-20'),
     updatedAt: new Date('2023-11-30'),
     mode: ['source', 'destination'],
+    syncEngine: 'basic',
+    credentials: [
+      {
+        endpoint_url:
+          'https://mc3ttnlvw0ty6-rd9gsld7xpvmqy.auth.marketingcloudapis.com/',
+      },
+      { client_id: '1pp2sjfxi55nxt7nc5l4xh72' },
+      { sftp_user: '514008251' },
+    ],
   },
   {
     id: 33,

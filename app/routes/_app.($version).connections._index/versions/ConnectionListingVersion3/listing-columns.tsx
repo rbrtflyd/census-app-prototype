@@ -176,13 +176,28 @@ export const columns: ColumnDef<ConnectionType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-row gap-2">
-          {row.original.mode.map((mode: string) => (
-            <Badge
-              key={mode}
-              className="capitalize ">
-              {mode}
-            </Badge>
-          ))}
+          {row.original.mode.map((mode: string) =>
+            mode === 'source' ? (
+              <TooltipProvider key={mode}>
+                <Tooltip delayDuration={75}>
+                  <TooltipTrigger>
+                    <Badge className="capitalize">{mode}</Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <Text className="capitalize">
+                      {row.original.syncEngine} Sync Engine
+                    </Text>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Badge
+                key={mode}
+                className="capitalize">
+                {mode}
+              </Badge>
+            )
+          )}
         </div>
       );
     },

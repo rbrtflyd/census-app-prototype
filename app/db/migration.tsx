@@ -44,4 +44,12 @@ export const migrations: Migration[] = [
       workspaceConnections: 'id, connectionId, workspaceId, name, mode',
     }),
   },
+  {
+    version: 7,
+    description: 'Add syncEngine to workspace connections',
+    upgrade: (db: PrototypeDatabase) => ({
+      workspaceConnections:
+        'id, connectionId, workspaceId, name, mode, syncEngine, credentials',
+    }),
+  },
 ];
