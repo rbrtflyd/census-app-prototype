@@ -212,14 +212,16 @@ export function DataTable<TData, TValue>({
                                   ([credKey, credValue]) => (
                                     <div
                                       key={credKey}
-                                      className="flex flex-row">
-                                      <Text className="text-light w-40 capitalize">
+                                      className="flex flex-row w-full">
+                                      <Text className="text-light w-32 shrink-0 capitalize">
                                         {credKey
                                           .replace(/_/g, ' ')
                                           .replace(/url/gi, 'URL')
                                           .replace(/sftp/gi, 'SFTP')}
                                       </Text>
-                                      <Text>{credValue}</Text>
+                                      <Text className="truncate">
+                                        {credValue}
+                                      </Text>
                                     </div>
                                   )
                                 )}

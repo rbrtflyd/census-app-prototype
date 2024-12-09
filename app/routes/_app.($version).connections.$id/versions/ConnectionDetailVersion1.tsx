@@ -39,6 +39,34 @@ export default function ConnectionDetailVersion1({
     },
   ];
 
+  const sourceTestSteps = [
+    {
+      step: '1',
+      description: 'Test Network Connectivity',
+      result: 'success',
+    },
+    {
+      step: '2',
+      description: 'Test warehouse credentials',
+      result: 'success',
+    },
+    {
+      step: '3',
+      description: 'Load tables',
+      result: 'Success',
+    },
+    {
+      step: '4',
+      description: 'Verify census schema',
+      result: 'Success',
+    },
+    {
+      step: '5',
+      description: 'Run test sync',
+      result: 'Success',
+    },
+  ];
+
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       <PageHeader
@@ -135,13 +163,16 @@ export default function ConnectionDetailVersion1({
               <div className="flex flex-row h-full">
                 <div className="flex flex-col grow pr-6">
                   <div className="flex flex-col gap-4 py-6 border-b border-base">
-                    <Text className=" font-medium">Details</Text>
-                    {metaInfo.map((info) => (
-                      <div className="flex flex-row gap-1 text-sm leading-none">
-                        <Text className="text-light w-40">{info.label}</Text>
-                        <Text>{info.value}</Text>
-                      </div>
-                    ))}
+                    <div className="flex flex-row gap-12">
+                      {metaInfo.map((info) => (
+                        <div
+                          className="flex flex-col gap-1 text-sm leading-none"
+                          key={info.label}>
+                          <Text className="text-light">{info.label}</Text>
+                          <Text>{info.value}</Text>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <div className="flex flex-col gap-4 py-6 border-b border-base">
                     <Text className=" font-medium">Connection Mode</Text>
