@@ -5,6 +5,7 @@ import {
   useParams,
   Link,
   useNavigate,
+  Outlet,
 } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
@@ -113,8 +114,22 @@ export default function ConnectionDetail() {
   }
 
   return (
-    <>
-      <ConnectionDetailVersion1 {...data} />
-    </>
+    <div className="flex flex-col h-full w-full overflow-hidden">
+      <PageHeader
+        title={
+          thisWorkspaceConnection.name
+            ? thisWorkspaceConnection.name
+            : thisConnection.connectionServiceName
+        }
+      />
+      <Outlet
+        context={{
+          version,
+          thisWorkspaceConnection,
+          thisConnection,
+          testSteps,
+        }}
+      />
+    </div>
   );
 }
