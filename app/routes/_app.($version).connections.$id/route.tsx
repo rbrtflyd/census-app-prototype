@@ -9,14 +9,8 @@ import {
 } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { Button } from '~/components/ui/button';
-import { Badge } from '~/components/ui/badge';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
-import { format } from 'date-fns';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faPencil, faTrash } from '@fortawesome/pro-solid-svg-icons';
 import { useOperator } from '~/contexts/OperatorContext';
-import { ConnectionDetailVersion1 } from './versions';
 
 export default function ConnectionDetail() {
   const { id } = useParams();

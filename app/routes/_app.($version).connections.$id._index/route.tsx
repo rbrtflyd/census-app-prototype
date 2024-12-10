@@ -39,6 +39,8 @@ export default function ConnectionDetailIndex({}) {
     },
   ];
 
+  console.log('Index Route Context:', useOutletContext());
+
   return (
     <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
       <div className="flex flex-row gap-4 py-6 px-6  justify-between items-center">
