@@ -73,7 +73,6 @@ export default function ConnectionDetail() {
   );
 
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
-
   useEffect(() => {
     // Clear any existing breadcrumbs
     clearBreadcrumbs();
@@ -83,7 +82,21 @@ export default function ConnectionDetail() {
       label: 'Connections',
       href: `/${version}/connections`,
     });
-  }, [version, thisWorkspaceConnection, addBreadcrumb, clearBreadcrumbs]);
+
+    addBreadcrumb({
+      label: `${
+        thisWorkspaceConnection?.name || thisConnection?.connectionServiceName
+      }`,
+      href: `/${version}/connections/${id}`,
+    });
+  }, [
+    version,
+    thisWorkspaceConnection,
+    thisConnection,
+    addBreadcrumb,
+    clearBreadcrumbs,
+    id,
+  ]);
 
   const testSteps = thisWorkspaceConnection?.mode.includes('source')
     ? sourceTestSteps
@@ -109,13 +122,6 @@ export default function ConnectionDetail() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <PageHeader
-        title={
-          thisWorkspaceConnection.name
-            ? thisWorkspaceConnection.name
-            : thisConnection.connectionServiceName
-        }
-      />
       <Outlet
         context={{
           version,

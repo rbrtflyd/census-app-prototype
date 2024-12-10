@@ -1,32 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from '@remix-run/react';
-import { Text } from '@radix-ui/themes';
 import { useBreadcrumbContext } from '../../providers/breadcrumbContext';
-import { Checkbox } from '~/components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
-import { Badge } from '~/components/ui/badge';
-
-import { useOutletContext } from '@remix-run/react';
-import { Input } from '~/components/ui/input';
-import { Separator } from '~/components/ui/separator';
-import { Button } from '~/components/ui/button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClone } from '@fortawesome/pro-solid-svg-icons';
+import PageHeader from '../../components/Structural/Headers/PageHeader';
+import { useOutletContext, useParams } from '@remix-run/react';
 import {
   ConnectionEditingVersion1,
   ConnectionEditingVersion2,
 } from './Versions';
 
 export default function ConnectionEdit({}) {
-  const { thisWorkspaceConnection, thisConnection, testSteps } =
+  const { id } = useParams();
+  const { thisWorkspaceConnection, thisConnection, testSteps, version } =
     useOutletContext<any>();
-
+  const { addBreadcrumb, updateBreadcrumb, removeBreadcrumb } =
+    useBreadcrumbContext();
   const [useCase, setUseCase] = useState<'read' | 'write'>('read');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
   const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(
     new Set(['read', 'write'])
   );
+
+  useEffect(() => {
+    // Add the edit breadcrumb
+    addBreadcrumb({
+      label: `Edit ${
+        thisWorkspaceConnection?.name || thisConnection?.connectionServiceName
+      } Connection`,
+      href: `/${version}/connections/${id}/edit`,
+    });
+
+    return () => {
+      // Remove the edit breadcrumb when unmounting
+      removeBreadcrumb(2);
+    };
+  }, [
+    version,
+    id,
+    addBreadcrumb,
+    removeBreadcrumb,
+    thisWorkspaceConnection,
+    thisConnection,
+  ]);
 
   const handleUseCaseClick = (useCase: string) => {
     setSelectedUseCases((prev) => {
@@ -56,5 +70,10 @@ export default function ConnectionEdit({}) {
     return <div>Loading...</div>;
   }
 
-  return <ConnectionEditingVersion1 data={data} />;
+  return (
+    <>
+      <PageHeader title="Edit Connection" />
+      <ConnectionEditingVersion1 data={data} />
+    </>
+  );
 }
