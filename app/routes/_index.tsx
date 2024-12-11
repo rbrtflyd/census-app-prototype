@@ -84,6 +84,13 @@ export default function Index() {
         window.location.href = '/v1/connections';
       },
     },
+    {
+      name: 'API Credits',
+      description: 'Adding free credit affordances to dataset details',
+      onClick: () => {
+        window.location.href = '/v1/datasets/1/overview';
+      },
+    },
   ];
 
   const internalWorkflows = [

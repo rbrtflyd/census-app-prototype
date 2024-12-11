@@ -8,18 +8,18 @@ import { Badge } from '~/components/ui/badge';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faPencil, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faCheck,
+  faGauge,
+  faPencil,
+  faTrash,
+} from '@fortawesome/pro-solid-svg-icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
-export default function ConnectionDetailVersion1({
-  version,
-  thisWorkspaceConnection,
-  thisConnection,
-}: {
-  version: string;
-  thisWorkspaceConnection: ConnectionType;
-  thisConnection: ConnectionServiceType;
-}) {
+export default function ConnectionDetailIndex({}) {
+  const { version, thisWorkspaceConnection, thisConnection, testSteps } =
+    useOutletContext<any>();
+
   const metaInfo = [
     {
       label: 'Last Tested',
@@ -39,42 +39,17 @@ export default function ConnectionDetailVersion1({
     },
   ];
 
-  const sourceTestSteps = [
-    {
-      step: '1',
-      description: 'Test Network Connectivity',
-      result: 'success',
-    },
-    {
-      step: '2',
-      description: 'Test warehouse credentials',
-      result: 'success',
-    },
-    {
-      step: '3',
-      description: 'Load tables',
-      result: 'Success',
-    },
-    {
-      step: '4',
-      description: 'Verify census schema',
-      result: 'Success',
-    },
-    {
-      step: '5',
-      description: 'Run test sync',
-      result: 'Success',
-    },
-  ];
+  console.log('Index Route Context:', useOutletContext());
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden">
+    <>
       <PageHeader
         title={
           thisWorkspaceConnection.name
             ? thisWorkspaceConnection.name
             : thisConnection.connectionServiceName
-        }></PageHeader>
+        }
+      />
       <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
         <div className="flex flex-row gap-4 py-6 px-6  justify-between items-center">
           <div className="flex flex-row items-center gap-4">
@@ -115,16 +90,10 @@ export default function ConnectionDetailVersion1({
           <div className="flex flex-row items-center gap-4">
             <Button
               variant="secondary"
-              size="small">
-              <FontAwesomeIcon
-                icon={faGauge}
-                className="mr-2 icon-lighter "
-              />
-              Test
-            </Button>
-            <Button
-              variant="secondary"
-              size="small">
+              size="small"
+              onClick={() => {
+                window.location.href = `/${version}/connections/${thisWorkspaceConnection.id}/edit`;
+              }}>
               <FontAwesomeIcon
                 icon={faPencil}
                 className="mr-2 icon-lighter"
@@ -222,14 +191,34 @@ export default function ConnectionDetailVersion1({
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col gap-4 py-4 border border-base rounded-lg p-4 w-[300px]">
+                <div className="flex flex-col gap-2 py-4 border border-base rounded-lg p-4 w-[300px]">
                   <Text className="font-medium">Test Connection</Text>
+                  {testSteps.map((step: any) => (
+                    <div
+                      key={step.step}
+                      className="flex flex-row items-center gap-4 justify-between">
+                      <Text className="text-lighter">{step.description}</Text>
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="mr-2 text-emerald-500"
+                      />
+                    </div>
+                  ))}
+                  <Button
+                    variant="secondary"
+                    size="small">
+                    <FontAwesomeIcon
+                      icon={faGauge}
+                      className="mr-2 icon-lighter "
+                    />
+                    Test
+                  </Button>
                 </div>
               </div>
             </TabsContent>
           </div>
         </Tabs>
       </main>
-    </div>
+    </>
   );
 }
