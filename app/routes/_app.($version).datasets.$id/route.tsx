@@ -38,6 +38,17 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import {
   Popover,
   PopoverContent,
