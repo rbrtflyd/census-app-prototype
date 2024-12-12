@@ -81,7 +81,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
         </div>
         <div className="px-6 h-full -mt-6">
           <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col">
-            <div className="flex flex-col gap-4 p-6">
+            <div className="flex flex-col gap-4 px-6 py-9">
               <div className="flex flex-col gap-2">
                 <Text className="font-medium text-lg leading-none">Name</Text>
                 <Text className="text-light">
@@ -120,7 +120,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
               </div>
             </div>
             <Separator />
-            <div className="flex flex-col gap-4 p-6">
+            <div className="flex flex-col gap-4 px-6 py-9">
               <div className="flex flex-col gap-2">
                 <Text className="font-medium text-lg leading-none">
                   Connection Mode
@@ -196,10 +196,10 @@ export default function ConnectionEdit({ data }: { data: any }) {
               </div>
             </div>
             <Separator />
-            <div className="flex flex-col gap-4 p-6">
+            <div className="flex flex-col gap-4 px-6 py-9">
               <Text className="font-medium text-lg">Credentials</Text>
               <div className="flex flex-row justify-between gap-8">
-                <div className="flex flex-col gap-8 grow">
+                <div className="flex flex-col gap-8 grow max-w-[350px]">
                   {credentials.map((credential: any) => (
                     <div
                       className="flex flex-col gap-2 grow"
@@ -229,7 +229,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col gap-4 w-[250px]">
+                <div className="flex flex-col gap-4 w-[300px]">
                   <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5">
                     <Text className="font-medium">
                       Allow inbound traffic from Census IP Addresses
@@ -280,7 +280,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
       </div>
       <Drawer
         modal={false}
-        dismissible={false}
+        dismissible={true}
         open={showReauthDialog}
         onOpenChange={(open) => {
           setShowReauthDialog(open);
