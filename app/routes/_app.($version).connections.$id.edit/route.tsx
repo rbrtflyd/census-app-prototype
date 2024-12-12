@@ -21,7 +21,7 @@ export default function ConnectionEdit({}) {
     useOutletContext<any>();
   const { addBreadcrumb, updateBreadcrumb, removeBreadcrumb } =
     useBreadcrumbContext();
-  const [useCase, setUseCase] = useState<'read' | 'write'>('read');
+  const [useCase, setUseCase] = useState<'source' | 'destination'>('source');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
   const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(

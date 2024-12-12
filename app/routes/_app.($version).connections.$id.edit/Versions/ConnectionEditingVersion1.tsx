@@ -130,7 +130,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
                 </Text>
               </div>
               <div className="flex flex-row gap-2">
-                {['read', 'write'].map((useCase) => (
+                {['source', 'destination'].map((useCase) => (
                   <div
                     key={useCase}
                     className="flex flex-col gap-2 grow">
@@ -145,17 +145,18 @@ export default function ConnectionEdit({ data }: { data: any }) {
                       <div className="flex flex-col gap-1">
                         <label htmlFor={useCase}>
                           <Text className="text-lg font-medium leading-none">
-                            {useCase === 'read' ? 'Read from' : 'Write to'} this
-                            connection
+                            {useCase === 'source'
+                              ? 'Use as Source'
+                              : 'Use as Destination'}
                           </Text>
                         </label>{' '}
-                        {useCase === 'read' && (
+                        {useCase === 'source' && (
                           <Text className="text-light">
                             Some text describing what read from connection
                             means.
                           </Text>
                         )}
-                        {useCase === 'write' && (
+                        {useCase === 'destination' && (
                           <Text className=" text-light">
                             Some text describing what write to connection means.
                           </Text>
@@ -197,7 +198,9 @@ export default function ConnectionEdit({ data }: { data: any }) {
             </div>
             <Separator />
             <div className="flex flex-col gap-4 px-6 py-9">
-              <Text className="font-medium text-lg">Credentials</Text>
+              <Text className="font-medium text-lg">
+                Connection Configuration
+              </Text>
               <div className="flex flex-row justify-between gap-8">
                 <div className="flex flex-col gap-8 grow max-w-[350px]">
                   {credentials.map((credential: any) => (
