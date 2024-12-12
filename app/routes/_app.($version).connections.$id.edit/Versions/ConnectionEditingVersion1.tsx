@@ -35,9 +35,10 @@ export default function ConnectionEdit({ data }: { data: any }) {
     thisWorkspaceConnection,
     sampleCredentials,
     thisConnection,
-    testSteps,
-    useCase,
-    setUseCase,
+    mode,
+    setMode,
+    selectedModes,
+    handleModeClick,
     readType,
     setReadType,
     selectedUseCases,
@@ -130,33 +131,33 @@ export default function ConnectionEdit({ data }: { data: any }) {
                 </Text>
               </div>
               <div className="flex flex-row gap-2">
-                {['source', 'destination'].map((useCase) => (
+                {['source', 'destination'].map((mode) => (
                   <div
-                    key={useCase}
+                    key={mode}
                     className="flex flex-col gap-2 grow">
                     <div
-                      onClick={() => handleUseCaseClick(useCase)}
+                      onClick={() => handleModeClick(mode)}
                       className="flex flex-row gap-2 items-baseline  p-4 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer">
                       <Checkbox
-                        id={useCase}
-                        checked={selectedUseCases.has(useCase)}
-                        onCheckedChange={() => handleUseCaseClick(useCase)}
+                        id={mode}
+                        checked={selectedModes.has(mode)}
+                        onCheckedChange={() => handleModeClick(mode)}
                       />
                       <div className="flex flex-col gap-1">
-                        <label htmlFor={useCase}>
+                        <label htmlFor={mode}>
                           <Text className="text-lg font-medium leading-none">
-                            {useCase === 'source'
+                            {mode === 'source'
                               ? 'Use as Source'
                               : 'Use as Destination'}
                           </Text>
                         </label>{' '}
-                        {useCase === 'source' && (
+                        {mode === 'source' && (
                           <Text className="text-light">
                             Some text describing what read from connection
                             means.
                           </Text>
                         )}
-                        {useCase === 'destination' && (
+                        {mode === 'destination' && (
                           <Text className=" text-light">
                             Some text describing what write to connection means.
                           </Text>
@@ -164,7 +165,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
                       </div>
                     </div>
                     {/* Add radio group for read options */}
-                    {useCase === 'read' && selectedUseCases.has('read') && (
+                    {mode === 'source' && selectedModes.has('source') && (
                       <div className="flex flex-col gap-2 p-4 bg-subtle border border-base rounded-md">
                         <Text className="font-medium">
                           Select how to read from this connection
