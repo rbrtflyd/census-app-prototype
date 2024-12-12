@@ -28,6 +28,8 @@ import {
   DrawerTitle,
 } from '~/components/ui/drawer';
 
+const snapPoints = ['148px', '355px', 1];
+
 export default function ConnectionEdit({ data }: { data: any }) {
   const {
     thisWorkspaceConnection,
@@ -46,6 +48,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
   const [credentials, setCredentials] = useState(sampleCredentials);
   const [hasCredentialsChanged, setHasCredentialsChanged] = useState(false);
   const [showReauthDialog, setShowReauthDialog] = useState(false);
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
 
   const handleCredentialBlur = (value: string, originalValue: string) => {
     if (value !== originalValue) {
@@ -62,7 +65,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
   return (
     <>
       <div className="flex flex-col h-full w-full overflow-y-auto">
-        <div className="flex flex-col w-full h-[120px] bg-subtle border-b border-base px-6 *:max-w-[1000px] *:mx-auto *:w-full justify-center shrink-0">
+        <div className="flex flex-col w-full h-[120px] bg-subtle border-b border-base px-6 *:max-w-[800px] *:mx-auto *:w-full justify-center shrink-0">
           <div className="flex flex-row items-center gap-4">
             <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
               <img
@@ -77,7 +80,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
           </div>
         </div>
         <div className="px-6 h-full -mt-6">
-          <div className="bg-white border border-base rounded-lg max-w-[1000px] mx-auto w-full flex flex-col">
+          <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col">
             <div className="flex flex-col gap-4 p-6">
               <div className="flex flex-col gap-2">
                 <Text className="font-medium text-lg leading-none">Name</Text>
@@ -195,35 +198,48 @@ export default function ConnectionEdit({ data }: { data: any }) {
             <Separator />
             <div className="flex flex-col gap-4 p-6">
               <Text className="font-medium text-lg">Credentials</Text>
-              <div className="flex flex-col gap-8">
-                {credentials.map((credential: any) => (
-                  <div
-                    className="flex flex-col gap-2 grow max-w-[375px]"
-                    key={credential.label}>
-                    <Label size="md">{credential.label}</Label>
-                    <Input
-                      value={credential.value}
-                      type={credential.type}
-                      onChange={(e) => {
-                        const newCredentials = credentials.map((c: any) =>
-                          c.label === credential.label
-                            ? { ...c, value: e.target.value }
-                            : c
-                        );
-                        setCredentials(newCredentials);
-                        if (e.target.value !== credential.value) {
-                          setHasCredentialsChanged(true);
+              <div className="flex flex-row justify-between gap-8">
+                <div className="flex flex-col gap-8 grow">
+                  {credentials.map((credential: any) => (
+                    <div
+                      className="flex flex-col gap-2 grow"
+                      key={credential.label}>
+                      <Label size="md">{credential.label}</Label>
+                      <Input
+                        value={credential.value}
+                        type={credential.type}
+                        onChange={(e) => {
+                          const newCredentials = credentials.map((c: any) =>
+                            c.label === credential.label
+                              ? { ...c, value: e.target.value }
+                              : c
+                          );
+                          setCredentials(newCredentials);
+                          if (e.target.value !== credential.value) {
+                            setHasCredentialsChanged(true);
+                          }
+                        }}
+                        onBlur={(e) =>
+                          handleCredentialBlur(e.target.value, credential.value)
                         }
-                      }}
-                      onBlur={(e) =>
-                        handleCredentialBlur(e.target.value, credential.value)
-                      }
-                    />
-                    <Text className="text-light text-xs leading-none">
-                      {credential.helpText}
+                      />
+                      <Text className="text-light text-xs leading-none">
+                        {credential.helpText}
+                      </Text>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col gap-4 w-[250px]">
+                  <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5">
+                    <Text className="font-medium">
+                      Allow inbound traffic from Census IP Addresses
+                    </Text>
+                    <Text className="text-light">
+                      If your warehouse is behind a firewall/private network,
+                      please add the following static IP addresses:
                     </Text>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
             <Separator />
@@ -239,6 +255,8 @@ export default function ConnectionEdit({ data }: { data: any }) {
         </div>
       </div>
       <Drawer
+        modal={false}
+        dismissible={false}
         open={showReauthDialog}
         onOpenChange={(open) => {
           setShowReauthDialog(open);
@@ -246,23 +264,15 @@ export default function ConnectionEdit({ data }: { data: any }) {
             // Reset any state if needed when drawer closes
           }
         }}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Reauthentication Required</DrawerTitle>
-            <DrawerDescription>
-              You've made changes to the connection credentials. To ensure
-              everything works correctly, you'll need to reauthenticate this
-              connection.
-            </DrawerDescription>
-          </DrawerHeader>
-          <DrawerFooter>
+        <DrawerContent size="sm">
+          <Text className="font-medium text-lg">Reauthentication Required</Text>
+          <div className="flex flex-row gap-2">
             <Button
-              variant="secondary"
-              onClick={() => setShowReauthDialog(false)}>
-              Cancel
+              onClick={handleReauthenticate}
+              size="default">
+              Reauthenticate
             </Button>
-            <Button onClick={handleReauthenticate}>Reauthenticate</Button>
-          </DrawerFooter>
+          </div>
         </DrawerContent>
       </Drawer>
     </>
