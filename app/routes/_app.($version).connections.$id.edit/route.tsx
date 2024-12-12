@@ -7,6 +7,14 @@ import {
   ConnectionEditingVersion2,
 } from './Versions';
 
+import {
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Separator,
+} from '~/components/ui';
+
 export default function ConnectionEdit({}) {
   const { id } = useParams();
   const { thisWorkspaceConnection, thisConnection, testSteps, version } =
@@ -54,6 +62,45 @@ export default function ConnectionEdit({}) {
     });
   };
 
+  const sampleCredentials = [
+    {
+      label: 'Username',
+      value: 'admin',
+      type: 'text',
+      helpText: 'The username to use for the connection',
+    },
+    {
+      label: 'Password',
+      value: 'password',
+      type: 'password',
+      helpText: 'The password to use for the connection',
+    },
+    {
+      label: 'Hostname',
+      value: 'hostname',
+      type: 'text',
+      helpText: 'The hostname to use for the connection',
+    },
+    {
+      label: 'Port',
+      value: 'port',
+      type: 'number',
+      helpText: 'The port to use for the connection',
+    },
+    {
+      label: 'Database',
+      value: 'database',
+      type: 'text',
+      helpText: 'The database to use for the connection',
+    },
+    {
+      label: 'Schema',
+      value: 'schema',
+      type: 'text',
+      helpText: 'The schema to use for the connection',
+    },
+  ];
+
   const data = {
     thisWorkspaceConnection,
     thisConnection,
@@ -64,6 +111,7 @@ export default function ConnectionEdit({}) {
     setUseCase,
     selectedUseCases,
     handleUseCaseClick,
+    sampleCredentials,
   };
 
   if (!thisWorkspaceConnection || !thisConnection) {
