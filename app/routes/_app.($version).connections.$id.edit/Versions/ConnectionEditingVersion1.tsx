@@ -27,7 +27,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
 
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto">
-      <div className="flex flex-col w-full h-[120px] bg-subtle border-b border-base px-6 *:max-w-[800px] *:mx-auto *:w-full justify-center shrink-0">
+      <div className="flex flex-col w-full h-[120px] bg-subtle border-b border-base px-6 *:max-w-[1000px] *:mx-auto *:w-full justify-center shrink-0">
         <div className="flex flex-row items-center gap-4">
           <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
             <img
@@ -44,7 +44,7 @@ export default function ConnectionEdit({ data }: { data: any }) {
         </div>
       </div>
       <div className="px-6 h-full -mt-6">
-        <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col">
+        <div className="bg-white border border-base rounded-lg max-w-[1000px] mx-auto w-full flex flex-col">
           <div className="flex flex-col gap-4 p-6">
             <div className="flex flex-col gap-2">
               <Text className="font-medium text-lg leading-none">Name</Text>
