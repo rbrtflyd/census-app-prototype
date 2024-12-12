@@ -4,7 +4,7 @@ import { Text } from '@radix-ui/themes';
 import { Checkbox } from '~/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
 import { Badge } from '~/components/ui/badge';
-
+import { Label } from '~/components/ui/label';
 import { useOutletContext } from '@remix-run/react';
 import { Input } from '~/components/ui/input';
 import { Separator } from '~/components/ui/separator';
@@ -15,6 +15,7 @@ import { faClone } from '@fortawesome/pro-solid-svg-icons';
 export default function ConnectionEdit({ data }: { data: any }) {
   const {
     thisWorkspaceConnection,
+    sampleCredentials,
     thisConnection,
     testSteps,
     useCase,
@@ -159,10 +160,16 @@ export default function ConnectionEdit({ data }: { data: any }) {
           <Separator />
           <div className="flex flex-col gap-4 p-6">
             <Text className="font-medium text-lg">Credentials</Text>
-            <div className="flex flex-row gap-4 items-stretch">
-              <div className="grow h-full">
-                <div className="bg-slate-50 w-full h-[500px]" />
-              </div>
+            <div className="flex flex-col gap-8">
+              {sampleCredentials.map((credential: any) => (
+                <div className="flex flex-col gap-2 grow max-w-[375px]">
+                  <Label size="md">{credential.label}</Label>
+                  <Input type={credential.type} />
+                  <Text className="text-light text-xs leading-none">
+                    {credential.helpText}
+                  </Text>
+                </div>
+              ))}
             </div>
           </div>
           <Separator />
