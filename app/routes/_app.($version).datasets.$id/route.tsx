@@ -25,7 +25,11 @@ import {
   faSparkles,
   faTableRows,
 } from '@fortawesome/pro-solid-svg-icons';
-import { faArrowUpRight, faSearch } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faArrowUpRight,
+  faSearch,
+  faTimes,
+} from '@fortawesome/pro-regular-svg-icons';
 import { Text } from '@radix-ui/themes';
 import {
   DropdownMenu,
@@ -38,6 +42,17 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '~/components/ui/drawer';
 import {
   Popover,
   PopoverContent,
@@ -210,185 +225,41 @@ export default function DatasetIndex() {
                 </div>
               </PopoverContent>
             </Popover>
-            <Dialog>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    size="small"
-                    variant="fancy">
-                    <Text>Enrich & Enhance</Text>{' '}
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      className="text-xxs ml-2"
-                    />
+            <Drawer direction="right">
+              <DrawerTrigger asChild>
+                <Button
+                  size="small"
+                  variant="fancy">
+                  <Text>Enrich & Enhance</Text>{' '}
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    className="text-xxs ml-2"
+                  />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent direction="right">
+                <DrawerHeader>
+                  <Text className="font-medium text-lg">Enrich & Enhance</Text>
+                  <Button variant="ghost">
+                    <FontAwesomeIcon icon={faTimes} />
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-48"
-                  align="end">
-                  <DropdownMenuItem>
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      className="text-[5px] icon-light"
-                    />
-                    <Text>Lookup</Text>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FontAwesomeIcon
-                      icon={faListTree}
-                      className="text-[5px] icon-light"
-                    />
-                    <Text>Rollup</Text>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FontAwesomeIcon
-                      icon={faFunction}
-                      className="text-[5px] icon-light"
-                    />
-                    <Text>Equation</Text>
-                  </DropdownMenuItem>
-
-                  <DialogTrigger className="w-full">
-                    <DropdownMenuItem>
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-2">
-                          <img
-                            src="https://cdn.worldvectorlogo.com/logos/chatgpt-6.svg"
-                            className="h-4"
-                          />
-                          <Text>GPT</Text>
-                        </div>
-                        <Badge>
-                          <FontAwesomeIcon
-                            icon={faCoin}
-                            className="text-xs mr-1 text-emerald-500"
-                          />
-                          <Text>8</Text>
-                        </Badge>
-                      </div>
-                    </DropdownMenuItem>
-                  </DialogTrigger>
-
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      <FontAwesomeIcon
-                        icon={faDiagramNext}
-                        className="text-[5px] icon-light"
-                      />
-                      <Text>Enrichment</Text>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent className="w-48">
-                      <DropdownMenuLabel>
-                        Enrichment Providers
-                      </DropdownMenuLabel>
-                      <DropdownMenuItem>
-                        <img
-                          src="/clearbit.svg"
-                          className="w-4"
-                        />
-                        Clearbit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <img
-                          src="https://logosandtypes.com/wp-content/uploads/2022/09/apollo-io.svg"
-                          className="w-4"
-                        />
-                        Apollo
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>New AI Enhancement</DialogTitle>
-                </DialogHeader>
-                <div className="flex flex-row p-7 h-full grow">
-                  <Text></Text>
+                </DrawerHeader>
+                <div className="flex flex-col gap-2 p-6">
+                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
+                    <Text className="font-medium">Enrich Company</Text>
+                  </button>
+                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
+                    <Text className="font-medium">Use AI</Text>
+                  </button>
+                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
+                    <Text className="font-medium">Calculate and Reference</Text>
+                  </button>
+                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
+                    <Text className="font-medium">Dedupe</Text>
+                  </button>
                 </div>
-                <DialogFooter>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <button className="hover:bg-deep text-sm px-3 py-2 rounded leading-none data-[state=open]:bg-deep flex items-center justify-between gap-2 group">
-                        <div>
-                          <FontAwesomeIcon
-                            icon={faCoin}
-                            className=" mr-1 text-emerald-500"
-                          />
-                          <Text>90/100 Credits</Text>
-                        </div>
-                        <FontAwesomeIcon
-                          icon={faCaretDown}
-                          className="text-xs icon-lighter group-data-[state=open]:rotate-180 transition-transform duration-75"
-                        />
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-[300px]"
-                      align="end">
-                      <div className="flex flex-col gap-3 text-sm ">
-                        <div className="flex items-center gap-2 leading-none">
-                          <FontAwesomeIcon
-                            icon={faCoin}
-                            className="text-xs text-emerald-500"
-                          />
-                          <div className="flex flex-row">
-                            <Text className="text-emerald-600">90</Text>
-                            <Text className="text-light">/100</Text>
-                          </div>
-                          <Text className="font-medium">Credits Left</Text>
-                        </div>
-                        <div className="flex flex-col gap-1 text-sm text-light">
-                          <Text className="leading-tight">
-                            Credits are used for GPT columns. After using your
-                            credits, you will need to provide your own API key
-                            for OpenAI.
-                          </Text>
-                          <Link
-                            to="#"
-                            target="_blank"
-                            className="flex items-center gap-1 group hover:text-plum-500 transition-colors duration-75">
-                            <Text className="group-hover:underline transition-all duration-75">
-                              View Credit Usage
-                            </Text>
-                            <FontAwesomeIcon
-                              icon={faArrowUpRight}
-                              className="text-xs icon-light group-hover:text-plum-500 transition-colors duration-75"
-                            />
-                          </Link>
-                        </div>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              size="small"
-                              variant="secondary">
-                              <FontAwesomeIcon
-                                icon={faKey}
-                                className="icon-light text-xs mr-1"
-                              />
-                              <Text>Add Your API Key</Text>
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>
-                                Are you absolutely sure?
-                              </DialogTitle>
-                              <DialogDescription>
-                                This action cannot be undone. This will
-                                permanently delete your account and remove your
-                                data from our servers.
-                              </DialogDescription>
-                            </DialogHeader>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                  <Button>Create Enhancement</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+              </DrawerContent>
+            </Drawer>
           </PageHeader.RightSlot>
         </PageHeader>
         <Tabs

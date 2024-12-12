@@ -26,26 +26,36 @@ const DrawerOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
-    className={cn('fixed inset-0 z-50 bg-black/80', className)}
+    className={cn('fixed inset-0 z-50 bg-black/10', className)}
     {...props}
   />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
+interface DrawerContentProps
+  extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> {
+  direction?: 'bottom' | 'right';
+}
+
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  DrawerContentProps
+>(({ className, children, direction = 'bottom', ...props }, ref) => (
   <DrawerPortal>
     <DrawerOverlay />
     <DrawerPrimitive.Content
       ref={ref}
+      style={
+        { '--initial-transform': 'calc(100% + 16px)' } as React.CSSProperties
+      }
       className={cn(
-        'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950',
+        'fixed z-50 bg-white shadow-lg border border-base dark:border-slate-800',
+        direction === 'bottom' && 'inset-x-0 bottom-0 mt-24 rounded-t-[10px]',
+        direction === 'right' &&
+          'bottom-2 right-4 top-2 h-[calc(100%-1rem)] w-[600px] max-w-1/2 rounded-[10px] border-l flex flex-col',
         className
       )}
       {...props}>
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-slate-100 dark:bg-slate-800" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -57,7 +67,10 @@ const DrawerHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)}
+    className={cn(
+      'flex flex-row items-center justify-between gap-1.5 py-4 px-6 text-center sm:text-left border-b border-base leading-none',
+      className
+    )}
     {...props}
   />
 );
