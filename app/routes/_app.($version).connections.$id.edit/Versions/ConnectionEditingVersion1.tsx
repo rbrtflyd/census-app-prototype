@@ -238,6 +238,30 @@ export default function ConnectionEdit({ data }: { data: any }) {
                       If your warehouse is behind a firewall/private network,
                       please add the following static IP addresses:
                     </Text>
+                    <div>
+                      <button
+                        className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`34.216.163.241`);
+                        }}>
+                        34.216.163.241
+                        <FontAwesomeIcon
+                          icon={faClone}
+                          className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
+                        />
+                      </button>
+                      <button
+                        className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`54.212.243.205`);
+                        }}>
+                        54.212.243.205
+                        <FontAwesomeIcon
+                          icon={faClone}
+                          className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
