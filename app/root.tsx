@@ -14,6 +14,7 @@ import styles from './tailwind.css?url';
 import './styles.scss';
 import { OperatorProvider } from './contexts/OperatorContext';
 import OperatorToolbar from './components/Toasts/OperatorToolbar/OperatorToolbar';
+import { EnrichEnhanceProvider } from './routes/_app.($version).datasets.$id/EnrichEnhanceHub/context/EnrichEnhanceContext';
 
 export const links = () => {
   return [{ rel: 'stylesheet', href: styles }];
@@ -35,12 +36,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <MigrationNotification />
         <div className="flex h-screen flex-row">
           <OperatorProvider>
-            <BreadcrumbProvider>
-              <div className="grow overflow-hidden">
-                <Outlet />
-              </div>
-              <OperatorToolbar />
-            </BreadcrumbProvider>
+            <EnrichEnhanceProvider>
+              <BreadcrumbProvider>
+                <div className="grow overflow-hidden">
+                  <Outlet />
+                </div>
+                <OperatorToolbar />
+              </BreadcrumbProvider>
+            </EnrichEnhanceProvider>
           </OperatorProvider>
         </div>
 

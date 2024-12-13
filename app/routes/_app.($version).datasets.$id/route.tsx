@@ -72,6 +72,7 @@ import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '~/components/ui/badge';
+import { EnrichEnhanceDrawer } from './EnrichEnhanceHub';
 
 export const clientLoader = async ({
   params,
@@ -225,41 +226,7 @@ export default function DatasetIndex() {
                 </div>
               </PopoverContent>
             </Popover>
-            <Drawer direction="right">
-              <DrawerTrigger asChild>
-                <Button
-                  size="small"
-                  variant="fancy">
-                  <Text>Enrich & Enhance</Text>{' '}
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    className="text-xxs ml-2"
-                  />
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent direction="right">
-                <DrawerHeader>
-                  <Text className="font-medium text-lg">Enrich & Enhance</Text>
-                  <Button variant="ghost">
-                    <FontAwesomeIcon icon={faTimes} />
-                  </Button>
-                </DrawerHeader>
-                <div className="flex flex-col gap-2 p-6">
-                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
-                    <Text className="font-medium">Enrich Company</Text>
-                  </button>
-                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
-                    <Text className="font-medium">Use AI</Text>
-                  </button>
-                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
-                    <Text className="font-medium">Calculate and Reference</Text>
-                  </button>
-                  <button className="flex items-center gap-2 p-6 rounded-lg hover:bg-deep border border-base">
-                    <Text className="font-medium">Dedupe</Text>
-                  </button>
-                </div>
-              </DrawerContent>
-            </Drawer>
+            <EnrichEnhanceDrawer />
           </PageHeader.RightSlot>
         </PageHeader>
         <Tabs
