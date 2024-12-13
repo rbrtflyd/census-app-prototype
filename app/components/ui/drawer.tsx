@@ -35,31 +35,40 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 interface DrawerContentProps
   extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> {
   direction?: 'bottom' | 'right';
+  size?: 'sm' | 'default';
 }
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   DrawerContentProps
->(({ className, children, direction = 'bottom', ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      style={
-        { '--initial-transform': 'calc(100% + 16px)' } as React.CSSProperties
-      }
-      className={cn(
-        'fixed z-50 bg-white shadow-lg border border-base dark:border-slate-800',
-        direction === 'bottom' && 'inset-x-0 bottom-0 mt-24 rounded-t-[10px]',
-        direction === 'right' &&
-          'bottom-2 right-4 top-2 h-[calc(100%-1rem)] w-[600px] max-w-1/2 rounded-[10px] border-l flex flex-col',
-        className
-      )}
-      {...props}>
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+>(
+  (
+    { className, children, direction = 'bottom', size = 'default', ...props },
+    ref
+  ) => (
+    <DrawerPortal>
+      <DrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        style={
+          { '--initial-transform': 'calc(100% + 16px)' } as React.CSSProperties
+        }
+        className={cn(
+          'fixed z-50 bg-white shadow-lg border border-base dark:border-slate-800 overflow-hidden',
+          size === 'sm' &&
+            'max-h-[125px] inset-x-4 w-full max-w-[800px] mx-auto',
+          direction === 'bottom' &&
+            'inset-x-0 left-[220px] bottom-4 flex flex-row rounded-[10px] items-center p-6 justify-between',
+          direction === 'right' &&
+            'bottom-2 right-4 top-2 h-[calc(100%-1rem)] w-[600px] max-w-1/2 rounded-[10px] border-l flex flex-col',
+          className
+        )}
+        {...props}>
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  )
+);
 DrawerContent.displayName = 'DrawerContent';
 
 const DrawerHeader = ({

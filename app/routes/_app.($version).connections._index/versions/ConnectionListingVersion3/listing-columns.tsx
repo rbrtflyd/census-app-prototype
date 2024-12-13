@@ -106,6 +106,7 @@ export const columns: ColumnDef<ConnectionType>[] = [
       );
     },
     size: 100,
+    enableHiding: false,
   },
   {
     accessorKey: 'category',

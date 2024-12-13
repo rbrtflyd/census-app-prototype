@@ -7,17 +7,25 @@ import {
   ConnectionEditingVersion2,
 } from './Versions';
 
+import {
+  Input,
+  Label,
+  RadioGroup,
+  RadioGroupItem,
+  Separator,
+} from '~/components/ui';
+
 export default function ConnectionEdit({}) {
   const { id } = useParams();
   const { thisWorkspaceConnection, thisConnection, testSteps, version } =
     useOutletContext<any>();
   const { addBreadcrumb, updateBreadcrumb, removeBreadcrumb } =
     useBreadcrumbContext();
-  const [useCase, setUseCase] = useState<'read' | 'write'>('read');
+  const [mode, setMode] = useState<'source' | 'destination'>('source');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
-  const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(
-    new Set(['read', 'write'])
+  const [selectedModes, setSelectedModes] = useState<Set<string>>(
+    new Set(['source', 'destination'])
   );
 
   useEffect(() => {
@@ -42,28 +50,68 @@ export default function ConnectionEdit({}) {
     thisConnection,
   ]);
 
-  const handleUseCaseClick = (useCase: string) => {
-    setSelectedUseCases((prev) => {
+  const handleModeClick = (mode: string) => {
+    setSelectedModes((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(useCase)) {
-        newSet.delete(useCase);
+      if (newSet.has(mode)) {
+        newSet.delete(mode);
       } else {
-        newSet.add(useCase);
+        newSet.add(mode);
       }
       return newSet;
     });
   };
 
+  const sampleCredentials = [
+    {
+      label: 'Username',
+      value: 'admin',
+      type: 'text',
+      helpText: 'The username to use for the connection',
+    },
+    {
+      label: 'Password',
+      value: 'password',
+      type: 'password',
+      helpText: 'The password to use for the connection',
+    },
+    {
+      label: 'Hostname',
+      value: 'hostname',
+      type: 'text',
+      helpText: 'The hostname to use for the connection',
+    },
+    {
+      label: 'Port',
+      value: 'port',
+      type: 'number',
+      helpText: 'The port to use for the connection',
+    },
+    {
+      label: 'Database',
+      value: 'database',
+      type: 'text',
+      helpText: 'The database to use for the connection',
+    },
+    {
+      label: 'Schema',
+      value: 'schema',
+      type: 'text',
+      helpText: 'The schema to use for the connection',
+    },
+  ];
+
   const data = {
     thisWorkspaceConnection,
     thisConnection,
     testSteps,
-    useCase,
+    mode,
     readType,
     setReadType,
-    setUseCase,
-    selectedUseCases,
-    handleUseCaseClick,
+    setMode,
+    selectedModes,
+    handleModeClick,
+    sampleCredentials,
   };
 
   if (!thisWorkspaceConnection || !thisConnection) {
