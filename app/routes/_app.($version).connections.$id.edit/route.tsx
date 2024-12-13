@@ -21,11 +21,11 @@ export default function ConnectionEdit({}) {
     useOutletContext<any>();
   const { addBreadcrumb, updateBreadcrumb, removeBreadcrumb } =
     useBreadcrumbContext();
-  const [useCase, setUseCase] = useState<'read' | 'write'>('read');
+  const [mode, setMode] = useState<'source' | 'destination'>('source');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
-  const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(
-    new Set(['read', 'write'])
+  const [selectedModes, setSelectedModes] = useState<Set<string>>(
+    new Set(['source', 'destination'])
   );
 
   useEffect(() => {
@@ -50,13 +50,13 @@ export default function ConnectionEdit({}) {
     thisConnection,
   ]);
 
-  const handleUseCaseClick = (useCase: string) => {
-    setSelectedUseCases((prev) => {
+  const handleModeClick = (mode: string) => {
+    setSelectedModes((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(useCase)) {
-        newSet.delete(useCase);
+      if (newSet.has(mode)) {
+        newSet.delete(mode);
       } else {
-        newSet.add(useCase);
+        newSet.add(mode);
       }
       return newSet;
     });
@@ -105,12 +105,12 @@ export default function ConnectionEdit({}) {
     thisWorkspaceConnection,
     thisConnection,
     testSteps,
-    useCase,
+    mode,
     readType,
     setReadType,
-    setUseCase,
-    selectedUseCases,
-    handleUseCaseClick,
+    setMode,
+    selectedModes,
+    handleModeClick,
     sampleCredentials,
   };
 
