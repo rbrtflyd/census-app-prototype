@@ -86,23 +86,25 @@ export default function NewConnection() {
   };
 
   return (
-    <div
-      className={`flex flex-col h-full w-full ${
-        isScrollable ? 'overflow-auto' : 'overflow-hidden'
-      }`}>
+    <div className={`flex flex-col h-full w-full`}>
       <PageHeader title="New Connection" />
-      <StepContent />
       <div
-        className={`px-6 h-full pb-6 -mt-7 *:max-w-[1400px] *:mx-auto *:w-full ${
-          isScrollable ? '' : 'overflow-hidden'
+        className={`flex flex-col h-full w-full ${
+          isScrollable ? 'overflow-auto' : 'overflow-hidden'
         }`}>
-        <Outlet
-          context={{
-            connections,
-            workspaceConnections,
-            setSelectedConnectionId,
-          }}
-        />
+        <StepContent />
+        <div
+          className={`px-6 h-full pb-6 -mt-7 *:max-w-[1400px] *:mx-auto *:w-full ${
+            isScrollable ? '' : 'overflow-hidden'
+          }`}>
+          <Outlet
+            context={{
+              connections,
+              workspaceConnections,
+              setSelectedConnectionId,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -231,7 +231,7 @@ export default function NewDataset() {
     );
 
     return (
-      <div className="space-y-8 p-6 border-l border-base w-1/3 flex flex-col overflow-y-auto">
+      <div className="space-y-8 p-6 border-l border-base min-w-[300px] w-1/3 flex flex-col overflow-y-auto">
         <div className="flex flex-col space-y-4">
           <div className="flex flex-row gap-4 items-center">
             {connection.logo && (

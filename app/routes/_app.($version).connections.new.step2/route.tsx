@@ -17,7 +17,7 @@ import { Badge } from '../../components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClone, faPlug } from '@fortawesome/pro-solid-svg-icons';
+import { faClone, faLink, faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewConnectionContext } from '~/contexts/NewConnectionContext';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Input } from '~/components/ui/input';
@@ -39,12 +39,10 @@ export default function NewConnectionStep2() {
     isScrollable: boolean;
     setIsScrollable: (scrollable: boolean) => void;
   };
+  const [name, setName] = useState<string>('');
+  const [mode, setMode] = useState<'source' | 'destination' | null>(null);
 
-  const [mode, setMode] = useState<'source' | 'destination'>('source');
-
-  const [selectedModes, setSelectedModes] = useState<Set<string>>(
-    new Set(['source', 'destination'])
-  );
+  const [selectedModes, setSelectedModes] = useState<Set<string>>(new Set([]));
 
   const sampleCredentials = [
     {
@@ -85,6 +83,7 @@ export default function NewConnectionStep2() {
     },
   ];
   const [credentials, setCredentials] = useState(sampleCredentials);
+
   const handleModeClick = (mode: string) => {
     setSelectedModes((prev) => {
       const newSet = new Set(prev);
@@ -102,12 +101,14 @@ export default function NewConnectionStep2() {
     return () => setIsScrollable(false); // Reset when unmounting
   }, [setIsScrollable]);
 
-  const [useCase, setUseCase] = useState<'read' | 'write'>('read');
-  const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
+  const [readType, setReadType] = useState<'Basic' | 'Advanced' | undefined>(
+    undefined
+  );
 
   const [selectedUseCases, setSelectedUseCases] = useState<Set<string>>(
     new Set()
   );
+  const [showConnectLink, setShowConnectLink] = useState(false);
 
   const selectedConnection = connections.find(
     (c) => c.id.toString() === selectedConnectionId
@@ -127,7 +128,7 @@ export default function NewConnectionStep2() {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col">
+      <div className="bg-white border border-base rounded-lg  mx-auto w-full flex flex-col">
         <div className="flex flex-col gap-4 px-6 py-9">
           <div className="flex flex-col gap-2">
             <Text className="font-medium text-lg leading-none">Name</Text>
@@ -137,32 +138,19 @@ export default function NewConnectionStep2() {
             </Text>
           </div>
           <Input
-            value={selectedConnection?.name || ''}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Enter connection name"
           />
           <div className="flex flex-row gap-2 items-center">
             <Text className="leading-none text-sm">Resource ID</Text>
-            <button
-              className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `destination:${selectedConnection?.connectionServiceName.toLowerCase()}-${
-                    selectedConnection?.id
-                  }`
-                );
-              }}>
-              <Text className="text-light text-sm leading-none">
-                destination:
-                <span className="lowercase">
-                  {selectedConnection?.connectionServiceName}
-                </span>
-                -<span>{selectedConnection?.id}</span>
-              </Text>
-              <FontAwesomeIcon
-                icon={faClone}
-                className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
-              />
-            </button>
+            <Text className="text-light text-sm leading-none">
+              destination:
+              <span className="lowercase">
+                {name || selectedConnection?.connectionServiceName}
+              </span>
+              -<span>{selectedConnection?.id}</span>
+            </Text>
           </div>
         </div>
         <Separator />
@@ -262,37 +250,80 @@ export default function NewConnectionStep2() {
               ))}
             </div>
             <div className="flex flex-col gap-4 w-[300px]">
-              <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5">
-                <Text className="font-medium">
-                  Allow inbound traffic from Census IP Addresses
-                </Text>
-                <Text className="text-light">
-                  If your warehouse is behind a firewall/private network, please
-                  add the following static IP addresses:
-                </Text>
-                <div>
-                  <button
-                    className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
-                    onClick={() => {
-                      navigator.clipboard.writeText(`34.216.163.241`);
-                    }}>
-                    34.216.163.241
-                    <FontAwesomeIcon
-                      icon={faClone}
-                      className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
-                    />
-                  </button>
-                  <button
-                    className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
-                    onClick={() => {
-                      navigator.clipboard.writeText(`54.212.243.205`);
-                    }}>
-                    54.212.243.205
-                    <FontAwesomeIcon
-                      icon={faClone}
-                      className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
-                    />
-                  </button>
+              <div className="flex flex-col gap-4 sticky top-5">
+                <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm">
+                  <Text className="font-medium">
+                    Allow inbound traffic from Census IP Addresses
+                  </Text>
+                  <Text className="text-light">
+                    If your warehouse is behind a firewall/private network,
+                    please add the following static IP addresses:
+                  </Text>
+                  <div>
+                    <button
+                      className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`34.216.163.241`);
+                      }}>
+                      34.216.163.241
+                      <FontAwesomeIcon
+                        icon={faClone}
+                        className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
+                      />
+                    </button>
+                    <button
+                      className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`54.212.243.205`);
+                      }}>
+                      54.212.243.205
+                      <FontAwesomeIcon
+                        icon={faClone}
+                        className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5 items-start">
+                  <Text className="font-medium">
+                    Share a connect link with your team.
+                  </Text>
+                  <Text className="text-light">
+                    If you don't know this information, you can share a connect
+                    link with your team and have someone else set it up for you.
+                  </Text>
+                  {!showConnectLink ? (
+                    <Button
+                      variant="ghost"
+                      onClick={() => setShowConnectLink(true)}>
+                      <FontAwesomeIcon
+                        icon={faLink}
+                        className="size-4 mr-2"
+                      />
+                      <Text>Create connect link</Text>
+                    </Button>
+                  ) : (
+                    <div className="flex flex-row items-center gap-2 w-full">
+                      <Input
+                        value={`https://app.getcensus.com/connect/${selectedConnection?.id}`}
+                        readOnly
+                        className="bg-deep text-light hover:ring-0 truncate"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            `https://app.getcensus.com/connect/${selectedConnection?.id}`
+                          );
+                        }}>
+                        <FontAwesomeIcon
+                          icon={faClone}
+                          className="size-4 icon-lighter"
+                        />
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
