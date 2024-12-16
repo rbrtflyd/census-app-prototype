@@ -24,12 +24,8 @@ import { Input } from '~/components/ui/input';
 
 export default function NewConnectionStep2() {
   const navigate = useNavigate();
-  const {
-    setCurrentStep,
-    selectedConnectionId,
-    setIsScrollable,
-    isScrollable,
-  } = useNewConnectionContext();
+  const { setCurrentStep, setIsScrollable, isScrollable } =
+    useNewConnectionContext();
   setCurrentStep('step2');
   const { connections, workspaceConnections } = useOutletContext() as {
     connections: ConnectionServiceType[];
@@ -39,6 +35,10 @@ export default function NewConnectionStep2() {
     isScrollable: boolean;
     setIsScrollable: (scrollable: boolean) => void;
   };
+
+  const { selectedConnectionId, setSelectedConnectionId } =
+    useNewConnectionContext();
+
   const [name, setName] = useState<string>('');
   const [mode, setMode] = useState<'source' | 'destination' | null>(null);
 
