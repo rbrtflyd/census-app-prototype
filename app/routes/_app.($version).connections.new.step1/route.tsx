@@ -250,9 +250,9 @@ export default function NewDataset() {
             variant="secondary"
             onClick={() => {
               setSelectedConnectionId(connection.id.toString());
-              navigate('/connections/new/step2-v2');
+              navigate('/connections/new/step2');
             }}>
-            Connect New {connection.connectionServiceName} Instance
+            Connect New Instance
           </Button>
         </div>
 

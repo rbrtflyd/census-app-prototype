@@ -236,7 +236,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'database',
     description:
       'A popular document-oriented NoSQL database. It offers high performance, high availability, and easy scalability for modern applications.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
   },
   {
     id: 27,
@@ -281,7 +281,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'A cloud-based business management suite that includes ERP, financials, CRM, and ecommerce capabilities.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/NetSuite_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/netsuite.svg',
   },
   {
     id: 32,
