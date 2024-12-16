@@ -24,13 +24,20 @@ import { Input } from '~/components/ui/input';
 
 export default function NewConnectionStep2() {
   const navigate = useNavigate();
-  const { setCurrentStep, selectedConnectionId } = useNewConnectionContext();
+  const {
+    setCurrentStep,
+    selectedConnectionId,
+    setIsScrollable,
+    isScrollable,
+  } = useNewConnectionContext();
   setCurrentStep('step2');
   const { connections, workspaceConnections } = useOutletContext() as {
     connections: ConnectionServiceType[];
     workspaceConnections: ConnectionType[];
     setSelectedConnectionId: (id: string) => void;
     selectedConnectionId: string | null;
+    isScrollable: boolean;
+    setIsScrollable: (scrollable: boolean) => void;
   };
 
   const [mode, setMode] = useState<'source' | 'destination'>('source');
@@ -90,6 +97,11 @@ export default function NewConnectionStep2() {
     });
   };
 
+  useEffect(() => {
+    setIsScrollable(true); // Make this step scrollable
+    return () => setIsScrollable(false); // Reset when unmounting
+  }, [setIsScrollable]);
+
   const [useCase, setUseCase] = useState<'read' | 'write'>('read');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
@@ -114,8 +126,8 @@ export default function NewConnectionStep2() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden">
-      <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col h-full w-full">
+      <div className="bg-white border border-base rounded-lg max-w-[800px] mx-auto w-full flex flex-col">
         <div className="flex flex-col gap-4 px-6 py-9">
           <div className="flex flex-col gap-2">
             <Text className="font-medium text-lg leading-none">Name</Text>

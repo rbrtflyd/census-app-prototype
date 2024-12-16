@@ -26,6 +26,7 @@ export default function NewConnection() {
       workspaceConnections: ConnectionType[];
       setSelectedConnectionId: (id: string) => void;
     };
+  const { isScrollable, setIsScrollable } = useNewConnectionContext();
 
   useEffect(() => {
     clearBreadcrumbs();
@@ -85,20 +86,24 @@ export default function NewConnection() {
   };
 
   return (
-    <NewConnectionProvider>
-      <div className="flex flex-col h-full w-full overflow-hidden">
-        <PageHeader title="New Connection" />
-        <StepContent />
-        <div className="px-6 h-full pb-6 -mt-7 overflow-hidden *:max-w-[1400px] *:mx-auto *:w-full">
-          <Outlet
-            context={{
-              connections,
-              workspaceConnections,
-              setSelectedConnectionId,
-            }}
-          />
-        </div>
+    <div
+      className={`flex flex-col h-full w-full ${
+        isScrollable ? 'overflow-auto' : 'overflow-hidden'
+      }`}>
+      <PageHeader title="New Connection" />
+      <StepContent />
+      <div
+        className={`px-6 h-full pb-6 -mt-7 *:max-w-[1400px] *:mx-auto *:w-full ${
+          isScrollable ? '' : 'overflow-hidden'
+        }`}>
+        <Outlet
+          context={{
+            connections,
+            workspaceConnections,
+            setSelectedConnectionId,
+          }}
+        />
       </div>
-    </NewConnectionProvider>
+    </div>
   );
 }
