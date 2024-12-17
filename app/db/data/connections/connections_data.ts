@@ -236,7 +236,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'database',
     description:
       'A popular document-oriented NoSQL database. It offers high performance, high availability, and easy scalability for modern applications.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
   },
   {
     id: 27,
@@ -281,7 +281,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'business_app',
     description:
       'A cloud-based business management suite that includes ERP, financials, CRM, and ecommerce capabilities.',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/NetSuite_logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/netsuite.svg',
   },
   {
     id: 32,
@@ -435,6 +435,15 @@ const connectionsData: ConnectionServiceType[] = [
     description:
       'A complete commerce platform that lets you start, grow, and manage a business with online store capabilities and retail point-of-sale systems.',
     logo: 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
+  },
+  {
+    id: 49,
+    connectionServiceName: 'Google Sheets',
+    connectionServiceType: 'Spreadsheet',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A web-based spreadsheet application that enables collaborative editing, formatting and organization of data in real-time.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Google_Sheets_2020_Logo.svg',
   },
 ];
 

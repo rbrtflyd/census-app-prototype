@@ -182,7 +182,15 @@ export const columns: ColumnDef<ConnectionType>[] = [
               <TooltipProvider key={mode}>
                 <Tooltip delayDuration={75}>
                   <TooltipTrigger>
-                    <Badge className="capitalize">{mode}</Badge>
+                    <Badge className="capitalize">
+                      {' '}
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          mode === 'source' ? 'bg-purple-500' : 'bg-orange-500'
+                        } mr-1`}
+                      />
+                      {mode}
+                    </Badge>
                   </TooltipTrigger>
                   <TooltipContent>
                     <Text className="capitalize">
@@ -195,6 +203,11 @@ export const columns: ColumnDef<ConnectionType>[] = [
               <Badge
                 key={mode}
                 className="capitalize">
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    mode === 'source' ? 'bg-purple-500' : 'bg-orange-500'
+                  } mr-1`}
+                />
                 {mode}
               </Badge>
             )
