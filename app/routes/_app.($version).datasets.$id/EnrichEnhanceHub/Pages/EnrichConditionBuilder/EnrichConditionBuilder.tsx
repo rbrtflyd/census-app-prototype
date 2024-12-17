@@ -24,6 +24,7 @@ const enrichmentFields = [
   { value: 'company.name', label: 'Company Name' },
   { value: 'company.domain', label: 'Domain' },
   { value: 'company.industry', label: 'Industry' },
+  { value: 'company.location', label: 'Location' },
   { value: 'person.name', label: 'Full Name' },
   { value: 'person.title', label: 'Job Title' },
   { value: 'person.email', label: 'Email' },
