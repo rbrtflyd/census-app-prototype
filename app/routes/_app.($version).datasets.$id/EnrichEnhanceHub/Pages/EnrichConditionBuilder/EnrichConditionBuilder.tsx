@@ -128,7 +128,8 @@ export function EnrichConditionBuilder() {
   };
 
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-8 p-6">
+      <Text className="font-medium">Enrichment Sequence</Text>
       <div className="flex flex-col gap-4">
         {conditionGroups.map((group) => (
           <React.Fragment key={group.id}>
