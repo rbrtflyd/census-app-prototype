@@ -436,6 +436,15 @@ const connectionsData: ConnectionServiceType[] = [
       'A complete commerce platform that lets you start, grow, and manage a business with online store capabilities and retail point-of-sale systems.',
     logo: 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
   },
+  {
+    id: 49,
+    connectionServiceName: 'Google Sheets',
+    connectionServiceType: 'Spreadsheet',
+    connectionServiceCategory: 'business_app',
+    description:
+      'A web-based spreadsheet application that enables collaborative editing, formatting and organization of data in real-time.',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Google_Sheets_2020_Logo.svg',
+  },
 ];
 
 export { connectionsData };
