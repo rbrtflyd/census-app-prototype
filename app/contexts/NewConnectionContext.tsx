@@ -11,6 +11,8 @@ interface NewConnectionContextType {
   selectedSource: ConnectionServiceType | null;
   setSelectedConnectionId: (id: string) => void;
   selectedConnectionId: string | null;
+  isScrollable: boolean;
+  setIsScrollable: (scrollable: boolean) => void;
 }
 
 const NewConnectionContext = createContext<
@@ -29,6 +31,8 @@ export const NewConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
     string | null
   >(null);
 
+  const [isScrollable, setIsScrollable] = useState(false);
+
   return (
     <NewConnectionContext.Provider
       value={{
@@ -38,6 +42,8 @@ export const NewConnectionProvider: React.FC<{ children: React.ReactNode }> = ({
         setSelectedSource,
         setSelectedConnectionId,
         selectedConnectionId,
+        isScrollable,
+        setIsScrollable,
       }}>
       {children}
     </NewConnectionContext.Provider>
