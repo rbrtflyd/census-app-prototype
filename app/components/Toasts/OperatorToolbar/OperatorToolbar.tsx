@@ -67,7 +67,7 @@ export default function OperatorToolbar() {
       const stored = sessionStorage.getItem('operatorToolbarVisible');
       return stored === null ? true : stored === 'true';
     }
-    return true; // Default value for server-side rendering
+    return false; // Default value for server-side rendering
   });
 
   const navigate = useNavigate();
