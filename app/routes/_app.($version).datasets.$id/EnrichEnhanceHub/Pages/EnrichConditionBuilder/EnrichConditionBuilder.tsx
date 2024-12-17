@@ -54,8 +54,8 @@ const operators = [
   'equals',
   'does not equal',
   'contains',
-  'is blank',
-  'is not blank',
+  'is blank or null',
+  'is not blank or null',
 ];
 
 const operatorsRequiringValue = ['equals', 'does not equal', 'contains'];
@@ -330,7 +330,7 @@ export function EnrichConditionBuilder() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex flex-col gap-2 p-4 bg-subtle">
+            <div className="flex flex-col gap-2 p-4 bg-subtle border-t border-base">
               <Text className="font-bold text-xxs text-light uppercase tracking-wider">
                 Map Field
               </Text>
