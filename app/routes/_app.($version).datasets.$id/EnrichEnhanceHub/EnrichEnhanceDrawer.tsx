@@ -40,22 +40,10 @@ export function EnrichEnhanceDrawer() {
     });
 
     addPage({
-      id: 'enrich-by-row',
-      title: 'Enrich by Row Value',
-      component: <EnrichByRow />,
-      parentId: ['enrichment-selection'],
-    });
-    addPage({
-      id: 'enrich-by-column',
-      title: `Enrich by ${selectedColumn}`,
-      component: <EnrichByColumn />,
-      parentId: ['enrichment-selection'],
-    });
-    addPage({
       id: 'enrich-condition-builder',
       title: 'Conditionally Fill Data',
       component: <EnrichConditionBuilder />,
-      parentId: ['enrich-by-column', 'enrich-by-row'],
+      parentId: ['enrichment-selection'],
     });
     // Add other pages as needed
   }, [addPage]);

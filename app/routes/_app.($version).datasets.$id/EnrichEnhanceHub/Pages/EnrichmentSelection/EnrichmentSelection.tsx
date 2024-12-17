@@ -38,7 +38,7 @@ export function EnrichmentSelection() {
 
   const handleColumnSelect = (column: string) => {
     setSelectedColumn(column);
-    navigateToPage('enrich-by-column');
+    navigateToPage('enrich-condition-builder');
   };
 
   return (

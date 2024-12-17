@@ -200,7 +200,8 @@ export function EnrichConditionBuilder() {
           <div
             key={group.id}
             className="flex flex-col gap-4 border border-base rounded-lg">
-            <Text className="font-bold text-xxs text-light uppercase tracking-wider px-4 py-2">
+            <Text className="font-medium text-lg p-4">Selected Column</Text>
+            <Text className="font-bold text-xxs text-light uppercase tracking-wider px-4">
               Logic
             </Text>
             <div className="flex flex-col gap-4 px-4">
