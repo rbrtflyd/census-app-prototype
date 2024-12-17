@@ -1,10 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSparkles,
-  faTimes,
-  faCaretDown,
-} from '@fortawesome/pro-solid-svg-icons';
-import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons';
+import { faSparkles, faCaretDown } from '@fortawesome/pro-solid-svg-icons';
+import { faArrowLeft, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
 import { useEnrichEnhance } from '../context/EnrichEnhanceContext';
@@ -34,7 +30,7 @@ export function EnrichEnhanceNestedDrawer({
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent
         direction="right"
-        className="overflow-hidden">
+        className="overflow-hidden max-w-[50%]">
         <DrawerHeader
           className={`flex flex-row items-center gap-4 border-b border-base  ${
             !showBackButton
@@ -56,13 +52,12 @@ export function EnrichEnhanceNestedDrawer({
             <Text className="font-medium text-lg">{currentPage?.title}</Text>
           </div>
 
-          <DrawerClose>
-            <button className="p-2 rounded-md hover:bg-slate-100">
-              <FontAwesomeIcon
-                icon={faTimes}
-                className="text-sm"
-              />
-            </button>
+          <DrawerClose asChild>
+            <Button
+              variant="ghost"
+              size="icon">
+              <FontAwesomeIcon icon={faTimes} />
+            </Button>
           </DrawerClose>
         </DrawerHeader>
         <div className="flex-1 overflow-y-auto">{currentPage?.component}</div>

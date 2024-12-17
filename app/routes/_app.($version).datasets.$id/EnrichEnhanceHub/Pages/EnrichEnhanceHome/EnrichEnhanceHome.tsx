@@ -13,7 +13,7 @@ export function EnrichEnhanceHome() {
 
   const EnrichEnhanceFunctions = [
     {
-      title: 'Enrich Company',
+      title: 'Enrich Data',
       icon: faSparkles,
       onClick: () => navigateToPage('enrichment-selection'),
     },
