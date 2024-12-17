@@ -44,6 +44,7 @@ export function EnrichEnhanceHome() {
       {EnrichEnhanceFunctions.map((item) => (
         <button
           onClick={item.onClick}
+          key={item.title}
           className="flex items-center gap-2 p-8 rounded-lg hover:bg-deep border border-base">
           {item.icon && (
             <FontAwesomeIcon
