@@ -57,7 +57,7 @@ export function EnrichEnhanceHome() {
             <Text>Enrich Old Way</Text>
           </button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className=" overflow-hidden">
           <DialogHeader>
             <DialogTitle>New Enrichment</DialogTitle>
           </DialogHeader>
