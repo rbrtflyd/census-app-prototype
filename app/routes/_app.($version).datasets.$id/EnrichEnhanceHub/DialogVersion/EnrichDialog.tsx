@@ -240,9 +240,9 @@ export function EnrichDialog() {
   };
 
   return (
-    <div className="flex flex-row gap-9 overflow-y-auto grow">
-      <div className="flex flex-row gap-8 w-4/5 h-full p-6">
-        <div className="flex flex-col gap-8 w-1/2 h-full">
+    <div className="flex flex-row overflow-y-auto grow">
+      <div className="flex flex-row gap-8 w-4/5 h-full">
+        <div className="flex flex-col gap-8 w-1/2 h-full p-6">
           <div className="flex flex-col gap-2">
             <Text className="font-medium">Choose Enrichment Object</Text>
             <Select
@@ -336,59 +336,195 @@ export function EnrichDialog() {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-8 w-3/4 pb-9">
-          {viewingSequenceForColumn ? (
-            <>
-              <Text className="font-medium">
-                Enrichment Sequence for {viewingSequenceForColumn}
-              </Text>
-              <div className="flex flex-col gap-4">
-                {conditionGroups.map((group) => (
-                  <div
-                    key={group.id}
-                    className="flex flex-col gap-4 border border-base rounded-lg">
-                    <Text className="font-medium text-lg p-4">
-                      {viewingSequenceForColumn}
-                    </Text>
-                    <Text className="font-bold text-xxs text-light uppercase tracking-wider px-4">
-                      Logic
-                    </Text>
-                    <div className="flex flex-col gap-4 px-4">
-                      {group.conditions.map((condition, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-row gap-4 items-center">
-                          {index === 0 ? (
-                            <Text className="font-medium">If</Text>
-                          ) : (
+        <div className="flex flex-col gap-8 w-3/4 h-full bg-deep p-6">
+          <div className="flex flex-col gap-4 h-full">
+            {viewingSequenceForColumn ? (
+              <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-base overflow-hidden">
+                <div className="bg-white sticky top-0 border-b border-base p-6">
+                  <Text className="font-medium">
+                    Enrichment Sequence for {viewingSequenceForColumn}
+                  </Text>
+                </div>
+                <div className="flex flex-col h-full overflow-y-auto p-6 gap-8">
+                  {conditionGroups.map((group) => (
+                    <div
+                      key={group.id}
+                      className="flex flex-col gap-4 border border-base rounded-lg">
+                      <Text className="font-bold text-xxs text-light uppercase tracking-wider px-4">
+                        Logic
+                      </Text>
+                      <div className="flex flex-col gap-4 px-4">
+                        {group.conditions.map((condition, index) => (
+                          <div
+                            key={index}
+                            className="flex flex-row gap-4 items-center">
+                            {index === 0 ? (
+                              <Text className="font-medium">If</Text>
+                            ) : (
+                              <Select
+                                value={condition.logicalOperator}
+                                onValueChange={(value) =>
+                                  updateCondition(
+                                    group.id,
+                                    index,
+                                    'logicalOperator',
+                                    value
+                                  )
+                                }>
+                                <SelectTrigger className="w-24">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {logicalOperators.map((op) => (
+                                    <SelectItem
+                                      key={op}
+                                      value={op}>
+                                      {op}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            )}
                             <Select
-                              value={condition.logicalOperator}
+                              value={condition.column}
                               onValueChange={(value) =>
                                 updateCondition(
                                   group.id,
                                   index,
-                                  'logicalOperator',
+                                  'column',
                                   value
                                 )
                               }>
-                              <SelectTrigger className="w-24">
-                                <SelectValue />
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Column" />
                               </SelectTrigger>
                               <SelectContent>
-                                {logicalOperators.map((op) => (
+                                {columns.map((column) => (
                                   <SelectItem
-                                    key={op}
-                                    value={op}>
-                                    {op}
+                                    key={column}
+                                    value={column}>
+                                    {column}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
-                          )}
+                            <Select
+                              defaultValue="equals"
+                              value={condition.operator}
+                              onValueChange={(value) =>
+                                updateCondition(
+                                  group.id,
+                                  index,
+                                  'operator',
+                                  value
+                                )
+                              }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Operator" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {operators.map((operator) => (
+                                  <SelectItem
+                                    key={operator}
+                                    value={operator}>
+                                    {operator}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            {operatorsRequiringValue.includes(
+                              condition.operator
+                            ) && (
+                              <input
+                                type="text"
+                                placeholder="Enter value"
+                                className="p-2 border border-base rounded"
+                                value={condition.value}
+                                onChange={(e) =>
+                                  updateCondition(
+                                    group.id,
+                                    index,
+                                    'value',
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            )}
+                          </div>
+                        ))}
+                        <Button
+                          onClick={() => addCondition(group.id)}
+                          variant="ghost"
+                          className="w-fit">
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            className="mr-2"
+                          />
+                          <Text>Add Condition</Text>
+                        </Button>
+                      </div>
+
+                      <div className="flex flex-row gap-2 items-center justify-stretch px-4">
+                        <Text className="font-medium shrink-0">
+                          Then Enrich With
+                        </Text>
+
+                        <Select
+                          value={group.then.provider}
+                          onValueChange={(value) =>
+                            updateThen(group.id, 'provider', value)
+                          }>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Provider" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {enrichmentProviders.map((provider) => (
+                              <SelectItem
+                                key={provider.name}
+                                value={provider.name}>
+                                <div className="flex flex-row gap-2 items-center">
+                                  <img
+                                    src={provider.logo}
+                                    alt={provider.name}
+                                    className="w-4 h-4"
+                                  />
+                                  {provider.name}
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="flex flex-col gap-2 p-4 bg-subtle border-t border-base">
+                        <Text className="font-bold text-xxs text-light uppercase tracking-wider">
+                          Map Field
+                        </Text>
+                        <div className="flex flex-row gap-2 items-center">
+                          <Select disabled={!group.then.provider}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Field" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {group.then.provider &&
+                                getPrefixedEnrichmentFields(
+                                  group.then.provider
+                                ).map((field) => (
+                                  <SelectItem
+                                    key={field.value}
+                                    value={field.value}>
+                                    {field.value}
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                          <FontAwesomeIcon
+                            icon={faArrowRight}
+                            className="text-base mx-3"
+                          />
                           <Select
-                            value={condition.column}
+                            value={group.conditions[0].column}
                             onValueChange={(value) =>
-                              updateCondition(group.id, index, 'column', value)
+                              updateCondition(group.id, 0, 'column', value)
                             }>
                             <SelectTrigger>
                               <SelectValue placeholder="Select Column" />
@@ -403,164 +539,36 @@ export function EnrichDialog() {
                               ))}
                             </SelectContent>
                           </Select>
-                          <Select
-                            defaultValue="equals"
-                            value={condition.operator}
-                            onValueChange={(value) =>
-                              updateCondition(
-                                group.id,
-                                index,
-                                'operator',
-                                value
-                              )
-                            }>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Operator" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {operators.map((operator) => (
-                                <SelectItem
-                                  key={operator}
-                                  value={operator}>
-                                  {operator}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {operatorsRequiringValue.includes(
-                            condition.operator
-                          ) && (
-                            <input
-                              type="text"
-                              placeholder="Enter value"
-                              className="p-2 border border-base rounded"
-                              value={condition.value}
-                              onChange={(e) =>
-                                updateCondition(
-                                  group.id,
-                                  index,
-                                  'value',
-                                  e.target.value
-                                )
-                              }
-                            />
-                          )}
                         </div>
-                      ))}
-                      <Button
-                        onClick={() => addCondition(group.id)}
-                        variant="ghost"
-                        className="w-fit">
-                        <FontAwesomeIcon
-                          icon={faPlus}
-                          className="mr-2"
-                        />
-                        <Text>Add Condition</Text>
-                      </Button>
-                    </div>
-
-                    <div className="flex flex-row gap-2 items-center justify-stretch px-4">
-                      <Text className="font-medium shrink-0">
-                        Then Enrich With
-                      </Text>
-
-                      <Select
-                        value={group.then.provider}
-                        onValueChange={(value) =>
-                          updateThen(group.id, 'provider', value)
-                        }>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Provider" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {enrichmentProviders.map((provider) => (
-                            <SelectItem
-                              key={provider.name}
-                              value={provider.name}>
-                              <div className="flex flex-row gap-2 items-center">
-                                <img
-                                  src={provider.logo}
-                                  alt={provider.name}
-                                  className="w-4 h-4"
-                                />
-                                {provider.name}
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="flex flex-col gap-2 p-4 bg-subtle border-t border-base">
-                      <Text className="font-bold text-xxs text-light uppercase tracking-wider">
-                        Map Field
-                      </Text>
-                      <div className="flex flex-row gap-2 items-center">
-                        <Select disabled={!group.then.provider}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Field" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {group.then.provider &&
-                              getPrefixedEnrichmentFields(
-                                group.then.provider
-                              ).map((field) => (
-                                <SelectItem
-                                  key={field.value}
-                                  value={field.value}>
-                                  {field.value}
-                                </SelectItem>
-                              ))}
-                          </SelectContent>
-                        </Select>
-                        <FontAwesomeIcon
-                          icon={faArrowRight}
-                          className="text-base mx-3"
-                        />
-                        <Select
-                          value={group.conditions[0].column}
-                          onValueChange={(value) =>
-                            updateCondition(group.id, 0, 'column', value)
-                          }>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Column" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {columns.map((column) => (
-                              <SelectItem
-                                key={column}
-                                value={column}>
-                                {column}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
                     </div>
+                  ))}
+                  <div className="flex flex-row gap-2 items-center justify-end">
+                    <Button variant="secondary">Copy to Column</Button>
+                    <Button
+                      onClick={addConditionGroup}
+                      variant="secondary">
+                      <Text>Add Rule Group</Text>
+                    </Button>
                   </div>
-                ))}
-                <Button
-                  onClick={addConditionGroup}
-                  variant="secondary"
-                  className="mt-4">
-                  <Text>Add Rule Group</Text>
-                </Button>
+                </div>
               </div>
-            </>
-          ) : conditionalColumns.length > 0 ? (
-            <div className="flex items-center justify-center h-full">
-              <Text className="text-light">
-                Select "View Sequence" for any column to see its enrichment
-                rules
-              </Text>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <Text className="text-light">
-                Select "Conditional Import" for any column to create an
-                enrichment sequence
-              </Text>
-            </div>
-          )}
+            ) : conditionalColumns.length > 0 ? (
+              <div className="flex items-center justify-center h-full">
+                <Text className="text-light">
+                  Select "View Sequence" for any column to see its enrichment
+                  rules
+                </Text>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <Text className="text-light">
+                  Select "Conditional Import" for any column to create an
+                  enrichment sequence
+                </Text>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-8 w-1/5 sticky top-0 border-l border-base bg-subtle p-2">
