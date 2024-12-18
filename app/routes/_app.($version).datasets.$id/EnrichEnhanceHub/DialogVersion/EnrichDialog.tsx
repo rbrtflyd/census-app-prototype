@@ -292,60 +292,65 @@ export function EnrichDialog() {
                         className="icon-lighter"
                       />
                     </div>
-                    <Select
-                      onValueChange={(value) =>
-                        handleColumnImportChange(column, value)
-                      }>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Column" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">
-                          <FontAwesomeIcon
-                            icon={faBan}
-                            className="icon-light mr-1"
-                          />
-                          Don't Import
-                        </SelectItem>
-                        <SelectItem value="conditional">
-                          <FontAwesomeIcon
-                            icon={faDiagramSankey}
-                            className="icon-light mr-1"
-                          />{' '}
-                          Conditional Import
-                        </SelectItem>
-                        <Separator className="my-2" />
-                        {columns.map((column) => (
-                          <SelectItem
-                            key={column}
-                            value={column}>
-                            {column}
+                    <div className="flex flex-row gap-2 w-full">
+                      <Select
+                        onValueChange={(value) =>
+                          handleColumnImportChange(column, value)
+                        }>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Column" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">
+                            <FontAwesomeIcon
+                              icon={faBan}
+                              className="icon-light mr-1"
+                            />
+                            Don't Import
                           </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {conditionalColumns.includes(column) && (
-                      <button
-                        onClick={() => setViewingSequenceForColumn(column)}>
-                        hi
-                      </button>
-                    )}
+                          <SelectItem value="conditional">
+                            <div className="flex flex-row gap-1 items-center w-full">
+                              <FontAwesomeIcon
+                                icon={faDiagramSankey}
+                                className="icon-light "
+                              />
+                              <Text className="truncate">
+                                Conditional Import
+                              </Text>
+                            </div>
+                          </SelectItem>
+                          <Separator className="my-2" />
+                          {columns.map((column) => (
+                            <SelectItem
+                              key={column}
+                              value={column}>
+                              {column}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {conditionalColumns.includes(column) && (
+                        <button
+                          onClick={() => setViewingSequenceForColumn(column)}>
+                          hi
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-8 w-3/4 h-full bg-deep p-6">
+        <div className="flex flex-col gap-8 w-3/4 h-full p-6">
           <div className="flex flex-col gap-4 h-full">
             {viewingSequenceForColumn ? (
-              <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-base overflow-hidden">
-                <div className="bg-white sticky top-0 border-b border-base p-6">
-                  <Text className="font-medium">
-                    Enrichment Sequence for {viewingSequenceForColumn}
-                  </Text>
-                </div>
-                <div className="flex flex-col h-full overflow-y-auto p-6 gap-8">
+              <div className="flex flex-col h-full overflow-y-auto">
+                <Text className="font-medium">
+                  Enrichment Sequence for {viewingSequenceForColumn}
+                </Text>
+
+                <div className="flex flex-col h-full overflow-y-auto gap-8">
                   {conditionGroups.map((group) => (
                     <div
                       key={group.id}
