@@ -12,6 +12,7 @@ export {
   DialogDescription,
   DialogTrigger,
   DialogClose,
+  DialogFooter,
 } from './dialog';
 export { Label } from './label';
 export {
