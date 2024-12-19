@@ -163,12 +163,14 @@ export default function DatasetIndex() {
         className={`flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto py-12`}>
         <div className="flex flex-row gap-4 items-center justify-between w-full">
           <div className="flex flex-row gap-4 items-center">
-            <div className="flex items-center justify-center size-14 bg-white rounded-md shadow border border-base">
-              <img
-                className="size-10"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"
-              />
-            </div>
+            {thisDataset.name === 'Salesforce Contacts' && (
+              <div className="flex items-center justify-center size-14 bg-white rounded-md shadow border border-base">
+                <img
+                  className="size-10"
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"
+                />
+              </div>
+            )}
             <Text className="text-2xl font-medium">{thisDataset.name}</Text>
           </div>
           <div className="flex flex-row space-x-2">
@@ -182,7 +184,7 @@ export default function DatasetIndex() {
           <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full bg-sublte shadow overflow-hidden relative mt-12">
             <div className="items-center justify-between z-10">
               <Text className="font-medium leading-none text-lg">
-                Get the most out of your Salesforce dataset
+                Get the most out of {thisDataset.name}
               </Text>
               <Button
                 variant="ghost"
