@@ -17,6 +17,7 @@ import {
   DialogTrigger,
   DialogFooter,
 } from '~/components/ui';
+import { EnrichDialogV2 } from '../../DialogVersion/EnrichDialogV2';
 
 export function EnrichEnhanceHome() {
   const { navigateToPage } = useEnrichEnhance();
@@ -61,7 +62,7 @@ export function EnrichEnhanceHome() {
           <DialogHeader>
             <DialogTitle>New Enrichment</DialogTitle>
           </DialogHeader>
-          <EnrichDialog />
+          <EnrichDialogV2 />
           <DialogFooter>
             <Button>Enrich</Button>
           </DialogFooter>

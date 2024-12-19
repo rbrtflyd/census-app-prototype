@@ -144,7 +144,7 @@ const getPrefixedEnrichmentFields = (provider: string) => {
   }));
 };
 
-export function EnrichDialog() {
+export function EnrichDialogV2() {
   const selectedColumn = 'job_title';
   const [selectedObject, setSelectedObject] = useState<string>('');
   const [conditionalColumns, setConditionalColumns] = useState<string[]>([]);
@@ -273,7 +273,6 @@ export function EnrichDialog() {
                     <div className={`flex flex-row gap-2 items-center`}>
                       <div
                         className={`size-[22px] rounded-lg leading-none flex items-center justify-center ${object.bg}`}>
-                        {' '}
                         <FontAwesomeIcon
                           icon={object.icon}
                           className="text-white text-sm"
