@@ -4,7 +4,7 @@ type EnrichEnhancePage = {
   id: string;
   title: string;
   component: ReactNode;
-  parentId?: string;
+  parentId?: string[];
 };
 
 interface EnrichEnhanceContextType {
@@ -14,6 +14,8 @@ interface EnrichEnhanceContextType {
   navigateToPage: (pageId: string) => void;
   navigateBack: () => void;
   pages: Record<string, EnrichEnhancePage>;
+  selectedColumn: string | null;
+  setSelectedColumn: (column: string | null) => void;
 }
 
 const EnrichEnhanceContext = createContext<
@@ -24,6 +26,7 @@ export function EnrichEnhanceProvider({ children }: { children: ReactNode }) {
   const [pages, setPages] = useState<Record<string, EnrichEnhancePage>>({});
   const [currentPageId, setCurrentPageId] = useState<string>('home');
   const [pageHistory, setPageHistory] = useState<string[]>(['home']);
+  const [selectedColumn, setSelectedColumn] = useState<string | null>(null);
 
   const addPage = (page: EnrichEnhancePage) => {
     setPages((prev) => ({
@@ -56,6 +59,8 @@ export function EnrichEnhanceProvider({ children }: { children: ReactNode }) {
         navigateToPage,
         navigateBack,
         pages,
+        selectedColumn,
+        setSelectedColumn,
       }}>
       {children}
     </EnrichEnhanceContext.Provider>

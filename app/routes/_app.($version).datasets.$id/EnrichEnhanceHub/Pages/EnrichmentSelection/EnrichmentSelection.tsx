@@ -33,11 +33,19 @@ const columns = [
 ];
 
 export function EnrichmentSelection() {
-  const { navigateToPage } = useEnrichEnhance();
+  const { navigateToPage, setSelectedColumn } = useEnrichEnhance();
   const [filteredColumns, setFilteredColumns] = React.useState(columns);
+
+  const handleColumnSelect = (column: string) => {
+    setSelectedColumn(column);
+    navigateToPage('enrich-condition-builder');
+  };
+
   return (
     <div className="flex flex-col gap-6 p-6">
-      <button className="flex items-center gap-2 p-8 rounded-lg hover:bg-deep border border-base">
+      <button
+        className="flex items-center gap-2 p-8 rounded-lg hover:bg-deep border border-base"
+        onClick={() => navigateToPage('enrich-by-row')}>
         <Text className="font-medium text-lg">Enrich by Row Value</Text>
       </button>
       <div className="flex flex-col gap-4">
@@ -61,7 +69,8 @@ export function EnrichmentSelection() {
           {filteredColumns.map((column) => (
             <button
               key={column}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-deep border border-base w-full mb-1">
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-deep border border-base w-full mb-1"
+              onClick={() => handleColumnSelect(column)}>
               <Text className="font-medium text-xs">{column}</Text>
             </button>
           ))}

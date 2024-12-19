@@ -169,7 +169,6 @@ export default function DatasetOverview() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {' '}
       <div className="flex  px-6 py-8 bg-subtle">
         <div className="flex flex-col gap-6 items-start w-full max-w-[1400px] mx-auto">
           <div className="flex flex-row gap-4 items-center justify-between w-full">

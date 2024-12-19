@@ -111,7 +111,7 @@ export default function DatasetIndex() {
 
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
-    return segments[segments.length - 1] || 'overview';
+    return segments[segments.length - 1] || 'overview-v2';
   };
 
   const activeTab = getActiveTab(location.pathname);
@@ -146,7 +146,7 @@ export default function DatasetIndex() {
                 icon={faTableRows}
                 className="mr-1.5 icon-lighter"
               />
-              {thisDataset.rows} Rows
+              {thisDataset.rows.toLocaleString()} Rows
             </Badge>
           </PageHeader.TitleSlot>
           <PageHeader.RightSlot>
@@ -234,7 +234,7 @@ export default function DatasetIndex() {
           className="w-full">
           <TabsList>
             {[
-              'overview',
+              'overview-v2',
               'preview',
               'relationships',
               'columns',
@@ -254,7 +254,8 @@ export default function DatasetIndex() {
                       ? 'text-primary-600 bg-primary-50'
                       : 'text-gray-500 hover:text-gray-700'
                   )}>
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {tab.split('-')[0].charAt(0).toUpperCase() +
+                    tab.split('-')[0].slice(1)}
                 </Link>
               </TabsTrigger>
             ))}
