@@ -234,7 +234,7 @@ export default function DatasetIndex() {
           className="w-full">
           <TabsList>
             {[
-              'overview',
+              'overview-v2',
               'preview',
               'relationships',
               'columns',
@@ -254,7 +254,8 @@ export default function DatasetIndex() {
                       ? 'text-primary-600 bg-primary-50'
                       : 'text-gray-500 hover:text-gray-700'
                   )}>
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {tab.split('-')[0].charAt(0).toUpperCase() +
+                    tab.split('-')[0].slice(1)}
                 </Link>
               </TabsTrigger>
             ))}
