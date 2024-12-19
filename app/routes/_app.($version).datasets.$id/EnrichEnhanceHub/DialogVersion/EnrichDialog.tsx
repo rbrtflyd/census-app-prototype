@@ -7,6 +7,12 @@ import {
   faPlus,
   faBuilding,
   faUser,
+  faMapMarker,
+  faGlobe,
+  faBriefcase,
+  faUsers,
+  faEnvelope,
+  faPhone,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
@@ -44,22 +50,22 @@ const enrichmentFields = [
 
 const objectColumnMapping = {
   company: [
-    'company_name',
-    'location',
-    'website_url',
-    'linkedin_url',
-    'twitter_url',
-    'facebook_url',
-    'instagram_url',
-    'youtube_url',
+    { name: 'company_name', icon: faBuilding },
+    { name: 'location', icon: faMapMarker },
+    { name: 'website_url', icon: faGlobe },
+    { name: 'linkedin_url', icon: faLinkedin },
+    { name: 'twitter_url', icon: faTwitter },
+    { name: 'facebook_url', icon: faFacebook },
+    { name: 'instagram_url', icon: faInstagram },
+    { name: 'youtube_url', icon: faYoutube },
   ],
   person: [
-    'job_title',
-    'department',
-    'email_address',
-    'phone_number',
-    'linkedin_url',
-    'twitter_url',
+    { name: 'job_title', icon: faBriefcase },
+    { name: 'department', icon: faUsers },
+    { name: 'email_address', icon: faEnvelope },
+    { name: 'phone_number', icon: faPhone },
+    { name: 'linkedin_url', icon: faLinkedin },
+    { name: 'twitter_url', icon: faTwitter },
   ],
 };
 
@@ -282,9 +288,9 @@ export function EnrichDialog() {
                 ].map((column) => (
                   <div className="flex flex-row gap-5 justify-stretch items-stretch leading-none">
                     <div
-                      key={column}
+                      key={column.name}
                       className="p-2 border border-base rounded flex items-center w-full">
-                      {column}
+                      {column.name}
                     </div>
                     <div className="flex items-center">
                       <FontAwesomeIcon
@@ -295,7 +301,7 @@ export function EnrichDialog() {
                     <div className="flex flex-row gap-2 w-full">
                       <Select
                         onValueChange={(value) =>
-                          handleColumnImportChange(column, value)
+                          handleColumnImportChange(column.name, value)
                         }>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Column" />
@@ -329,9 +335,11 @@ export function EnrichDialog() {
                           ))}
                         </SelectContent>
                       </Select>
-                      {conditionalColumns.includes(column) && (
+                      {conditionalColumns.includes(column.name) && (
                         <button
-                          onClick={() => setViewingSequenceForColumn(column)}>
+                          onClick={() =>
+                            setViewingSequenceForColumn(column.name)
+                          }>
                           hi
                         </button>
                       )}
