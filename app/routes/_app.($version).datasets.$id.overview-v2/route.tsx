@@ -14,14 +14,14 @@ import {
   faSparkles,
   faTriangleExclamation,
   faBan,
+  faCircleCheck,
 } from '@fortawesome/pro-solid-svg-icons';
 import { DotPattern } from '~/components/ui/dot-pattern';
 import { cn } from '~/lib/utils';
 
 const CreateRelationship = ({ button }: { button: string }) => {
   return (
-    <div className="flex flex-col gap-4 items-start w-full h-[225px]">
-      <div className="grow w-full bg-deep rounded-md" />
+    <div className="flex flex-col gap-4 items-start w-full h-[75px]">
       <Button variant="secondary">{button}</Button>
     </div>
   );
@@ -29,8 +29,7 @@ const CreateRelationship = ({ button }: { button: string }) => {
 
 const Deduplicate = ({ button }: { button: string }) => {
   return (
-    <div className="flex flex-col gap-4 items-start w-full h-[225px]">
-      <div className="grow w-full bg-deep rounded-md" />
+    <div className="flex flex-col gap-4 items-start w-full h-[75px]">
       <Button variant="secondary">{button}</Button>
     </div>
   );
@@ -38,8 +37,7 @@ const Deduplicate = ({ button }: { button: string }) => {
 
 const Enhance = ({ button }: { button: string }) => {
   return (
-    <div className="flex flex-col gap-4 items-start w-full h-[225px]">
-      <div className="grow w-full bg-deep rounded-md" />
+    <div className="flex flex-col gap-4 items-start w-full h-[75px]">
       <Button variant="secondary">{button}</Button>
     </div>
   );
@@ -47,8 +45,7 @@ const Enhance = ({ button }: { button: string }) => {
 
 const Enrich = ({ button }: { button: string }) => {
   return (
-    <div className="flex flex-col gap-4 items-start  w-full h-[225px]">
-      <div className="grow w-full bg-deep rounded-md" />
+    <div className="flex flex-col gap-4 items-start  w-full h-[75px]">
       <div className="flex flex-row gap-2">
         <Button variant="secondary">Enrich with Clearbit</Button>
         <Button variant="secondary">Enrich with Apollo</Button>
@@ -164,22 +161,28 @@ export default function DatasetIndex() {
     <div className="flex flex-col w-full h-full overflow-y-auto">
       <div
         className={`flex flex-col px-6 bg-subtle *:w-full *:max-w-[1400px] *:mx-auto py-12`}>
-        {version === 'v1' && (
-          <div className="flex flex-row gap-4 py-12 items-center justify-between w-full">
-            <Text className="text-2xl font-medium">{thisDataset.name}</Text>
-            <div className="flex flex-row space-x-2">
-              <Button variant="secondary">Sync</Button>
-              <Button variant="secondary">Edit</Button>
-              <Separator orientation="vertical" />
-              <Button variant="secondary">Delete</Button>
+        <div className="flex flex-row gap-4 items-center justify-between w-full">
+          <div className="flex flex-row gap-4 items-center">
+            <div className="flex items-center justify-center size-14 bg-white rounded-md shadow border border-base">
+              <img
+                className="size-10"
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"
+              />
             </div>
+            <Text className="text-2xl font-medium">{thisDataset.name}</Text>
           </div>
-        )}
+          <div className="flex flex-row space-x-2">
+            <Button variant="secondary">Sync</Button>
+            <Button variant="secondary">Edit</Button>
+            <Button variant="secondary">Delete</Button>
+          </div>
+        </div>
+
         {isVisible && (
-          <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full bg-sublte shadow overflow-hidden relative">
+          <div className="flex flex-col *:flex *:flex-row gap-4 p-6 border border-base rounded-md w-full h-full bg-sublte shadow overflow-hidden relative mt-12">
             <div className="items-center justify-between z-10">
               <Text className="font-medium leading-none text-lg">
-                Get the most out of your dataset
+                Get the most out of your Salesforce dataset
               </Text>
               <Button
                 variant="ghost"
@@ -241,7 +244,7 @@ export default function DatasetIndex() {
         )}
       </div>
       <div className="flex flex-col px-6 py-8 grow *:w-full *:max-w-[1400px] *:mx-auto gap-6">
-        <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full ">
+        {/* <div className="rounded-md border border-base p-6 flex flex-col gap-4 bg-white min-w-1/3  w-full ">
           <div className="flex flex-row justify-between items-center *:leading-none">
             <Text className=" font-medium ">Issues</Text>
             <Text className="text-light">{issues.length} issues</Text>
@@ -277,6 +280,23 @@ export default function DatasetIndex() {
                 </div>
               </button>
             ))}
+          </div>
+        </div> */}
+        <div className="flex flex-row gap-4 items-center bg-white rounded border border-base p-6 justify-between">
+          <div className="flex flex-row gap-2 items-center">
+            <FontAwesomeIcon
+              icon={faCircleCheck}
+              className="text-emerald-500"
+            />
+            <Text className="font-medium">Up to Date</Text>
+            <Text className="text-light">6h ago</Text>
+          </div>
+          <div className="flex flex-row gap-4 items-center">
+            <div className="flex flex-row gap-2 text-sm">
+              <Text>Next Update</Text>
+              <Text className="text-lighter">Dec 21, 2024 12:00 AM EST</Text>
+            </div>
+            <Button variant="secondary">View</Button>
           </div>
         </div>
         <div className="rounded-md border border-base p-8 w-full flex flex-col gap-4">

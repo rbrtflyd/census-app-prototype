@@ -111,7 +111,7 @@ export default function DatasetIndex() {
 
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
-    return segments[segments.length - 1] || 'overview';
+    return segments[segments.length - 1] || 'overview-v2';
   };
 
   const activeTab = getActiveTab(location.pathname);
@@ -146,7 +146,7 @@ export default function DatasetIndex() {
                 icon={faTableRows}
                 className="mr-1.5 icon-lighter"
               />
-              {thisDataset.rows} Rows
+              {thisDataset.rows.toLocaleString()} Rows
             </Badge>
           </PageHeader.TitleSlot>
           <PageHeader.RightSlot>
