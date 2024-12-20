@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@remix-run/react';
+import { Link, useLocation } from '@remix-run/react';
 import { NavLink } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
@@ -59,6 +59,8 @@ const navLinks = [
 ];
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
+  const { pathname } = useLocation();
+
   const newSidebar = props.newSidebar ?? false;
 
   return (
@@ -105,7 +107,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                       to={link.to}
                       className={({ isActive }) =>
                         `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                          isActive
+                          isActive || pathname.includes(link.to)
                             ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
                             : 'text-white/75 hover:text-white/90 hover:bg-white/10'
                         } ${link.label === 'Getting Started' ? 'mb-4' : ''}`

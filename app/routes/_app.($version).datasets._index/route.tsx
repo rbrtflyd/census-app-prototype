@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { version } from 'react';
 import { json, type LoaderFunction } from '@remix-run/node';
-import { useLoaderData, useOutletContext } from '@remix-run/react';
+import { useLoaderData, useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
 import type { DatasetType } from '../../db/types';
@@ -11,6 +11,7 @@ import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 
 export default function Datasets() {
+  const { version } = useParams();
   const navigate = useNavigate();
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
 
@@ -22,7 +23,7 @@ export default function Datasets() {
         title="Datasets"
         button={{
           label: 'New Dataset',
-          onClick: () => navigate('/datasets/new/step1'),
+          onClick: () => navigate(`/${version}/datasets/new/step1`),
         }}
       />
       <div className="flex flex-col gap-4 grow h-full">
