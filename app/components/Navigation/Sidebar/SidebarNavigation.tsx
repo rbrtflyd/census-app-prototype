@@ -4,7 +4,13 @@ import { NavLink } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faCircleUser,
+  faCog,
+  faHome,
+  faMessage,
+  faUser,
+} from '@fortawesome/pro-solid-svg-icons';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
 import {
   CensusSyncs,
@@ -65,82 +71,131 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
 
   return (
     <nav
-      className={`flex flex-col h-full shrink-0 w-[220px] text-white space-y-4 border-r border-base ${
+      className={`flex flex-col h-full shrink-0 w-[220px] text-white space-y-4 border-r border-base justify-between ${
         !newSidebar
           ? 'bg-gradient-to-b from-[#1B1636] to-[#34162F]'
           : 'bg-slate-12'
       }`}>
-      <div className="px-3 pt-8 pb-3 border-b border-white/10">
-        <img
-          src="/logos/census/census-logo-full.svg"
-          alt="Census Logo"
-          className="w-auto h-7"
-        />
-      </div>
-      <div className="flex flex-col px-3 space-y-4">
-        <button className="flex flex-row items-center space-x-2 px-4 py-2 rounded-md hover:bg-white/10">
-          <div className="bg-white/10 size-6 rounded font-bold flex items-center justify-center leading-none text-xs">
-            <Text>S</Text>
-          </div>
-          <Text>Sales Team</Text>
-        </button>
-        <button className="flex flex-row items-center justify-center space-x-1 px-4 py-3 rounded-md hover:bg-white/20 bg-white/10 leading-none">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="mr-2 text-sm"
+      <div className="flex flex-col gap-4">
+        <div className="px-3 pt-8 pb-3 border-b border-white/10">
+          <img
+            src="/logos/census/census-logo-full.svg"
+            alt="Census Logo"
+            className="w-auto h-7"
           />
-          <Text>Search Census...</Text>
-        </button>
-      </div>
-      <div className="flex flex-col px-3 py-2 gap-1">
-        {navLinks.map((group) => (
-          <div
-            key={group.group}
-            className="flex flex-col">
-            <div className="flex flex-col space-y-2">
-              {group.links.map(
-                (link) =>
-                  link.to !== '/v1/sources' &&
-                  link.to !== '/v1/destinations' && (
-                    <NavLink
-                      key={link.to}
-                      to={link.to}
-                      className={({ isActive }) =>
-                        `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
-                          isActive || pathname.includes(link.to)
-                            ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
-                            : 'text-white/75 hover:text-white/90 hover:bg-white/10'
-                        } ${link.label === 'Getting Started' ? 'mb-4' : ''}`
-                      }>
-                      <div className="w-4 mr-2">
-                        {link.label === 'Getting Started' && (
-                          <CircularProgressIndicator
-                            size={16}
-                            strokeWidth={2.2}
-                            progress={15}
-                            color="#2EBE82"
-                          />
-                        )}
-                        {typeof link.icon === 'string' ? (
-                          <img
-                            src={link.icon}
-                            alt={link.label}
-                            className="w-4 h-4"
-                          />
-                        ) : link.icon ? (
-                          <FontAwesomeIcon
-                            icon={link.icon}
-                            className="mr-2 text-sm"
-                          />
-                        ) : null}
-                      </div>
-                      <Text>{link.label}</Text>
-                    </NavLink>
-                  )
-              )}
+        </div>
+        <div className="flex flex-col px-3 space-y-4">
+          <button className="flex flex-row items-center space-x-2 px-4 py-2 rounded-md hover:bg-white/10">
+            <div className="bg-white/10 size-6 rounded font-bold flex items-center justify-center leading-none text-xs">
+              <Text>S</Text>
             </div>
-          </div>
-        ))}
+            <Text>Sales Team</Text>
+          </button>
+          <button className="flex flex-row items-center justify-center space-x-1 px-4 py-3 rounded-md hover:bg-white/20 bg-white/10 leading-none">
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="mr-2 text-sm"
+            />
+            <Text>Search Census...</Text>
+          </button>
+        </div>
+        <div className="flex flex-col px-3 py-2 gap-1">
+          {navLinks.map((group) => (
+            <div
+              key={group.group}
+              className="flex flex-col">
+              <div className="flex flex-col space-y-2">
+                {group.links.map(
+                  (link) =>
+                    link.to !== '/v1/sources' &&
+                    link.to !== '/v1/destinations' && (
+                      <NavLink
+                        key={link.to}
+                        to={link.to}
+                        className={({ isActive }) =>
+                          `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                            isActive || pathname.includes(link.to)
+                              ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
+                              : 'text-white/75 hover:text-white/90 hover:bg-white/10'
+                          } ${link.label === 'Getting Started' ? 'mb-4' : ''}`
+                        }>
+                        <div className="w-4 mr-2">
+                          {link.label === 'Getting Started' && (
+                            <CircularProgressIndicator
+                              size={16}
+                              strokeWidth={2.2}
+                              progress={15}
+                              color="#2EBE82"
+                            />
+                          )}
+                          {typeof link.icon === 'string' ? (
+                            <img
+                              src={link.icon}
+                              alt={link.label}
+                              className="w-4 h-4"
+                            />
+                          ) : link.icon ? (
+                            <FontAwesomeIcon
+                              icon={link.icon}
+                              className="mr-2 text-sm"
+                            />
+                          ) : null}
+                        </div>
+                        <Text>{link.label}</Text>
+                      </NavLink>
+                    )
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col px-3 py-2 gap-1">
+          <NavLink
+            to="/chat"
+            className={({ isActive }) =>
+              `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                isActive
+                  ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
+                  : 'text-white/75 hover:text-white/90 hover:bg-white/10'
+              } `
+            }>
+            <div className="w-4 mr-2">
+              <FontAwesomeIcon
+                icon={faMessage}
+                className="mr-2 text-sm"
+              />
+            </div>
+            <Text>Chat</Text>
+          </NavLink>
+          <NavLink
+            to="/chat"
+            className={({ isActive }) =>
+              `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                isActive
+                  ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
+                  : 'text-white/75 hover:text-white/90 hover:bg-white/10'
+              } `
+            }>
+            <div className="w-4 mr-2">
+              <FontAwesomeIcon
+                icon={faCog}
+                className="mr-2 text-sm"
+              />
+            </div>
+            <Text>Settings</Text>
+          </NavLink>
+        </div>
+        <div className="flex flex-col px-3 pt-4 pb-6 gap-1 border-t border-white/10">
+          <button className="flex flex-row items-center space-x-2 px-4 py-2 rounded-md hover:bg-white/10">
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              className="mr-2 text-sm"
+            />
+            <Text>John Doe</Text>
+          </button>
+        </div>
       </div>
     </nav>
   );

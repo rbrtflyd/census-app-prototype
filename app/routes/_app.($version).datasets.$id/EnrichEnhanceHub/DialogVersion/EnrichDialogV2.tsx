@@ -61,22 +61,25 @@ const enrichmentFields = [
 
 const objectColumnMapping = {
   company: [
-    { name: 'company_name', icon: faBuilding as IconProp },
-    { name: 'location', icon: faMapMarker as IconProp },
-    { name: 'website_url', icon: faGlobe as IconProp },
-    { name: 'linkedin_url', icon: faLinkedin as IconProp },
-    { name: 'twitter_url', icon: faTwitter as IconProp },
-    { name: 'facebook_url', icon: faFacebook as IconProp },
-    { name: 'instagram_url', icon: faInstagram as IconProp },
-    { name: 'youtube_url', icon: faYoutube as IconProp },
+    { name: 'Company Name', icon: faBuilding as IconProp },
+    { name: 'Location', icon: faMapMarker as IconProp },
+    { name: 'Website', icon: faGlobe as IconProp },
+    { name: 'LinkedIn', icon: faLinkedin as IconProp },
+    { name: 'Twitter', icon: faTwitter as IconProp },
+    { name: 'Facebook', icon: faFacebook as IconProp },
+    { name: 'Instagram', icon: faInstagram as IconProp },
+    { name: 'Youtube', icon: faYoutube as IconProp },
   ],
   person: [
-    { name: 'job_title', icon: faBriefcase as IconProp },
-    { name: 'department', icon: faUsers as IconProp },
-    { name: 'email_address', icon: faEnvelope as IconProp },
-    { name: 'phone_number', icon: faPhone as IconProp },
-    { name: 'linkedin_url', icon: faLinkedin as IconProp },
-    { name: 'twitter_url', icon: faTwitter as IconProp },
+    { name: 'Job Title', icon: faBriefcase as IconProp },
+    { name: 'Department', icon: faUsers as IconProp },
+    { name: 'Email', icon: faEnvelope as IconProp },
+    { name: 'Phone', icon: faPhone as IconProp },
+    { name: 'LinkedIn', icon: faLinkedin as IconProp },
+    { name: 'Twitter', icon: faTwitter as IconProp },
+    { name: 'Facebook', icon: faFacebook as IconProp },
+    { name: 'Instagram', icon: faInstagram as IconProp },
+    { name: 'Youtube', icon: faYoutube as IconProp },
   ],
 };
 
@@ -300,35 +303,33 @@ export function EnrichDialogV2() {
                 {objectColumnMapping[
                   selectedObject as keyof typeof objectColumnMapping
                 ].map((column) => (
-                  <div className="flex flex-row gap-5 justify-stretch items-stretch leading-none">
-                    <div
-                      key={column.name}
-                      className="px-3 py-2 border border-base rounded-md flex items-center w-full justify-between">
-                      <div className="flex flex-row gap-1 items-center">
+                  <div
+                    key={column.name}
+                    className="px-2 py-1 border border-base rounded-md flex items-center w-full justify-between">
+                    <div className="flex flex-row gap-1 items-center">
+                      <FontAwesomeIcon
+                        icon={column.icon}
+                        className="icon-light mr-3"
+                      />
+                      <Text>{column.name}</Text>
+                    </div>
+                    <div className="flex flex-row gap-1 items-center">
+                      <Button
+                        variant="ghost"
+                        size="icon">
                         <FontAwesomeIcon
-                          icon={column.icon}
-                          className="icon-light mr-3"
+                          icon={faEyeSlash}
+                          className="icon-light"
                         />
-                        <Text>{column.name}</Text>
-                      </div>
-                      <div className="flex flex-row gap-2 items-center">
-                        <Button
-                          variant="ghost"
-                          size="icon">
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="icon-light"
-                          />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon">
-                          <FontAwesomeIcon
-                            icon={faChevronRight}
-                            className="icon-light"
-                          />
-                        </Button>
-                      </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon">
+                        <FontAwesomeIcon
+                          icon={faChevronRight}
+                          className="icon-light"
+                        />
+                      </Button>
                     </div>
                   </div>
                 ))}
