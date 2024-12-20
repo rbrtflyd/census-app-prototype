@@ -34,10 +34,7 @@ const navLinks = [
   },
   {
     group: 'Audience Hub',
-    links: [
-      { to: '/v1/explorer', label: 'Explorer', icon: CensusSegments },
-      { to: '/v1/segments', label: 'Segments', icon: CensusSegments },
-    ],
+    links: [{ to: '/v1/segments', label: 'Segments', icon: CensusSegments }],
   },
   {
     group: 'Define',
@@ -93,18 +90,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
           <Text>Search Census...</Text>
         </button>
       </div>
-      <div className="flex flex-col px-3 py-2 space-y-6">
+      <div className="flex flex-col px-3 py-2 gap-1">
         {navLinks.map((group) => (
           <div
             key={group.group}
-            className="flex flex-col space-y-0.5">
-            {group.group === 'Audience Hub' && (
-              <div className="px-2">
-                <Text className="text-xxs leading-none mb-2 text-white/50 font-medium">
-                  {group.group}
-                </Text>
-              </div>
-            )}
+            className="flex flex-col">
             <div className="flex flex-col space-y-2">
               {group.links.map(
                 (link) =>
@@ -114,11 +104,11 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
                       key={link.to}
                       to={link.to}
                       className={({ isActive }) =>
-                        ` py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
+                        `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
                           isActive
                             ? 'bg-white/10 text-white/90 hover:bg-white/20 hover:text-white'
                             : 'text-white/75 hover:text-white/90 hover:bg-white/10'
-                        }`
+                        } ${link.label === 'Getting Started' ? 'mb-4' : ''}`
                       }>
                       <div className="w-4 mr-2">
                         {link.label === 'Getting Started' && (
