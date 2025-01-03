@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faSparkles,
   faTimes,
@@ -7,6 +8,12 @@ import {
   faPlus,
   faBuilding,
   faUser,
+  faMapMarker,
+  faGlobe,
+  faBriefcase,
+  faUsers,
+  faEnvelope,
+  faPhone,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
@@ -25,6 +32,13 @@ import {
   faBan,
   faDiagramSankey,
 } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faLinkedin,
+  faTwitter,
+  faFacebook,
+  faInstagram,
+  faYoutube,
+} from '@fortawesome/free-brands-svg-icons';
 import { Separator } from '~/components/ui';
 
 const enrichmentObjects = [
@@ -44,22 +58,22 @@ const enrichmentFields = [
 
 const objectColumnMapping = {
   company: [
-    'company_name',
-    'location',
-    'website_url',
-    'linkedin_url',
-    'twitter_url',
-    'facebook_url',
-    'instagram_url',
-    'youtube_url',
+    { name: 'company_name', icon: faBuilding as IconProp },
+    { name: 'location', icon: faMapMarker as IconProp },
+    { name: 'website_url', icon: faGlobe as IconProp },
+    { name: 'linkedin_url', icon: faLinkedin as IconProp },
+    { name: 'twitter_url', icon: faTwitter as IconProp },
+    { name: 'facebook_url', icon: faFacebook as IconProp },
+    { name: 'instagram_url', icon: faInstagram as IconProp },
+    { name: 'youtube_url', icon: faYoutube as IconProp },
   ],
   person: [
-    'job_title',
-    'department',
-    'email_address',
-    'phone_number',
-    'linkedin_url',
-    'twitter_url',
+    { name: 'job_title', icon: faBriefcase as IconProp },
+    { name: 'department', icon: faUsers as IconProp },
+    { name: 'email_address', icon: faEnvelope as IconProp },
+    { name: 'phone_number', icon: faPhone as IconProp },
+    { name: 'linkedin_url', icon: faLinkedin as IconProp },
+    { name: 'twitter_url', icon: faTwitter as IconProp },
   ],
 };
 
@@ -282,9 +296,13 @@ export function EnrichDialog() {
                 ].map((column) => (
                   <div className="flex flex-row gap-5 justify-stretch items-stretch leading-none">
                     <div
-                      key={column}
+                      key={column.name}
                       className="p-2 border border-base rounded flex items-center w-full">
-                      {column}
+                      <FontAwesomeIcon
+                        icon={column.icon}
+                        className="icon-light mr-2"
+                      />
+                      {column.name}
                     </div>
                     <div className="flex items-center">
                       <FontAwesomeIcon
@@ -295,7 +313,7 @@ export function EnrichDialog() {
                     <div className="flex flex-row gap-2 w-full">
                       <Select
                         onValueChange={(value) =>
-                          handleColumnImportChange(column, value)
+                          handleColumnImportChange(column.name, value)
                         }>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Column" />
@@ -329,9 +347,11 @@ export function EnrichDialog() {
                           ))}
                         </SelectContent>
                       </Select>
-                      {conditionalColumns.includes(column) && (
+                      {conditionalColumns.includes(column.name) && (
                         <button
-                          onClick={() => setViewingSequenceForColumn(column)}>
+                          onClick={() =>
+                            setViewingSequenceForColumn(column.name)
+                          }>
                           hi
                         </button>
                       )}
