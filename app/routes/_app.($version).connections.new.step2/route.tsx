@@ -48,18 +48,27 @@ export default function NewConnectionStep2() {
 
   const sampleCredentials = [
     {
+      section: 'Authentication Method',
+      label: 'Choose the authentication method for this connection',
+      value: 'Role Based',
+      type: 'toggle',
+    },
+    {
+      section: 'Authentication',
       label: 'Username',
       value: 'admin',
       type: 'text',
       helpText: 'The username to use for the connection',
     },
     {
+      section: 'Authentication',
       label: 'Password',
       value: 'password',
       type: 'password',
       helpText: 'The password to use for the connection',
     },
     {
+      section: 'Connection',
       label: 'Hostname',
       value: 'hostname',
       type: 'text',
@@ -129,6 +138,18 @@ export default function NewConnectionStep2() {
       return newSet;
     });
   };
+
+  const groupedCredentials = credentials.reduce(
+    (acc: { [key: string]: typeof credentials }, curr) => {
+      const section = curr.section || ''; // Use 'Other' for credentials without a section
+      if (!acc[section]) {
+        acc[section] = [];
+      }
+      acc[section].push(curr);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="flex flex-col h-full w-full">
@@ -249,24 +270,65 @@ export default function NewConnectionStep2() {
           </div>
         </div>
         <Separator />
-        <div className="flex flex-col gap-4 px-6 py-9">
+        <div className="flex flex-col gap-8 px-6 py-9">
           <Text className="font-medium text-lg">Connection Configuration</Text>
           <div className="flex flex-row justify-between gap-8">
             <div className="flex flex-col gap-8 grow max-w-[350px]">
-              {credentials.map((credential: any) => (
-                <div
-                  className="flex flex-col gap-2 grow"
-                  key={credential.label}>
-                  <Label size="md">{credential.label}</Label>
-                  <Input
-                    value={credential.value}
-                    type={credential.type}
-                  />
-                  <Text className="text-light text-xs leading-none">
-                    {credential.helpText}
-                  </Text>
-                </div>
-              ))}
+              {Object.entries(groupedCredentials).map(
+                ([section, sectionCredentials]) => (
+                  <div
+                    key={section}
+                    className="flex flex-col gap-4">
+                    <Text className="font-medium">{section}</Text>
+                    <div className="flex flex-col gap-6">
+                      {sectionCredentials.map((credential: any) => (
+                        <div
+                          className="flex flex-col gap-2 grow"
+                          key={credential.label}>
+                          <Label size="md">{credential.label}</Label>
+                          {credential.type === 'toggle' ? (
+                            <div className="flex flex-col gap-2">
+                              <RadioGroup
+                                className="flex flex-row gap-2"
+                                value={credential.value}
+                                onValueChange={(value) => {
+                                  const updatedCredentials = credentials.map(
+                                    (c) =>
+                                      c.label === credential.label
+                                        ? { ...c, value }
+                                        : c
+                                  );
+                                  setCredentials(updatedCredentials);
+                                }}>
+                                {['Role Based', 'System User', 'OAuth'].map(
+                                  (option) => (
+                                    <RadioGroupItem
+                                      key={option}
+                                      indicator={false}
+                                      className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
+                                      value={option}
+                                      id={option}>
+                                      <Text>{option}</Text>
+                                    </RadioGroupItem>
+                                  )
+                                )}
+                              </RadioGroup>
+                            </div>
+                          ) : (
+                            <Input
+                              value={credential.value}
+                              type={credential.type}
+                            />
+                          )}
+                          <Text className="text-light text-xs leading-none">
+                            {credential.helpText}
+                          </Text>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <div className="flex flex-col gap-4 w-[300px]">
               <div className="flex flex-col gap-4 sticky top-5">
