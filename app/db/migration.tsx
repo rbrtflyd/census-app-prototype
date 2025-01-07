@@ -52,4 +52,11 @@ export const migrations: Migration[] = [
         'id, connectionId, workspaceId, name, mode, syncEngine, credentials',
     }),
   },
+  {
+    version: 8,
+    description: 'Add modes to connections',
+    upgrade: (db: PrototypeDatabase) => ({
+      connections: 'id, connectionServiceName, connectionServiceType, modes',
+    }),
+  },
 ];
