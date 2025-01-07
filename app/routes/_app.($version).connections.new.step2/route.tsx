@@ -21,6 +21,7 @@ import { faClone, faLink, faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewConnectionContext } from '~/contexts/NewConnectionContext';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Input } from '~/components/ui/input';
+import { faCheck } from '@fortawesome/pro-regular-svg-icons';
 
 export default function NewConnectionStep2() {
   const navigate = useNavigate();
@@ -38,6 +39,10 @@ export default function NewConnectionStep2() {
 
   const { selectedConnectionId, setSelectedConnectionId } =
     useNewConnectionContext();
+
+  const selectedConnection = connections.find(
+    (c) => c.id.toString() === selectedConnectionId
+  );
 
   const [name, setName] = useState<string>('');
   const [mode, setMode] = useState<'source' | 'destination' | 'both' | null>(
@@ -93,7 +98,25 @@ export default function NewConnectionStep2() {
       helpText: 'The schema to use for the connection',
     },
   ];
-  const [credentials, setCredentials] = useState(sampleCredentials);
+
+  const [authMethod, setAuthMethod] = useState<string>(
+    selectedConnection?.authentication_methods?.[0] || ''
+  );
+
+  const [credentials, setCredentials] = useState(() => {
+    if (!selectedConnection?.credentials) {
+      return [];
+    }
+
+    return selectedConnection.credentials.map((cred: any) => ({
+      section: cred.authentication_method || 'Connection',
+      label: cred.field_name,
+      value: '',
+      type: cred.field_type,
+      helpText: cred.field_description,
+      field_required: cred.field_required,
+    }));
+  });
 
   const handleModeClick = (mode: string) => {
     setSelectedModes((prev) => {
@@ -121,10 +144,6 @@ export default function NewConnectionStep2() {
   );
   const [showConnectLink, setShowConnectLink] = useState(false);
 
-  const selectedConnection = connections.find(
-    (c) => c.id.toString() === selectedConnectionId
-  );
-
   const supportedModes = selectedConnection?.modes || [];
 
   const handleUseCaseClick = (useCase: string) => {
@@ -140,7 +159,7 @@ export default function NewConnectionStep2() {
   };
 
   const groupedCredentials = credentials.reduce(
-    (acc: { [key: string]: typeof credentials }, curr) => {
+    (acc: { [key: string]: typeof credentials }, curr: any) => {
       const section = curr.section || ''; // Use 'Other' for credentials without a section
       if (!acc[section]) {
         acc[section] = [];
@@ -272,67 +291,153 @@ export default function NewConnectionStep2() {
         <Separator />
         <div className="flex flex-col gap-8 px-6 py-9">
           <Text className="font-medium text-lg">Connection Configuration</Text>
-          <div className="flex flex-row justify-between gap-8">
-            <div className="flex flex-col gap-8 grow max-w-[350px]">
-              {Object.entries(groupedCredentials).map(
-                ([section, sectionCredentials]) => (
-                  <div
-                    key={section}
-                    className="flex flex-col gap-4">
-                    <Text className="font-medium">{section}</Text>
-                    <div className="flex flex-col gap-6">
-                      {sectionCredentials.map((credential: any) => (
-                        <div
-                          className="flex flex-col gap-2 grow"
-                          key={credential.label}>
-                          <Label size="md">{credential.label}</Label>
-                          {credential.type === 'toggle' ? (
-                            <div className="flex flex-col gap-2">
-                              <RadioGroup
-                                className="flex flex-row gap-2"
+          <div className="flex flex-row justify-between gap-16">
+            <div className="flex flex-col gap-8 grow">
+              {selectedConnection?.authentication_methods && (
+                <div className="flex flex-col gap-4">
+                  <Text className="font-medium">Authentication Method</Text>
+                  <div className="flex flex-col gap-2">
+                    <RadioGroup
+                      className="flex flex-row gap-2"
+                      value={authMethod}
+                      onValueChange={(value) => {
+                        setAuthMethod(value);
+                        // Clear credentials when switching to OAuth
+                        if (value === 'OAuth') {
+                          setCredentials([]);
+                        } else {
+                          // Reset credentials for the selected auth method
+                          const filteredCreds =
+                            selectedConnection?.credentials
+                              ?.filter(
+                                (cred: any) =>
+                                  !cred.authentication_method ||
+                                  cred.authentication_method === value
+                              )
+                              .map((cred: any) => ({
+                                section:
+                                  cred.authentication_method || 'Connection',
+                                label: cred.field_name,
+                                value: '',
+                                type: cred.field_type,
+                                helpText: cred.field_description,
+                                field_required: cred.field_required,
+                              })) || [];
+                          setCredentials(filteredCreds);
+                        }
+                      }}>
+                      {selectedConnection?.authentication_methods.map(
+                        (method: any) => (
+                          <RadioGroupItem
+                            key={method}
+                            indicator={false}
+                            className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
+                            value={method}
+                            id={method}>
+                            <Text>{method}</Text>
+                          </RadioGroupItem>
+                        )
+                      )}
+                    </RadioGroup>
+                  </div>
+                </div>
+              )}
+              <div className="flex flex-col gap-4">
+                {authMethod !== 'OAuth' &&
+                  Object.entries(groupedCredentials).map(
+                    ([section, sectionCredentials]: any) => (
+                      <div
+                        key={section}
+                        className="flex flex-col gap-4">
+                        <Text className="font-medium">{section}</Text>
+                        <div className="flex flex-col gap-6">
+                          {sectionCredentials.map((credential: any) => (
+                            <div
+                              className="flex flex-col gap-2 grow"
+                              key={credential.label}>
+                              <Label size="md">
+                                {credential.label}
+                                {credential.field_required && (
+                                  <span className="text-red-500 ml-1">*</span>
+                                )}
+                              </Label>
+
+                              <Input
                                 value={credential.value}
-                                onValueChange={(value) => {
-                                  const updatedCredentials = credentials.map(
-                                    (c) =>
+                                type={credential.type}
+                                required={credential.field_required}
+                                onChange={(e) => {
+                                  const newCredentials = credentials.map(
+                                    (c: any) =>
                                       c.label === credential.label
-                                        ? { ...c, value }
+                                        ? { ...c, value: e.target.value }
                                         : c
                                   );
-                                  setCredentials(updatedCredentials);
-                                }}>
-                                {['Role Based', 'System User', 'OAuth'].map(
-                                  (option) => (
-                                    <RadioGroupItem
-                                      key={option}
-                                      indicator={false}
-                                      className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
-                                      value={option}
-                                      id={option}>
-                                      <Text>{option}</Text>
-                                    </RadioGroupItem>
-                                  )
-                                )}
-                              </RadioGroup>
+                                  setCredentials(newCredentials);
+                                }}
+                              />
+                              <Text className="text-light text-xs leading-none">
+                                {credential.helpText}
+                              </Text>
                             </div>
-                          ) : (
-                            <Input
-                              value={credential.value}
-                              type={credential.type}
-                            />
-                          )}
-                          <Text className="text-light text-xs leading-none">
-                            {credential.helpText}
-                          </Text>
+                          ))}
                         </div>
-                      ))}
+                        <Separator />
+                      </div>
+                    )
+                  )}
+                <div className="flex flex-col gap-2">
+                  <Button>
+                    <Text>Connect</Text>
+                  </Button>
+                </div>
+              </div>
+
+              {authMethod === 'OAuth' && (
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Text className="font-medium text-lg">
+                      Census will request the following permissions from your{' '}
+                      {selectedConnection?.connectionServiceName} account:
+                    </Text>
+                    <div className="flex flex-row gap-2 items-center">
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="text-emerald-500"
+                      />
+                      <Text>Ability to read data</Text>
+                    </div>
+                    <div className="flex flex-row gap-2 items-center">
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="text-emerald-500"
+                      />
+                      <Text>Ability to write data</Text>
                     </div>
                   </div>
-                )
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        // OAuth logic will go here
+                        console.log('OAuth authentication clicked');
+                      }}>
+                      <Text>
+                        Authenticate with{' '}
+                        {selectedConnection?.connectionServiceName}
+                      </Text>
+                    </Button>
+                    <Text className="text-light text-sm">
+                      Click the button above to securely connect your{' '}
+                      {selectedConnection?.connectionServiceName} account
+                    </Text>
+                  </div>
+                </div>
               )}
             </div>
-            <div className="flex flex-col gap-4 w-[300px]">
+            <div className="flex flex-col gap-4 w-[300px] shrink-0">
               <div className="flex flex-col gap-4 sticky top-5">
-                <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm">
+                <div className="flex flex-col gap-2 p-6 border border-base rounded-md text-sm">
                   <Text className="font-medium">
                     Allow inbound traffic from Census IP Addresses
                   </Text>

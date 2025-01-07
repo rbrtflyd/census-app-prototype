@@ -59,4 +59,12 @@ export const migrations: Migration[] = [
       connections: 'id, connectionServiceName, connectionServiceType, modes',
     }),
   },
+  {
+    version: 9,
+    description: 'Add authentication methods to connections',
+    upgrade: (db: PrototypeDatabase) => ({
+      connections:
+        'id, connectionServiceName, connectionServiceType, modes,authentication_methods, credentials',
+    }),
+  },
 ];
