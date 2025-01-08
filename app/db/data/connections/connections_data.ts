@@ -126,7 +126,28 @@ const connectionsData: ConnectionServiceType[] = [
       'A cloud-based data warehousing platform. It offers scalable storage and compute resources for data analytics and big data processing.',
     logo: '/logos/connections/snowflake-logo.svg',
     modes: ['both'],
-    authentication_methods: ['OAuth', 'Credentials', 'Domain', 'Role'],
+    authentication_methods: [
+      'OAuth',
+      'Credentials',
+      'Role',
+      'Snowflake Partner Connect',
+    ],
+    credentials: [
+      {
+        authentication_method: 'Snowflake Partner Connect',
+        field_name: 'Snowflake Partner Connect',
+        field_type: 'text',
+        field_description: 'The Snowflake Partner Connect token.',
+        field_required: true,
+      },
+      {
+        authentication_method: 'Credentials',
+        field_name: 'Username',
+        field_type: 'text',
+        field_description: 'The username for the Snowflake account.',
+        field_required: true,
+      },
+    ],
   },
   {
     id: 9,

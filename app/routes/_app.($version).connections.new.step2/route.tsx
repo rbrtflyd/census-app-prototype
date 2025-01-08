@@ -99,9 +99,7 @@ export default function NewConnectionStep2() {
     },
   ];
 
-  const [authMethod, setAuthMethod] = useState<string>(
-    selectedConnection?.authentication_methods?.[0] || ''
-  );
+  const [authMethod, setAuthMethod] = useState<string>();
 
   const [credentials, setCredentials] = useState(() => {
     if (!selectedConnection?.credentials) {
@@ -195,6 +193,49 @@ export default function NewConnectionStep2() {
               </span>
               -<span>{selectedConnection?.id}</span>
             </Text>
+          </div>
+          <div className="flex flex-row gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5 items-center justify-between">
+            <div className="flex flex-col gap-1 w-1/2">
+              <Text className="font-medium">
+                Share a connect link with your team.
+              </Text>
+              <Text className="text-light">
+                If you don't know this information, you can share a connect link
+                with your team and have someone else set it up for you.
+              </Text>
+            </div>
+            {!showConnectLink ? (
+              <Button
+                variant="ghost"
+                onClick={() => setShowConnectLink(true)}>
+                <FontAwesomeIcon
+                  icon={faLink}
+                  className="size-4 mr-2"
+                />
+                <Text>Create connect link</Text>
+              </Button>
+            ) : (
+              <div className="flex flex-row items-center gap-2 w-1/3">
+                <Input
+                  value={`https://app.getcensus.com/connect/${selectedConnection?.id}`}
+                  readOnly
+                  className="bg-deep text-light hover:ring-0 truncate"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `https://app.getcensus.com/connect/${selectedConnection?.id}`
+                    );
+                  }}>
+                  <FontAwesomeIcon
+                    icon={faClone}
+                    className="size-4 icon-lighter"
+                  />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
         <Separator />
@@ -290,15 +331,16 @@ export default function NewConnectionStep2() {
         </div>
         <Separator />
         <div className="flex flex-col gap-8 px-6 py-9">
-          <Text className="font-medium text-lg">Connection Configuration</Text>
           <div className="flex flex-row justify-between gap-16">
-            <div className="flex flex-col gap-8 grow">
+            <div className="flex flex-col gap-8 grow  mx-auto">
               {selectedConnection?.authentication_methods && (
                 <div className="flex flex-col gap-4">
-                  <Text className="font-medium">Authentication Method</Text>
+                  <Text className="font-medium text-lg">
+                    Authentication Method
+                  </Text>
                   <div className="flex flex-col gap-2">
                     <RadioGroup
-                      className="flex flex-row gap-2"
+                      className="flex flex-col gap-2"
                       value={authMethod}
                       onValueChange={(value) => {
                         setAuthMethod(value);
@@ -331,7 +373,7 @@ export default function NewConnectionStep2() {
                           <RadioGroupItem
                             key={method}
                             indicator={false}
-                            className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
+                            className="flex flex-row items-center gap-2 p-4 text-lg font-medium border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
                             value={method}
                             id={method}>
                             <Text>{method}</Text>
@@ -342,177 +384,146 @@ export default function NewConnectionStep2() {
                   </div>
                 </div>
               )}
-              <div className="flex flex-col gap-4">
-                {authMethod !== 'OAuth' &&
-                  Object.entries(groupedCredentials).map(
-                    ([section, sectionCredentials]: any) => (
-                      <div
-                        key={section}
-                        className="flex flex-col gap-4">
-                        <Text className="font-medium">{section}</Text>
-                        <div className="flex flex-col gap-6">
-                          {sectionCredentials.map((credential: any) => (
-                            <div
-                              className="flex flex-col gap-2 grow"
-                              key={credential.label}>
-                              <Label size="md">
-                                {credential.label}
-                                {credential.field_required && (
-                                  <span className="text-red-500 ml-1">*</span>
-                                )}
-                              </Label>
-
-                              <Input
-                                value={credential.value}
-                                type={credential.type}
-                                required={credential.field_required}
-                                onChange={(e) => {
-                                  const newCredentials = credentials.map(
-                                    (c: any) =>
-                                      c.label === credential.label
-                                        ? { ...c, value: e.target.value }
-                                        : c
-                                  );
-                                  setCredentials(newCredentials);
-                                }}
-                              />
-                              <Text className="text-light text-xs leading-none">
-                                {credential.helpText}
-                              </Text>
-                            </div>
-                          ))}
-                        </div>
-                        <Separator />
-                      </div>
-                    )
-                  )}
-                <div className="flex flex-col gap-2">
-                  <Button>
-                    <Text>Connect</Text>
-                  </Button>
-                </div>
-              </div>
-
-              {authMethod === 'OAuth' && (
+              {authMethod && (
                 <div className="flex flex-col gap-4">
-                  <div className="flex flex-col gap-2">
-                    <Text className="font-medium text-lg">
-                      Census will request the following permissions from your{' '}
-                      {selectedConnection?.connectionServiceName} account:
-                    </Text>
-                    <div className="flex flex-row gap-2 items-center">
-                      <FontAwesomeIcon
-                        icon={faCheck}
-                        className="text-emerald-500"
-                      />
-                      <Text>Ability to read data</Text>
-                    </div>
-                    <div className="flex flex-row gap-2 items-center">
-                      <FontAwesomeIcon
-                        icon={faCheck}
-                        className="text-emerald-500"
-                      />
-                      <Text>Ability to write data</Text>
+                  <div className="flex flex-col gap-4">
+                    {authMethod !== 'OAuth' &&
+                      Object.entries(groupedCredentials).map(
+                        ([section, sectionCredentials]: any) => (
+                          <div
+                            key={section}
+                            className="flex flex-col gap-4">
+                            <Text className="font-medium">{section}</Text>
+                            <div className="flex flex-col gap-6">
+                              {sectionCredentials.map((credential: any) => (
+                                <div
+                                  className="flex flex-col gap-2 grow"
+                                  key={credential.label}>
+                                  <Label size="md">
+                                    {credential.label}
+                                    {credential.field_required && (
+                                      <span className="text-red-500 ml-1">
+                                        *
+                                      </span>
+                                    )}
+                                  </Label>
+
+                                  <Input
+                                    value={credential.value}
+                                    type={credential.type}
+                                    required={credential.field_required}
+                                    onChange={(e) => {
+                                      const newCredentials = credentials.map(
+                                        (c: any) =>
+                                          c.label === credential.label
+                                            ? { ...c, value: e.target.value }
+                                            : c
+                                      );
+                                      setCredentials(newCredentials);
+                                    }}
+                                  />
+                                  <Text className="text-light text-xs leading-none">
+                                    {credential.helpText}
+                                  </Text>
+                                </div>
+                              ))}
+                            </div>
+                            <Separator />
+                          </div>
+                        )
+                      )}
+                    <div className="flex flex-col gap-2">
+                      <Button>
+                        <Text>Connect</Text>
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        // OAuth logic will go here
-                        console.log('OAuth authentication clicked');
-                      }}>
-                      <Text>
-                        Authenticate with{' '}
-                        {selectedConnection?.connectionServiceName}
-                      </Text>
-                    </Button>
-                    <Text className="text-light text-sm">
-                      Click the button above to securely connect your{' '}
-                      {selectedConnection?.connectionServiceName} account
-                    </Text>
-                  </div>
+
+                  {authMethod === 'OAuth' && (
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-2">
+                        <Text className="font-medium text-lg">
+                          Census will request the following permissions from
+                          your {selectedConnection?.connectionServiceName}{' '}
+                          account:
+                        </Text>
+                        <div className="flex flex-row gap-2 items-center">
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            className="text-emerald-500"
+                          />
+                          <Text>Ability to read data</Text>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center">
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            className="text-emerald-500"
+                          />
+                          <Text>Ability to write data</Text>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            // OAuth logic will go here
+                            console.log('OAuth authentication clicked');
+                          }}>
+                          <Text>
+                            Authenticate with{' '}
+                            {selectedConnection?.connectionServiceName}
+                          </Text>
+                        </Button>
+                        <Text className="text-light text-sm">
+                          Click the button above to securely connect your{' '}
+                          {selectedConnection?.connectionServiceName} account
+                        </Text>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-4 w-[300px] shrink-0">
-              <div className="flex flex-col gap-4 sticky top-5">
-                <div className="flex flex-col gap-2 p-6 border border-base rounded-md text-sm">
-                  <Text className="font-medium">
-                    Allow inbound traffic from Census IP Addresses
-                  </Text>
-                  <Text className="text-light">
-                    If your warehouse is behind a firewall/private network,
-                    please add the following static IP addresses:
-                  </Text>
-                  <div>
-                    <button
-                      className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
-                      onClick={() => {
-                        navigator.clipboard.writeText(`34.216.163.241`);
-                      }}>
-                      34.216.163.241
-                      <FontAwesomeIcon
-                        icon={faClone}
-                        className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
-                      />
-                    </button>
-                    <button
-                      className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
-                      onClick={() => {
-                        navigator.clipboard.writeText(`54.212.243.205`);
-                      }}>
-                      54.212.243.205
-                      <FontAwesomeIcon
-                        icon={faClone}
-                        className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2 p-6 bg-subtle border border-base rounded-md text-sm sticky top-5 items-start">
-                  <Text className="font-medium">
-                    Share a connect link with your team.
-                  </Text>
-                  <Text className="text-light">
-                    If you don't know this information, you can share a connect
-                    link with your team and have someone else set it up for you.
-                  </Text>
-                  {!showConnectLink ? (
-                    <Button
-                      variant="ghost"
-                      onClick={() => setShowConnectLink(true)}>
-                      <FontAwesomeIcon
-                        icon={faLink}
-                        className="size-4 mr-2"
-                      />
-                      <Text>Create connect link</Text>
-                    </Button>
-                  ) : (
-                    <div className="flex flex-row items-center gap-2 w-full">
-                      <Input
-                        value={`https://app.getcensus.com/connect/${selectedConnection?.id}`}
-                        readOnly
-                        className="bg-deep text-light hover:ring-0 truncate"
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
+            {selectedConnection?.connectionServiceType?.toLowerCase() ===
+              'data warehouse' && (
+              <div className="flex flex-col gap-4 w-[300px] shrink-0">
+                <div className="flex flex-col gap-4 sticky top-5">
+                  <div className="flex flex-col gap-2 p-6 border border-base rounded-md text-sm">
+                    <Text className="font-medium">
+                      Allow inbound traffic from Census IP Addresses
+                    </Text>
+                    <Text className="text-light">
+                      If your warehouse is behind a firewall/private network,
+                      please add the following static IP addresses:
+                    </Text>
+                    <div>
+                      <button
+                        className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
                         onClick={() => {
-                          navigator.clipboard.writeText(
-                            `https://app.getcensus.com/connect/${selectedConnection?.id}`
-                          );
+                          navigator.clipboard.writeText(`34.216.163.241`);
                         }}>
+                        34.216.163.241
                         <FontAwesomeIcon
                           icon={faClone}
-                          className="size-4 icon-lighter"
+                          className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
                         />
-                      </Button>
+                      </button>
+                      <button
+                        className="flex flex-row gap-2 items-center hover:bg-slate-25 transition-all duration-75 rounded p-1 group"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`54.212.243.205`);
+                        }}>
+                        54.212.243.205
+                        <FontAwesomeIcon
+                          icon={faClone}
+                          className="size-3 icon-lighter group-hover:text-slate-600 transition-all duration-75"
+                        />
+                      </button>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <Separator />
