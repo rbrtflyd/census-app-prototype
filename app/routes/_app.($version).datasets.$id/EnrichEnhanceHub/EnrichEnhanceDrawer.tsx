@@ -10,10 +10,13 @@ import {
   EnrichEnhanceHome,
   EnrichmentSelection,
   EnrichEnhanceAI,
+  EnrichByRow,
+  EnrichByColumn,
+  EnrichConditionBuilder,
 } from './Pages';
 
 export function EnrichEnhanceDrawer() {
-  const { addPage } = useEnrichEnhance();
+  const { addPage, selectedColumn } = useEnrichEnhance();
 
   useEffect(() => {
     // Register all pages
@@ -25,15 +28,22 @@ export function EnrichEnhanceDrawer() {
 
     addPage({
       id: 'enrichment-selection',
-      title: 'Enrichment by Company',
+      title: 'Enrich Data',
       component: <EnrichmentSelection />,
-      parentId: 'home',
+      parentId: ['home'],
     });
     addPage({
       id: 'enrich-enhance-ai',
-      title: 'Enrich & Enhance AI',
+      title: 'Use AI',
       component: <EnrichEnhanceAI />,
-      parentId: 'home',
+      parentId: ['home'],
+    });
+
+    addPage({
+      id: 'enrich-condition-builder',
+      title: 'Conditionally Fill Data',
+      component: <EnrichConditionBuilder />,
+      parentId: ['enrichment-selection'],
     });
     // Add other pages as needed
   }, [addPage]);

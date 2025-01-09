@@ -19,6 +19,7 @@ import React from 'react';
 import HeaderNavigation from '../../components/Navigation/Header/HeaderNavigation';
 import { OperatorProvider, useOperator } from '../../contexts/OperatorContext';
 import OperatorToolbar from '~/components/Toasts/OperatorToolbar/OperatorToolbar';
+import { NewConnectionProvider } from '~/contexts/NewConnectionContext';
 
 export const meta: MetaFunction = () => {
   return [
@@ -69,22 +70,26 @@ export default function Index() {
   if (version === 'v2') {
     return (
       <div className="flex flex-col h-full w-full overflow-hidden">
-        <Toaster />
-        <HeaderNavigation />
+        <NewConnectionProvider>
+          <Toaster />
+          <HeaderNavigation />
 
-        <div className="flex flex-col h-full w-full overflow-hidden">
-          <Outlet context={data} />
-        </div>
+          <div className="flex flex-col h-full w-full overflow-hidden">
+            <Outlet context={data} />
+          </div>
+        </NewConnectionProvider>
       </div>
     );
   } else
     return (
       <div className="flex flex-row h-full w-full overflow-hidden">
-        <Toaster />
-        <SidebarNavigation />
-        <div className="flex flex-col h-full w-full overflow-hidden">
-          <Outlet context={data} />
-        </div>
+        <NewConnectionProvider>
+          <Toaster />
+          <SidebarNavigation />
+          <div className="flex flex-col h-full w-full overflow-hidden">
+            <Outlet context={data} />
+          </div>
+        </NewConnectionProvider>
       </div>
     );
 }

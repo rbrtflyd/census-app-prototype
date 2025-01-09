@@ -30,14 +30,14 @@ const datasetsData = [
   },
   {
     id: 2,
-    name: 'Dataset 2',
+    name: 'Salesforce Contacts',
     source: 5,
     description: 'Description 2',
     createdAt: new Date(),
     updatedAt: new Date(
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
-    rows: 100,
+    rows: 45682,
     tags: ['tag1', 'tag2'],
     schema: [],
     uniques: [],

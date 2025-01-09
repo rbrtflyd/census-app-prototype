@@ -69,7 +69,10 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      category: false,
+      lastTestedAt: false,
+    });
 
   const handleRowClick = (event: React.MouseEvent, row: any) => {
     // Prevent navigation when clicking checkbox

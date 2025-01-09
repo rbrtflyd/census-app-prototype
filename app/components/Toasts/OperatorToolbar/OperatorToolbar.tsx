@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from '@remix-run/react';
 import { Button } from '~/components/ui/button';
@@ -59,7 +61,15 @@ const layouts: LayoutConfig[] = [
 ];
 
 export default function OperatorToolbar() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    // Only access sessionStorage in browser environment
+    if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('operatorToolbarVisible');
+      return stored === null ? true : stored === 'true';
+    }
+    return false; // Default value for server-side rendering
+  });
+
   const navigate = useNavigate();
   const { version } = useParams();
   const { selectedLayout, setSelectedLayout } = useOperator();
@@ -79,6 +89,10 @@ export default function OperatorToolbar() {
   );
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('operatorToolbarVisible', isVisible.toString());
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey && event.shiftKey && event.key === ',') {
         setIsVisible((prev) => !prev);
@@ -89,7 +103,7 @@ export default function OperatorToolbar() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 

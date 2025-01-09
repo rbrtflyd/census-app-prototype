@@ -7,13 +7,24 @@ import {
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
 import { useEnrichEnhance } from '../../context/EnrichEnhanceContext';
+import { EnrichDialog } from '../../DialogVersion/EnrichDialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '~/components/ui';
+import { EnrichDialogV2 } from '../../DialogVersion/EnrichDialogV2';
 
 export function EnrichEnhanceHome() {
   const { navigateToPage } = useEnrichEnhance();
 
   const EnrichEnhanceFunctions = [
     {
-      title: 'Enrich Company',
+      title: 'Enrich Data',
       icon: faSparkles,
       onClick: () => navigateToPage('enrichment-selection'),
     },
@@ -41,9 +52,27 @@ export function EnrichEnhanceHome() {
 
   return (
     <div className="flex flex-col gap-2 p-6">
+      <Dialog>
+        <DialogTrigger asChild>
+          <button className="flex items-center gap-2 p-8 rounded-lg hover:bg-deep border border-base">
+            <Text>Enrich Old Way</Text>
+          </button>
+        </DialogTrigger>
+        <DialogContent className=" overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>New Enrichment</DialogTitle>
+          </DialogHeader>
+          <EnrichDialogV2 />
+          <DialogFooter>
+            <Button>Enrich</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {EnrichEnhanceFunctions.map((item) => (
         <button
           onClick={item.onClick}
+          key={item.title}
           className="flex items-center gap-2 p-8 rounded-lg hover:bg-deep border border-base">
           {item.icon && (
             <FontAwesomeIcon
