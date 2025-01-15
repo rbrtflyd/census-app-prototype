@@ -1,0 +1,170 @@
+import { ColumnDef } from '@tanstack/react-table';
+import type { DatasetType } from '~/db/types';
+import { Checkbox } from '~/components/ui/checkbox';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSort, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import { Text } from '@radix-ui/themes';
+import { Toggle } from '~/components/ui/toggle';
+import { Button } from '~/components/ui/button';
+import { faRefresh } from '@fortawesome/pro-regular-svg-icons';
+import { Input } from '~/components/ui';
+
+export const columns: ColumnDef<DatasetType>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <div className="flex h-full items-center">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
+    ),
+    cell: ({ row }) => (
+      <div className="flex h-full items-center">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
+    ),
+    size: 20,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'name',
+    header: ({ column }) => {
+      return (
+        <div className="flex flex-row gap-2 items-center">
+          <Text>Name</Text>
+          <Toggle
+            size="sm"
+            variant="default"
+            className="px-1.5 py-1.5 flex items-center justify-center hover:bg-deep rounded-sm group icon-lighter hover:icon-light text-[11px] data-[state=on]:bg-deep data-[state=on]:icon-light"
+            onPressedChange={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }>
+            <FontAwesomeIcon icon={faSort} />
+          </Toggle>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      return <Text className="truncate">{row.original.name}</Text>;
+    },
+    size: 100,
+  },
+  {
+    accessorKey: 'clientId',
+    header: 'Client ID',
+  },
+  {
+    accessorKey: 'clientSecret',
+    header: 'Client Secret',
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col items-start justify-start">
+          <div className="flex flex-row gap-2 items-center">
+            <Input
+              className="text-sm truncate w-full"
+              type="password"
+              value={
+                row.original.showSecret
+                  ? row.original.clientSecret
+                  : '••••••••••••••••'
+              }
+              readOnly
+            />
+
+            {row.original.showSecret && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  copyToClipboard(row.original.clientSecret);
+                  hideSecret(row.original.id);
+                }}></Button>
+            )}
+          </div>
+          {row.original.showSecret && (
+            <Text className="text-xs text-red-500 leading-none">
+              Copy this secret now, you won't see this again.
+            </Text>
+          )}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created',
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('createdAt'));
+      const now = new Date();
+      const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+      let formatted;
+
+      if (diffInSeconds < 60) {
+        formatted = `${diffInSeconds} second${
+          diffInSeconds !== 1 ? 's' : ''
+        } ago`;
+      } else if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        formatted = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+      } else if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        formatted = `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+      } else if (diffInSeconds < 604800) {
+        const days = Math.floor(diffInSeconds / 86400);
+        formatted = `${days} day${days !== 1 ? 's' : ''} ago`;
+      } else if (diffInSeconds < 2592000) {
+        const weeks = Math.floor(diffInSeconds / 604800);
+        formatted = `${weeks} week${weeks !== 1 ? 's' : ''} ago`;
+      } else {
+        const months = Math.floor(diffInSeconds / 2592000);
+        formatted = `${months} month${months !== 1 ? 's' : ''} ago`;
+      }
+
+      return <div>{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: 'lastRotated',
+    header: 'Last Rotated',
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.lastRotated
+            ? new Date(row.original.lastRotated).toLocaleString()
+            : 'Never'}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
+      return (
+        <div>
+          <Button
+            variant="ghost"
+            size="icon">
+            <FontAwesomeIcon icon={faRefresh} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon">
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        </div>
+      );
+    },
+  },
+];

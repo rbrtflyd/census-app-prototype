@@ -18,6 +18,8 @@ import {
 } from '../../../components/ui/table';
 import { AlertCircle, Copy, RefreshCw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { APIKeyManagerTable } from './APIKeyManagerTable';
+import { APIKeyManagerTableColumns } from './APIKeyManagerTable';
 
 export default function APIKeyManager() {
   const { apiKeys, addKey, updateKey, removeKey } = useAPIKeys();
@@ -109,8 +111,19 @@ export default function APIKeyManager() {
           </Button>
         </div>
       </div>
-
       {apiKeys.length > 0 ? (
+        <APIKeyManagerTable
+          data={apiKeys}
+          columns={APIKeyManagerTableColumns}
+        />
+      ) : (
+        <div className="text-center p-6 bg-gray-100 rounded-lg">
+          <AlertCircle className="mx-auto h-6 w-6 text-gray-400 mb-2" />
+          <span className="text-gray-500">No API keys generated yet.</span>
+        </div>
+      )}
+
+      {/* {apiKeys.length > 0 ? (
         <Table>
           <TableHeader>
             <TableRow>
@@ -195,7 +208,7 @@ export default function APIKeyManager() {
           <AlertCircle className="mx-auto h-6 w-6 text-gray-400 mb-2" />
           <span className="text-gray-500">No API keys generated yet.</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
