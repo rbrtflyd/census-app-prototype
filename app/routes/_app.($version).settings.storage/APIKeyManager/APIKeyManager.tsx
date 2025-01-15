@@ -138,12 +138,12 @@ export default function APIKeyManager() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <span>
-                      {key.showSecret ? key.clientSecret : '••••••••••••••••'}
-                    </span>
-                    {key.showSecret && (
-                      <>
+                  <div className="flex flex-col items-start justify-start">
+                    <div className="flex flex-row gap-2 items-center">
+                      <Text className="text-sm truncate w-full">
+                        {key.showSecret ? key.clientSecret : '••••••••••••••••'}
+                      </Text>
+                      {key.showSecret && (
                         <Button
                           variant="ghost"
                           size="icon"
@@ -153,10 +153,12 @@ export default function APIKeyManager() {
                           }}>
                           <Copy className="h-4 w-4" />
                         </Button>
-                        <Text className="text-xs text-red-500">
-                          Copy now - you won't see this again
-                        </Text>
-                      </>
+                      )}
+                    </div>
+                    {key.showSecret && (
+                      <Text className="text-xs text-red-500 leading-none">
+                        Copy now - you won't see this again
+                      </Text>
                     )}
                   </div>
                 </TableCell>
