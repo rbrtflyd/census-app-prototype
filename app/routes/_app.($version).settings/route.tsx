@@ -1,15 +1,18 @@
 import PageHeader from '../../components/Structural/Headers/PageHeader';
-import { Link, Outlet } from '@remix-run/react';
+import { Link, Outlet, useLocation } from '@remix-run/react';
 import { Tabs, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { cn } from '../../lib/utils';
 
 export default function SettingsIndex() {
+  const location = useLocation();
+
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
     return segments[segments.length - 1] || 'general';
   };
 
   const activeTab = getActiveTab(location.pathname);
+
   return (
     <div className="h-full flex flex-col">
       <PageHeader title="Settings" />
@@ -37,7 +40,9 @@ export default function SettingsIndex() {
           ))}
         </TabsList>
       </Tabs>
-      <Outlet />
+      <div className="flex flex-col gap-4 p-6 grow h-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
