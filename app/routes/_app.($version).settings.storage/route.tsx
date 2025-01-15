@@ -11,8 +11,7 @@ export default function SettingsStorage() {
         <div className="flex flex-col gap-2">
           <Text className="text-lg font-medium">Storage API</Text>
           <Text>
-            The Storage API is used to manage your storage settings. You can
-            configure the storage provider and the storage bucket.
+            Query the Census data catalog from other tools and services.
           </Text>
           <APIKeyManager />
         </div>

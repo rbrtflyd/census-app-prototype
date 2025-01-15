@@ -15,7 +15,7 @@ export default function SettingsIndex() {
 
   return (
     <div className="h-full flex flex-col">
-      <PageHeader title="Settings" />
+      <PageHeader title="Workspace Settings" />
       <Tabs
         value={activeTab}
         className="w-full">

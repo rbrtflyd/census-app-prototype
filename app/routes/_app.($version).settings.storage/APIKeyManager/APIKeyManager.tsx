@@ -7,6 +7,7 @@ import {
 } from '../../../actions/apiKeyActions';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
+import { Text } from '@radix-ui/themes';
 import {
   Table,
   TableBody,
@@ -35,10 +36,12 @@ export default function APIKeyManager() {
       const newKey = await generateAPIKey(
         newKeyName || `API Key ${apiKeys.length + 1}`
       );
-      addKey(newKey);
+      // Add showSecret flag to the new key
+      addKey({ ...newKey, showSecret: true });
       setNewKeyName('');
       toast.success('API Key Generated', {
-        description: 'Your new API key has been created successfully.',
+        description:
+          "Your new API key has been created successfully. Make sure to copy your secret now - you won't be able to see it again.",
       });
     } catch (error) {
       toast.error('Error', {
@@ -47,6 +50,11 @@ export default function APIKeyManager() {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const hideSecret = (keyId: string) => {
+    const key = apiKeys.find((k) => k.id === keyId)!;
+    updateKey({ ...key, showSecret: false });
   };
 
   const handleRotateKey = async (keyId: string) => {
@@ -108,6 +116,7 @@ export default function APIKeyManager() {
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Client ID</TableHead>
+              <TableHead>Client Secret</TableHead>
               <TableHead>Created At</TableHead>
               <TableHead>Last Rotated</TableHead>
               <TableHead>Actions</TableHead>
@@ -119,13 +128,36 @@ export default function APIKeyManager() {
                 <TableCell>{key.name}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <span className="font-mono">{key.clientId}</span>
+                    <span>{key.clientId}</span>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => copyToClipboard(key.clientId)}>
                       <Copy className="h-4 w-4" />
                     </Button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center space-x-2">
+                    <span>
+                      {key.showSecret ? key.clientSecret : '••••••••••••••••'}
+                    </span>
+                    {key.showSecret && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            copyToClipboard(key.clientSecret);
+                            hideSecret(key.id);
+                          }}>
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Text className="text-xs text-red-500">
+                          Copy now - you won't see this again
+                        </Text>
+                      </>
+                    )}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -138,11 +170,15 @@ export default function APIKeyManager() {
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Button onClick={() => handleRotateKey(key.id)}>
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleRotateKey(key.id)}>
                       <RefreshCw className="mr-2 h-4 w-4" />
                       Rotate
                     </Button>
-                    <Button onClick={() => handleRevokeKey(key.id)}>
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleRevokeKey(key.id)}>
                       <Trash2 className="mr-2 h-4 w-4" />
                       Revoke
                     </Button>
