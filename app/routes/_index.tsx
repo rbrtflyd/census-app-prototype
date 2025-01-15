@@ -91,6 +91,14 @@ export default function Index() {
         window.location.href = '/v1/datasets/1/overview';
       },
     },
+    {
+      name: 'Storage API',
+      description:
+        'Query the Census data catalog from other tools and services',
+      onClick: () => {
+        window.location.href = '/v1/settings/storage';
+      },
+    },
   ];
 
   const internalWorkflows = [
