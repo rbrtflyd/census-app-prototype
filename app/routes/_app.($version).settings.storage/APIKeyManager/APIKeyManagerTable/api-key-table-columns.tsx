@@ -85,7 +85,9 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
           <div className="flex flex-col items-start justify-start relative w-full">
             <div className="relative w-full">
               <Input
-                className="text-sm truncate w-full pe-10 text-slate-500"
+                className={`text-sm w-full pe-10 text-slate-500 ${
+                  row.original.showSecret ? 'truncate' : ''
+                }`}
                 value={
                   row.original.showSecret
                     ? row.original.clientSecret

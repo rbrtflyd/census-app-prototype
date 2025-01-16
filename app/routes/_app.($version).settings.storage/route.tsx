@@ -9,10 +9,6 @@ export default function SettingsStorage() {
       <Separator />
       <div>
         <div className="flex flex-col gap-2">
-          <Text className="text-lg font-medium">Catalog API</Text>
-          <Text>
-            Query the Census data catalog from other tools and services.
-          </Text>
           <APIKeyManager />
         </div>
       </div>

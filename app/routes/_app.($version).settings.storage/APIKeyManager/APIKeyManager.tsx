@@ -99,6 +99,32 @@ export default function APIKeyManager() {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex flex-row gap-2 items-center justify-between">
+        <div className="flex flex-col gap-2">
+          <Text className="text-lg font-medium">Catalog API</Text>
+          <Text>
+            Query the Census data catalog from other tools and services.
+          </Text>
+        </div>
+        <div className="flex flex-row gap-3">
+          <Input
+            placeholder="Enter API Key Name"
+            value={newKeyName}
+            onChange={(e) => setNewKeyName(e.target.value)}
+            className="w-[350px]"
+          />
+          <Button
+            variant="secondary"
+            onClick={handleGenerateKey}
+            disabled={isGenerating || apiKeys.length >= 6}>
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="mr-1 text-sm"
+            />
+            {isGenerating ? 'Generating...' : 'Add New Key'}
+          </Button>
+        </div>
+      </div>
       {apiKeys.length > 0 ? (
         <APIKeyManagerTable
           data={apiKeys}
@@ -115,24 +141,6 @@ export default function APIKeyManager() {
           <span className="text-gray-500">No API keys generated yet.</span>
         </div>
       )}
-      <div className="flex flex-row gap-3">
-        <Input
-          placeholder="Enter API Key Name"
-          value={newKeyName}
-          onChange={(e) => setNewKeyName(e.target.value)}
-          className="w-[350px]"
-        />
-        <Button
-          variant="secondary"
-          onClick={handleGenerateKey}
-          disabled={isGenerating || apiKeys.length >= 6}>
-          <FontAwesomeIcon
-            icon={faPlus}
-            className="mr-1 text-sm"
-          />
-          {isGenerating ? 'Generating...' : 'Add New Key'}
-        </Button>
-      </div>
     </div>
   );
 }
