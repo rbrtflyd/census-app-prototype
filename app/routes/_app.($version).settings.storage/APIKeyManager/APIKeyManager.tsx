@@ -114,7 +114,12 @@ export default function APIKeyManager() {
       {apiKeys.length > 0 ? (
         <APIKeyManagerTable
           data={apiKeys}
-          columns={APIKeyManagerTableColumns}
+          columns={APIKeyManagerTableColumns({
+            handleRotateKey,
+            handleRevokeKey,
+            copyToClipboard,
+            hideSecret,
+          })}
         />
       ) : (
         <div className="text-center p-6 bg-gray-100 rounded-lg">
@@ -122,93 +127,6 @@ export default function APIKeyManager() {
           <span className="text-gray-500">No API keys generated yet.</span>
         </div>
       )}
-
-      {/* {apiKeys.length > 0 ? (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Client ID</TableHead>
-              <TableHead>Client Secret</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Last Rotated</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {apiKeys.map((key) => (
-              <TableRow key={key.id}>
-                <TableCell>{key.name}</TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <span>{key.clientId}</span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => copyToClipboard(key.clientId)}>
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col items-start justify-start">
-                    <div className="flex flex-row gap-2 items-center">
-                      <Text className="text-sm truncate w-full">
-                        {key.showSecret ? key.clientSecret : '••••••••••••••••'}
-                      </Text>
-                      {key.showSecret && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => {
-                            copyToClipboard(key.clientSecret);
-                            hideSecret(key.id);
-                          }}>
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                    {key.showSecret && (
-                      <Text className="text-xs text-red-500 leading-none">
-                        Copy now - you won't see this again
-                      </Text>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {new Date(key.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  {key.lastRotated
-                    ? new Date(key.lastRotated).toLocaleString()
-                    : 'Never'}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleRotateKey(key.id)}>
-                      <RefreshCw className="mr-2 h-4 w-4" />
-                      Rotate
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleRevokeKey(key.id)}>
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Revoke
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <div className="text-center p-6 bg-gray-100 rounded-lg">
-          <AlertCircle className="mx-auto h-6 w-6 text-gray-400 mb-2" />
-          <span className="text-gray-500">No API keys generated yet.</span>
-        </div>
-      )} */}
     </div>
   );
 }
