@@ -20,10 +20,13 @@ import { AlertCircle, Copy, RefreshCw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { APIKeyManagerTable } from './APIKeyManagerTable';
 import { APIKeyManagerTableColumns } from './APIKeyManagerTable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/pro-solid-svg-icons';
 
 export default function APIKeyManager() {
   const { apiKeys, addKey, updateKey, removeKey } = useAPIKeys();
   const [newKeyName, setNewKeyName] = useState('');
+  const [createdBy, setCreatedBy] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleGenerateKey = async () => {
@@ -39,7 +42,7 @@ export default function APIKeyManager() {
         newKeyName || `Catalog API Key ${apiKeys.length + 1}`
       );
       // Add showSecret flag to the new key
-      addKey({ ...newKey, showSecret: true });
+      addKey({ ...newKey, showSecret: true, createdBy: 'test@example.com' });
       setNewKeyName('');
       toast.success('API Key Generated', {
         description:
@@ -96,21 +99,6 @@ export default function APIKeyManager() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="mb-6">
-        <div className="flex space-x-2">
-          <Input
-            placeholder="Enter API Key Name"
-            value={newKeyName}
-            onChange={(e) => setNewKeyName(e.target.value)}
-            className="flex-grow"
-          />
-          <Button
-            onClick={handleGenerateKey}
-            disabled={isGenerating || apiKeys.length >= 6}>
-            {isGenerating ? 'Generating...' : 'Generate Key'}
-          </Button>
-        </div>
-      </div>
       {apiKeys.length > 0 ? (
         <APIKeyManagerTable
           data={apiKeys}
@@ -127,6 +115,24 @@ export default function APIKeyManager() {
           <span className="text-gray-500">No API keys generated yet.</span>
         </div>
       )}
+      <div className="flex flex-row gap-3">
+        <Input
+          placeholder="Enter API Key Name"
+          value={newKeyName}
+          onChange={(e) => setNewKeyName(e.target.value)}
+          className="w-[350px]"
+        />
+        <Button
+          variant="secondary"
+          onClick={handleGenerateKey}
+          disabled={isGenerating || apiKeys.length >= 6}>
+          <FontAwesomeIcon
+            icon={faPlus}
+            className="mr-1 text-sm"
+          />
+          {isGenerating ? 'Generating...' : 'Add New Key'}
+        </Button>
+      </div>
     </div>
   );
 }

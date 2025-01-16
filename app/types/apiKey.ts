@@ -6,4 +6,5 @@ export interface APIKey {
   createdAt: string;
   lastRotated: string | null;
   showSecret: boolean;
+  createdBy: string;
 }

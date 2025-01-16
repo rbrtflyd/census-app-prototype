@@ -85,7 +85,7 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
           <div className="flex flex-col items-start justify-start relative w-full">
             <div className="relative w-full">
               <Input
-                className="text-sm truncate w-full pe-10 bg-slate-25 text-slate-500"
+                className="text-sm truncate w-full pe-10 text-slate-500"
                 value={
                   row.original.showSecret
                     ? row.original.clientSecret
@@ -116,6 +116,7 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
         );
       },
       size: 300,
+      minSize: 250,
     },
     {
       accessorKey: 'createdAt',
@@ -151,6 +152,10 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
 
         return <div>{formatted}</div>;
       },
+    },
+    {
+      accessorKey: 'createdBy',
+      header: 'Created By',
     },
     {
       accessorKey: 'lastRotated',
