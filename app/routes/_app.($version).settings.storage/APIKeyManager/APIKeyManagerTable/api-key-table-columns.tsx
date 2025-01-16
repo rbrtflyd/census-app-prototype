@@ -22,35 +22,6 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
     actions;
   return [
     {
-      id: 'select',
-      header: ({ table }) => (
-        <div className="flex h-full items-center">
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && 'indeterminate')
-            }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-            aria-label="Select all"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex h-full items-center">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        </div>
-      ),
-      size: 20,
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: 'name',
       header: ({ column }) => {
         return (
@@ -174,7 +145,7 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
     },
     {
       accessorKey: 'actions',
-      header: 'Actions',
+      header: '',
       cell: ({ row }) => {
         return (
           <div>
