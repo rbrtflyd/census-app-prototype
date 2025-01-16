@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import type { DatasetType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import { faCopy, faSort, faTrash } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
 import { Button } from '~/components/ui/button';
@@ -86,7 +86,6 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
             <div className="flex flex-row gap-2 items-center">
               <Input
                 className="text-sm truncate w-full"
-                type="password"
                 value={
                   row.original.showSecret
                     ? row.original.clientSecret
@@ -102,7 +101,9 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
                   onClick={() => {
                     copyToClipboard(row.original.clientSecret);
                     hideSecret(row.original.id);
-                  }}></Button>
+                  }}>
+                  <FontAwesomeIcon icon={faCopy} />
+                </Button>
               )}
             </div>
             {row.original.showSecret && (
