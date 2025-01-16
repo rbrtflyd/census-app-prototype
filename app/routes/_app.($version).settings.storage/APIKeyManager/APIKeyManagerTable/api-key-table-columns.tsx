@@ -82,20 +82,21 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
       header: 'Client Secret',
       cell: ({ row }) => {
         return (
-          <div className="flex flex-col items-start justify-start">
-            <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-col items-start justify-start relative w-full">
+            <div className="relative w-full">
               <Input
-                className="text-sm truncate w-full"
+                className="text-sm truncate w-full pe-10 bg-slate-25 text-slate-500"
                 value={
                   row.original.showSecret
                     ? row.original.clientSecret
-                    : '••••••••••••••••'
+                    : '••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••'
                 }
                 readOnly
               />
 
               {row.original.showSecret && (
                 <Button
+                  className="absolute inset-y-1 end-1"
                   variant="ghost"
                   size="icon"
                   onClick={() => {
@@ -107,13 +108,14 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
               )}
             </div>
             {row.original.showSecret && (
-              <Text className="text-xs text-red-500 leading-none">
+              <Text className="text-xs text-red-500 -bottom-4 inset-x-0 leading-none absolute w-full">
                 Copy this secret now, you won't see this again.
               </Text>
             )}
           </div>
         );
       },
+      size: 300,
     },
     {
       accessorKey: 'createdAt',

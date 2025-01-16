@@ -36,7 +36,7 @@ export default function APIKeyManager() {
     setIsGenerating(true);
     try {
       const newKey = await generateAPIKey(
-        newKeyName || `API Key ${apiKeys.length + 1}`
+        newKeyName || `Catalog API Key ${apiKeys.length + 1}`
       );
       // Add showSecret flag to the new key
       addKey({ ...newKey, showSecret: true });
