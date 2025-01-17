@@ -71,7 +71,6 @@ export default function Index() {
     return (
       <div className="flex flex-col h-full w-full overflow-hidden">
         <NewConnectionProvider>
-          <Toaster />
           <HeaderNavigation />
 
           <div className="flex flex-col h-full w-full overflow-hidden">
@@ -84,7 +83,6 @@ export default function Index() {
     return (
       <div className="flex flex-row h-full w-full overflow-hidden">
         <NewConnectionProvider>
-          <Toaster />
           <SidebarNavigation />
           <div className="flex flex-col h-full w-full overflow-hidden">
             <Outlet context={data} />

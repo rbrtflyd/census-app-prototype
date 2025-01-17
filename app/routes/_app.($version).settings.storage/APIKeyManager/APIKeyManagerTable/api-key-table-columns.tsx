@@ -2,7 +2,12 @@ import { ColumnDef } from '@tanstack/react-table';
 import type { DatasetType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faSort, faTrash } from '@fortawesome/pro-solid-svg-icons';
+import {
+  faClone,
+  faCopy,
+  faSort,
+  faTrash,
+} from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
 import { Button } from '~/components/ui/button';
@@ -76,7 +81,7 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
                     copyToClipboard(row.original.clientSecret);
                     hideSecret(row.original.id);
                   }}>
-                  <FontAwesomeIcon icon={faCopy} />
+                  <FontAwesomeIcon icon={faClone} />
                 </Button>
               )}
             </div>
@@ -148,7 +153,7 @@ export const columns = (actions: APIKeyTableActions): ColumnDef<APIKey>[] => {
       header: '',
       cell: ({ row }) => {
         return (
-          <div>
+          <div className="flex flex-row gap-2 items-center justify-end">
             <Button
               variant="ghost"
               size="icon"
