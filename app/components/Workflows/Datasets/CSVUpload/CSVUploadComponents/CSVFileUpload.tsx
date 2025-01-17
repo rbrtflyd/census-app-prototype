@@ -49,11 +49,7 @@ export default function FileUpload({
             progress={progress}
             size={32}
           />
-          <Progress
-            value={progress}
-            className="w-full h-2"
-          />
-          <Text className="text-sm text-light">Uploading CSV...</Text>
+          <Text className="text-lg text-light">Uploading CSV...</Text>
         </div>
       ) : isDragActive ? (
         <div>
