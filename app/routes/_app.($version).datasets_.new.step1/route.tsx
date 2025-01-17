@@ -22,6 +22,14 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui';
+import CSVUploadManager from '~/components/Workflows/CSVUpload/CSVUploadManager';
 
 export const clientLoader = async () => {
   await initializeDatabase();
@@ -138,6 +146,19 @@ export default function NewDataset() {
           </div>
         </div>
         <div className="p-6 flex flex-col gap-2 items-stretch justify-stretch ">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Upload a CSV</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload a CSV</DialogTitle>
+                <div>
+                  <CSVUploadManager />
+                </div>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
           <Text className="text-sm font-medium text-lighter">
             Or create a one-off SQL Query
           </Text>

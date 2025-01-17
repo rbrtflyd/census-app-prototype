@@ -48,8 +48,10 @@
     "isbot": "^4.1.0",
     "lucide-react": "^0.446.0",
     "next-themes": "^0.3.0",
+    "papaparse": "^5.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.3.5",
     "react-hook-form": "^7.54.0",
     "sonner": "^1.7.2",
     "tailwind-merge": "^2.5.2",
@@ -62,6 +64,7 @@
   "devDependencies": {
     "@remix-run/dev": "^2.12.1",
     "@types/date-fns": "^2.5.3",
+    "@types/papaparse": "^5.3.15",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
