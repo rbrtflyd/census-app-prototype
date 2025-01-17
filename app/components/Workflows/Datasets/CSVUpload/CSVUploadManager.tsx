@@ -55,6 +55,7 @@ export default function CSVUploadManager() {
         />
       ) : (
         <ColumnMapping
+          onBack={() => setStep(1)}
           headers={headers}
           onColumnMapping={handleColumnMapping}
         />
