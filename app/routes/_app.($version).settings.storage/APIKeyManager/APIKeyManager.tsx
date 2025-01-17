@@ -22,6 +22,7 @@ import { APIKeyManagerTable } from './APIKeyManagerTable';
 import { APIKeyManagerTableColumns } from './APIKeyManagerTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-solid-svg-icons';
+import { faSpinner } from '@fortawesome/pro-regular-svg-icons';
 
 export default function APIKeyManager() {
   const { apiKeys, addKey, updateKey, removeKey } = useAPIKeys();
@@ -111,17 +112,30 @@ export default function APIKeyManager() {
             placeholder="Enter API Key Name"
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
+            disabled={isGenerating || apiKeys.length >= 6}
             className="w-[350px]"
           />
           <Button
             variant="secondary"
             onClick={handleGenerateKey}
             disabled={isGenerating || apiKeys.length >= 6}>
-            <FontAwesomeIcon
-              icon={faPlus}
-              className="mr-1 text-sm"
-            />
-            {isGenerating ? 'Generating...' : 'Add New Key'}
+            {isGenerating ? (
+              <div className="flex flex-row gap-2 items-center">
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  className="mr-1 text-sm animate-spin"
+                />
+                Generating...
+              </div>
+            ) : (
+              <div className="flex flex-row gap-2 items-center">
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="mr-1 text-sm"
+                />
+                Add New Key
+              </div>
+            )}
           </Button>
         </div>
       </div>
