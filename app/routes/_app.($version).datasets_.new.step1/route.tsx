@@ -25,6 +25,7 @@ import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -153,10 +154,12 @@ export default function NewDataset() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Upload a CSV</DialogTitle>
-                <div>
-                  <CSVUploadManager />
-                </div>
               </DialogHeader>
+              <CSVUploadManager />
+              <DialogFooter>
+                <Button variant="secondary">Cancel</Button>
+                <Button>Upload</Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
           <Text className="text-sm font-medium text-lighter">

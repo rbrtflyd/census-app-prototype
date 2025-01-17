@@ -23,8 +23,7 @@ export default function CSVUploadManager() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CSV Upload and Mapping</h1>
+    <div className="mx-auto p-4 w-full h-full">
       {step === 1 ? (
         <FileUpload onFileUpload={handleFileUpload} />
       ) : (

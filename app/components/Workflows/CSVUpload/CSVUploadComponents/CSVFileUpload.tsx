@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
+import { Text } from '@radix-ui/themes';
 
 interface FileUploadProps {
   onFileUpload: (data: string[][], headers: string[]) => void;
@@ -31,13 +32,13 @@ export default function FileUpload({ onFileUpload }: FileUploadProps) {
     <div
       {...getRootProps()}
       className={`border-2 border-dashed p-8 text-center cursor-pointer ${
-        isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+        isDragActive ? 'border-plum-500 bg-plum-50' : 'border-slate-300'
       }`}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p>Drop the CSV file here ...</p>
+        <Text>Drop the CSV file here ...</Text>
       ) : (
-        <p>Drag and drop a CSV file here, or click to select a file</p>
+        <Text>Drag and drop a CSV file here, or click to select a file</Text>
       )}
     </div>
   );
