@@ -30,7 +30,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/components/ui';
-import CSVUploadManager from '~/components/Workflows/CSVUpload/CSVUploadManager';
+import CSVUploadManager from '~/components/Workflows/Datasets/CSVUpload/CSVUploadManager';
 
 export const clientLoader = async () => {
   await initializeDatabase();

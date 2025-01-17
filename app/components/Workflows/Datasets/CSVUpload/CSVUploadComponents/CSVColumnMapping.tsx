@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button } from '../../../../components/ui/button';
+import { Button } from '../../../../ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../../../components/ui/select';
+} from '../../../../ui/select';
 import { Input } from '~/components/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -23,7 +23,6 @@ interface ColumnMappingProps {
   onColumnMapping: (mapping: Record<string, string>) => void;
 }
 
-const ATTRIBUTES = ['First Name', 'Last Name', 'Email', 'Phone', 'Address'];
 const DATA_TYPES = [
   { label: 'String', value: 'string', icon: faText },
   { label: 'Number', value: 'number', icon: faHashtag },
