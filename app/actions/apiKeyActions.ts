@@ -14,6 +14,8 @@ export async function generateAPIKey(name: string): Promise<APIKey> {
     clientSecret: `secret_${uuidv4().replace(/-/g, '')}`,
     createdAt: new Date().toISOString(),
     lastRotated: null,
+    showSecret: true,
+    createdBy: 'test@example.com',
   };
 }
 
@@ -28,6 +30,8 @@ export async function rotateAPIKey(keyId: string): Promise<APIKey> {
     clientSecret: `secret_${uuidv4().replace(/-/g, '')}`,
     createdAt: new Date().toISOString(),
     lastRotated: new Date().toISOString(),
+    showSecret: true,
+    createdBy: 'test@example.com',
   };
 }
 
