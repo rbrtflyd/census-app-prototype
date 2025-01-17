@@ -7,6 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../../components/ui/select';
+import { Input } from '~/components/ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faBracketSquare,
+  faBracketsSquare,
+  faHashtag,
+  faText,
+} from '@fortawesome/pro-regular-svg-icons';
+import { faCalendar, faToggleOn } from '@fortawesome/pro-solid-svg-icons';
 
 interface ColumnMappingProps {
   headers: string[];
@@ -14,6 +24,13 @@ interface ColumnMappingProps {
 }
 
 const ATTRIBUTES = ['First Name', 'Last Name', 'Email', 'Phone', 'Address'];
+const DATA_TYPES = [
+  { label: 'String', value: 'string', icon: faText },
+  { label: 'Number', value: 'number', icon: faHashtag },
+  { label: 'Date', value: 'date', icon: faCalendar },
+  { label: 'Boolean', value: 'boolean', icon: faToggleOn },
+  { label: 'Array', value: 'array', icon: faBracketsSquare },
+];
 
 export default function ColumnMapping({
   headers,
@@ -35,18 +52,32 @@ export default function ColumnMapping({
       {headers.map((header) => (
         <div
           key={header}
-          className="flex items-center space-x-4">
-          <span className="w-1/3">{header}</span>
+          className="flex flex-row items-center gap-8">
+          <Input
+            className="w-full bg-subtle hover:ring-0 hover:cursor-default truncate"
+            value={header}
+            readOnly
+          />
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            className="icon-lighter"
+          />
           <Select onValueChange={(value) => handleMapping(header, value)}>
-            <SelectTrigger className="w-2/3">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Select an attribute" />
             </SelectTrigger>
             <SelectContent>
-              {ATTRIBUTES.map((attribute) => (
+              {DATA_TYPES.map((type) => (
                 <SelectItem
-                  key={attribute}
-                  value={attribute}>
-                  {attribute}
+                  key={type.value}
+                  value={type.value}>
+                  <div className="flex flex-row items-center gap-3">
+                    <FontAwesomeIcon
+                      icon={type.icon}
+                      className="icon-light"
+                    />
+                    {type.label}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
