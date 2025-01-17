@@ -65,8 +65,13 @@ export default function APIKeyManager() {
 
   const handleRotateKey = async (keyId: string) => {
     try {
+      const existingKey = apiKeys.find((k) => k.id === keyId)!;
       const rotatedKey = await rotateAPIKey(keyId);
-      updateKey(rotatedKey);
+      updateKey({
+        ...rotatedKey,
+        createdBy: existingKey.createdBy,
+        showSecret: true,
+      });
       toast.success('API Key Rotated', {
         description: 'Your API key has been rotated successfully.',
       });
