@@ -8,11 +8,13 @@ import CircularProgressIndicator from '~/components/Progress/CircularProgressInd
 interface FileUploadProps {
   onFileUpload: (data: string[][], headers: string[]) => void;
   progress: number;
+  onFileName: (fileName: string) => void;
 }
 
 export default function FileUpload({
   onFileUpload,
   progress,
+  onFileName,
 }: FileUploadProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -22,6 +24,7 @@ export default function FileUpload({
           const data = results.data as string[][];
           const headers = data[0];
           onFileUpload(data.slice(1), headers);
+          onFileName(file.name.replace('.csv', ''));
         },
         header: false,
       });

@@ -7,6 +7,7 @@ import { Button } from '~/components/ui/button';
 export default function CSVUploadManager() {
   const [step, setStep] = useState(1);
   const [csvData, setCsvData] = useState<string[][]>([]);
+  const [csvFileName, setCsvFileName] = useState<string>('');
   const [headers, setHeaders] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
 
@@ -41,9 +42,14 @@ export default function CSVUploadManager() {
     console.log('Column mapping:', mapping);
     // Here you would typically send the mapping and csvData to your backend
     alert('CSV processed successfully!');
+
     setStep(1);
     setCsvData([]);
     setHeaders([]);
+  };
+
+  const handleFileName = (fileName: string) => {
+    setCsvFileName(fileName);
   };
 
   return (
@@ -52,12 +58,14 @@ export default function CSVUploadManager() {
         <FileUpload
           onFileUpload={handleFileUpload}
           progress={progress}
+          onFileName={handleFileName}
         />
       ) : (
         <ColumnMapping
           onBack={() => setStep(1)}
           headers={headers}
           onColumnMapping={handleColumnMapping}
+          csvFileName={csvFileName}
         />
       )}
     </div>

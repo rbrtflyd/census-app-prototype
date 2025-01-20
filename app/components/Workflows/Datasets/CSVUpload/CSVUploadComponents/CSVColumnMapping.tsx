@@ -9,7 +9,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../../ui/select';
-import { Input } from '~/components/ui';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import { Input, Separator } from '~/components/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
@@ -26,6 +34,7 @@ interface ColumnMappingProps {
   headers: string[];
   onColumnMapping: (mapping: Record<string, string>) => void;
   onBack: () => void;
+  csvFileName: string;
 }
 
 const DATA_TYPES = [
@@ -40,6 +49,7 @@ export default function ColumnMapping({
   headers,
   onColumnMapping,
   onBack,
+  csvFileName,
 }: ColumnMappingProps) {
   const [mapping, setMapping] = useState<Record<string, string>>({});
 
@@ -52,9 +62,18 @@ export default function ColumnMapping({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex flex-row items-center justify-between">
-        <h2 className="text-lg font-medium">Map CSV Columns to Attributes</h2>
+        <div className="flex flex-col gap-2 leading-none w-1/4">
+          <Text className="font-medium">Dataset Name</Text>
+          <Input
+            placeholder="Dataset name"
+            defaultValue={csvFileName} // You'll need to pass this as a prop
+          />
+          <Text className="text-xs text-lighter">
+            Optional. You can change this later.
+          </Text>
+        </div>
         <Button
           variant="secondary"
           size="small"
@@ -66,50 +85,61 @@ export default function ColumnMapping({
           Change CSV File
         </Button>
       </div>
-      <div className="flex flex-col gap-2 w-2/3">
-        {headers.map((header) => (
-          <div
-            key={header}
-            className="flex flex-row items-center gap-8">
-            <Input
-              className="w-full bg-subtle hover:ring-0 hover:cursor-default truncate"
-              value={header}
-              readOnly
-            />
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              className="icon-lighter"
-            />
-            <Select onValueChange={(value) => handleMapping(header, value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a data type" />
-              </SelectTrigger>
-              <SelectContent>
-                {DATA_TYPES.map((type) => (
-                  <SelectItem
-                    key={type.value}
-                    value={type.value}>
-                    <div className="flex flex-row items-center gap-3">
-                      <FontAwesomeIcon
-                        icon={type.icon}
-                        className="icon-light"
-                      />
-                      <Text>{type.label}</Text>
-                    </div>
+      <Separator />
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <h2 className="font-medium leading-none">
+            Map CSV Columns to Data Types
+          </h2>
+          <Text className="text-sm text-light leading-none">
+            Select the data type for each column.
+          </Text>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          {headers.map((header) => (
+            <div
+              key={header}
+              className="flex flex-row items-center gap-8">
+              <Input
+                className="w-full bg-subtle hover:ring-0 hover:cursor-default truncate"
+                value={header}
+                readOnly
+              />
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className="icon-lighter"
+              />
+              <Select onValueChange={(value) => handleMapping(header, value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a data type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DATA_TYPES.map((type) => (
+                    <SelectItem
+                      key={type.value}
+                      value={type.value}>
+                      <div className="flex flex-row items-center gap-3">
+                        <FontAwesomeIcon
+                          icon={type.icon}
+                          className="icon-light"
+                        />
+                        <Text>{type.label}</Text>
+                      </div>
+                    </SelectItem>
+                  ))}
+                  <SelectSeparator />
+                  <SelectItem value="no_import">
+                    <FontAwesomeIcon
+                      icon={faBan}
+                      className="icon-light mr-3"
+                    />
+                    <Text className="text-sm">Do not import</Text>
                   </SelectItem>
-                ))}
-                <SelectSeparator />
-                <SelectItem value="no_import">
-                  <FontAwesomeIcon
-                    icon={faBan}
-                    className="icon-light mr-3"
-                  />
-                  <Text className="text-sm">Do not import</Text>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        ))}
+                </SelectContent>
+              </Select>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
