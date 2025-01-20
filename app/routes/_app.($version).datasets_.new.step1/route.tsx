@@ -157,7 +157,7 @@ export default function NewDataset() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Upload a CSV</DialogTitle>
+                  <DialogTitle>New Dataset from CSV</DialogTitle>
                 </DialogHeader>
                 <CSVUploadManager />
                 <DialogFooter>
