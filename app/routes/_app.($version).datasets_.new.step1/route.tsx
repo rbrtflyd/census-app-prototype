@@ -22,6 +22,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { useNewDatasetContext } from '../../contexts/NewDatasetContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui';
+import CSVUploadManager from '~/components/Workflows/Datasets/CSVUpload/CSVUploadManager';
 
 export const clientLoader = async () => {
   await initializeDatabase();
@@ -137,11 +146,33 @@ export default function NewDataset() {
             ))}
           </div>
         </div>
-        <div className="p-6 flex flex-col gap-2 items-stretch justify-stretch ">
-          <Text className="text-sm font-medium text-lighter">
-            Or create a one-off SQL Query
-          </Text>
-          <Button variant="secondary">Create Query</Button>
+        <div className="p-4 flex flex-col gap-2 items-stretch justify-stretch ">
+          <div className="flex flex-col p-4 rounded-md border border-base gap-3">
+            <Text className="text-sm font-medium text-lighter leading-none">
+              Create from a CSV file
+            </Text>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="secondary">Upload a CSV</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>New Dataset from CSV</DialogTitle>
+                </DialogHeader>
+                <CSVUploadManager />
+                <DialogFooter>
+                  <Button variant="secondary">Cancel</Button>
+                  <Button>Create Dataset</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="flex flex-col p-4 rounded-md border border-base gap-3">
+            <Text className="text-sm font-medium text-lighter leading-none">
+              Create a one-off SQL Query
+            </Text>
+            <Button variant="secondary">Create Query</Button>
+          </div>
         </div>
       </TabsList>
 
