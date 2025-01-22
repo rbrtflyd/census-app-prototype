@@ -10,23 +10,21 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useBreadcrumbItems } from '~/providers/breadcrumbContext';
-import { BreadcrumbItem as BreadcrumbItemType } from '~/providers/breadcrumbContext';
 
 import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 interface ButtonProps {
   label: string;
   onClick?: () => void;
   icon?: IconDefinition;
   variant?: 'primary' | 'secondary' | 'ghost' | 'link' | 'table' | 'fancy';
 }
-import { Slot, Slottable } from '@radix-ui/react-slot';
 
 interface PageHeaderProps {
   title: string;
-  initialBreadcrumbs?: BreadcrumbItemType[];
   button?: ButtonProps;
   children?: React.ReactNode;
+  breadcrumbs?: any[];
 }
 
 const TitleSlot = ({ children }: { children: React.ReactNode }) => {
@@ -41,8 +39,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
   TitleSlot: typeof TitleSlot;
   RightSlot: typeof RightSlot;
 } = ({ title, button = { variant: 'primary' }, children }) => {
-  const breadcrumbs = useBreadcrumbItems();
-
+  const { breadcrumbs } = useBreadcrumbs();
   const titleSlotChild = React.Children.toArray(children).find(
     (child) => React.isValidElement(child) && child.type === TitleSlot
   );
@@ -57,7 +54,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
         <div className="mr-4">
           <Breadcrumb>
             <BreadcrumbList>
-              {breadcrumbs.map((item, index) => (
+              {breadcrumbs?.map((item, index) => (
                 <React.Fragment key={index}>
                   <BreadcrumbItem>
                     <BreadcrumbLink href={item.href}>

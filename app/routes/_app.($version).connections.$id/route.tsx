@@ -9,7 +9,7 @@ import {
 } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { useBreadcrumbs } from '~/providers/breadcrumbContext';
+
 import { useOperator } from '~/contexts/OperatorContext';
 
 export default function ConnectionDetail() {

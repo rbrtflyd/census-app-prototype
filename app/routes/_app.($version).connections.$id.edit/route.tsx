@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
-import { useBreadcrumbs } from '~/providers/breadcrumbContext';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { useOutletContext, useParams } from '@remix-run/react';
 import {
   ConnectionEditingVersion1,
@@ -16,6 +16,7 @@ import {
 } from '~/components/ui';
 
 export default function ConnectionEdit({}) {
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
   const { id } = useParams();
   const { thisWorkspaceConnection, thisConnection, testSteps, version } =
     useOutletContext<any>();
@@ -26,14 +27,17 @@ export default function ConnectionEdit({}) {
     new Set(['source', 'destination'])
   );
 
-  useBreadcrumbs([
-    { label: 'Connections', href: `/${version}/connections` },
-    {
-      label:
-        thisWorkspaceConnection.name || thisConnection.connectionServiceName,
+  useEffect(() => {
+    clearBreadcrumbs();
+    addBreadcrumb({
+      label: 'Connections',
+      href: `/${version}/connections`,
+    });
+    addBreadcrumb({
+      label: thisConnection.connectionServiceName,
       href: `/${version}/connections/${thisConnection.id}`,
-    },
-  ]);
+    });
+  }, [version, addBreadcrumb, clearBreadcrumbs, thisConnection]);
 
   const handleModeClick = (mode: string) => {
     setSelectedModes((prev) => {

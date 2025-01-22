@@ -67,7 +67,6 @@ import {
   DialogTrigger,
 } from '~/components/ui/dialog';
 
-import { useBreadcrumbs } from '~/providers/breadcrumbContext';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '~/components/ui/badge';
@@ -112,8 +111,6 @@ export default function DatasetIndex() {
   };
 
   const activeTab = getActiveTab(location.pathname);
-
-  useBreadcrumbs([{ label: 'Datasets', href: `/${version}/datasets` }]);
 
   if (!thisDataset) {
     return (
