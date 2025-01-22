@@ -71,6 +71,7 @@ import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '~/components/ui/badge';
 import { EnrichEnhanceDrawer } from './EnrichEnhanceHub';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 export const clientLoader = async ({
   params,
@@ -91,6 +92,7 @@ interface LoaderData {
 
 export default function DatasetIndex() {
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
   const params = useParams();
   const id = params.id;
   const location = useLocation();
@@ -111,6 +113,14 @@ export default function DatasetIndex() {
   };
 
   const activeTab = getActiveTab(location.pathname);
+
+  useEffect(() => {
+    clearBreadcrumbs();
+    addBreadcrumb({
+      label: 'Datasets',
+      href: `/${version}/datasets`,
+    });
+  }, [version, addBreadcrumb, clearBreadcrumbs]);
 
   if (!thisDataset) {
     return (
