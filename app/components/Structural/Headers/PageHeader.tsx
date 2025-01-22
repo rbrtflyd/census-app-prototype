@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { useBreadcrumbItems } from '~/providers/breadcrumbContext';
 import { BreadcrumbItem as BreadcrumbItemType } from '~/providers/breadcrumbContext';
 
 import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
@@ -41,7 +41,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
   TitleSlot: typeof TitleSlot;
   RightSlot: typeof RightSlot;
 } = ({ title, button = { variant: 'primary' }, children }) => {
-  const { breadcrumbs } = useBreadcrumbContext();
+  const breadcrumbs = useBreadcrumbItems();
 
   const titleSlotChild = React.Children.toArray(children).find(
     (child) => React.isValidElement(child) && child.type === TitleSlot

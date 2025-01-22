@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useBreadcrumbContext } from '../../providers/breadcrumbContext';
+import React, { useState } from 'react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
-import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
+import { useBreadcrumbs } from '~/providers/breadcrumbContext';
 import { useOutletContext, useParams } from '@remix-run/react';
 import {
   ConnectionEditingVersion1,

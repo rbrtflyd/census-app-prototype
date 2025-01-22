@@ -6,32 +6,37 @@ export interface BreadcrumbItem {
 }
 
 interface BreadcrumbContextType {
-  breadcrumbs: BreadcrumbItem[];
-  setBreadcrumbs: (items: BreadcrumbItem[]) => void;
+  items: BreadcrumbItem[];
+  setItems: (items: BreadcrumbItem[]) => void;
 }
 
-const BreadcrumbContext = createContext<BreadcrumbContextType | undefined>(
-  undefined
-);
+const BreadcrumbContext = createContext<BreadcrumbContextType>({
+  items: [],
+  setItems: () => {},
+});
 
 export const BreadcrumbProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
+  const [items, setItems] = useState<BreadcrumbItem[]>([]);
 
   return (
-    <BreadcrumbContext.Provider value={{ breadcrumbs, setBreadcrumbs }}>
+    <BreadcrumbContext.Provider value={{ items, setItems }}>
       {children}
     </BreadcrumbContext.Provider>
   );
 };
 
-export const useBreadcrumbContext = () => {
-  const context = useContext(BreadcrumbContext);
-  if (!context) {
-    throw new Error(
-      'useBreadcrumbContext must be used within a BreadcrumbProvider'
-    );
-  }
-  return context;
-};
+export function useBreadcrumbs(items: BreadcrumbItem[]) {
+  const { setItems } = useContext(BreadcrumbContext);
+
+  React.useEffect(() => {
+    setItems(items);
+    return () => setItems([]);
+  }, [items]);
+}
+
+export function useBreadcrumbItems() {
+  const { items } = useContext(BreadcrumbContext);
+  return items;
+}

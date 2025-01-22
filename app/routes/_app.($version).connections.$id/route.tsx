@@ -9,9 +9,8 @@ import {
 } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { useBreadcrumbs } from '~/providers/breadcrumbContext';
 import { useOperator } from '~/contexts/OperatorContext';
-import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
 
 export default function ConnectionDetail() {
   const { id } = useParams();

@@ -5,7 +5,7 @@ import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { useBreadcrumbs } from '~/providers/breadcrumbContext';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,7 +15,6 @@ import {
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
 
 export default function ConnectionDetailIndex({}) {
   const { version, thisWorkspaceConnection, thisConnection, testSteps } =
