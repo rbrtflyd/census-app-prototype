@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useBreadcrumbContext } from '../../providers/breadcrumbContext';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
+import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
 import { useOutletContext, useParams } from '@remix-run/react';
 import {
   ConnectionEditingVersion1,
@@ -19,8 +20,6 @@ export default function ConnectionEdit({}) {
   const { id } = useParams();
   const { thisWorkspaceConnection, thisConnection, testSteps, version } =
     useOutletContext<any>();
-  const { addBreadcrumb, updateBreadcrumb, removeBreadcrumb } =
-    useBreadcrumbContext();
   const [mode, setMode] = useState<'source' | 'destination'>('source');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
@@ -28,26 +27,13 @@ export default function ConnectionEdit({}) {
     new Set(['source', 'destination'])
   );
 
-  useEffect(() => {
-    // Add the edit breadcrumb
-    addBreadcrumb({
-      label: `Edit ${
-        thisWorkspaceConnection?.name || thisConnection?.connectionServiceName
-      } Connection`,
-      href: `/${version}/connections/${id}/edit`,
-    });
-
-    return () => {
-      // Remove the edit breadcrumb when unmounting
-      removeBreadcrumb(2);
-    };
-  }, [
-    version,
-    id,
-    addBreadcrumb,
-    removeBreadcrumb,
-    thisWorkspaceConnection,
-    thisConnection,
+  useBreadcrumbs([
+    { label: 'Connections', href: `/${version}/connections` },
+    {
+      label:
+        thisWorkspaceConnection.name || thisConnection.connectionServiceName,
+      href: `/${version}/connections/${thisConnection.id}`,
+    },
   ]);
 
   const handleModeClick = (mode: string) => {

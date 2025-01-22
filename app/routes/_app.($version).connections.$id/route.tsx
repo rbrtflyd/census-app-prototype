@@ -11,6 +11,7 @@ import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { useOperator } from '~/contexts/OperatorContext';
+import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
 
 export default function ConnectionDetail() {
   const { id } = useParams();
@@ -71,32 +72,6 @@ export default function ConnectionDetail() {
   const thisConnection = connections.find(
     (c) => c.id === thisWorkspaceConnection?.connectionId
   );
-
-  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
-  useEffect(() => {
-    // Clear any existing breadcrumbs
-    clearBreadcrumbs();
-
-    // Add the connections list breadcrumb
-    addBreadcrumb({
-      label: 'Connections',
-      href: `/${version}/connections`,
-    });
-
-    addBreadcrumb({
-      label: `${
-        thisWorkspaceConnection?.name || thisConnection?.connectionServiceName
-      }`,
-      href: `/${version}/connections/${id}`,
-    });
-  }, [
-    version,
-    thisWorkspaceConnection,
-    thisConnection,
-    addBreadcrumb,
-    clearBreadcrumbs,
-    id,
-  ]);
 
   const testSteps = thisWorkspaceConnection?.mode.includes('source')
     ? sourceTestSteps

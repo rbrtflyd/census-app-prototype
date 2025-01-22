@@ -11,11 +11,8 @@ import {
 } from '~/components/ui/breadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { BreadcrumbItem as BreadcrumbItemType } from '~/providers/breadcrumbContext';
 
-import {
-  useBreadcrumb,
-  BreadcrumbItem as BreadcrumbItemType,
-} from '~/hooks/useBreadcrumb';
 import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
 interface ButtonProps {
   label: string;
@@ -44,7 +41,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
   TitleSlot: typeof TitleSlot;
   RightSlot: typeof RightSlot;
 } = ({ title, button = { variant: 'primary' }, children }) => {
-  const { items: breadcrumbs } = useBreadcrumbContext();
+  const { breadcrumbs } = useBreadcrumbContext();
 
   const titleSlotChild = React.Children.toArray(children).find(
     (child) => React.isValidElement(child) && child.type === TitleSlot
@@ -60,22 +57,18 @@ const PageHeader: React.FC<PageHeaderProps> & {
         <div className="mr-4">
           <Breadcrumb>
             <BreadcrumbList>
-              {breadcrumbs &&
-                breadcrumbs.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <BreadcrumbItem>
-                      <BreadcrumbLink href={item.href}>
-                        <Text>{item.label}</Text>
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                  </React.Fragment>
-                ))}
+              {breadcrumbs.map((item, index) => (
+                <React.Fragment key={index}>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={item.href}>
+                      <Text>{item.label}</Text>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </React.Fragment>
+              ))}
               <BreadcrumbPage>
-                <div className="flex items-center gap-4">
-                  <Text>{title}</Text>
-                  {titleSlotChild}
-                </div>
+                {typeof title === 'string' ? <Text>{title}</Text> : title}
               </BreadcrumbPage>
             </BreadcrumbList>
           </Breadcrumb>

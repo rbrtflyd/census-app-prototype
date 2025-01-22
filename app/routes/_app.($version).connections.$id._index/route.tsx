@@ -15,6 +15,7 @@ import {
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { useBreadcrumbs } from '~/hooks/useBreadcrumb';
 
 export default function ConnectionDetailIndex({}) {
   const { version, thisWorkspaceConnection, thisConnection, testSteps } =
@@ -39,15 +40,13 @@ export default function ConnectionDetailIndex({}) {
     },
   ];
 
-  console.log('Index Route Context:', useOutletContext());
+  useBreadcrumbs([{ label: 'Connections', href: `/${version}/connections` }]);
 
   return (
     <>
       <PageHeader
         title={
-          thisWorkspaceConnection.name
-            ? thisWorkspaceConnection.name
-            : thisConnection.connectionServiceName
+          thisWorkspaceConnection.name || thisConnection.connectionServiceName
         }
       />
       <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
