@@ -7,7 +7,7 @@ import {
   useNewConnectionContext,
 } from '~/contexts/NewConnectionContext';
 import { ConnectionServiceType } from '~/db/types/connectionService';
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { Text } from '@radix-ui/themes';
 import { Button } from '~/components/ui/button';
 import { ConnectionType } from '~/db/types';
@@ -19,7 +19,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function NewConnection() {
   const { version } = useLoaderData<typeof loader>();
-  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
   const { connections, workspaceConnections, setSelectedConnectionId } =
     useOutletContext() as {
       connections: ConnectionServiceType[];

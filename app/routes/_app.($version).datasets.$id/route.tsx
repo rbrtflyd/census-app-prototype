@@ -11,7 +11,6 @@ import React, { useEffect } from 'react';
 import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import { useBreadcrumb } from '../../hooks/useBreadcrumb';
 import {
   faCaretDown,
   faCoin,
@@ -68,11 +67,11 @@ import {
   DialogTrigger,
 } from '~/components/ui/dialog';
 
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { Button } from '~/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge } from '~/components/ui/badge';
 import { EnrichEnhanceDrawer } from './EnrichEnhanceHub';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 export const clientLoader = async ({
   params,
@@ -93,6 +92,7 @@ interface LoaderData {
 
 export default function DatasetIndex() {
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
   const params = useParams();
   const id = params.id;
   const location = useLocation();
@@ -107,8 +107,6 @@ export default function DatasetIndex() {
     (dataset: DatasetType) => dataset.id.toString() === id
   );
 
-  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbContext();
-
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
     return segments[segments.length - 1] || 'overview-v2';
@@ -117,10 +115,7 @@ export default function DatasetIndex() {
   const activeTab = getActiveTab(location.pathname);
 
   useEffect(() => {
-    // Clear any existing breadcrumbs
     clearBreadcrumbs();
-
-    // Add the connections list breadcrumb
     addBreadcrumb({
       label: 'Datasets',
       href: `/${version}/datasets`,
