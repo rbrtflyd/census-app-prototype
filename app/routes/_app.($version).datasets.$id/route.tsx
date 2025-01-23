@@ -139,7 +139,7 @@ export default function DatasetIndex() {
             <Badge>
               <FontAwesomeIcon
                 icon={faTableRows}
-                className="mr-1.5 icon-lighter"
+                className="mr-1.5 icon-light"
               />
               {thisDataset.rows.toLocaleString()} Rows
             </Badge>
