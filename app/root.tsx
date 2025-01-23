@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import SidebarNavigation from './components/Navigation/Sidebar/SidebarNavigation';
-import { BreadcrumbProvider } from './providers/breadcrumbContext';
 import { MigrationNotification } from './components/Toasts/MigrationNotification';
 import { Toaster } from './components/ui/sonner';
 import styles from './tailwind.css?url';
@@ -15,6 +14,7 @@ import './styles.scss';
 import { OperatorProvider } from './contexts/OperatorContext';
 import OperatorToolbar from './components/Toasts/OperatorToolbar/OperatorToolbar';
 import { EnrichEnhanceProvider } from './routes/_app.($version).datasets.$id/EnrichEnhanceHub/context/EnrichEnhanceContext';
+import { BreadcrumbProvider } from './contexts/BreadcrumbContext';
 
 export const links = () => {
   return [{ rel: 'stylesheet', href: styles }];

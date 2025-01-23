@@ -1,11 +1,10 @@
 import { Text } from '@radix-ui/themes';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useOutletContext, useParams, Link } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
-import { useBreadcrumbContext } from '~/providers/breadcrumbContext';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,10 +14,21 @@ import {
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 export default function ConnectionDetailIndex({}) {
+  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
+
   const { version, thisWorkspaceConnection, thisConnection, testSteps } =
     useOutletContext<any>();
+
+  useEffect(() => {
+    clearBreadcrumbs();
+    addBreadcrumb({
+      label: 'Connections',
+      href: `/${version}/connections`,
+    });
+  }, [version, addBreadcrumb, clearBreadcrumbs]);
 
   const metaInfo = [
     {
@@ -39,15 +49,11 @@ export default function ConnectionDetailIndex({}) {
     },
   ];
 
-  console.log('Index Route Context:', useOutletContext());
-
   return (
     <>
       <PageHeader
         title={
-          thisWorkspaceConnection.name
-            ? thisWorkspaceConnection.name
-            : thisConnection.connectionServiceName
+          thisWorkspaceConnection.name || thisConnection.connectionServiceName
         }
       />
       <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
