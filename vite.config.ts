@@ -3,6 +3,9 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
+  ssr: {
+    noExternal: ['react-dropzone'],
+  },
   plugins: [
     remix({
       future: {
@@ -11,6 +14,7 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
     }),
+
     tsconfigPaths(),
   ],
 });

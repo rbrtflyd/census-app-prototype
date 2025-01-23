@@ -8,7 +8,7 @@ import {
 } from '@remix-run/react';
 import SidebarNavigation from './components/Navigation/Sidebar/SidebarNavigation';
 import { MigrationNotification } from './components/Toasts/MigrationNotification';
-
+import { Toaster } from './components/ui/sonner';
 import styles from './tailwind.css?url';
 import './styles.scss';
 import { OperatorProvider } from './contexts/OperatorContext';
@@ -45,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </BreadcrumbProvider>
             </EnrichEnhanceProvider>
           </OperatorProvider>
+          <Toaster />
         </div>
 
         <ScrollRestoration />
