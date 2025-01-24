@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 type Breadcrumb = {
   label: string;
@@ -35,9 +35,13 @@ export function BreadcrumbProvider({
     setBreadcrumbs([]);
   };
 
+  const value = useMemo(
+    () => ({ breadcrumbs, addBreadcrumb, setBreadcrumbs, clearBreadcrumbs }),
+    [breadcrumbs, addBreadcrumb, clearBreadcrumbs]
+  );
+
   return (
-    <BreadcrumbContext.Provider
-      value={{ breadcrumbs, addBreadcrumb, setBreadcrumbs, clearBreadcrumbs }}>
+    <BreadcrumbContext.Provider value={value}>
       {children}
     </BreadcrumbContext.Provider>
   );

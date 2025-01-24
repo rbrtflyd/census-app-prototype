@@ -181,7 +181,8 @@ export default function ConnectionEdit({ data }: { data: any }) {
                               indicator={false}
                               className="flex flex-row items-center gap-2 px-4 py-2 border border-base rounded-md hover:bg-slate-25 transition-all duration-75 hover:border-slate-100 hover:text-slate-900 cursor-pointer data-[state=checked]:border-plum-200 data-[state=unchecked]:border-base data-[state=checked]:bg-plum-100 data-[state=unchecked]:bg-white data-[state=checked]:text-plum-500 data-[state=unchecked]:text-dark justify-between leading-none"
                               value={type}
-                              id={type}>
+                              id={type}
+                              key={type}>
                               <Text>{type}</Text>
                               {type === 'Basic' ? (
                                 <Badge>Easier to Setup</Badge>

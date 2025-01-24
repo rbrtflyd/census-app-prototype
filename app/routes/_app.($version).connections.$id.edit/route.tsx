@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { useOutletContext, useParams } from '@remix-run/react';
@@ -14,12 +14,27 @@ import {
   RadioGroupItem,
   Separator,
 } from '~/components/ui';
+import { ConnectionType } from '~/db/types/connection';
+import { ConnectionServiceType } from '~/db/types/connectionService';
 
 export default function ConnectionEdit({}) {
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
   const { id } = useParams();
-  const { thisWorkspaceConnection, thisConnection, testSteps, version } =
-    useOutletContext<any>();
+  const { version, workspaceConnections, connections } = useOutletContext() as {
+    version: string;
+    workspaceConnections: ConnectionType[];
+    connections: ConnectionServiceType[];
+  };
+  const thisWorkspaceConnection = useMemo(
+    () => workspaceConnections.find((wc) => wc.id === parseInt(id!, 10)),
+    [workspaceConnections, id]
+  );
+
+  const thisConnection = useMemo(
+    () =>
+      connections.find((c) => c.id === thisWorkspaceConnection?.connectionId),
+    [connections, thisWorkspaceConnection?.connectionId]
+  );
   const [mode, setMode] = useState<'source' | 'destination'>('source');
   const [readType, setReadType] = useState<'Basic' | 'Advanced'>('Basic');
 
@@ -37,7 +52,7 @@ export default function ConnectionEdit({}) {
       label: thisConnection.connectionServiceName,
       href: `/${version}/connections/${thisConnection.id}`,
     });
-  }, [version, addBreadcrumb, clearBreadcrumbs, thisConnection]);
+  }, [version, thisConnection]);
 
   const handleModeClick = (mode: string) => {
     setSelectedModes((prev) => {
@@ -72,7 +87,7 @@ export default function ConnectionEdit({}) {
     },
     {
       label: 'Port',
-      value: 'port',
+      value: '',
       type: 'number',
       helpText: 'The port to use for the connection',
     },
@@ -93,7 +108,6 @@ export default function ConnectionEdit({}) {
   const data = {
     thisWorkspaceConnection,
     thisConnection,
-    testSteps,
     mode,
     readType,
     setReadType,

@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
-import { useEnrichEnhance } from '../../../context/EnrichEnhanceContext';
+import { useEnrichEnhance } from '../../../../../../contexts/EnrichEnhanceContext';
 
 export function EnrichByRow() {
   const { navigateToPage } = useEnrichEnhance();
