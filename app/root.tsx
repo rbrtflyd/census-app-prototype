@@ -36,10 +36,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Outlet />
             <Toaster />
           </div>
-
-          <ScrollRestoration />
-          <Scripts />
         </RootProvider>
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   );

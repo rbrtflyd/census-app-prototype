@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
+import { Link } from '@remix-run/react';
 interface ButtonProps {
   label: string;
   onClick?: () => void;
@@ -57,9 +58,11 @@ const PageHeader: React.FC<PageHeaderProps> & {
               {breadcrumbs?.map((item, index) => (
                 <React.Fragment key={index}>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href={item.href}>
+                    <Link
+                      to={item.href}
+                      className="transition-colors duration-75 text-lighter hover:text-slate-950 dark:hover:text-slate-50 px-2 py-2 hover:bg-slate-50 rounded">
                       <Text>{item.label}</Text>
-                    </BreadcrumbLink>
+                    </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                 </React.Fragment>

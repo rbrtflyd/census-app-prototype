@@ -7,7 +7,7 @@ import {
   ConnectionType,
   DatasetType,
 } from '../../db/types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
@@ -114,13 +114,20 @@ export default function DatasetIndex() {
 
   const activeTab = getActiveTab(location.pathname);
 
+  const breadcrumbs = useMemo(
+    () => [
+      {
+        label: 'Datasets',
+        href: `/${version}/datasets`,
+      },
+    ],
+    [version]
+  );
+
   useEffect(() => {
     clearBreadcrumbs();
-    addBreadcrumb({
-      label: 'Datasets',
-      href: `/${version}/datasets`,
-    });
-  }, [version, addBreadcrumb, clearBreadcrumbs]);
+    addBreadcrumb(breadcrumbs);
+  }, [breadcrumbs, addBreadcrumb, clearBreadcrumbs]);
 
   if (!thisDataset) {
     return (

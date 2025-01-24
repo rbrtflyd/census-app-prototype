@@ -4,8 +4,11 @@ import { useOutletContext, useNavigate } from '@remix-run/react';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
 
 import { columns, DataTable } from './ConnectionListingTable';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
+import { useEffect } from 'react';
 
 export default function Connections() {
+  const { clearBreadcrumbs } = useBreadcrumbs();
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
     workspaceConnections: ConnectionType[];
@@ -20,6 +23,10 @@ export default function Connections() {
     );
     return connection;
   };
+
+  useEffect(() => {
+    clearBreadcrumbs();
+  }, []);
 
   const combinedConnections = [...workspaceConnections].map((wc) => {
     const connectionDetails = formatWorkspaceConnection(wc);
