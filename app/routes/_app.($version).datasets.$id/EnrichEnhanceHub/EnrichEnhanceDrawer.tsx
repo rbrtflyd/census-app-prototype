@@ -3,7 +3,7 @@ import { Text } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faSparkles } from '@fortawesome/pro-solid-svg-icons';
 import { EnrichEnhanceNestedDrawer } from './EnrichEnhanceNestedDrawer/EnrichEnhanceNestedDrawer';
-import { useEnrichEnhance } from './context/EnrichEnhanceContext';
+import { useEnrichEnhance } from '../../../contexts/EnrichEnhanceContext';
 import { useEffect } from 'react';
 
 import {
@@ -46,7 +46,7 @@ export function EnrichEnhanceDrawer() {
       parentId: ['enrichment-selection'],
     });
     // Add other pages as needed
-  }, [addPage]);
+  }, []);
 
   const trigger = (
     <Button

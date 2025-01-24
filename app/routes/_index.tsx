@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { MetaFunction } from '@remix-run/node';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import {
   getDatasets,
   getSyncs,
@@ -37,6 +37,7 @@ interface LoaderData {
 }
 
 export default function Index() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFirstTimeUser = async () => {
@@ -45,7 +46,7 @@ export default function Index() {
     await initializeDatabase();
     setIsLoading(false);
     // Navigate to main app view
-    window.location.href = '/v1/getting-started';
+    navigate('/v1/getting-started');
   };
 
   const handleReturningUser = async () => {
@@ -53,7 +54,7 @@ export default function Index() {
     await initializeDatabase();
     setIsLoading(false);
     // Navigate to main app view
-    window.location.href = '/home';
+    navigate('/home');
   };
 
   const useCases = [
@@ -74,21 +75,21 @@ export default function Index() {
       name: 'New Navigation',
       description: 'Clears all data and starts fresh',
       onClick: () => {
-        window.location.href = '/v2/getting-started';
+        navigate('/v2/getting-started');
       },
     },
     {
       name: 'Source and Destination Unification',
       description: 'Unifying source and destination pages/workflows',
       onClick: () => {
-        window.location.href = '/v1/connections';
+        navigate('/v1/connections');
       },
     },
     {
       name: 'API Credits',
       description: 'Adding free credit affordances to dataset details',
       onClick: () => {
-        window.location.href = '/v1/datasets/1/overview';
+        navigate('/v1/datasets/1/overview');
       },
     },
     {
@@ -96,7 +97,7 @@ export default function Index() {
       description:
         'Query the Census data catalog from other tools and services',
       onClick: () => {
-        window.location.href = '/v1/settings/storage';
+        navigate('/v1/settings/storage');
       },
     },
   ];
@@ -106,7 +107,7 @@ export default function Index() {
       name: 'Internal Workflow',
       description: 'Internal workflow',
       onClick: () => {
-        window.location.href = '/v2/getting-started';
+        navigate('/v2/getting-started');
       },
     },
   ];

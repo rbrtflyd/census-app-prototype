@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { version } from 'react';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import { Outlet } from '@remix-run/react';
 
@@ -12,6 +12,7 @@ import {
 } from '../../contexts/NewDatasetContext';
 
 const StepContent = () => {
+  const navigate = useNavigate();
   const { currentStep, setCurrentStep } = useNewDatasetContext();
 
   const stepContent = {
@@ -42,7 +43,7 @@ const StepContent = () => {
             onClick={() => {
               const prevStep = currentStep === 'step3' ? 'step2' : 'step1';
               setCurrentStep(prevStep);
-              window.history.back();
+              navigate(`/${version}/datasets/new/${prevStep}`);
             }}>
             Back
           </Button>

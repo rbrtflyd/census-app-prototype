@@ -1,33 +1,19 @@
-import React from 'react';
-import { Text } from '@radix-ui/themes';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { ConnectionType, ConnectionServiceType } from '../../db/types';
 import { useOutletContext, useNavigate } from '@remix-run/react';
-import { Badge } from '~/components/ui/badge';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
-import {
-  ConnectionListingVersion1,
-  ConnectionListingVersion2,
-  ConnectionListingVersion3,
-} from './versions';
-import { useOperator } from '~/contexts/OperatorContext';
 
-import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  Tooltip,
-} from '~/components/ui/tooltip';
+import { columns, DataTable } from './ConnectionListingTable';
+import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
+import { useEffect } from 'react';
 
 export default function Connections() {
+  const { clearBreadcrumbs } = useBreadcrumbs();
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
     workspaceConnections: ConnectionType[];
     connections: ConnectionServiceType[];
   };
-
-  const { selectedLayout } = useOperator();
 
   const navigate = useNavigate();
 
@@ -37,6 +23,10 @@ export default function Connections() {
     );
     return connection;
   };
+
+  useEffect(() => {
+    clearBreadcrumbs();
+  }, []);
 
   const combinedConnections = [...workspaceConnections].map((wc) => {
     const connectionDetails = formatWorkspaceConnection(wc);
@@ -49,25 +39,22 @@ export default function Connections() {
     };
   });
 
-  const data = {
-    version,
-    combinedConnections,
-    connections,
-    workspaceConnections,
-    navigate,
-  };
-
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {selectedLayout === 'connections-v1' && (
-        <ConnectionListingVersion1 {...data} />
-      )}
-      {selectedLayout === 'connections-v2' && (
-        <ConnectionListingVersion2 {...data} />
-      )}
-      {selectedLayout === 'connections-v3' && (
-        <ConnectionListingVersion3 {...data} />
-      )}
+      <PageHeader
+        title="Connections"
+        button={{
+          label: 'New Connection',
+          icon: faPlus,
+          onClick: () => navigate(`/${version}/connections/new/step1`),
+        }}
+      />
+
+      <DataTable
+        count={combinedConnections.length}
+        columns={columns}
+        data={combinedConnections}
+      />
     </div>
   );
 }
