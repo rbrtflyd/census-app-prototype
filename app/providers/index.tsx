@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import { composeProviders } from './compose/compose';
-import { EnrichEnhanceProvider } from './enrichEnhance/EnrichEnhanceProvider';
+import { EnrichEnhanceProvider } from './dataset/enrichEnhance/EnrichEnhanceProvider';
 import { NewConnectionProvider } from './connection/NewConnectionProvider';
 import { BreadcrumbProvider } from './breadcrumb/BreadcrumbProvider';
 import { OperatorProvider } from './operator/OperatorProvider';
-import { NewDatasetProvider } from './dataset/NewDatasetProvider';
+import { NewDatasetProvider } from './dataset/newDataset/NewDatasetProvider';
 
 const providers = [
   EnrichEnhanceProvider,
