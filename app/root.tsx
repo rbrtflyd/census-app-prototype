@@ -1,4 +1,3 @@
-import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 import {
   Links,
   Meta,
@@ -6,15 +5,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import SidebarNavigation from './components/Navigation/Sidebar/SidebarNavigation';
+
 import { MigrationNotification } from './components/Toasts/MigrationNotification';
 import { Toaster } from './components/ui/sonner';
 import styles from './tailwind.css?url';
 import './styles.scss';
-import { OperatorProvider } from './contexts/OperatorContext';
-import OperatorToolbar from './components/Toasts/OperatorToolbar/OperatorToolbar';
-import { EnrichEnhanceProvider } from './routes/_app.($version).datasets.$id/EnrichEnhanceHub/context/EnrichEnhanceContext';
-import { BreadcrumbProvider } from './contexts/BreadcrumbContext';
+
+import { RootProvider } from './providers';
 
 export const links = () => {
   return [{ rel: 'stylesheet', href: styles }];
@@ -33,23 +30,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <MigrationNotification />
-        <div className="flex h-screen flex-row">
-          <OperatorProvider>
-            <EnrichEnhanceProvider>
-              <BreadcrumbProvider>
-                <div className="grow overflow-hidden">
-                  <Outlet />
-                </div>
-                <OperatorToolbar />
-              </BreadcrumbProvider>
-            </EnrichEnhanceProvider>
-          </OperatorProvider>
+        <RootProvider>
+          <MigrationNotification />
+          <div className="flex h-screen flex-row">
+            <div className="grow overflow-hidden">
+              <Outlet />
+            </div>
+          </div>
           <Toaster />
-        </div>
-
-        <ScrollRestoration />
-        <Scripts />
+          <ScrollRestoration />
+          <Scripts />
+        </RootProvider>
       </body>
     </html>
   );

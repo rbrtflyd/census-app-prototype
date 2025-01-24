@@ -10,8 +10,6 @@ import {
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 
-import { useOperator } from '~/contexts/OperatorContext';
-
 export default function ConnectionDetail() {
   const { id } = useParams();
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -21,7 +19,6 @@ export default function ConnectionDetail() {
   };
 
   const navigate = useNavigate();
-  const layout = useOperator();
 
   const sourceTestSteps = [
     {

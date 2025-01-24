@@ -11,7 +11,6 @@ import {
   ConnectionListingVersion2,
   ConnectionListingVersion3,
 } from './versions';
-import { useOperator } from '~/contexts/OperatorContext';
 
 import {
   TooltipContent,
@@ -26,8 +25,6 @@ export default function Connections() {
     workspaceConnections: ConnectionType[];
     connections: ConnectionServiceType[];
   };
-
-  const { selectedLayout } = useOperator();
 
   const navigate = useNavigate();
 
@@ -59,15 +56,7 @@ export default function Connections() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {selectedLayout === 'connections-v1' && (
-        <ConnectionListingVersion1 {...data} />
-      )}
-      {selectedLayout === 'connections-v2' && (
-        <ConnectionListingVersion2 {...data} />
-      )}
-      {selectedLayout === 'connections-v3' && (
-        <ConnectionListingVersion3 {...data} />
-      )}
+      <ConnectionListingVersion3 {...data} />
     </div>
   );
 }
