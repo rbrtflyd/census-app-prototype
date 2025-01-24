@@ -1,4 +1,4 @@
-import { EnrichEnhanceProvider as OriginalProvider } from '~/routes/_app.($version).datasets.$id/EnrichEnhanceHub/context/EnrichEnhanceContext';
+import { EnrichEnhanceProvider as OriginalProvider } from '~/contexts/EnrichEnhanceContext';
 
 export function EnrichEnhanceProvider({
   children,
