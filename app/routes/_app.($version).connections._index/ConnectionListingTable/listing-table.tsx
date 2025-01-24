@@ -1,4 +1,4 @@
-import { Button } from '../../../../components/ui/button';
+import { Button } from '../../../components/ui/button';
 import React from 'react';
 import { Text } from '@radix-ui/themes';
 import {
@@ -19,20 +19,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../../../../components/ui/table';
+} from '../../../components/ui/table';
 
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '../../../../components/ui/dropdown-menu';
+} from '../../../components/ui/dropdown-menu';
 
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '../../../../components/ui/hover-card';
+} from '../../../components/ui/hover-card';
 
 import { ConnectionType } from '~/db/types/connection';
 
@@ -59,7 +59,7 @@ const tableActions = [
   },
 ];
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends ConnectionType, TValue>({
   columns,
   data,
   count,

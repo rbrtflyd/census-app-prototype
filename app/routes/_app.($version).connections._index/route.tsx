@@ -1,25 +1,9 @@
-import React from 'react';
-import { Text } from '@radix-ui/themes';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { ConnectionType, ConnectionServiceType } from '../../db/types';
 import { useOutletContext, useNavigate } from '@remix-run/react';
-import { Badge } from '~/components/ui/badge';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/pro-regular-svg-icons';
-import {
-  ConnectionListingVersion1,
-  ConnectionListingVersion2,
-  ConnectionListingVersion3,
-} from './versions';
 
-import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  Tooltip,
-} from '~/components/ui/tooltip';
-import { columns } from './versions/ConnectionListingVersion3/listing-columns';
-import { DataTable } from './versions/ConnectionListingVersion3/listing-table';
+import { columns, DataTable } from './ConnectionListingTable';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -47,14 +31,6 @@ export default function Connections() {
       category: connectionDetails?.connectionServiceCategory || '',
     };
   });
-
-  const data = {
-    version,
-    combinedConnections,
-    connections,
-    workspaceConnections,
-    navigate,
-  };
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
