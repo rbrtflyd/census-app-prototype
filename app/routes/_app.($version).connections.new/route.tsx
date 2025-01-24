@@ -37,7 +37,7 @@ export default function NewConnection() {
       label: 'Connections',
       href: `/${version}/connections`,
     });
-  }, [version, addBreadcrumb, clearBreadcrumbs]);
+  }, [version]);
 
   const StepContent = () => {
     const navigate = useNavigate();

@@ -46,7 +46,7 @@ export function EnrichEnhanceDrawer() {
       parentId: ['enrichment-selection'],
     });
     // Add other pages as needed
-  }, [addPage]);
+  }, []);
 
   const trigger = (
     <Button
