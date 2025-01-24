@@ -32,12 +32,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <RootProvider>
           <MigrationNotification />
-          <div className="flex h-screen flex-row">
-            <div className="grow overflow-hidden">
-              <Outlet />
-            </div>
+          <div className="flex h-screen flex-row overflow-hidden">
+            <Outlet />
+            <Toaster />
           </div>
-          <Toaster />
+
           <ScrollRestoration />
           <Scripts />
         </RootProvider>

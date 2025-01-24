@@ -18,6 +18,8 @@ import {
   TooltipTrigger,
   Tooltip,
 } from '~/components/ui/tooltip';
+import { columns } from './versions/ConnectionListingVersion3/listing-columns';
+import { DataTable } from './versions/ConnectionListingVersion3/listing-table';
 
 export default function Connections() {
   const { version, workspaceConnections, connections } = useOutletContext() as {
@@ -56,7 +58,20 @@ export default function Connections() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      <ConnectionListingVersion3 {...data} />
+      <PageHeader
+        title="Connections"
+        button={{
+          label: 'New Connection',
+          icon: faPlus,
+          onClick: () => navigate(`/${version}/connections/new/step1`),
+        }}
+      />
+
+      <DataTable
+        count={combinedConnections.length}
+        columns={columns}
+        data={combinedConnections}
+      />
     </div>
   );
 }
