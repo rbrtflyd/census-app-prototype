@@ -1,5 +1,5 @@
 import { Text } from '@radix-ui/themes';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useOutletContext, useParams, Link } from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
@@ -16,7 +16,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
-export default function ConnectionDetailIndex({}) {
+export default function ConnectionDetailIndex() {
   const { id } = useParams();
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
@@ -86,18 +86,14 @@ export default function ConnectionDetailIndex({}) {
     [thisWorkspaceConnection?.mode]
   );
 
-  const breadcrumbData = useMemo(
-    () => ({
+  useLayoutEffect(() => {
+    clearBreadcrumbs();
+    addBreadcrumb({
       label: 'Connections',
       href: `/${version}/connections`,
-    }),
-    [version]
-  );
-
-  useEffect(() => {
-    clearBreadcrumbs();
-    addBreadcrumb(breadcrumbData);
-  }, [version, addBreadcrumb, clearBreadcrumbs, breadcrumbData]);
+    });
+    // Only run once on mount and when version changes
+  }, [version]);
 
   const metaInfo = [
     {
