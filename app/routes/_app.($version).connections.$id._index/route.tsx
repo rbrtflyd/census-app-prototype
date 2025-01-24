@@ -92,7 +92,7 @@ export default function ConnectionDetailIndex() {
     [thisWorkspaceConnection?.mode]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     clearBreadcrumbs();
     addBreadcrumb({
       label: 'Connections',

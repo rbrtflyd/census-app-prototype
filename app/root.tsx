@@ -17,7 +17,7 @@ export const links = () => {
   return [{ rel: 'stylesheet', href: styles }];
 };
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout() {
   return (
     <html lang="en">
       <head>

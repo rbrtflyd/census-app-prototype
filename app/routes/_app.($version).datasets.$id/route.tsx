@@ -114,20 +114,13 @@ export default function DatasetIndex() {
 
   const activeTab = getActiveTab(location.pathname);
 
-  const breadcrumbs = useMemo(
-    () => [
-      {
-        label: 'Datasets',
-        href: `/${version}/datasets`,
-      },
-    ],
-    [version]
-  );
-
   useEffect(() => {
     clearBreadcrumbs();
-    addBreadcrumb(breadcrumbs);
-  }, [breadcrumbs, addBreadcrumb, clearBreadcrumbs]);
+    addBreadcrumb({
+      label: 'Datasets',
+      href: `/${version}/datasets`,
+    });
+  }, [version]);
 
   if (!thisDataset) {
     return (

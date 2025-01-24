@@ -52,7 +52,7 @@ export default function ConnectionEdit({}) {
       label: thisConnection.connectionServiceName,
       href: `/${version}/connections/${thisConnection.id}`,
     });
-  }, [version, addBreadcrumb, clearBreadcrumbs, thisConnection]);
+  }, [version, thisConnection]);
 
   const handleModeClick = (mode: string) => {
     setSelectedModes((prev) => {
