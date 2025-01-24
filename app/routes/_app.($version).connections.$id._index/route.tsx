@@ -1,6 +1,11 @@
 import { Text } from '@radix-ui/themes';
-import React, { useEffect, useMemo } from 'react';
-import { useOutletContext, useParams, Link } from '@remix-run/react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import {
+  useOutletContext,
+  useParams,
+  Link,
+  useNavigate,
+} from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
@@ -16,11 +21,76 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
-export default function ConnectionDetailIndex({}) {
+export default function ConnectionDetailIndex() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { version, workspaceConnections, connections } = useOutletContext() as {
+    version: string;
+    workspaceConnections: ConnectionType[];
+    connections: ConnectionServiceType[];
+  };
+
+  const sourceTestSteps = [
+    {
+      step: '1',
+      description: 'Test Network Connectivity',
+      result: 'success',
+    },
+    {
+      step: '2',
+      description: 'Test warehouse credentials',
+      result: 'success',
+    },
+    {
+      step: '3',
+      description: 'Load tables',
+      result: 'Success',
+    },
+    {
+      step: '4',
+      description: 'Verify census schema',
+      result: 'Success',
+    },
+    {
+      step: '5',
+      description: 'Run test sync',
+      result: 'Success',
+    },
+  ];
+
+  const destinationTestSteps = [
+    {
+      step: '1',
+      description: 'Test Service Connectivity',
+      result: 'success',
+    },
+    {
+      step: '2',
+      description: 'Load Service Objects',
+      result: 'success',
+    },
+  ];
+
   const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
 
-  const { version, thisWorkspaceConnection, thisConnection, testSteps } =
-    useOutletContext<any>();
+  const thisWorkspaceConnection = useMemo(
+    () => workspaceConnections.find((wc) => wc.id === parseInt(id!, 10)),
+    [workspaceConnections, id]
+  );
+
+  const thisConnection = useMemo(
+    () =>
+      connections.find((c) => c.id === thisWorkspaceConnection?.connectionId),
+    [connections, thisWorkspaceConnection?.connectionId]
+  );
+
+  const testSteps = useMemo(
+    () =>
+      thisWorkspaceConnection?.mode.includes('source')
+        ? sourceTestSteps
+        : destinationTestSteps,
+    [thisWorkspaceConnection?.mode]
+  );
 
   useEffect(() => {
     clearBreadcrumbs();
@@ -28,20 +98,27 @@ export default function ConnectionDetailIndex({}) {
       label: 'Connections',
       href: `/${version}/connections`,
     });
-  }, [version, addBreadcrumb, clearBreadcrumbs]);
+    // Only run once on mount and when version changes
+  }, [version]);
 
   const metaInfo = [
     {
       label: 'Last Tested',
-      value: format(thisWorkspaceConnection?.lastTestedAt, 'MMM d, yyyy'),
+      value: thisWorkspaceConnection?.lastTestedAt
+        ? format(new Date(thisWorkspaceConnection.lastTestedAt), 'MMM d, yyyy')
+        : 'Never',
     },
     {
       label: 'Created',
-      value: format(thisWorkspaceConnection?.createdAt, 'MMM d, yyyy'),
+      value: thisWorkspaceConnection?.createdAt
+        ? format(new Date(thisWorkspaceConnection.createdAt), 'MMM d, yyyy')
+        : 'Unknown',
     },
     {
       label: 'Last Updated',
-      value: format(thisWorkspaceConnection?.updatedAt, 'MMM d, yyyy'),
+      value: thisWorkspaceConnection?.updatedAt
+        ? format(new Date(thisWorkspaceConnection.updatedAt), 'MMM d, yyyy')
+        : 'Unknown',
     },
     {
       label: 'Connected By',
@@ -49,11 +126,22 @@ export default function ConnectionDetailIndex({}) {
     },
   ];
 
+  if (!thisWorkspaceConnection || !thisConnection) {
+    return (
+      <div className="flex flex-col h-full w-full overflow-hidden">
+        <PageHeader title="Connection Not Found" />
+        <main className="flex-grow p-4">
+          <Text>The requested connection could not be found.</Text>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <>
       <PageHeader
         title={
-          thisWorkspaceConnection.name || thisConnection.connectionServiceName
+          thisWorkspaceConnection?.name || thisConnection?.connectionServiceName
         }
       />
       <main className="h-full overflow-y-auto *:mx-auto *:w-full *:max-w-[1400px]">
@@ -98,7 +186,9 @@ export default function ConnectionDetailIndex({}) {
               variant="secondary"
               size="small"
               onClick={() => {
-                window.location.href = `/${version}/connections/${thisWorkspaceConnection.id}/edit`;
+                navigate(
+                  `/${version}/connections/${thisWorkspaceConnection.id}/edit`
+                );
               }}>
               <FontAwesomeIcon
                 icon={faPencil}

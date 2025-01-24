@@ -3,7 +3,7 @@ import { faSparkles, faCaretDown } from '@fortawesome/pro-solid-svg-icons';
 import { faArrowLeft, faTimes } from '@fortawesome/pro-regular-svg-icons';
 import { Button } from '~/components/ui/button';
 import { Text } from '@radix-ui/themes';
-import { useEnrichEnhance } from '../context/EnrichEnhanceContext';
+import { useEnrichEnhance } from '../../../../contexts/EnrichEnhanceContext';
 import {
   Drawer,
   DrawerClose,

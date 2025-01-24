@@ -17,9 +17,6 @@ import { Toaster } from '../../components/ui/sonner';
 import { Outlet, useParams } from '@remix-run/react';
 import React from 'react';
 import HeaderNavigation from '../../components/Navigation/Header/HeaderNavigation';
-import { OperatorProvider, useOperator } from '../../contexts/OperatorContext';
-import OperatorToolbar from '~/components/Toasts/OperatorToolbar/OperatorToolbar';
-import { NewConnectionProvider } from '~/contexts/NewConnectionContext';
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,7 +48,6 @@ export default function Index() {
   const { datasets, syncs, connections, workspaceConnections } =
     useLoaderData<LoaderData>();
   const { version } = useParams();
-  const { selectedLayout } = useOperator();
 
   useEffect(() => {
     // Check for migrations every 5 minutes
@@ -70,24 +66,20 @@ export default function Index() {
   if (version === 'v2') {
     return (
       <div className="flex flex-col h-full w-full overflow-hidden">
-        <NewConnectionProvider>
-          <HeaderNavigation />
+        <HeaderNavigation />
 
-          <div className="flex flex-col h-full w-full overflow-hidden">
-            <Outlet context={data} />
-          </div>
-        </NewConnectionProvider>
+        <div className="flex flex-col h-full w-full overflow-hidden">
+          <Outlet context={data} />
+        </div>
       </div>
     );
   } else
     return (
       <div className="flex flex-row h-full w-full overflow-hidden">
-        <NewConnectionProvider>
-          <SidebarNavigation />
-          <div className="flex flex-col h-full w-full overflow-hidden">
-            <Outlet context={data} />
-          </div>
-        </NewConnectionProvider>
+        <SidebarNavigation />
+        <div className="flex flex-col h-full w-full overflow-hidden">
+          <Outlet context={data} />
+        </div>
       </div>
     );
 }

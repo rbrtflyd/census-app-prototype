@@ -74,9 +74,14 @@ export const columns: ColumnDef<ConnectionType>[] = [
             </div>
           )}
           <div className="flex flex-col gap-1.5 items-start">
-            <Text className="truncate font-medium">
-              {row.original.name || row.original.connectionServiceName}
-            </Text>
+            <div className="flex flex-row gap-2 items-center">
+              <Text className="truncate font-medium">
+                {row.original.name || row.original.connectionServiceName}
+              </Text>
+              {row.original.name && (
+                <Badge size="sm">{row.original.connectionServiceName}</Badge>
+              )}
+            </div>
             <TooltipProvider>
               <Tooltip delayDuration={75}>
                 <TooltipTrigger className="group">

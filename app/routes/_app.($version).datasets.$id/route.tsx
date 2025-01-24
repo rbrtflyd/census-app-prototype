@@ -7,7 +7,7 @@ import {
   ConnectionType,
   DatasetType,
 } from '../../db/types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
@@ -120,7 +120,7 @@ export default function DatasetIndex() {
       label: 'Datasets',
       href: `/${version}/datasets`,
     });
-  }, [version, addBreadcrumb, clearBreadcrumbs]);
+  }, [version]);
 
   if (!thisDataset) {
     return (

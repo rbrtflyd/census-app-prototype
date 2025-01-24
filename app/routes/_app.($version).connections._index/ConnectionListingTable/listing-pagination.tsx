@@ -1,6 +1,5 @@
-import React from 'react';
 import { Table } from '@tanstack/react-table';
-import { Button } from '../../../../components/ui/button';
+import { Button } from '~/components/ui/button';
 
 import {
   Select,
@@ -8,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../../../components/ui/select';
+} from '~/components/ui/select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronLeft,
