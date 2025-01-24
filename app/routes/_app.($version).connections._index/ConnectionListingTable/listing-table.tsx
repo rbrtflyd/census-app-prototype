@@ -144,7 +144,6 @@ export function DataTable<TData extends ConnectionType, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div></div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -169,75 +168,12 @@ export function DataTable<TData extends ConnectionType, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <>
-                {row.original.credentials ? (
-                  <HoverCard
-                    key={row.id}
-                    openDelay={250}
-                    closeDelay={50}>
-                    <HoverCardTrigger asChild>
-                      <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && 'selected'}
-                        onClick={(e) => handleRowClick(e, row)}>
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="w-[350px]">
-                      <div className="space-y-4">
-                        <div className="flex flex-row items-center">
-                          <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
-                            <img
-                              src={row.original.logo}
-                              alt={row.original.connectionServiceName}
-                              className="size-6"
-                            />
-                          </div>
-                          <Text className="font-medium">
-                            {row.original.name ||
-                              row.original.connectionServiceName}
-                          </Text>
-                        </div>
-                        <div className="flex flex-col gap-4 w-full">
-                          {Object.entries(row.original.credentials).map(
-                            ([key, value]) => (
-                              <div
-                                className="flex flex-row gap-1 text-sm leading-none w-full"
-                                key={key}>
-                                {Object.entries(value as object).map(
-                                  ([credKey, credValue]) => (
-                                    <div
-                                      key={credKey}
-                                      className="flex flex-row w-full">
-                                      <Text className="text-light w-32 shrink-0 capitalize">
-                                        {credKey
-                                          .replace(/_/g, ' ')
-                                          .replace(/url/gi, 'URL')
-                                          .replace(/sftp/gi, 'SFTP')}
-                                      </Text>
-                                      <Text className="truncate">
-                                        {credValue}
-                                      </Text>
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </div>
-                    </HoverCardContent>
-                  </HoverCard>
-                ) : (
+              <HoverCard
+                key={row.id}
+                openDelay={250}
+                closeDelay={50}>
+                <HoverCardTrigger asChild>
                   <TableRow
-                    key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={(e) => handleRowClick(e, row)}>
                     {row.getVisibleCells().map((cell) => (
@@ -249,8 +185,54 @@ export function DataTable<TData extends ConnectionType, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                )}
-              </>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-[350px]">
+                  <div className="space-y-4">
+                    <div className="flex flex-row items-center">
+                      <div className="size-10 flex items-center justify-center border border-base rounded-md bg-white mr-2 shadow-sm">
+                        <img
+                          src={row.original.logo}
+                          alt={row.original.connectionServiceName}
+                          className="size-6"
+                        />
+                      </div>
+                      <Text className="font-medium">
+                        {row.original.name ||
+                          row.original.connectionServiceName}
+                      </Text>
+                    </div>
+                    {row.original.credentials && (
+                      <div className="flex flex-col gap-4 w-full">
+                        {Object.entries(row.original.credentials).map(
+                          ([key, value]) => (
+                            <div
+                              className="flex flex-row gap-1 text-sm leading-none w-full"
+                              key={key}>
+                              {Object.entries(value as object).map(
+                                ([credKey, credValue]) => (
+                                  <div
+                                    key={credKey}
+                                    className="flex flex-row w-full">
+                                    <Text className="text-light w-32 shrink-0 capitalize">
+                                      {credKey
+                                        .replace(/_/g, ' ')
+                                        .replace(/url/gi, 'URL')
+                                        .replace(/sftp/gi, 'SFTP')}
+                                    </Text>
+                                    <Text className="truncate">
+                                      {credValue}
+                                    </Text>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             ))
           ) : (
             <TableRow>
