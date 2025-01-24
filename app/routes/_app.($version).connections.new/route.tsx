@@ -1,5 +1,11 @@
 import { type LoaderFunctionArgs } from '@remix-run/node';
-import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
+import {
+  Navigate,
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+} from '@remix-run/react';
 import { useEffect } from 'react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { useNewConnectionContext } from '~/contexts/NewConnectionContext';
@@ -34,6 +40,7 @@ export default function NewConnection() {
   }, [version, addBreadcrumb, clearBreadcrumbs]);
 
   const StepContent = () => {
+    const navigate = useNavigate();
     const { currentStep, setCurrentStep } = useNewConnectionContext();
 
     const stepContent = {
@@ -65,7 +72,7 @@ export default function NewConnection() {
               onClick={() => {
                 const prevStep = currentStep === 'step3' ? 'step2' : 'step1';
                 setCurrentStep(prevStep);
-                window.history.back();
+                navigate(`/${version}/connections/new/${prevStep}`);
               }}>
               Back
             </Button>

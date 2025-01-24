@@ -1,6 +1,11 @@
 import { Text } from '@radix-ui/themes';
 import React, { useEffect, useLayoutEffect, useMemo } from 'react';
-import { useOutletContext, useParams, Link } from '@remix-run/react';
+import {
+  useOutletContext,
+  useParams,
+  Link,
+  useNavigate,
+} from '@remix-run/react';
 import { ConnectionType, ConnectionServiceType } from '~/db/types';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Button } from '~/components/ui/button';
@@ -17,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 export default function ConnectionDetailIndex() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
@@ -180,7 +186,9 @@ export default function ConnectionDetailIndex() {
               variant="secondary"
               size="small"
               onClick={() => {
-                window.location.href = `/${version}/connections/${thisWorkspaceConnection.id}/edit`;
+                navigate(
+                  `/${version}/connections/${thisWorkspaceConnection.id}/edit`
+                );
               }}>
               <FontAwesomeIcon
                 icon={faPencil}
