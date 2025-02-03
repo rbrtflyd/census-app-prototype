@@ -17,6 +17,15 @@ import {
 
 export const columns: ColumnDef<PreviewColumns>[] = [
   {
+    accessorKey: 'index',
+    header: '',
+    cell: ({ row }) => {
+      return (
+        <div className="text-sm text-lighter text-center">{row.index + 1}</div>
+      );
+    },
+  },
+  {
     accessorKey: 'id',
     header: 'ID',
   },

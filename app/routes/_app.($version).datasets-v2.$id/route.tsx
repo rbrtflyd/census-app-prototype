@@ -312,7 +312,7 @@ export default function DatasetIndex() {
             Source
           </div>
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full bg-white overflow-hidden h-full">
           <DataTable
             columns={columns}
             data={mockData}
