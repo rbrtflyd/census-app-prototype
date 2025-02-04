@@ -228,7 +228,7 @@ export default function DatasetIndex() {
             </Popover>
           </PageHeader.RightSlot>
         </PageHeader>
-        <div className="flex flex-row gap-2 px-6 py-4 ">
+        <div className="flex flex-row gap-2 px-6 py-4 justify-between">
           <div className="flex flex-row gap-2">
             <Menubar>
               <MenubarMenu>
@@ -283,7 +283,7 @@ export default function DatasetIndex() {
               </MenubarMenu>
             </Menubar>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Deduplicate
             </Button>
@@ -301,6 +301,18 @@ export default function DatasetIndex() {
               variant="secondary"
               size="small">
               Add Column
+            </Button>
+          </div>
+          <div className="flex flex-row gap-2">
+            <Button
+              variant="secondary"
+              size="small">
+              Syncs
+            </Button>
+            <Button
+              variant="secondary"
+              size="small">
+              Segments
             </Button>
           </div>
         </div>
