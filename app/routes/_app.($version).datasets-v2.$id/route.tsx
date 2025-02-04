@@ -27,6 +27,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import {
   faArrowUpRight,
+  faInfoCircle,
   faSearch,
   faTimes,
 } from '@fortawesome/pro-regular-svg-icons';
@@ -78,6 +79,7 @@ import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { DataTable, PreviewColumns } from './PreviewTable';
 import { mockData } from './PreviewTable';
 import { columns } from './PreviewTable/preview-columns';
+import { Separator } from '~/components/ui';
 export const clientLoader = async ({
   params,
   request,
@@ -300,6 +302,10 @@ export default function DatasetIndex() {
             <Button
               variant="ghost"
               size="small">
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="icon-light text-xs mr-1"
+              />
               Add Column
             </Button>
           </div>
@@ -313,6 +319,16 @@ export default function DatasetIndex() {
               variant="ghost"
               size="small">
               Segments
+            </Button>
+            <Separator orientation="vertical" />
+            <Button
+              variant="ghost"
+              size="small">
+              <FontAwesomeIcon
+                icon={faInfoCircle}
+                className="icon-light text-xs mr-1"
+              />
+              Details
             </Button>
           </div>
         </div>
