@@ -228,9 +228,9 @@ export default function DatasetIndex() {
             </Popover>
           </PageHeader.RightSlot>
         </PageHeader>
-        <div className="flex flex-row gap-2 px-6 py-4 bg-subtle border-b border-base">
+        <div className="flex flex-row gap-2 px-6 py-4 ">
           <div className="flex flex-row gap-2">
-            {/* <Menubar>
+            <Menubar>
               <MenubarMenu>
                 <MenubarTrigger>Deduplicate</MenubarTrigger>
                 <MenubarContent>
@@ -281,7 +281,7 @@ export default function DatasetIndex() {
                   <MenubarItem>HTTP</MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
-            </Menubar> */}
+            </Menubar>
             <Button
               variant="secondary"
               size="small">
@@ -306,13 +306,13 @@ export default function DatasetIndex() {
         </div>
       </div>
 
-      <div className="flex flex-col w-full h-full bg-subtle">
-        <div className="flex flex-col px-6 w-full py-2">
+      <div className="flex flex-col w-full h-full gap-3 overflow-hidden">
+        <div className="flex flex-col px-6 w-full">
           <div className="bg-white border border-base rounded-md p-8 h-[325px]">
             Source
           </div>
         </div>
-        <div className="flex flex-col w-full bg-white overflow-hidden h-full">
+        <div className="flex flex-col w-full border-t border-base overflow-hidden h-full">
           <DataTable
             columns={columns}
             data={mockData}

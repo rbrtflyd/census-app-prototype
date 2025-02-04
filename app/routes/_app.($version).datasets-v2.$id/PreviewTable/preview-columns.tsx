@@ -21,7 +21,7 @@ export const columns: ColumnDef<PreviewColumns>[] = [
     header: '',
     cell: ({ row }) => {
       return (
-        <div className="text-sm text-lighter text-center">{row.index + 1}</div>
+        <div className="text-xs text-lighter text-center">{row.index + 1}</div>
       );
     },
   },
