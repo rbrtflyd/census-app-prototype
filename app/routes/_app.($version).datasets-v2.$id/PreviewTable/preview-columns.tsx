@@ -27,35 +27,35 @@ export const columns: ColumnDef<PreviewColumns>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: 'id',
   },
   {
     accessorKey: 'company_name',
-    header: 'Company Name',
+    header: 'company_name',
   },
   {
     accessorKey: 'job_title',
-    header: 'Job Title',
+    header: 'job_title',
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: 'email',
   },
   {
     accessorKey: 'phone_number',
-    header: 'Phone Number',
+    header: 'phone_number',
   },
   {
     accessorKey: 'country',
-    header: 'Country',
+    header: 'country',
   },
   {
     accessorKey: 'industry',
-    header: 'Industry',
+    header: 'industry',
   },
   {
     accessorKey: 'revenue',
-    header: 'Revenue',
+    header: 'revenue',
   },
   {
     accessorKey: 'customer_lifetime_value',
