@@ -101,7 +101,7 @@ export function DataTable<TData extends PreviewColumns, TValue>({
   });
 
   return (
-    <Table>
+    <Table className="pr-8">
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
