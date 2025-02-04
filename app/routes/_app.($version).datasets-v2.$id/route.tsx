@@ -229,8 +229,8 @@ export default function DatasetIndex() {
           </PageHeader.RightSlot>
         </PageHeader>
         <div className="flex flex-row gap-2 px-6 py-4 justify-between">
-          <div className="flex flex-row gap-2">
-            <Menubar>
+          <div className="flex flex-row">
+            {/* <Menubar>
               <MenubarMenu>
                 <MenubarTrigger>Deduplicate</MenubarTrigger>
                 <MenubarContent>
@@ -281,36 +281,36 @@ export default function DatasetIndex() {
                   <MenubarItem>HTTP</MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
-            </Menubar>
+            </Menubar> */}
             <Button
               variant="ghost"
               size="small">
               Deduplicate
             </Button>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Edit
             </Button>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Join
             </Button>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Add Column
             </Button>
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Syncs
             </Button>
             <Button
-              variant="secondary"
+              variant="ghost"
               size="small">
               Segments
             </Button>
