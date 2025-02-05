@@ -2,13 +2,14 @@ import { json, LoaderFunction, redirect } from '@remix-run/node';
 import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 import { getDatasets, initializeDatabase } from '../../db/db';
 import { useParams, Link, useLocation } from '@remix-run/react';
+import { ScrollArea } from '~/components/ui/scroll-area';
 
 import {
   ConnectionServiceType,
   ConnectionType,
   DatasetType,
 } from '../../db/types';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { cn } from '~/lib/utils';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
@@ -27,6 +28,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import {
   faArrowUpRight,
+  faChevronDown,
   faInfoCircle,
   faSearch,
   faTimes,
@@ -103,6 +105,8 @@ export default function DatasetIndex() {
   const params = useParams();
   const id = params.id;
   const location = useLocation();
+
+  const [showDefinition, setShowDefinition] = useState(false);
 
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
@@ -232,84 +236,56 @@ export default function DatasetIndex() {
         </PageHeader>
         <div className="flex flex-row gap-2 px-6 py-4 justify-between">
           <div className="flex flex-row">
-            {/* <Menubar>
-              <MenubarMenu>
-                <MenubarTrigger>Deduplicate</MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem>
-                    New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-                  </MenubarItem>
-                  <MenubarItem>New Window</MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>Share</MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>Print</MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-              <MenubarMenu>
-                <MenubarTrigger>Edit</MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem>Name</MenubarItem>
-                  <MenubarItem>Description</MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>Source</MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>Columns</MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-              <MenubarMenu>
-                <MenubarTrigger>Join</MenubarTrigger>
-              </MenubarMenu>
-              <MenubarMenu>
-                <MenubarTrigger>Add Column</MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem>Formula</MenubarItem>
-                  <MenubarItem>Rollup</MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarSub>
-                    <MenubarSubTrigger>AI</MenubarSubTrigger>
-                    <MenubarSubContent>
-                      <MenubarItem>Chat GPT</MenubarItem>
-                      <MenubarItem>Claude</MenubarItem>
-                    </MenubarSubContent>
-                  </MenubarSub>
-                  <MenubarSub>
-                    <MenubarSubTrigger>Enrichment</MenubarSubTrigger>
-                    <MenubarSubContent>
-                      <MenubarItem>Clearbit</MenubarItem>
-                      <MenubarItem>Apollo</MenubarItem>
-                    </MenubarSubContent>
-                  </MenubarSub>
-                  <MenubarItem>HTTP</MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar> */}
+            <Button
+              variant="ghost"
+              size="small"
+              className={cn(showDefinition && 'bg-plum-500 text-white')}
+              onClick={() => setShowDefinition(!showDefinition)}>
+              Definition
+            </Button>
+            <Button
+              variant="ghost"
+              size="small">
+              Assign Object
+            </Button>
+            <Separator
+              orientation="vertical"
+              className="mx-3"
+            />
+            <Button
+              variant="ghost"
+              size="small">
+              Enrich
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className="icon-light text-xxs ml-1"
+              />
+            </Button>
+            <Separator
+              orientation="vertical"
+              className="mx-3"
+            />
             <Button
               variant="ghost"
               size="small">
               Deduplicate
             </Button>
-            <Button
-              variant="ghost"
-              size="small">
-              Edit
-            </Button>
-            <Button
-              variant="ghost"
-              size="small">
-              Join
-            </Button>
-            <Button
-              variant="ghost"
-              size="small">
-              <FontAwesomeIcon
-                icon={faPlus}
-                className="icon-light text-xs mr-1"
-              />
-              Add Column
-            </Button>
           </div>
           <div className="flex flex-row">
+            <Button
+              variant="ghost"
+              size="small">
+              Columns
+            </Button>
+            <Button
+              variant="ghost"
+              size="small">
+              Relationships
+            </Button>
+            <Separator
+              orientation="vertical"
+              className="mx-3"
+            />
             <Button
               variant="ghost"
               size="small">
@@ -320,7 +296,10 @@ export default function DatasetIndex() {
               size="small">
               Segments
             </Button>
-            <Separator orientation="vertical" />
+            <Separator
+              orientation="vertical"
+              className="mx-3"
+            />
             <Button
               variant="ghost"
               size="small">
@@ -335,17 +314,21 @@ export default function DatasetIndex() {
       </div>
 
       <div className="flex flex-col w-full h-full gap-3 overflow-hidden">
-        <div className="flex flex-col px-6 w-full">
-          <div className="bg-white border border-base rounded-md p-8 h-[325px]">
-            Source
+        {showDefinition && (
+          <div className="flex flex-col px-6 w-full">
+            <div className="bg-white border border-base rounded-md p-8 h-[325px]">
+              <div>Definition</div>
+            </div>
           </div>
-        </div>
+        )}
         <div className="flex flex-col w-full border-t border-base overflow-hidden h-full">
-          <DataTable
-            columns={columns}
-            data={mockData}
-            count={mockData.length}
-          />
+          <ScrollArea className="h-full">
+            <DataTable
+              columns={columns}
+              data={mockData}
+              count={mockData.length}
+            />
+          </ScrollArea>
         </div>
       </div>
       <Outlet context={thisDataset} />

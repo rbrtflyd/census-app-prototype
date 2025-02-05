@@ -21,25 +21,7 @@ import {
   TableRow,
 } from '../../../components/ui/data-table';
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
-
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '../../../components/ui/hover-card';
-
-import { ConnectionType } from '~/db/types/connection';
-
 import { useNavigate, useParams } from '@remix-run/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faChevronDown } from '@fortawesome/pro-solid-svg-icons';
-import { faSliders } from '@fortawesome/pro-regular-svg-icons';
 import { PreviewColumns } from './preview-columns.d';
 
 interface DataTableProps<TData extends PreviewColumns, TValue> {
@@ -59,7 +41,7 @@ export function DataTable<TData extends PreviewColumns, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
-    pageSize: 25, //default page size
+    pageSize: 100, //default page size
   });
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
