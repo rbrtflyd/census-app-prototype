@@ -54,6 +54,17 @@ import {
 } from '~/components/ui/dropdown-menu';
 
 import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '~/components/ui/drawer';
+
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -314,16 +325,26 @@ export default function DatasetIndex() {
               orientation="vertical"
               className="mx-3"
             />
-            <Button
-              variant="ghost"
-              size="small">
-              Syncs
-            </Button>
-            <Button
-              variant="ghost"
-              size="small">
-              Segments
-            </Button>
+            <Drawer direction="right">
+              <DrawerTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="small">
+                  Activation
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent direction="right">
+                <DrawerHeader>
+                  <DrawerTitle>Activation</DrawerTitle>
+                </DrawerHeader>
+                <Tabs>
+                  <TabsList>
+                    <TabsTrigger value="syncs">Syncs</TabsTrigger>
+                    <TabsTrigger value="segments">Segments</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </DrawerContent>
+            </Drawer>
           </div>
         </div>
       </div>
