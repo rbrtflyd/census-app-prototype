@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { TableCell } from './TableCell';
 
 export const columns: ColumnDef<PreviewColumns>[] = [
   {
@@ -28,7 +29,10 @@ export const columns: ColumnDef<PreviewColumns>[] = [
     header: '',
     cell: ({ row }) => {
       return (
-        <div className="text-xs text-lighter text-center">{row.index + 1}</div>
+        <TableCell
+          value={row.index + 1}
+          className="text-center"
+        />
       );
     },
   },
@@ -45,9 +49,11 @@ export const columns: ColumnDef<PreviewColumns>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="text-xs text-lighter text-center bg-plum-100">
-          {row.original.id}
-        </div>
+        <TableCell
+          value={row.original.id}
+          dataType="string"
+          significance="unique"
+        />
       );
     },
   },
@@ -62,6 +68,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onHide={() => column.toggleVisibility()}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.company_name}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'job_title',
@@ -73,6 +87,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onHide={() => column.toggleVisibility()}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.job_title}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'email',
@@ -84,6 +106,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onHide={() => column.toggleVisibility()}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.email}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'phone_number',
@@ -95,6 +125,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onHide={() => column.toggleVisibility()}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.phone_number}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'country',
@@ -106,6 +144,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onHide={() => column.toggleVisibility()}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.country}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'industry',
@@ -116,6 +162,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.industry}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'revenue',
@@ -126,6 +180,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.revenue}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'customer_lifetime_value',
@@ -136,6 +198,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.customer_lifetime_value}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'contract_start_date',
@@ -146,6 +216,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.contract_start_date}
+          dataType="date"
+        />
+      );
+    },
   },
   {
     accessorKey: 'contract_end_date',
@@ -156,6 +234,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.contract_end_date}
+          dataType="date"
+        />
+      );
+    },
   },
   {
     accessorKey: 'contract_duration_months',
@@ -166,6 +252,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.contract_duration_months}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'renewal_probability',
@@ -176,6 +270,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.renewal_probability}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'churn_rate',
@@ -186,6 +288,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.churn_rate}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'contract_value',
@@ -196,6 +306,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.contract_value}
+          dataType="number"
+        />
+      );
+    },
   },
   {
     accessorKey: 'contract_type',
@@ -206,6 +324,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.contract_type}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'sales_representative',
@@ -216,6 +342,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.sales_representative}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'lead_source',
@@ -226,6 +360,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.lead_source}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'lead_status',
@@ -236,6 +378,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.lead_status}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'lead_created_date',
@@ -246,6 +396,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.lead_created_date}
+          dataType="date"
+        />
+      );
+    },
   },
   {
     accessorKey: 'lead_last_contacted_date',
@@ -256,6 +414,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.lead_last_contacted_date}
+          dataType="date"
+        />
+      );
+    },
   },
   {
     accessorKey: 'lead_conversion_date',
@@ -266,6 +432,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.lead_conversion_date}
+          dataType="date"
+        />
+      );
+    },
   },
   {
     accessorKey: 'first_name',
@@ -276,6 +450,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.first_name}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'last_name',
@@ -286,6 +468,14 @@ export const columns: ColumnDef<PreviewColumns>[] = [
         onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <TableCell
+          value={row.original.last_name}
+          dataType="string"
+        />
+      );
+    },
   },
   {
     accessorKey: 'new_column',

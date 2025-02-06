@@ -44,6 +44,14 @@ const significanceIcons = {
   calculated: faHashtag,
 };
 
+const significanceColors = {
+  unique: 'text-plum-500',
+  primary: 'bg-plum-100/35',
+  foreign: 'bg-plum-100/35',
+  derived: 'bg-plum-100/35',
+  calculated: 'bg-plum-100/35',
+};
+
 export function HeaderColumn({
   label,
   dataType = 'string',
@@ -55,7 +63,7 @@ export function HeaderColumn({
   return (
     <div
       className={`pl-3 pr-5 py-1 flex items-center gap-2 h-full justify-between ${
-        significance === 'unique' ? 'bg-plum-100' : ''
+        significance === 'unique' ? 'bg-plum-100/35' : ''
       }`}>
       <div className="flex flex-row items-center gap-3 leading-none">
         <div className="flex flex-row items-center gap-1">
@@ -68,7 +76,7 @@ export function HeaderColumn({
         {significance && (
           <FontAwesomeIcon
             icon={significanceIcons[significance]}
-            className="text-[8px] icon-lighter"
+            className={`text-[8px] icon-lighter ${significanceColors[significance]}`}
           />
         )}
       </div>

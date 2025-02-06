@@ -31,15 +31,11 @@ export function TableCell({
   return (
     <div
       className={cn(
-        'flex items-center gap-2 px-3 py-1',
-        significance === 'unique' ? 'bg-plum-100' : '',
+        'flex items-center gap-2 px-3 py-2',
+        significance === 'unique' ? 'bg-plum-100/35' : '',
         className
       )}>
-      <FontAwesomeIcon
-        icon={dataTypeIcons[dataType]}
-        className="text-[10px] icon-lighter"
-      />
-      <span className="text-xs truncate">{value?.toString() ?? ''}</span>
+      <span className="text-xs truncate w-full">{value?.toString() ?? ''}</span>
     </div>
   );
 }
