@@ -6,14 +6,43 @@ type ColumnSignificance =
   | 'derived'
   | 'calculated';
 
-type PreviewColumns = {
+type ColumnMetadata = {
   id: string;
   name: string;
   type: ColumnType;
-  significance: ColumnSignificance;
+  significance?: ColumnSignificance;
 };
 
-export const PreviewColumns: PreviewColumns = [
+type PreviewColumns = {
+  id: string;
+  company_name: string;
+  job_title: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  state: string;
+  city: string;
+  industry: string;
+  revenue: number;
+  customer_lifetime_value: number;
+  contract_start_date: string;
+  contract_end_date: string;
+  contract_duration_months: number;
+  renewal_probability: number;
+  churn_rate: number;
+  contract_value: number;
+  contract_type: string;
+  sales_representative: string;
+  lead_source: string;
+  lead_status: string;
+  lead_created_date: string;
+  lead_last_contacted_date: string;
+  lead_conversion_date: string;
+  first_name: string;
+  last_name: string;
+};
+
+export const columnDef: ColumnMetadata = [
   {
     id: 'id',
     name: 'id',

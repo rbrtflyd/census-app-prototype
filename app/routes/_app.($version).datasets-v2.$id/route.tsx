@@ -29,6 +29,7 @@ import {
   faSparkle,
   faSparkles,
   faTableRows,
+  faUser,
 } from '@fortawesome/pro-solid-svg-icons';
 import {
   faArrowUpRight,
@@ -51,19 +52,6 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from '~/components/ui/menubar';
 
 import {
   Popover,
@@ -127,13 +115,6 @@ export default function DatasetIndex() {
   const thisDataset = datasets.find(
     (dataset: DatasetType) => dataset.id.toString() === id
   );
-
-  const getActiveTab = (path: string) => {
-    const segments = path.split('/');
-    return segments[segments.length - 1] || 'overview-v2';
-  };
-
-  const activeTab = getActiveTab(location.pathname);
 
   useEffect(() => {
     clearBreadcrumbs();
@@ -262,18 +243,20 @@ export default function DatasetIndex() {
               onClick={() => setShowDefinition(!showDefinition)}>
               <FontAwesomeIcon
                 icon={faDatabase}
-                className="text-xxs mr-1.5 icon-light"
+                className="text-xxs mr-1.5 icon-light leading-none"
               />
               Definition
             </Button>
             <Button
               variant="ghost"
               size="small">
-              <FontAwesomeIcon
-                icon={faPlus}
-                className="text-xxs mr-1.5 icon-light"
-              />
-              Assign Object
+              <div className="size-5 flex flex-row items-center justify-center rounded-md bg-pink-600 mr-1.5">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="text-[9.5px]  icon-white leading-none"
+                />
+              </div>
+              Person
             </Button>
             <Separator
               orientation="vertical"
@@ -285,13 +268,13 @@ export default function DatasetIndex() {
               <div className="size-5 rounded bg-[#DFDFFB] mr-1.5 flex items-center justify-center hover:bg-[#4450E7] transition-all duration-75">
                 <FontAwesomeIcon
                   icon={faSparkles}
-                  className="text-xxs bg-gradient-to-tr from-[#4450E7] to-[#807FF0] bg-clip-text text-transparent"
+                  className="text-xxs text-plum-500"
                 />
               </div>
               Enrich
               <FontAwesomeIcon
                 icon={faChevronDown}
-                className="icon-light text-xxs ml-1"
+                className="icon-light text-xxs ml-1 leading-none"
               />
             </Button>
             <Separator
@@ -303,7 +286,7 @@ export default function DatasetIndex() {
               size="small">
               <FontAwesomeIcon
                 icon={faObjectIntersect}
-                className="text-xxs mr-1.5 icon-light"
+                className="text-xxs mr-1.5 icon-light leading-none"
               />
               Deduplicate
             </Button>
@@ -314,7 +297,7 @@ export default function DatasetIndex() {
               size="small">
               <FontAwesomeIcon
                 icon={faColumns}
-                className="text-xxs mr-1.5 icon-light"
+                className="text-xxs mr-1.5 icon-light leading-none"
               />
               Columns
             </Button>
@@ -323,7 +306,7 @@ export default function DatasetIndex() {
               size="small">
               <FontAwesomeIcon
                 icon={faDiagramProject}
-                className="text-xxs mr-1.5 icon-light"
+                className="text-xxs mr-1.5 icon-light leading-none"
               />
               Relationships
             </Button>
