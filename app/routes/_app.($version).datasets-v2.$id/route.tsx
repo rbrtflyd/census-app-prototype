@@ -87,6 +87,7 @@ import { DataTable, PreviewColumns } from './PreviewTable';
 import { mockData } from './PreviewTable';
 import { columns } from './PreviewTable/preview-columns';
 import { Separator } from '~/components/ui';
+import { Editor } from '@monaco-editor/react';
 export const clientLoader = async ({
   params,
   request,
@@ -352,15 +353,43 @@ export default function DatasetIndex() {
       <div className="flex flex-col w-full h-full gap-3 overflow-hidden">
         {showDefinition && (
           <div className="flex flex-col px-6 w-full">
-            <div className="bg-white border border-base rounded-md h-[325px]">
+            <div className="bg-white border border-base rounded-md h-[325px] overflow-hidden">
               <div className="px-8 py-6 border-b border-base leading-none">
                 Definition
               </div>
-              <div className="px-8 py-6">
-                <Text>
-                  This dataset contains information about customers and their
-                  orders.
-                </Text>
+              <div className="w-full h-full pt-4">
+                <Editor
+                  height="100%"
+                  language="sql"
+                  value={`SELECT 
+                          c.id,
+                          c.company_name,
+                          c.industry,
+                          c.annual_revenue,
+                          c.employee_count,
+                          c.created_at as customer_since,
+                          SUM(s.amount) as total_spend,
+                          COUNT(DISTINCT p.id) as products_used,
+                          DATEDIFF('day', c.last_login_at, CURRENT_DATE) as days_since_last_login
+                        FROM customers c
+                        LEFT JOIN subscriptions s ON s.customer_id = c.id
+                        LEFT JOIN product_usage p ON p.customer_id = c.id
+                        WHERE c.status = 'active'
+                          AND c.annual_revenue > 1000000
+                          AND c.employee_count > 50
+                          AND c.industry IN ('Technology', 'Financial Services')
+                        GROUP BY 
+                          c.id,
+                          c.company_name, 
+                          c.industry,
+                          c.annual_revenue,
+                          c.employee_count,
+                          c.created_at,
+                          c.last_login_at
+                        HAVING total_spend > 50000
+                          AND days_since_last_login < 30
+                        ORDER BY total_spend DESC`}
+                />
               </div>
             </div>
           </div>
