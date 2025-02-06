@@ -17,10 +17,14 @@ import {
   faCaretDown,
   faCoin,
   faCoins,
+  faDatabase,
+  faDiagramLeanCanvas,
   faDiagramNext,
+  faDiagramProject,
   faFunction,
   faKey,
   faListTree,
+  faObjectIntersect,
   faPlus,
   faSparkle,
   faSparkles,
@@ -29,6 +33,7 @@ import {
 import {
   faArrowUpRight,
   faChevronDown,
+  faColumns,
   faInfoCircle,
   faSearch,
   faTimes,
@@ -232,6 +237,15 @@ export default function DatasetIndex() {
                 </div>
               </PopoverContent>
             </Popover>
+            <Button
+              variant="ghost"
+              size="small">
+              <FontAwesomeIcon
+                icon={faInfoCircle}
+                className="icon-light text-xs mr-1"
+              />
+              Details
+            </Button>
           </PageHeader.RightSlot>
         </PageHeader>
         <div className="flex flex-row gap-2 px-6 py-4 justify-between">
@@ -241,11 +255,19 @@ export default function DatasetIndex() {
               size="small"
               className={cn(showDefinition && 'bg-plum-500 text-white')}
               onClick={() => setShowDefinition(!showDefinition)}>
+              <FontAwesomeIcon
+                icon={faDatabase}
+                className="text-xxs mr-1.5 icon-light"
+              />
               Definition
             </Button>
             <Button
               variant="ghost"
               size="small">
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="text-xxs mr-1.5 icon-light"
+              />
               Assign Object
             </Button>
             <Separator
@@ -255,6 +277,12 @@ export default function DatasetIndex() {
             <Button
               variant="ghost"
               size="small">
+              <div className="size-5 rounded bg-[#DFDFFB] mr-1.5 flex items-center justify-center hover:bg-[#4450E7] transition-all duration-75">
+                <FontAwesomeIcon
+                  icon={faSparkles}
+                  className="text-xxs bg-gradient-to-tr from-[#4450E7] to-[#807FF0] bg-clip-text text-transparent"
+                />
+              </div>
               Enrich
               <FontAwesomeIcon
                 icon={faChevronDown}
@@ -268,6 +296,10 @@ export default function DatasetIndex() {
             <Button
               variant="ghost"
               size="small">
+              <FontAwesomeIcon
+                icon={faObjectIntersect}
+                className="text-xxs mr-1.5 icon-light"
+              />
               Deduplicate
             </Button>
           </div>
@@ -275,11 +307,19 @@ export default function DatasetIndex() {
             <Button
               variant="ghost"
               size="small">
+              <FontAwesomeIcon
+                icon={faColumns}
+                className="text-xxs mr-1.5 icon-light"
+              />
               Columns
             </Button>
             <Button
               variant="ghost"
               size="small">
+              <FontAwesomeIcon
+                icon={faDiagramProject}
+                className="text-xxs mr-1.5 icon-light"
+              />
               Relationships
             </Button>
             <Separator
@@ -296,19 +336,6 @@ export default function DatasetIndex() {
               size="small">
               Segments
             </Button>
-            <Separator
-              orientation="vertical"
-              className="mx-3"
-            />
-            <Button
-              variant="ghost"
-              size="small">
-              <FontAwesomeIcon
-                icon={faInfoCircle}
-                className="icon-light text-xs mr-1"
-              />
-              Details
-            </Button>
           </div>
         </div>
       </div>
@@ -316,19 +343,25 @@ export default function DatasetIndex() {
       <div className="flex flex-col w-full h-full gap-3 overflow-hidden">
         {showDefinition && (
           <div className="flex flex-col px-6 w-full">
-            <div className="bg-white border border-base rounded-md p-8 h-[325px]">
-              <div>Definition</div>
+            <div className="bg-white border border-base rounded-md h-[325px]">
+              <div className="px-8 py-6 border-b border-base leading-none">
+                Definition
+              </div>
+              <div className="px-8 py-6">
+                <Text>
+                  This dataset contains information about customers and their
+                  orders.
+                </Text>
+              </div>
             </div>
           </div>
         )}
         <div className="flex flex-col w-full border-t border-base overflow-hidden h-full">
-          <ScrollArea className="h-full">
-            <DataTable
-              columns={columns}
-              data={mockData}
-              count={mockData.length}
-            />
-          </ScrollArea>
+          <DataTable
+            columns={columns}
+            data={mockData}
+            count={mockData.length}
+          />
         </div>
       </div>
       <Outlet context={thisDataset} />

@@ -23,6 +23,7 @@ import {
 
 import { useNavigate, useParams } from '@remix-run/react';
 import { PreviewColumns } from './preview-columns.d';
+import { ScrollArea } from '~/components/ui/scroll-area';
 
 interface DataTableProps<TData extends PreviewColumns, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,6 +53,22 @@ export function DataTable<TData extends PreviewColumns, TValue>({
     left: ['index'], // Pin the index column by default
     right: [],
   });
+
+  const [tableColumns, setTableColumns] = React.useState(columns);
+
+  const handleAddColumn = () => {
+    const newColumn: ColumnDef<TData, TValue> = {
+      accessorKey: `new_column_${tableColumns.length}`,
+      header: 'New Column',
+      cell: () => (
+        <input
+          type="text"
+          placeholder="Enter value"
+        />
+      ),
+    };
+    setTableColumns([...tableColumns, newColumn]);
+  };
 
   const handleRowClick = (event: React.MouseEvent, row: any) => {
     // Prevent navigation when clicking checkbox
@@ -83,50 +100,51 @@ export function DataTable<TData extends PreviewColumns, TValue>({
   });
 
   return (
-    <Table>
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <TableHead
-                  key={header.id}
-                  style={{ width: header.getSize() }}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              data-state={row.getIsSelected() && 'selected'}
-              onClick={(e) => handleRowClick(e, row)}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+    <div className="flex flex-col gap-2">
+      <Table className="relative h-full">
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    key={header.id}
+                    style={{ width: header.getSize() }}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
+              })}
             </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell
-              colSpan={columns.length}
-              className="h-24 text-center">
-              No results.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          ))}
+        </TableHeader>
+
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow data-state={row.getIsSelected() && 'selected'}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

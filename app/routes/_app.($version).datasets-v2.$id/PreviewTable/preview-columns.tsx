@@ -6,7 +6,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { Badge } from '~/components/ui/badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort } from '@fortawesome/pro-solid-svg-icons';
-import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
 import {
   Tooltip,
@@ -14,6 +13,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
+import { HeaderColumn } from './HeaderColumn';
+import { faPlus } from '@fortawesome/pro-regular-svg-icons';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
 
 export const columns: ColumnDef<PreviewColumns>[] = [
   {
@@ -27,98 +34,281 @@ export const columns: ColumnDef<PreviewColumns>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'id',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="id"
+        dataType="string"
+        significance="unique"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-xs text-lighter text-center bg-plum-100">
+          {row.original.id}
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'company_name',
-    header: 'company_name',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="company_name"
+        dataType="string"
+        significance="primary"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
   },
   {
     accessorKey: 'job_title',
-    header: 'job_title',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="job_title"
+        dataType="string"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
   },
   {
     accessorKey: 'email',
-    header: 'email',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="email"
+        dataType="string"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
   },
   {
     accessorKey: 'phone_number',
-    header: 'phone_number',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="phone_number"
+        dataType="string"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
   },
   {
     accessorKey: 'country',
-    header: 'country',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="country"
+        dataType="string"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        onHide={() => column.toggleVisibility()}
+      />
+    ),
   },
   {
     accessorKey: 'industry',
-    header: 'industry',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="industry"
+        dataType="string"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'revenue',
-    header: 'revenue',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="revenue"
+        dataType="number"
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'customer_lifetime_value',
-    header: 'Customer Lifetime Value',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="customer_lifetime_value"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'contract_start_date',
-    header: 'Contract Start Date',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="contract_start_date"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'contract_end_date',
-    header: 'Contract End Date',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="contract_end_date"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'contract_duration_months',
-    header: 'Contract Duration (Months)',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="contract_duration_months"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'renewal_probability',
-    header: 'Renewal Probability',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="renewal_probability"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'churn_rate',
-    header: 'Churn Rate',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="churn_rate"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'contract_value',
-    header: 'Contract Value',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="contract_value"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'contract_type',
-    header: 'Contract Type',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="contract_type"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'sales_representative',
-    header: 'Sales Representative',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="sales_representative"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'lead_source',
-    header: 'Lead Source',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="lead_source"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'lead_status',
-    header: 'Lead Status',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="lead_status"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'lead_created_date',
-    header: 'Lead Created Date',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="lead_created_date"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'lead_last_contacted_date',
-    header: 'Lead Last Contacted Date',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="lead_last_contacted_date"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'lead_conversion_date',
-    header: 'Lead Conversion Date',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="lead_conversion_date"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'first_name',
-    header: 'First Name',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="first_name"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
   },
   {
     accessorKey: 'last_name',
-    header: 'Last Name',
+    header: ({ column }) => (
+      <HeaderColumn
+        label="last_name"
+        dataType={column.columnDef.type}
+        onSort={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      />
+    ),
+  },
+  {
+    accessorKey: 'new_column',
+    header: () => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="small">
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="mr-2 text-xs"
+            />
+            Add Column
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem></DropdownMenuItem>
+          <DropdownMenuItem>Enrichment</DropdownMenuItem>
+          <DropdownMenuItem>Fill with AI</DropdownMenuItem>
+          <DropdownMenuItem>Add Column</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
   },
 ];

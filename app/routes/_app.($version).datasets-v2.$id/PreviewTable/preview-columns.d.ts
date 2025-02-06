@@ -1,23 +1,30 @@
 type ColumnType = 'string' | 'number' | 'date' | 'boolean' | 'array' | 'object';
+type ColumnSignificance =
+  | 'unique'
+  | 'primary'
+  | 'foreign'
+  | 'derived'
+  | 'calculated';
 
-type ColumnSchema = {
+type PreviewColumns = {
   id: string;
   name: string;
   type: ColumnType;
+  significance: ColumnSignificance;
 };
-
-export type PreviewColumns = ColumnSchema[];
 
 export const PreviewColumns: PreviewColumns = [
   {
     id: 'id',
     name: 'id',
     type: 'string',
+    significance: 'unique',
   },
   {
     id: 'company_name',
     name: 'company_name',
     type: 'string',
+    significance: 'primary',
   },
   {
     id: 'job_title',
