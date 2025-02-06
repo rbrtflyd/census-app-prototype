@@ -8,6 +8,10 @@ import {
   faToggleOn,
   faDiamond,
   faLink,
+  faSort,
+  faMapPin,
+  faEyeSlash,
+  faThumbTack,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import {
@@ -93,9 +97,27 @@ export function HeaderColumn({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={onSort}>Sort</DropdownMenuItem>
-          <DropdownMenuItem onClick={onPin}>Pin Column</DropdownMenuItem>
-          <DropdownMenuItem onClick={onHide}>Hide Column</DropdownMenuItem>
+          <DropdownMenuItem onClick={onSort}>
+            <FontAwesomeIcon
+              icon={faSort}
+              className="text-[8px] icon-light"
+            />{' '}
+            Sort
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={onPin}>
+            <FontAwesomeIcon
+              icon={faThumbTack}
+              className="text-[8px] icon-light"
+            />{' '}
+            Pin Column
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={onHide}>
+            <FontAwesomeIcon
+              icon={faEyeSlash}
+              className="text-[8px] icon-light"
+            />{' '}
+            Hide Column
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

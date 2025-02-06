@@ -35,6 +35,7 @@ import {
   faChevronDown,
   faColumns,
   faInfoCircle,
+  faRefresh,
   faSearch,
   faTimes,
 } from '@fortawesome/pro-regular-svg-icons';
@@ -364,7 +365,38 @@ export default function DatasetIndex() {
           />
         </div>
       </div>
-      <Outlet context={thisDataset} />
+      <div className="flex flex-row px-8 py-3 border-t border-base justify-between">
+        <div className="text-xs text-light flex flex-row gap-2 items-center leading-none">
+          <div className="size-2.5 bg-emerald-500 rounded-full" />
+          <div>Cached 1,528 Rows</div>
+          <div className="text-lighter">4 hours ago</div>
+          <Separator
+            orientation="vertical"
+            className="mx-2"
+          />
+          <Button
+            variant="ghost"
+            size="tiny">
+            <FontAwesomeIcon
+              icon={faRefresh}
+              className="mr-1 text-xs"
+            />
+            Refresh Data
+          </Button>
+        </div>
+        <div className="flex flex-row gap-2">
+          <Button
+            variant="ghost"
+            size="tiny">
+            Jobs
+          </Button>
+          <Button
+            variant="ghost"
+            size="tiny">
+            Logs
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
