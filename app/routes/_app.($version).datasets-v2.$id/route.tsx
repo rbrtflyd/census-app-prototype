@@ -253,7 +253,7 @@ export default function DatasetIndex() {
             </Button>
           </PageHeader.RightSlot>
         </PageHeader>
-        <div className="flex flex-row gap-2 px-6 py-4 justify-between">
+        <div className="flex flex-row gap-2 px-6 py-3 justify-between">
           <div className="flex flex-row">
             <Button
               variant="ghost"

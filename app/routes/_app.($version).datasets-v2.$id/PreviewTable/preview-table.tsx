@@ -70,16 +70,6 @@ export function DataTable<TData extends PreviewColumns, TValue>({
     setTableColumns([...tableColumns, newColumn]);
   };
 
-  const handleRowClick = (event: React.MouseEvent, row: any) => {
-    // Prevent navigation when clicking checkbox
-    if ((event.target as HTMLElement).closest('[role="checkbox"]')) {
-      return;
-    }
-
-    // Assuming each row has an id field - adjust according to your data structure
-    navigate(`/${version}/connections/${row.original.id}/`);
-  };
-
   const table = useReactTable({
     data,
     columns,
@@ -97,6 +87,7 @@ export function DataTable<TData extends PreviewColumns, TValue>({
       pagination,
       columnPinning,
     },
+    enableColumnPinning: true,
   });
 
   return (
@@ -104,8 +95,28 @@ export function DataTable<TData extends PreviewColumns, TValue>({
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
+            {headerGroup.headers
+              .filter((header) => header.column.getIsPinned() === 'left')
+              .map((header) => (
+                <TableHead
+                  key={header.id}
+                  style={{
+                    width: header.getSize(),
+                    position: 'sticky',
+                    left: header.getStart(),
+                    zIndex: 2,
+                  }}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              ))}
+            {headerGroup.headers
+              .filter((header) => !header.column.getIsPinned())
+              .map((header) => (
                 <TableHead
                   key={header.id}
                   style={{ width: header.getSize() }}>
@@ -116,8 +127,7 @@ export function DataTable<TData extends PreviewColumns, TValue>({
                         header.getContext()
                       )}
                 </TableHead>
-              );
-            })}
+              ))}
           </TableRow>
         ))}
       </TableHeader>
@@ -125,12 +135,35 @@ export function DataTable<TData extends PreviewColumns, TValue>({
       <TableBody>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
-            <TableRow data-state={row.getIsSelected() && 'selected'}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+            <TableRow
+              key={row.id}
+              data-state={row.getIsSelected() && 'selected'}>
+              {/* Render pinned left cells */}
+              {row
+                .getVisibleCells()
+                .filter((cell) => cell.column.getIsPinned() === 'left')
+                .map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    style={{
+                      width: cell.column.getSize(),
+                      position: 'sticky',
+                      left: cell.column.getStart(),
+                      zIndex: 1,
+                    }}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+
+              {/* Render unpinned cells */}
+              {row
+                .getVisibleCells()
+                .filter((cell) => !cell.column.getIsPinned())
+                .map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
             </TableRow>
           ))
         ) : (
