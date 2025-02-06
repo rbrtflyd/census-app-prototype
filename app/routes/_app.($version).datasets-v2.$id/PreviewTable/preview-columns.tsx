@@ -480,25 +480,26 @@ export const columns: ColumnDef<PreviewColumns>[] = [
   {
     accessorKey: 'new_column',
     header: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="small">
-            <FontAwesomeIcon
-              icon={faPlus}
-              className="mr-2 text-xs"
-            />
-            Add Column
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem></DropdownMenuItem>
-          <DropdownMenuItem>Enrichment</DropdownMenuItem>
-          <DropdownMenuItem>Fill with AI</DropdownMenuItem>
-          <DropdownMenuItem>Add Column</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex flex-row items-center px-3 py-0.5">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="small">
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="mr-2 text-xxs"
+              />
+              Add Column
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Enrichment</DropdownMenuItem>
+            <DropdownMenuItem>Fill with AI</DropdownMenuItem>
+            <DropdownMenuItem>Formula</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     ),
   },
 ];

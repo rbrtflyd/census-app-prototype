@@ -67,7 +67,7 @@ export function HeaderColumn({
 }: HeaderColumnProps) {
   return (
     <div
-      className={`pl-3 pr-5 py-1 flex items-center gap-2 h-full justify-between ${
+      className={`pl-3 pr-1 py-1 flex items-center gap-2 h-full justify-between ${
         significance === 'unique' ? 'bg-plum-100/35' : ''
       }`}>
       <div className="flex flex-row items-center gap-3 leading-none">
@@ -78,49 +78,51 @@ export function HeaderColumn({
           />
           <Text>{label}</Text>
         </div>
+      </div>
+      <div className="flex flex-row items-center gap-2">
         {significance && (
           <FontAwesomeIcon
             icon={significanceIcons[significance]}
             className={`text-[10px] icon-lighter ${significanceColors[significance]}`}
           />
         )}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-[22px] rounded">
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className="h-2.5 w-2.5"
+              />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={onSort}>
+              <FontAwesomeIcon
+                icon={faSort}
+                className="text-[8px] icon-light"
+              />{' '}
+              Sort
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onPin}>
+              <FontAwesomeIcon
+                icon={faThumbTack}
+                className="text-[8px] icon-light"
+              />{' '}
+              Pin Column
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onHide}>
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className="text-[8px] icon-light"
+              />{' '}
+              Hide Column
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-[22px] rounded">
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className="h-2.5 w-2.5"
-            />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={onSort}>
-            <FontAwesomeIcon
-              icon={faSort}
-              className="text-[8px] icon-light"
-            />{' '}
-            Sort
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={onPin}>
-            <FontAwesomeIcon
-              icon={faThumbTack}
-              className="text-[8px] icon-light"
-            />{' '}
-            Pin Column
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={onHide}>
-            <FontAwesomeIcon
-              icon={faEyeSlash}
-              className="text-[8px] icon-light"
-            />{' '}
-            Hide Column
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 }
