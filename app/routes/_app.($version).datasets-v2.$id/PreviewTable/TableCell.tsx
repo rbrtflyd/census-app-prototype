@@ -35,7 +35,9 @@ export function TableCell({
         significance === 'unique' ? 'bg-plum-100/35' : '',
         className
       )}>
-      <span className="text-xs truncate w-full">{value?.toString() ?? ''}</span>
+      <span className="text-xs truncate w-full font-normal">
+        {value?.toString() ?? ''}
+      </span>
     </div>
   );
 }

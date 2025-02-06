@@ -12,6 +12,7 @@ import {
   faMapPin,
   faEyeSlash,
   faThumbTack,
+  faKey,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import {
@@ -41,7 +42,7 @@ const dataTypeIcons = {
 };
 
 const significanceIcons = {
-  unique: faDiamond,
+  unique: faKey,
   primary: faHashtag,
   foreign: faLink,
   derived: faHashtag,
@@ -80,7 +81,7 @@ export function HeaderColumn({
         {significance && (
           <FontAwesomeIcon
             icon={significanceIcons[significance]}
-            className={`text-[8px] icon-lighter ${significanceColors[significance]}`}
+            className={`text-[10px] icon-lighter ${significanceColors[significance]}`}
           />
         )}
       </div>

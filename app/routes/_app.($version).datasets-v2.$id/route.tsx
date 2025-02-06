@@ -113,6 +113,10 @@ export default function DatasetIndex() {
   const location = useLocation();
 
   const [showDefinition, setShowDefinition] = useState(false);
+  const [panels, setPanels] = useState({
+    jobs: false,
+    logs: false,
+  });
 
   const { version, workspaceConnections, connections } = useOutletContext() as {
     version: string;
@@ -365,6 +369,44 @@ export default function DatasetIndex() {
           />
         </div>
       </div>
+      {(panels.jobs || panels.logs) && (
+        <div className="flex flex-row h-[400px] w-full border-t border-base bg-white">
+          {panels.jobs && (
+            <div
+              className={cn(
+                ' p-4 h-full',
+                panels.logs ? 'w-1/2 border-r border-base' : 'w-full'
+              )}>
+              <div className="flex flex-row justify-between">
+                <div>Jobs</div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() =>
+                    setPanels((prev) => ({ ...prev, jobs: false }))
+                  }>
+                  <FontAwesomeIcon icon={faTimes} />
+                </Button>
+              </div>
+            </div>
+          )}
+          {panels.logs && (
+            <div className={cn(' p-4', panels.jobs ? 'w-1/2' : 'w-full')}>
+              <div className="flex flex-row justify-between">
+                <div>History</div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() =>
+                    setPanels((prev) => ({ ...prev, logs: false }))
+                  }>
+                  <FontAwesomeIcon icon={faTimes} />
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
       <div className="flex flex-row px-8 py-3 border-t border-base justify-between">
         <div className="text-xs text-light flex flex-row gap-2 items-center leading-none">
           <div className="size-2.5 bg-emerald-500 rounded-full" />
@@ -384,16 +426,25 @@ export default function DatasetIndex() {
             Refresh Data
           </Button>
         </div>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row">
           <Button
             variant="ghost"
-            size="tiny">
+            size="tiny"
+            className={cn(panels.jobs && 'bg-plum-500 text-white')}
+            onClick={() =>
+              setPanels((prev) => ({ ...prev, jobs: !prev.jobs }))
+            }>
             Jobs
           </Button>
+          <Separator orientation="vertical" />
           <Button
             variant="ghost"
-            size="tiny">
-            Logs
+            size="tiny"
+            className={cn(panels.logs && 'bg-plum-500 text-white')}
+            onClick={() =>
+              setPanels((prev) => ({ ...prev, logs: !prev.logs }))
+            }>
+            History
           </Button>
         </div>
       </div>

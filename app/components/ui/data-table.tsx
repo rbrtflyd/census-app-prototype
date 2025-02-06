@@ -6,7 +6,7 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto h-full">
+  <div className="relative w-full overflow-y-auto h-full">
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm mr-10 mb-8', className)}
@@ -19,16 +19,36 @@ Table.displayName = 'Table';
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <thead
-    ref={ref}
-    className={cn(
-      '[&_tr]:border-b [&_tr]:border-r border-base  [&_tr]:hover:bg-white [&_tr]:hover:cursor-default truncate',
-      className
-    )}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = (e: Event) => {
+      const target = e.target as HTMLDivElement;
+      setIsScrolled(target.scrollTop > 0);
+    };
+
+    if (typeof ref === 'function') return;
+    const scrollParent = ref?.current?.closest('.overflow-y-auto');
+
+    if (scrollParent) {
+      scrollParent.addEventListener('scroll', handleScroll);
+      return () => scrollParent.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  return (
+    <thead
+      ref={ref}
+      className={cn(
+        '[&_tr]:border-b [&_tr]:border-r border-base border-b [&_tr]:hover:bg-white [&_tr]:hover:cursor-default truncate sticky top-0 bg-white transition-shadow duration-200',
+        isScrolled && 'shadow-sm',
+        className
+      )}
+      {...props}
+    />
+  );
+});
 TableHeader.displayName = 'TableHeader';
 
 const TableBody = React.forwardRef<
@@ -80,7 +100,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      ' leading-none border-r border-base text-left align-middle font-normal text-dark [&:has([role=checkbox])]:pr-0 uppercase text-xs p-0',
+      ' leading-none border-r border-b border-base text-left align-middle font-normal text-dark [&:has([role=checkbox])]:pr-0 uppercase text-xs p-0',
       className
     )}
     {...props}
