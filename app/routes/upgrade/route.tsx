@@ -89,7 +89,7 @@ export default function BillingUpgrade() {
     }
 
     // Monthly price without discount
-    return basePrice + additionalDestsPrice;
+    return (basePrice + additionalDestsPrice).toFixed(2);
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -132,8 +132,8 @@ export default function BillingUpgrade() {
         </div>
       </div>
       <div className="w-full h-full py-8 flex flex-row relative overflow-y-auto justify-center gap-12">
-        <div className="w-2/5 flex flex-col gap-4 h-full">
-          <div className="p-6 mb-8">
+        <div className="w-[600px] flex flex-col gap-4 h-full">
+          <div className="pb-12">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -193,7 +193,7 @@ export default function BillingUpgrade() {
                     )}
                   />
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <Text className="text-lg font-medium">
                     Personal Information
                   </Text>
@@ -239,7 +239,7 @@ export default function BillingUpgrade() {
                     )}
                   />
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <Text className="text-lg font-medium">
                     Company Information
                   </Text>
@@ -270,7 +270,7 @@ export default function BillingUpgrade() {
                     )}
                   />
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <Text className="text-lg font-medium">Billing Address</Text>
                   <FormField
                     control={form.control}
@@ -287,10 +287,10 @@ export default function BillingUpgrade() {
                   />
                   <FormField
                     control={form.control}
-                    name="city"
+                    name="addressLine2"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>Address Line 2</FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -298,25 +298,59 @@ export default function BillingUpgrade() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="stateOrProvince"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>State or Province</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>City</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="stateOrProvince"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>State or Province</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="postalCode"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Postal Code</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Text className="text-lg font-medium">Payment Details</Text>
+                  <div className="w-full h-[100px] bg-deep rounded-lg flex justify-center items-center">
+                    Stripe integration input goes here
+                  </div>
                 </div>
               </form>
             </Form>
           </div>
         </div>
-        <div className="w-1/4 bg-white border border-base shadow-lg h-full p-8 rounded-lg flex flex-col justify-between sticky top-0">
+        <div className="w-[400px] bg-white border border-base shadow-lg h-full p-8 rounded-lg flex flex-col justify-between sticky top-0">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
               <Text className="text-lg font-medium">
@@ -376,17 +410,23 @@ export default function BillingUpgrade() {
                   </div>
                 </div>
                 <Separator />
-                <div className="flex flex-row items-center gap-2 justify-between">
-                  <Text>Total Due Today</Text>
-                  <Text className="font-bold">
-                    ${calculatePrice(form.watch('billingPeriod'))}
-                  </Text>
+                <div className="flex flex-row items-center gap-2 justify-between font-bold">
+                  <div className="flex flex-row items-center gap-2">
+                    <Text>Total Due Today</Text>
+                    {billingPeriod === 'yearly' && (
+                      <Text className="text-xs text-dark border border-base px-2.5 leading-none py-1 rounded-full font-medium">
+                        Saving <span className="text-plum-500">18%</span>
+                      </Text>
+                    )}
+                  </div>
+                  <Text>${calculatePrice(form.watch('billingPeriod'))}</Text>
                 </div>
               </div>
             </div>
             <Button
               size="large"
               type="submit"
+              disabled={!form.formState.isValid}
               className="w-full">
               Upgrade Plan
             </Button>
