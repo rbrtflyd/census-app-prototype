@@ -1,5 +1,5 @@
 import { useNavigate } from '@remix-run/react';
-import { Button, Input } from '~/components/ui';
+import { Button, Input, Separator } from '~/components/ui';
 import { useState } from 'react';
 import { Text } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -77,10 +77,9 @@ export default function BillingUpgrade() {
 
   const calculatePrice = (billingPeriod: 'monthly' | 'yearly') => {
     const basePrice = proPlan.price;
-    const additionalDests = form.watch('additionalDestinations') || 0;
+    const additionalDests = form.watch('additionalDestinations') ?? 0;
     const additionalDestsPrice =
-      Math.max(0, additionalDests - proPlan.maxAdditionalDestinations) *
-      proPlan.additionalDestinationsPrice;
+      Math.max(0, additionalDests) * proPlan.additionalDestinationsPrice;
 
     if (billingPeriod === 'yearly') {
       // Apply 18% discount to both base price and additional destinations
@@ -359,6 +358,7 @@ export default function BillingUpgrade() {
                     <Text>${calculatePrice(form.watch('billingPeriod'))}</Text>
                   </div>
                 </div>
+                <Separator />
                 <div>
                   <Text className="uppercase text-xxs tracking-wider font-bold text-lighter">
                     Additional Destinations
@@ -375,35 +375,13 @@ export default function BillingUpgrade() {
                     </Text>
                   </div>
                 </div>
+                <Separator />
                 <div className="flex flex-row items-center gap-2 justify-between">
                   <Text>Total Due Today</Text>
-                  <Text>${calculatePrice(form.watch('billingPeriod'))}</Text>
+                  <Text className="font-bold">
+                    ${calculatePrice(form.watch('billingPeriod'))}
+                  </Text>
                 </div>
-              </div>
-              <div className="text-sm text-lighter">
-                {billingPeriod === 'yearly' ? (
-                  <Text>
-                    You&apos;ll be charged $
-                    {calculatePrice(form.watch('billingPeriod'))} on{' '}
-                    {new Date().toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}{' '}
-                    and each year thereafter until you cancel.
-                  </Text>
-                ) : (
-                  <Text>
-                    You&apos;ll be charged $
-                    {calculatePrice(form.watch('billingPeriod'))} on{' '}
-                    {new Date().toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}{' '}
-                    and each month thereafter until you cancel.
-                  </Text>
-                )}
               </div>
             </div>
             <Button
@@ -412,6 +390,31 @@ export default function BillingUpgrade() {
               className="w-full">
               Upgrade Plan
             </Button>
+            <div className="text-sm text-lighter">
+              {billingPeriod === 'yearly' ? (
+                <Text>
+                  You&apos;ll be charged $
+                  {calculatePrice(form.watch('billingPeriod'))} on{' '}
+                  {new Date().toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}{' '}
+                  and each year thereafter until you cancel.
+                </Text>
+              ) : (
+                <Text>
+                  You&apos;ll be charged $
+                  {calculatePrice(form.watch('billingPeriod'))} on{' '}
+                  {new Date().toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}{' '}
+                  and each month thereafter until you cancel.
+                </Text>
+              )}
+            </div>
           </div>
         </div>
       </div>
