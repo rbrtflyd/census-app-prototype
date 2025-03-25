@@ -26,6 +26,7 @@ const buttonVariants = cva(
         tiny: 'py-1.5 px-1.5 text-xs leading-none rounded-[3px]',
         icon: 'h-8 w-8 rounded-md text-slate-400',
         link: 'p-0',
+        large: 'px-6 py-3 text-lg leading-none rounded-md',
       },
     },
     defaultVariants: {
