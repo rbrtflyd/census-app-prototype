@@ -147,7 +147,7 @@ export default function BillingUpgrade() {
                               {
                                 label: 'Yearly',
                                 value: 'yearly',
-                                extra: 'Save 19%',
+                                extra: 'Save 18%',
                               },
                             ]}
                             defaultValue={billingPeriod}
