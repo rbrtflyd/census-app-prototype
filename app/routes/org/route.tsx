@@ -27,11 +27,11 @@ export default function OrganizationHome() {
   const activeTab = getActiveTab(location.pathname);
 
   return (
-    <div className="flex flex-col h-screen w-full">
+    <div className="flex flex-col h-screen w-full ">
       <div className="p-4 bg-white border-b bordder-base">
         <div className="max-w-[1200px] w-full mx-auto">Settings</div>
       </div>
-      <div className="bg-subtle border-b border-base pt-12">
+      <div className="bg-subtle border-b border-base pt-12 px-6">
         <div className="max-w-[1200px] w-full mx-auto flex flex-col gap-8">
           <Text className="text-2xl">Org Name</Text>
           <Tabs
@@ -72,8 +72,8 @@ export default function OrganizationHome() {
           </Tabs>
         </div>
       </div>
-      <div className="flex-1 h-full w-full overflow-y-auto">
-        <div className="max-w-[1200px] w-full mx-auto pt-8">
+      <div className="flex-1 h-full w-full overflow-y-auto px-6">
+        <div className="max-w-[1200px] w-full mx-auto pt-8 ">
           <Outlet />
         </div>
       </div>
