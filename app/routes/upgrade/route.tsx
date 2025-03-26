@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,6 +45,7 @@ const formSchema = z.object({
   postalCode: z.string().min(1),
   addressLine1: z.string().min(1),
   addressLine2: z.string().min(1),
+  billingEmail: z.string().email().optional(),
 });
 
 export default function BillingUpgrade() {
@@ -85,11 +87,23 @@ export default function BillingUpgrade() {
       // Apply 18% discount to both base price and additional destinations
       const yearlyBasePrice = basePrice * 12 * 0.82;
       const yearlyAdditionalPrice = additionalDestsPrice * 12 * 0.82;
-      return yearlyBasePrice + yearlyAdditionalPrice;
+      return {
+        basePrice: yearlyBasePrice.toFixed(2).toLocaleString(),
+        additionalDestsPrice: yearlyAdditionalPrice.toFixed(2).toLocaleString(),
+        totalPrice: (yearlyBasePrice + yearlyAdditionalPrice)
+          .toFixed(2)
+          .toLocaleString(),
+      };
     }
 
     // Monthly price without discount
-    return (basePrice + additionalDestsPrice).toFixed(2);
+    return {
+      basePrice: basePrice.toFixed(2).toLocaleString(),
+      additionalDestsPrice: additionalDestsPrice.toFixed(2).toLocaleString(),
+      totalPrice: (basePrice + additionalDestsPrice)
+        .toFixed(2)
+        .toLocaleString(),
+    };
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -102,6 +116,7 @@ export default function BillingUpgrade() {
       email: '',
       companyName: '',
       phoneNumber: '',
+      billingEmail: '',
     },
   });
 
@@ -339,6 +354,22 @@ export default function BillingUpgrade() {
                       )}
                     />
                   </div>
+                  <FormField
+                    control={form.control}
+                    name="billingEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Billing Email</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          If different from primary contact email.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Text className="text-lg font-medium">Payment Details</Text>
@@ -358,7 +389,7 @@ export default function BillingUpgrade() {
               </Text>
 
               <Text className="text-[2.5rem] font-medium">
-                ${calculatePrice(form.watch('billingPeriod'))}
+                ${calculatePrice(billingPeriod).totalPrice}
                 <span className="text-[1.5rem] font-normal text-lighter">
                   /{billingPeriod === 'yearly' ? 'year' : 'mo'}
                 </span>
@@ -389,7 +420,7 @@ export default function BillingUpgrade() {
                     <Text>
                       {billingPeriod === 'yearly' ? 'Yearly' : 'Monthly'}
                     </Text>
-                    <Text>${calculatePrice(form.watch('billingPeriod'))}</Text>
+                    <Text>${calculatePrice(billingPeriod).basePrice}</Text>
                   </div>
                 </div>
                 <Separator />
@@ -399,13 +430,15 @@ export default function BillingUpgrade() {
                   </Text>
                   <div className="flex flex-row items-center gap-2 justify-between">
                     <Text>
+                      {form.watch('additionalDestinations') ? (
+                        <span>$200.00 x </span>
+                      ) : (
+                        ''
+                      )}
                       {form.watch('additionalDestinations') || 0} Destinations
                     </Text>
                     <Text>
-                      $
-                      {form.watch('additionalDestinations')
-                        ? form.watch('additionalDestinations') * 200
-                        : 0}
+                      ${calculatePrice(billingPeriod).additionalDestsPrice}
                     </Text>
                   </div>
                 </div>
@@ -419,7 +452,7 @@ export default function BillingUpgrade() {
                       </Text>
                     )}
                   </div>
-                  <Text>${calculatePrice(form.watch('billingPeriod'))}</Text>
+                  <Text>${calculatePrice(billingPeriod).totalPrice}</Text>
                 </div>
               </div>
             </div>
@@ -434,7 +467,7 @@ export default function BillingUpgrade() {
               {billingPeriod === 'yearly' ? (
                 <Text>
                   You&apos;ll be charged $
-                  {calculatePrice(form.watch('billingPeriod'))} on{' '}
+                  {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
                   {new Date().toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
@@ -445,7 +478,7 @@ export default function BillingUpgrade() {
               ) : (
                 <Text>
                   You&apos;ll be charged $
-                  {calculatePrice(form.watch('billingPeriod'))} on{' '}
+                  {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
                   {new Date().toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
