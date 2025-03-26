@@ -6,17 +6,22 @@ import { useId, useState } from 'react';
 export default function FancyRadioGroup({
   options,
   onValueChange,
+  defaultValue,
 }: {
   options: { label: string; extra?: string; value: string }[];
   onValueChange: (value: string) => void;
+  defaultValue: string;
 }) {
   const id = useId();
-  const [selectedValue, setSelectedValue] = useState(options[0].value);
+  const [selectedValue, setSelectedValue] = useState(
+    defaultValue || options[0].value
+  );
 
   return (
     <div className="bg-deep inline-flex h-12 rounded-md p-1">
       <RadioGroup
         value={selectedValue}
+        defaultValue={defaultValue}
         onValueChange={(value) => {
           setSelectedValue(value);
           onValueChange(value);

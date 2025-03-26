@@ -1,3 +1,4 @@
+'use client';
 import { useNavigate } from '@remix-run/react';
 import { Button, Input, Separator } from '~/components/ui';
 import { useState } from 'react';
@@ -61,32 +62,28 @@ export default function BillingUpgrade() {
       Math.max(0, additionalDests) * proPlan.additionalDestinationsPrice;
 
     if (billingPeriod === 'yearly') {
-      // Apply 18% discount to both base price and additional destinations
       const yearlyBasePrice = basePrice * 12 * 0.82;
       const yearlyAdditionalPrice = additionalDestsPrice * 12 * 0.82;
+      const total = yearlyBasePrice + yearlyAdditionalPrice;
       return {
-        basePrice: yearlyBasePrice.toFixed(2).toLocaleString(),
-        additionalDestsPrice: yearlyAdditionalPrice.toFixed(2).toLocaleString(),
-        totalPrice: (yearlyBasePrice + yearlyAdditionalPrice)
-          .toFixed(2)
-          .toLocaleString(),
+        basePrice: yearlyBasePrice.toFixed(2),
+        additionalDestsPrice: yearlyAdditionalPrice.toFixed(2),
+        totalPrice: total.toFixed(2),
       };
     }
 
-    // Monthly price without discount
+    const total = basePrice + additionalDestsPrice;
     return {
-      basePrice: basePrice.toFixed(2).toLocaleString(),
-      additionalDestsPrice: additionalDestsPrice.toFixed(2).toLocaleString(),
-      totalPrice: (basePrice + additionalDestsPrice)
-        .toFixed(2)
-        .toLocaleString(),
+      basePrice: basePrice.toFixed(2),
+      additionalDestsPrice: additionalDestsPrice.toFixed(2),
+      totalPrice: total.toFixed(2),
     };
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      billingPeriod: 'monthly',
+      billingPeriod: 'yearly',
       additionalDestinations: 0,
       firstName: '',
       lastName: '',
@@ -149,9 +146,10 @@ export default function BillingUpgrade() {
                                 extra: 'Save 19%',
                               },
                             ]}
+                            defaultValue={billingPeriod}
                             onValueChange={(value) => {
                               field.onChange(value); // Update form state
-                              setBillingPeriod(value as 'monthly' | 'yearly'); // Update UI state for price display
+                              setBillingPeriod(value as BillingPeriod); // Update UI state for price display
                             }}
                           />
                         </FormControl>

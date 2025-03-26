@@ -2,22 +2,21 @@
 
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import { Button, Group, Input, NumberField } from 'react-aria-components';
+import React from 'react';
 
-export default function NumberInput({
-  minValue,
-  maxValue,
-  defaultValue,
-  className,
-  onChange,
-}: {
-  minValue: number;
-  maxValue: number;
-  defaultValue: number;
-  className?: string;
-  onChange: (value: number) => void;
-}) {
+const NumberInput = React.forwardRef<
+  HTMLInputElement,
+  {
+    minValue: number;
+    maxValue: number;
+    defaultValue: number;
+    className?: string;
+    onChange: (value: number) => void;
+  }
+>(({ minValue, maxValue, defaultValue, className, onChange }, ref) => {
   return (
     <NumberField
+      ref={ref}
       defaultValue={defaultValue}
       minValue={minValue}
       maxValue={maxValue}
@@ -46,4 +45,8 @@ export default function NumberInput({
       </div>
     </NumberField>
   );
-}
+});
+
+NumberInput.displayName = 'NumberInput';
+
+export default NumberInput;

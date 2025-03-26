@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, NavLink } from '@remix-run/react';
+import { useLocation, NavLink, useNavigate } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -64,7 +64,7 @@ const navLinks = [
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
   const { pathname } = useLocation();
-
+  const navigate = useNavigate();
   const newSidebar = props.newSidebar ?? false;
 
   return (
@@ -155,7 +155,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
               <Text>Free Trial</Text>
               <Text>15 days left</Text>
             </div>
-            <Button>Upgrade to Pro</Button>
+            <Button onClick={() => navigate('/upgrade')}>Upgrade to Pro</Button>
           </div>
         </div>
         <div className="flex flex-col px-3 py-2 gap-1">
