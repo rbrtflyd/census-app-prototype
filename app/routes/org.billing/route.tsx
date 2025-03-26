@@ -75,7 +75,10 @@ function PlanCard({ plan }: { plan: (typeof plans)[0] }) {
 
 export default function OrganizationBilling() {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-row gap-4 w-full">
+      <div className="w-1/3 border border-base rounded-lg p-9">
+        Usage Information goes here?
+      </div>
       <div className="flex flex-row flex-wrap gap-8 w-full">
         {plans.map((plan) => (
           <PlanCard
