@@ -8,6 +8,8 @@ import FancyRadioGroup from '~/components/RadioGroup/RadioGroup';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Plan, BillingPeriod } from '~/db/types/plan';
+import { plans } from '~/db/data/plans/plans';
 
 import {
   Form,
@@ -19,17 +21,6 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 import NumberInput from '~/components/NumberInput/NumberInput';
-
-interface Plan {
-  id: string;
-  name: string;
-  additionalDestinations: number;
-  maxAdditionalDestinations: number;
-  additionalDestinationsPrice: number;
-  price: number;
-  billingPeriod: 'monthly' | 'annual';
-  features: string[];
-}
 
 const formSchema = z.object({
   billingPeriod: z.enum(['monthly', 'yearly']),
@@ -51,34 +42,20 @@ const formSchema = z.object({
 export default function BillingUpgrade() {
   const navigate = useNavigate();
 
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>(
-    'monthly'
-  );
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('yearly');
 
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  const proPlan: Plan = {
-    id: 'pro',
-    name: 'Professional',
-    additionalDestinations: 2,
-    maxAdditionalDestinations: 2,
-    additionalDestinationsPrice: 200,
-    price: 350,
-    billingPeriod: 'monthly',
-    features: [
-      '2 Billable Destinations',
-      'Unlimited Free Destinations',
-      '5 Active Syncs per Billable Destination',
-      '5 User Seats',
-      '2 Workspaces',
-      'Up to 2 Additional Billable Destinations',
-    ],
-  };
+  const proPlan: Plan = plans.find((plan) => plan.id === 'pro') as Plan;
 
-  const calculatePrice = (billingPeriod: 'monthly' | 'yearly') => {
-    const basePrice = proPlan.price;
+  if (!proPlan) {
+    throw new Error('Pro plan not found');
+  }
+
+  const calculatePrice = (billingPeriod: BillingPeriod) => {
+    const basePrice = proPlan.price as number;
     const additionalDests = form.watch('additionalDestinations') ?? 0;
     const additionalDestsPrice =
       Math.max(0, additionalDests) * proPlan.additionalDestinationsPrice;

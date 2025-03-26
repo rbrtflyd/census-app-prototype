@@ -9,7 +9,7 @@ export type Plan = {
   features: string[];
 };
 
-export type BillingPeriod = 'monthly' | 'annual';
+export type BillingPeriod = 'monthly' | 'yearly';
 
 export type AddOns =
   | 'Audience Hub'
