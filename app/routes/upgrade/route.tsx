@@ -360,132 +360,136 @@ export default function BillingUpgrade() {
             </Form>
           </div>
         </div>
+        <div className="flex flex-col gap-8 sticky top-0">
+          <div className="w-[400px] bg-white border border-base shadow-lg h-full p-8 rounded-lg flex flex-col justify-between max-h-[1100px]">
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
+                <Text className="text-lg font-medium">
+                  Upgrade to Professional
+                </Text>
 
-        <div className="w-[400px] bg-white border border-base shadow-lg h-full p-8 rounded-lg flex flex-col justify-between sticky top-0 max-h-[1100px]">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-2">
-              <Text className="text-lg font-medium">
-                Upgrade to Professional
-              </Text>
-
-              <Text className="text-[2.5rem] font-medium">
-                $
-                {formatPrice(
-                  parseFloat(calculatePrice(billingPeriod).totalPrice)
-                )}
-                <span className="text-[1.5rem] font-normal text-lighter">
-                  /{billingPeriod === 'yearly' ? 'year' : 'mo'}
-                </span>
-              </Text>
-            </div>
-            <div className="flex flex-col gap-2">
-              {proPlan.features.map((feature) => (
-                <div
-                  key={feature}
-                  className="flex flex-row items-center gap-2">
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className="text-emerald-500"
-                  />
-                  <Text className="text-lg">{feature}</Text>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <Text className="uppercase text-xxs tracking-wider font-bold text-lighter">
-                    Professional Plan Subscription
-                  </Text>
-                  <div className="flex flex-row items-center gap-2 justify-between">
-                    <Text>
-                      {billingPeriod === 'yearly' ? 'Yearly' : 'Monthly'}
-                    </Text>
-                    <Text>
-                      $
-                      {formatPrice(
-                        parseFloat(calculatePrice(billingPeriod).basePrice)
-                      )}
-                    </Text>
+                <Text className="text-[2.5rem] font-medium">
+                  $
+                  {formatPrice(
+                    parseFloat(calculatePrice(billingPeriod).totalPrice)
+                  )}
+                  <span className="text-[1.5rem] font-normal text-lighter">
+                    /{billingPeriod === 'yearly' ? 'year' : 'mo'}
+                  </span>
+                </Text>
+              </div>
+              <div className="flex flex-col gap-2">
+                {proPlan.features.map((feature) => (
+                  <div
+                    key={feature}
+                    className="flex flex-row items-center gap-2">
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="text-emerald-500"
+                    />
+                    <Text className="text-lg">{feature}</Text>
                   </div>
-                </div>
-                <Separator />
-                <div>
-                  <Text className="uppercase text-xxs tracking-wider font-bold text-lighter">
-                    Additional Destinations
-                  </Text>
-                  <div className="flex flex-row items-center gap-2 justify-between">
-                    <Text>
-                      {form.watch('additionalDestinations') ? (
-                        <span>$200.00 x </span>
-                      ) : (
-                        ''
-                      )}
-                      {form.watch('additionalDestinations') || 0} Destinations
-                    </Text>
-                    <Text>
-                      $
-                      {formatPrice(
-                        parseFloat(
-                          calculatePrice(billingPeriod).additionalDestsPrice
-                        )
-                      )}
-                    </Text>
-                  </div>
-                </div>
-                <Separator />
-                <div className="flex flex-row items-center gap-2 justify-between font-bold">
-                  <div className="flex flex-row items-center gap-2">
-                    <Text>Total Due Today</Text>
-                    {billingPeriod === 'yearly' && (
-                      <Text className="text-xs text-dark border border-base px-2.5 leading-none py-1 rounded-full font-medium">
-                        Saving <span className="text-plum-500">18%</span>
-                      </Text>
-                    )}
-                  </div>
-                  <Text>
-                    $
-                    {formatPrice(
-                      parseFloat(calculatePrice(billingPeriod).totalPrice)
-                    )}
-                  </Text>
-                </div>
+                ))}
               </div>
             </div>
-            <Button
-              size="large"
-              type="submit"
-              disabled={!form.formState.isValid}
-              className="w-full">
-              Upgrade Plan
-            </Button>
-            <div className="text-sm text-lighter">
-              {billingPeriod === 'yearly' ? (
-                <Text>
-                  You&apos;ll be charged $
-                  {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
-                  {new Date().toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}{' '}
-                  and each year thereafter until you cancel.
-                </Text>
-              ) : (
-                <Text>
-                  You&apos;ll be charged $
-                  {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
-                  {new Date().toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}{' '}
-                  and each month thereafter until you cancel.
-                </Text>
-              )}
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col">
+                    <Text className="uppercase text-xxs tracking-wider font-bold text-lighter">
+                      Professional Plan Subscription
+                    </Text>
+                    <div className="flex flex-row items-center gap-2 justify-between">
+                      <Text>
+                        {billingPeriod === 'yearly' ? 'Yearly' : 'Monthly'}
+                      </Text>
+                      <Text>
+                        $
+                        {formatPrice(
+                          parseFloat(calculatePrice(billingPeriod).basePrice)
+                        )}
+                      </Text>
+                    </div>
+                  </div>
+                  <Separator />
+                  <div>
+                    <Text className="uppercase text-xxs tracking-wider font-bold text-lighter">
+                      Additional Destinations
+                    </Text>
+                    <div className="flex flex-row items-center gap-2 justify-between">
+                      <Text>
+                        {form.watch('additionalDestinations') ? (
+                          <span>$200.00 x </span>
+                        ) : (
+                          ''
+                        )}
+                        {form.watch('additionalDestinations') || 0} Destinations
+                      </Text>
+                      <Text>
+                        $
+                        {formatPrice(
+                          parseFloat(
+                            calculatePrice(billingPeriod).additionalDestsPrice
+                          )
+                        )}
+                      </Text>
+                    </div>
+                  </div>
+                  <Separator />
+                  <div className="flex flex-row items-center gap-2 justify-between font-bold">
+                    <div className="flex flex-row items-center gap-2">
+                      <Text>Total Due Today</Text>
+                      {billingPeriod === 'yearly' && (
+                        <Text className="text-xs text-dark border border-base px-2.5 leading-none py-1 rounded-full font-medium">
+                          Saving <span className="text-plum-500">18%</span>
+                        </Text>
+                      )}
+                    </div>
+                    <Text>
+                      $
+                      {formatPrice(
+                        parseFloat(calculatePrice(billingPeriod).totalPrice)
+                      )}
+                    </Text>
+                  </div>
+                </div>
+              </div>
+              <Button
+                size="large"
+                type="submit"
+                disabled={!form.formState.isValid}
+                className="w-full">
+                Upgrade Plan
+              </Button>
+              <div className="text-sm text-lighter">
+                {billingPeriod === 'yearly' ? (
+                  <Text>
+                    You&apos;ll be charged $
+                    {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
+                    {new Date().toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}{' '}
+                    and each year thereafter until you cancel.
+                  </Text>
+                ) : (
+                  <Text>
+                    You&apos;ll be charged $
+                    {calculatePrice(form.watch('billingPeriod')).totalPrice} on{' '}
+                    {new Date().toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}{' '}
+                    and each month thereafter until you cancel.
+                  </Text>
+                )}
+              </div>
             </div>
+          </div>
+          <div className="w-full p-4 bg-subtle rounded">
+            Would you rather have Enterprise?
           </div>
         </div>
       </div>
