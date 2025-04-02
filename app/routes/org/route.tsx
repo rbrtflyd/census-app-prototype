@@ -1,4 +1,4 @@
-import { useLocation, Link, Outlet } from '@remix-run/react';
+import { useLocation, Link, Outlet, useParams } from '@remix-run/react';
 import { cn } from '~/lib/utils';
 import { Tabs, TabsTrigger, TabsList } from '~/components/ui/tabs';
 import { Text } from '@radix-ui/themes';
@@ -12,12 +12,19 @@ import {
 export default function OrganizationHome() {
   const location = useLocation();
 
+  const params = useParams();
+
+  const isBillingRoute =
+    params.tab === 'billing' || location.pathname.includes('billing');
+
   const getActiveTab = (path: string) => {
     const segments = path.split('/');
     return segments[segments.length - 1] || 'overview-v2';
   };
 
-  const activeTab = getActiveTab(location.pathname);
+  const activeTab = getActiveTab(
+    isBillingRoute ? 'billing' : location.pathname
+  );
 
   return (
     <div className="flex flex-col h-screen w-full ">
