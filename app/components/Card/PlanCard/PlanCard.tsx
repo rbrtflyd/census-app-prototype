@@ -8,8 +8,8 @@ import { useNavigate } from '@remix-run/react';
 
 interface PlanCardProps {
   plan: Plan;
-  currentPlan?: 'pro' | 'enterprise' | 'free';
-  visiblePlans?: ('pro' | 'enterprise' | 'free')[];
+  currentPlan: 'pro' | 'enterprise' | 'free';
+  visiblePlans: ('pro' | 'enterprise' | 'free')[];
 }
 
 export default function PlanCard({
@@ -39,15 +39,15 @@ export default function PlanCard({
   return (
     <div
       className={cn(
-        ' p-8 rounded-md  grow flex',
+        ' p-8 rounded-md grow flex',
         isEnterprise && !currentlyEnterprise
           ? 'bg-gradient-to-br from-[#0A0254] from-20% to-plum-500 text-white  flex-row items-center justify-between gap-16'
           : 'bg-white flex-col gap-9 border border-base',
-        visiblePlans?.length ?? 0 > 2 ? 'w-[calc(50%-1rem)]' : 'w-full'
+        visiblePlans.length > 2 ? 'w-[calc(50%-1rem)]' : 'w-full'
       )}>
       <div className="flex flex-row gap-3 justify-between shrink-0 items-center">
         <div className="flex flex-col gap-2">
-          <div className="flex flex-row gap-2 items-center leading-none">
+          <div className="flex flex-row gap-3 items-center leading-none">
             <Text className="text-xl font-medium">{plan.name}</Text>
             {currentPlan === plan.id && (
               <Badge className="bg-plum-100 border-plum-200 text-plum-500">
@@ -65,10 +65,10 @@ export default function PlanCard({
             {plan.features.map((feature) => (
               <div
                 key={feature}
-                className="flex flex-row gap-2 border-b border-base leading-tight p-4 items-center">
+                className="flex flex-row gap-2 border-b border-base py-3 px-2 items-baseline">
                 <FontAwesomeIcon
                   icon={faCircleCheck}
-                  className="text-plum-500 text-xs"
+                  className="text-plum-500 text-sm relative top-0.5"
                 />
 
                 <Text>{feature}</Text>

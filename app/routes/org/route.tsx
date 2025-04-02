@@ -94,7 +94,7 @@ export default function OrganizationHome() {
         </div>
       </div>
       <div className="flex-1 h-full w-full overflow-y-auto px-6 bg-subtle">
-        <div className="max-w-[1200px] w-full mx-auto pt-8 ">
+        <div className="max-w-[1000px] w-full mx-auto pt-8 ">
           <Outlet />
         </div>
       </div>
