@@ -1,6 +1,7 @@
 export type Plan = {
   id: string;
   name: string;
+  tagline: string;
   additionalDestinations: number;
   maxAdditionalDestinations: number;
   additionalDestinationsPrice: number;

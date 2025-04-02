@@ -4,6 +4,7 @@ export const plans: Plan[] = [
   {
     id: 'free',
     name: 'Free',
+    tagline: 'Unlock your data',
     additionalDestinations: 0,
     maxAdditionalDestinations: 0,
     additionalDestinationsPrice: 0,
@@ -20,6 +21,7 @@ export const plans: Plan[] = [
   {
     id: 'pro',
     name: 'Professional',
+    tagline: 'Data activation for teams',
     additionalDestinations: 2,
     maxAdditionalDestinations: 2,
     additionalDestinationsPrice: 200,
@@ -37,6 +39,7 @@ export const plans: Plan[] = [
   {
     id: 'enterprise',
     name: 'Enterprise',
+    tagline: 'Sync with confidence at scale',
     additionalDestinations: 2,
     maxAdditionalDestinations: 2,
     additionalDestinationsPrice: 200,
