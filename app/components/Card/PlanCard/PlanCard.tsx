@@ -1,7 +1,15 @@
 import { Plan } from '~/db/types/plan';
 import { Text } from '@radix-ui/themes';
 import { cn } from '~/lib/utils';
-import { Badge, Button } from '~/components/ui';
+import {
+  Badge,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui';
 import { faCircleCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from '@remix-run/react';
@@ -75,18 +83,33 @@ export default function PlanCard({
               </div>
             ))}
           </div>
-
-          {isFree || currentPlan === plan.id ? (
-            ''
-          ) : (
-            <Button
-              size="large"
-              onClick={() => {
-                navigate('/upgrade');
-              }}>
-              Upgrade to Pro
-            </Button>
-          )}
+          <div>
+            {isFree || currentPlan === plan.id ? (
+              ''
+            ) : (
+              <Button
+                size="large"
+                onClick={() => {
+                  navigate('/upgrade');
+                }}>
+                Upgrade to Pro
+              </Button>
+            )}
+            {!isFree && currentPlan === plan.id && (
+              <>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="secondary">Cancel Plan</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
+          </div>
         </>
       )}
       {isEnterprise && !currentlyEnterprise && (

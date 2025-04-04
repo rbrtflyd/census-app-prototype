@@ -12,8 +12,7 @@ const buttonVariants = cva(
         primary: 'bg-plum-500 text-slate-50 hover:bg-plum-700',
         secondary:
           'bg-white text-dark hover:bg-slate-50 hover:border-slate-50 border border-base shadow',
-        ghost:
-          'hover:bg-slate-50  hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+        ghost: 'hover:bg-slate-50  hover:text-dark text-light',
         link: 'text-plum-500 underline-offset-1 hover:underline font-medium',
         table:
           'hover:bg-slate-50/50 hover:text-slate-900 dark:hover:bg-slate-800/50 dark:hover:text-slate-50 rounded-none',
@@ -21,7 +20,7 @@ const buttonVariants = cva(
           'bg-gradient-to-r from-pink-500 to-plum-500 text-white hover:from-plum-500 hover:to-pink-500 transition-all duration-75',
       },
       size: {
-        default: 'px-4 py-2 text-base leading-none rounded',
+        default: 'px-3 py-2 text-base leading-none rounded',
         small: 'py-2 px-3 text-sm leading-none rounded-[3px]',
         tiny: 'py-1.5 px-1.5 text-xs leading-none rounded-[3px]',
         icon: 'h-8 w-8 rounded-md text-slate-400',

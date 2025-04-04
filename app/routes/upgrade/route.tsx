@@ -4,7 +4,7 @@ import { Button, Input, Separator } from '~/components/ui';
 import { useState } from 'react';
 import { Text } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 import FancyRadioGroup from '~/components/RadioGroup/RadioGroup';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -107,21 +107,17 @@ export default function BillingUpgrade() {
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden">
       <div className="flex border-b border-base py-4 px-6">
-        <div className="w-full max-w-[1200px] mx-auto flex flex-row items-center gap-3">
-          <Button
-            variant="ghost"
-            onClick={handleGoBack}>
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              className="mr-2 text-sm"
-            />
-            Back
-          </Button>
+        <div className="w-full max-w-[1200px] mx-auto flex flex-row items-center justify-between gap-3">
           <img
             src="/logos/census/census-logo-full.svg"
             alt="Census Logo"
             className="w-auto h-7"
           />
+          <Button
+            variant="ghost"
+            onClick={handleGoBack}>
+            Cancel
+          </Button>
         </div>
       </div>
       <div className="w-full h-full py-8 flex flex-row relative overflow-y-auto justify-center gap-16">
