@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 import NumberInput from '~/components/NumberInput/NumberInput';
-
+import { toast } from 'sonner';
 const formSchema = z.object({
   billingPeriod: z.enum(['monthly', 'yearly']),
   additionalDestinations: z.number().min(1).optional(),
@@ -453,8 +453,11 @@ export default function BillingUpgrade() {
               <Button
                 size="large"
                 type="submit"
-                disabled={!form.formState.isValid}
-                className="w-full">
+                className="w-full"
+                onClick={() => {
+                  navigate('/org/billing-pro');
+                  toast('Plan upgraded successfully');
+                }}>
                 Upgrade Plan
               </Button>
               <div className="text-sm text-lighter">
