@@ -123,6 +123,40 @@ export default function BillingUpgrade() {
 
       <div className="w-full h-full py-6 flex flex-row relative overflow-y-auto gap-16 justify-center">
         <div className="w-[600px] flex flex-col gap-4 h-full">
+          <div className="w-full p-6 relative flex flex-row items-center justify-between gap-6 bg-subtle rounded-lg border border-base">
+            <div className="flex flex-col gap-4">
+              <Text className="font-medium text-lg leading-none">
+                Sync at scale with an{' '}
+                <span className="bg-gradient-to-r from-plum-400 to-plum-600 text-transparent bg-clip-text">
+                  Enterprise Plan
+                </span>
+              </Text>
+              <div className="flex flex-row gap-4 text-sm leading-none">
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>Unlimited Destinations</Text>
+                </div>
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>Audience Hub</Text>
+                </div>
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>SSO</Text>
+                </div>
+              </div>
+            </div>
+            <Button variant="secondary">Talk to Sales</Button>
+          </div>
           <div className="pb-12 pt-8 grow">
             <Form {...form}>
               <form
@@ -489,40 +523,6 @@ export default function BillingUpgrade() {
                 )}
               </div>
             </div>
-          </div>
-          <div className="w-full px-6 pb-4 pt-7 -top-2 relative flex flex-col gap-6 bg-subtle rounded-b-lg">
-            <div className="flex flex-col gap-4">
-              <Text className="font-medium text-lg leading-none">
-                Sync at scale with an{' '}
-                <span className="bg-gradient-to-r from-plum-400 from-20% to-plum-600 text-transparent bg-clip-text">
-                  Enterprise Plan
-                </span>
-              </Text>
-              <div className="flex flex-row gap-4 text-sm leading-none">
-                <div className="flex flex-row items-center gap-1.5">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-green-400 text-xs"
-                  />
-                  <Text>Unlimited Destinations</Text>
-                </div>
-                <div className="flex flex-row items-center gap-1.5">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-green-400 text-xs"
-                  />
-                  <Text>Audience Hub</Text>
-                </div>
-                <div className="flex flex-row items-center gap-1.5">
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-green-400 text-xs"
-                  />
-                  <Text>SSO</Text>
-                </div>
-              </div>
-            </div>
-            <Button variant="secondary">Talk to Sales</Button>
           </div>
         </div>
       </div>
