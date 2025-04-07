@@ -4,7 +4,7 @@ import { Button, Input, Separator } from '~/components/ui';
 import { useState } from 'react';
 import { Text } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/pro-solid-svg-icons';
+import { faCheck, faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
 import FancyRadioGroup from '~/components/RadioGroup/RadioGroup';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -120,9 +120,10 @@ export default function BillingUpgrade() {
           </Button>
         </div>
       </div>
-      <div className="w-full h-full py-8 flex flex-row relative overflow-y-auto justify-center gap-16">
+
+      <div className="w-full h-full py-6 flex flex-row relative overflow-y-auto gap-16 justify-center">
         <div className="w-[600px] flex flex-col gap-4 h-full">
-          <div className="pb-12 pt-8">
+          <div className="pb-12 pt-8 grow">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -346,19 +347,20 @@ export default function BillingUpgrade() {
                     )}
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Text className="text-lg font-medium">Payment Details</Text>
-                  <div className="w-full h-[100px] bg-deep rounded-lg flex justify-center items-center">
-                    Stripe integration input goes here
-                  </div>
+                <div className="flex flex-col gap-2 items-start">
+                  <Text className="text-lg font-medium leading-none">
+                    Payment Details
+                  </Text>
+                  <Text>You will be redirected to our billing partner.</Text>
+                  <Button>Add Payment Method</Button>
                 </div>
               </form>
             </Form>
           </div>
         </div>
-        <div className="flex flex-col gap-8 sticky top-0">
-          <div className="w-[400px] bg-white border border-base shadow-lg h-full p-8 rounded-lg flex flex-col justify-between max-h-[1100px]">
-            <div className="flex flex-col gap-8">
+        <div className="flex flex-col sticky top-0 h-full">
+          <div className="w-[400px] bg-white border border-base shadow-lg rounded-lg flex flex-col justify-between z-10 h-full max-h-[1100px] gap-12">
+            <div className="flex flex-col gap-6 px-6 pt-6">
               <div className="flex flex-col gap-2">
                 <Text className="text-lg font-medium">
                   Upgrade to Professional
@@ -388,7 +390,8 @@ export default function BillingUpgrade() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-8">
+
+            <div className="flex flex-col gap-8 px-6 pb-4">
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col">
@@ -487,13 +490,39 @@ export default function BillingUpgrade() {
               </div>
             </div>
           </div>
-          <div className="w-full p-4 rounded-lg flex flex-col gap-2 items-start bg-gradient-to-br from-[#0A0254] from-20% to-plum-500">
-            <Text>Need more destinations, SSO, or Audience Hub?</Text>
-            <Button
-              variant="ghost"
-              className="w-full">
-              Talk to Sales
-            </Button>
+          <div className="w-full px-6 pb-4 pt-7 -top-2 relative flex flex-col gap-6 bg-subtle rounded-b-lg">
+            <div className="flex flex-col gap-4">
+              <Text className="font-medium text-lg leading-none">
+                Sync at scale with an{' '}
+                <span className="bg-gradient-to-r from-plum-400 from-20% to-plum-600 text-transparent bg-clip-text">
+                  Enterprise Plan
+                </span>
+              </Text>
+              <div className="flex flex-row gap-4 text-sm leading-none">
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>Unlimited Destinations</Text>
+                </div>
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>Audience Hub</Text>
+                </div>
+                <div className="flex flex-row items-center gap-1.5">
+                  <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="text-green-400 text-xs"
+                  />
+                  <Text>SSO</Text>
+                </div>
+              </div>
+            </div>
+            <Button variant="secondary">Talk to Sales</Button>
           </div>
         </div>
       </div>
