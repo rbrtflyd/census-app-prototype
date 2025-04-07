@@ -23,10 +23,10 @@ const NumberInput = React.forwardRef<
       onChange={onChange}>
       <div className="*:not-first:mt-2">
         <Group
-          className={`border-base data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-16 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px] ${className}`}>
+          className={`border-input data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-16 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px] ${className}`}>
           <Button
             slot="decrement"
-            className="border-base bg-white icon-lighter hover:bg-subtle hover:icon-light -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
+            className="border-input bg-white icon-lighter hover:bg-subtle hover:icon-light -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
             <MinusIcon
               size={20}
               aria-hidden="true"
@@ -35,7 +35,7 @@ const NumberInput = React.forwardRef<
           <Input className="bg-white text-dark text-xl h-full w-full grow px-3 py-2 text-center tabular-nums" />
           <Button
             slot="increment"
-            className="border-base bg-white icon-lighter hover:bg-subtle hover:icon-light -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
+            className="border-input bg-white icon-lighter hover:bg-subtle hover:icon-light -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50">
             <PlusIcon
               size={20}
               aria-hidden="true"

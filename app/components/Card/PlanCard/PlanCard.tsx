@@ -5,7 +5,9 @@ import {
   Badge,
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,7 +15,7 @@ import {
 import { faCircleCheck } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from '@remix-run/react';
-
+import { toast } from 'sonner';
 interface PlanCardProps {
   plan: Plan;
   currentPlan: 'pro' | 'enterprise' | 'free';
@@ -73,7 +75,7 @@ export default function PlanCard({
             {plan.features.map((feature) => (
               <div
                 key={feature}
-                className="flex flex-row gap-2 border-b border-base py-3 px-2 items-baseline">
+                className="flex flex-row gap-2 border-b border-base py-3 px-2 items-baseline last:border-b-0">
                 <FontAwesomeIcon
                   icon={faCircleCheck}
                   className="text-plum-500 text-sm relative top-0.5"
@@ -83,7 +85,7 @@ export default function PlanCard({
               </div>
             ))}
           </div>
-          <div>
+          <div className="flex flex-col gap-2">
             {isFree || currentPlan === plan.id ? (
               ''
             ) : (
@@ -96,18 +98,44 @@ export default function PlanCard({
               </Button>
             )}
             {!isFree && currentPlan === plan.id && (
-              <>
+              <div className="flex flex-row gap-4 p-4 border border-base rounded-md justify-between">
+                <div className="flex flex-col gap-2">
+                  <Text className="text-lg">Plan Renews: May 7, 2024</Text>
+                  <Text className="text-lg">Amount: $XXXX</Text>
+                  <Text className="text-lg">Card: **** **** **** ****</Text>
+                  <Button variant="ghost">Edit Payment Information</Button>
+                </div>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="secondary">Cancel Plan</Button>
+                    <Button
+                      variant="ghost"
+                      className="place-self-start">
+                      Cancel Plan
+                    </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Are you absolutely sure?</DialogTitle>
+                      <DialogTitle>Cancel Professional Plan</DialogTitle>
                     </DialogHeader>
+                    <div className="h-full p-4">
+                      A summary of what a user willl lose access to:
+                    </div>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button>Nevermind</Button>
+                      </DialogClose>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          navigate('/org/billing');
+                          toast.success('Plan cancelled');
+                        }}>
+                        Continue with Cancel
+                      </Button>
+                    </DialogFooter>
                   </DialogContent>
                 </Dialog>
-              </>
+              </div>
             )}
           </div>
         </>
