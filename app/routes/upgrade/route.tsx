@@ -487,7 +487,7 @@ export default function BillingUpgrade() {
               </div>
             </div>
           </div>
-          <div className="w-full p-4 bg-subtle rounded flex flex-col gap-2 items-start">
+          <div className="w-full p-4 rounded-lg flex flex-col gap-2 items-start bg-gradient-to-br from-[#0A0254] from-20% to-plum-500">
             <Text>Need more destinations, SSO, or Audience Hub?</Text>
             <Button
               variant="ghost"
