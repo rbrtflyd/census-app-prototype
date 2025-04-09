@@ -127,7 +127,7 @@ export default function BillingUpgrade() {
             <div className="flex flex-col gap-4">
               <Text className="font-medium text-lg leading-none">
                 Sync at scale with an{' '}
-                <span className="bg-gradient-to-r from-plum-400 to-plum-600 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-[#0A0254] to-plum-500 text-transparent bg-clip-text">
                   Enterprise Plan
                 </span>
               </Text>
