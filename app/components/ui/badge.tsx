@@ -12,7 +12,7 @@ const badgeVariants = cva(
       },
       size: {
         sm: 'text-xxs px-2 py-1 font-mono',
-        md: 'text-xs px-2 py-1',
+        md: 'text-xs px-2 py-1 leading-none',
       },
     },
     defaultVariants: {
