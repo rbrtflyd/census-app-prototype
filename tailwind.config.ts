@@ -84,22 +84,22 @@ export default {
     plugin(function ({ addComponents }) {
       addComponents({
         '.text-dark': {
-          '@apply text-slate-600 dark:text-slate-12': {},
+          '@apply text-slate-600': {},
         },
         '.text-light': {
-          '@apply text-slate-400 dark:text-slate-50': {},
+          '@apply text-slate-400': {},
         },
         '.text-lighter': {
-          '@apply text-slate-300 dark:text-slate-200': {},
+          '@apply text-slate-300': {},
         },
         '.icon-light': {
-          '@apply text-slate-300 dark:text-slate-200': {},
+          '@apply text-slate-300': {},
         },
         '.icon-lighter': {
-          '@apply text-slate-200 dark:text-slate-200': {},
+          '@apply text-slate-200': {},
         },
         '.icon-lightest': {
-          '@apply text-slate-100 dark:text-slate-200': {},
+          '@apply text-slate-100': {},
         },
         '.icon-white': {
           '@apply text-white': {},
@@ -111,10 +111,10 @@ export default {
           '@apply border-slate-75': {},
         },
         '.bg-subtle': {
-          '@apply bg-slate-12 dark:bg-slate-800': {},
+          '@apply bg-slate-12': {},
         },
         '.bg-deep': {
-          '@apply bg-slate-25 dark:bg-slate-900': {},
+          '@apply bg-slate-25': {},
         },
       });
     }),
