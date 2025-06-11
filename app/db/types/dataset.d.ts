@@ -8,9 +8,10 @@ declare module '../db' {
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    rows: Array<RowType>;
-    columns: Array<ColumnType>;
-    tags: string[];
+    rows?: Array<RowType>;
+    rowsCount?: number;
+    columns?: Array<ColumnType>;
+    tags?: string[];
     schema: string;
     uniques: Array<any>;
     indexes: Array<any>;
