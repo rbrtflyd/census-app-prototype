@@ -1,7 +1,7 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Outlet, useNavigate, useOutletContext } from '@remix-run/react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { DatasetType } from '~/db/types';
+import { ConnectionType, DatasetType } from '~/db/types';
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,8 +12,9 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const navigate = useNavigate();
-  const { datasets } = useOutletContext() as {
+  const { datasets, connections } = useOutletContext() as {
     datasets: DatasetType[];
+    connections: ConnectionType[];
   };
   return (
     <div className="flex flex-col h-screen">
@@ -25,7 +26,7 @@ export default function Index() {
         }}
       />
 
-      <Outlet context={{ datasets }} />
+      <Outlet context={{ datasets, connections }} />
     </div>
   );
 }
