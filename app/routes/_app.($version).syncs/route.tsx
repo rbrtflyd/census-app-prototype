@@ -1,6 +1,7 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Outlet } from '@remix-run/react';
+import { Outlet, useNavigate, useOutletContext } from '@remix-run/react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
+import { DatasetType } from '~/db/types';
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,14 +11,21 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const navigate = useNavigate();
+  const { datasets } = useOutletContext() as {
+    datasets: DatasetType[];
+  };
   return (
     <div className="flex flex-col h-screen">
       <PageHeader
         title="All Syncs"
-        button={{ label: 'New Sync', onClick: () => {} }}
+        button={{
+          label: 'New Sync',
+          onClick: () => navigate('/syncs/new'),
+        }}
       />
 
-      <Outlet />
+      <Outlet context={{ datasets }} />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 import type { MetaFunction } from '@remix-run/node';
-import PageHeader from '../../components/Structural/Headers/PageHeader';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, Outlet, useParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import { checkMigrations } from '../../db/utils/migrationUtils';
-import {
+import db, {
   getDatasets,
   getSyncs,
   initializeDatabase,
@@ -12,10 +11,6 @@ import {
 } from '../../db/db';
 import { DatasetType, SyncType, ConnectionType } from '../../db/types';
 import SidebarNavigation from '../../components/Navigation/Sidebar/SidebarNavigation';
-import db from '../../db/db';
-import { Toaster } from '../../components/ui/sonner';
-import { Outlet, useParams } from '@remix-run/react';
-import React from 'react';
 import HeaderNavigation from '../../components/Navigation/Header/HeaderNavigation';
 
 export const meta: MetaFunction = () => {
