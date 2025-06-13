@@ -71,6 +71,7 @@ const sourceConnectionsOnly = (connections: any[]) => {
 export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
   const [search, setSearch] = useState('');
   const [pages, setPages] = useState<string[]>([]);
+  const [selectedSource, setSelectedSource] = useState<string>();
 
   const currentPage = pages[pages.length - 1];
 
@@ -115,6 +116,7 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
 
   return (
     <Command
+      className="border border-base rounded-md flex flex-col overflow-hidden"
       shouldFilter={false}
       onKeyDown={(e) => {
         // Escape goes to previous page
@@ -133,6 +135,13 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
         value={search}
         onValueChange={setSearch}
       />
+
+      <div className="flex flex-row py-2 border-b border-base text-sm items-center gap-2 px-3 *:p-3 bg-white z-20">
+        <button>Everything 278</button>
+        <button>Datasets 32</button>
+        <button>Connections 5</button>
+        <button>Tables 240</button>
+      </div>
       <CommandList>
         <CommandEmpty>
           {currentPage ? 'No tables found.' : 'No results found.'}
@@ -152,20 +161,13 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
                       console.log('Selected dataset:', dataset.name)
                     }>
                     <div className="flex items-center gap-3 w-full">
-                      <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
-                        <span className="text-xs font-medium text-blue-600">
-                          D
-                        </span>
+                      <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
+                        D
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm">
                           {dataset.name}
                         </div>
-                        {dataset.description && (
-                          <div className="text-xs text-gray-500 truncate">
-                            {dataset.description}
-                          </div>
-                        )}
                       </div>
                       <div className="text-xs text-gray-400">
                         {dataset.rows?.toLocaleString()} rows
