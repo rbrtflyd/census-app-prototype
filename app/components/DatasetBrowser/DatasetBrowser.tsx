@@ -8,13 +8,17 @@ import {
 } from '~/components/DatasetBrowser/Command';
 import { ConnectionServiceType, ConnectionType } from '~/db/types';
 import { useState } from 'react';
+import { Text } from '@radix-ui/themes';
+import { DatasetType } from '~/db/db';
 
 interface DatasetBrowserProps {
   data: {
-    datasets: any;
-    connections: any;
-    workspaceConnections: any;
+    datasets: DatasetType[];
+    connections: ConnectionServiceType[];
+    workspaceConnections: ConnectionType[];
   };
+  selectedSource: string;
+  setSelectedSource: (value: string) => void;
 }
 
 // Sample table data for prototype - every connection will have these tables
@@ -68,10 +72,14 @@ const sourceConnectionsOnly = (connections: any[]) => {
   );
 };
 
-export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
+export const DatasetBrowser = ({
+  data,
+  selectedSource,
+  setSelectedSource,
+}: DatasetBrowserProps) => {
   const [search, setSearch] = useState('');
   const [pages, setPages] = useState<string[]>([]);
-  const [selectedSource, setSelectedSource] = useState<string>();
+  const [value, setValue] = useState(selectedSource);
 
   const currentPage = pages[pages.length - 1];
 
@@ -87,7 +95,7 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
   // Filter datasets based on search (only on main page)
   const filteredDatasets = !currentPage
     ? data.datasets.filter(
-        (dataset: any) =>
+        (dataset: DatasetType) =>
           dataset.name.toLowerCase().includes(search.toLowerCase()) ||
           dataset.description?.toLowerCase().includes(search.toLowerCase())
       )
@@ -96,7 +104,7 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
   // Filter connections based on search (only on main page)
   const filteredConnections = !currentPage
     ? connections.filter(
-        (connection: any) =>
+        (connection: ConnectionType) =>
           connection.connectionServiceName
             .toLowerCase()
             .includes(search.toLowerCase()) ||
@@ -118,6 +126,8 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
     <Command
       className="border border-base rounded-md flex flex-col overflow-hidden"
       shouldFilter={false}
+      value={value}
+      onValueChange={setValue}
       onKeyDown={(e) => {
         // Escape goes to previous page
         // Backspace goes to previous page when search is empty
@@ -135,132 +145,137 @@ export const DatasetBrowser = ({ data }: DatasetBrowserProps) => {
         value={search}
         onValueChange={setSearch}
       />
+      <div className="flex flex-row border-t border-base">
+        <div className="flex flex-col px-3 py-3 gap-1 border-r border-base w-1/4">
+          <Text className="text-sm text-lighter ml-3 leading-none">
+            Sync from...
+          </Text>
+          <div className="flex flex-col py-2 text-sm gap-2 *:px-3 *:py-2 bg-white z-20 text-light *:flex">
+            <button>Datasets</button>
+            <button>Segments</button>
+            <button>Connections</button>
+            <button>Tables</button>
+          </div>
+        </div>
+        <CommandList className="w-full px-3">
+          <CommandEmpty>
+            {currentPage ? 'No tables found.' : 'No results found.'}
+          </CommandEmpty>
 
-      <div className="flex flex-row py-2 border-b border-base text-sm items-center gap-2 px-3 *:p-3 bg-white z-20">
-        <button>Everything 278</button>
-        <button>Datasets 32</button>
-        <button>Connections 5</button>
-        <button>Tables 240</button>
-      </div>
-      <CommandList>
-        <CommandEmpty>
-          {currentPage ? 'No tables found.' : 'No results found.'}
-        </CommandEmpty>
-
-        {/* Main page - show datasets and connections */}
-        {!currentPage && (
-          <>
-            {/* Datasets Group */}
-            {filteredDatasets.length > 0 && (
-              <CommandGroup heading="Datasets">
-                {filteredDatasets.map((dataset: any) => (
-                  <CommandItem
-                    key={`dataset-${dataset.id}`}
-                    value={`dataset-${dataset.name}`}
-                    onSelect={() =>
-                      console.log('Selected dataset:', dataset.name)
-                    }>
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
-                        D
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm">
-                          {dataset.name}
+          {/* Main page - show datasets and connections */}
+          {!currentPage && (
+            <>
+              {/* Datasets Group */}
+              {filteredDatasets.length > 0 && (
+                <CommandGroup heading="Datasets">
+                  {filteredDatasets.map((dataset: DatasetType) => (
+                    <CommandItem
+                      key={`dataset-${dataset.id}`}
+                      value={`${dataset.name}`}
+                      onSelect={() => {
+                        setValue(`${dataset}`);
+                        setSelectedSource(`${dataset}`);
+                      }}>
+                      <div className="flex items-center gap-3 w-full">
+                        <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
+                          D
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm">
+                            {dataset.name}
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {dataset.rows?.toLocaleString()} rows
                         </div>
                       </div>
-                      <div className="text-xs text-gray-400">
-                        {dataset.rows?.toLocaleString()} rows
-                      </div>
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
 
-            {/* Connections Group */}
-            {filteredConnections.length > 0 && (
-              <CommandGroup heading="Connections">
-                {filteredConnections.map((connection: any) => (
-                  <CommandItem
-                    key={`connection-${connection.id}`}
-                    value={`connection-${connection.connectionServiceName}`}
-                    onSelect={() =>
-                      setPages([...pages, `connection-${connection.id}`])
-                    }>
-                    <div className="flex items-center gap-3 w-full">
-                      {connection.logo && (
-                        <img
-                          src={connection.logo}
-                          alt={connection.connectionServiceName}
-                          className="w-6 h-6 object-contain"
-                        />
-                      )}
-                      <div className="flex-1 flex-row flex min-w-0">
-                        <div className="font-medium text-sm">
-                          {connection.connectionServiceName}
+              {/* Connections Group */}
+              {filteredConnections.length > 0 && (
+                <CommandGroup heading="Connections">
+                  {filteredConnections.map((connection: ConnectionType) => (
+                    <CommandItem
+                      key={`connection-${connection.id}`}
+                      value={`connection-${connection.connectionServiceName}`}
+                      onSelect={() =>
+                        setPages([...pages, `connection-${connection.id}`])
+                      }>
+                      <div className="flex items-center gap-3 w-full">
+                        {connection.logo && (
+                          <img
+                            src={connection.logo}
+                            alt={connection.connectionServiceName}
+                            className="w-6 h-6 object-contain"
+                          />
+                        )}
+                        <div className="flex-1 flex-row flex min-w-0">
+                          <div className="font-medium text-sm">
+                            {connection.connectionServiceName}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400">
+                            {connection.tables?.length} tables
+                          </span>
+                          <span className="text-xs text-gray-400">→</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400">
-                          {connection.tables?.length} tables
-                        </span>
-                        <span className="text-xs text-gray-400">→</span>
-                      </div>
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-          </>
-        )}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+            </>
+          )}
 
-        {/* Connection page - show tables for selected connection */}
-        {currentPage && currentConnection && (
-          <CommandGroup
-            heading={
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setPages(pages.slice(0, -1))}
-                  className="text-xs text-lighter hover:text-dark flex items-center gap-1">
-                  ← Back
-                </button>
-                <span>Tables in {currentConnection.connectionServiceName}</span>
-              </div>
-            }>
-            {filteredTables.map((table: any) => (
-              <CommandItem
-                key={`table-${currentConnection.id}-${table.name}`}
-                value={`table-${table.name}`}
-                onSelect={() =>
-                  console.log(
-                    'Selected table:',
-                    table.name,
-                    'from',
-                    currentConnection.connectionServiceName
-                  )
-                }>
-                <div className="flex items-center gap-3 w-full">
-                  <div className="w-6 h-6 bg-green-100 rounded flex items-center justify-center">
-                    <span className="text-xs font-medium text-green-600">
-                      T
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-sm">{table.name}</div>
-                    <div className="text-xs text-gray-500 truncate">
-                      {table.description}
-                    </div>
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    {table.rowCount?.toLocaleString()} rows
-                  </div>
+          {/* Connection page - show tables for selected connection */}
+          {currentPage && currentConnection && (
+            <CommandGroup
+              heading={
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPages(pages.slice(0, -1))}
+                    className="text-xs text-lighter hover:text-dark flex items-center gap-1">
+                    ← Back
+                  </button>
+                  <span>
+                    Tables in {currentConnection.connectionServiceName}
+                  </span>
                 </div>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        )}
-      </CommandList>
+              }>
+              {filteredTables.map((table: any) => (
+                <CommandItem
+                  key={`table-${currentConnection.id}-${table.name}`}
+                  value={`${table.name}`}
+                  onSelect={() => {
+                    setValue(`${table.name}`);
+                  }}>
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-6 h-6 bg-green-100 rounded flex items-center justify-center">
+                      <span className="text-xs font-medium text-green-600">
+                        T
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-sm">{table.name}</div>
+                      <div className="text-xs text-gray-500 truncate">
+                        {table.description}
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      {table.rowCount?.toLocaleString()} rows
+                    </div>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
+        </CommandList>
+        <div>Navigate</div>
+      </div>
     </Command>
   );
 };
