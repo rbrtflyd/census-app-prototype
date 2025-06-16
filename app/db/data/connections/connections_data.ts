@@ -388,7 +388,7 @@ const connectionsData: ConnectionServiceType[] = [
     connectionServiceCategory: 'database',
     description:
       'An open-source, in-memory data structure store, used as a database, cache, and message broker. It supports various data structures and is known for its high performance.',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg',
+    logo: 'https://cdn.worldvectorlogo.com/logos/redis.svg',
     modes: ['source'],
     authentication_methods: ['Credentials', 'Role'],
   },

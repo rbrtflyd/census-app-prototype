@@ -142,9 +142,8 @@ export const DatasetBrowser = ({
 
   return (
     <motion.div
-      layout="size"
+      layout
       layoutDependency={selectedSource}
-      layoutId="dataset-browser"
       className="border border-base rounded-lg flex flex-col">
       {!selectedSource && (
         <Command
