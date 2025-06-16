@@ -5,11 +5,20 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '~/components/DatasetBrowser/Command';
-import { ConnectionServiceType, ConnectionType } from '~/db/types';
+  DatasetBrowserSidebar,
+  DatasetBrowserFooter,
+} from '~/components/DatasetBrowser/Components';
+import {
+  ConnectionServiceType,
+  ConnectionType,
+  SyncSourceType,
+} from '~/db/types';
 import { useState } from 'react';
-import { Text } from '@radix-ui/themes';
 import { DatasetType } from '~/db/db';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRefresh } from '@fortawesome/pro-solid-svg-icons';
+
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DatasetBrowserProps {
   data: {
@@ -17,8 +26,8 @@ interface DatasetBrowserProps {
     connections: ConnectionServiceType[];
     workspaceConnections: ConnectionType[];
   };
-  selectedSource: string;
-  setSelectedSource: (value: string) => void;
+  selectedSource: SyncSourceType | null;
+  setSelectedSource: (value: SyncSourceType | null) => void;
 }
 
 // Sample table data for prototype - every connection will have these tables
@@ -49,20 +58,26 @@ const combinedConnections = (
   workspaceConnections: ConnectionType[],
   connections: ConnectionServiceType[]
 ) => {
-  return [...workspaceConnections].map((wc) => {
-    const connectionDetails = formatWorkspaceConnection(wc, connections);
-    return {
-      ...wc,
-      id: connectionDetails?.id,
-      logo: connectionDetails?.logo || '',
-      connectionServiceName: connectionDetails?.connectionServiceName || '',
-      connectionServiceType: connectionDetails?.connectionServiceType || '',
-      category: connectionDetails?.connectionServiceCategory || '',
-      modes: connectionDetails?.modes || [],
-      // Add tables for prototype
-      tables: sampleTables,
-    };
-  });
+  return workspaceConnections
+    .map((wc) => {
+      const connectionDetails = formatWorkspaceConnection(wc, connections);
+      // Only include connections where we found matching details
+      if (!connectionDetails) {
+        return null;
+      }
+      return {
+        ...wc,
+        id: connectionDetails.id,
+        logo: connectionDetails.logo || '',
+        connectionServiceName: connectionDetails.connectionServiceName || '',
+        connectionServiceType: connectionDetails.connectionServiceType || '',
+        category: connectionDetails.connectionServiceCategory || '',
+        modes: connectionDetails.modes || [],
+        // Add tables for prototype
+        tables: sampleTables,
+      };
+    })
+    .filter(Boolean); // Remove null entries
 };
 
 const sourceConnectionsOnly = (connections: any[]) => {
@@ -79,7 +94,8 @@ export const DatasetBrowser = ({
 }: DatasetBrowserProps) => {
   const [search, setSearch] = useState('');
   const [pages, setPages] = useState<string[]>([]);
-  const [value, setValue] = useState(selectedSource);
+  const [value, setValue] = useState(selectedSource?.name || '');
+  const [isSearching, setIsSearching] = useState(true);
 
   const currentPage = pages[pages.length - 1];
 
@@ -105,12 +121,14 @@ export const DatasetBrowser = ({
   const filteredConnections = !currentPage
     ? connections.filter(
         (connection: ConnectionType) =>
-          connection.connectionServiceName
+          connection.connectionServiceName &&
+          connection.connectionServiceType &&
+          (connection.connectionServiceName
             .toLowerCase()
             .includes(search.toLowerCase()) ||
-          connection.connectionServiceType
-            .toLowerCase()
-            .includes(search.toLowerCase())
+            connection.connectionServiceType
+              .toLowerCase()
+              .includes(search.toLowerCase()))
       )
     : [];
 
@@ -123,159 +141,204 @@ export const DatasetBrowser = ({
     ) || [];
 
   return (
-    <Command
-      className="border border-base rounded-md flex flex-col overflow-hidden"
-      shouldFilter={false}
-      value={value}
-      onValueChange={setValue}
-      onKeyDown={(e) => {
-        // Escape goes to previous page
-        // Backspace goes to previous page when search is empty
-        if (e.key === 'Escape' || (e.key === 'Backspace' && !search)) {
-          e.preventDefault();
-          setPages((pages) => pages.slice(0, -1));
-        }
-      }}>
-      <CommandInput
-        placeholder={
-          currentPage
-            ? `Search tables in ${currentConnection?.connectionServiceName}...`
-            : 'Search for a dataset, table, or connection...'
-        }
-        value={search}
-        onValueChange={setSearch}
-      />
-      <div className="flex flex-row border-t border-base">
-        <div className="flex flex-col px-3 py-3 gap-1 border-r border-base w-1/4">
-          <Text className="text-sm text-lighter ml-3 leading-none">
-            Sync from...
-          </Text>
-          <div className="flex flex-col py-2 text-sm gap-2 *:px-3 *:py-2 bg-white z-20 text-light *:flex">
-            <button>Datasets</button>
-            <button>Segments</button>
-            <button>Connections</button>
-            <button>Tables</button>
-          </div>
-        </div>
-        <CommandList className="w-full px-3">
-          <CommandEmpty>
-            {currentPage ? 'No tables found.' : 'No results found.'}
-          </CommandEmpty>
+    <motion.div
+      layout="size"
+      layoutDependency={selectedSource}
+      layoutId="dataset-browser"
+      className="border border-base rounded-lg flex flex-col">
+      {!selectedSource && (
+        <Command
+          shouldFilter={false}
+          value={value || ''}
+          onValueChange={(val) => setValue(val || '')}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape' || (e.key === 'Backspace' && !search)) {
+              e.preventDefault();
+              setPages((pages) => pages.slice(0, -1));
+            }
+          }}>
+          <CommandInput
+            placeholder={
+              currentPage
+                ? `Search tables in ${
+                    currentConnection?.connectionServiceName || 'connection'
+                  }...`
+                : 'Search for a dataset, table, or connection...'
+            }
+            value={search}
+            onValueChange={(val) => setSearch(val || '')}
+          />
 
-          {/* Main page - show datasets and connections */}
-          {!currentPage && (
-            <>
-              {/* Datasets Group */}
-              {filteredDatasets.length > 0 && (
-                <CommandGroup heading="Datasets">
-                  {filteredDatasets.map((dataset: DatasetType) => (
-                    <CommandItem
-                      key={`dataset-${dataset.id}`}
-                      value={`${dataset.name}`}
-                      onSelect={() => {
-                        setValue(`${dataset}`);
-                        setSelectedSource(`${dataset}`);
-                      }}>
-                      <div className="flex items-center gap-3 w-full">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
-                          D
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-sm">
-                            {dataset.name}
-                          </div>
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          {dataset.rows?.toLocaleString()} rows
-                        </div>
-                      </div>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
+          <AnimatePresence mode="wait">
+            <div className="flex flex-col border-t border-base">
+              <div className="flex flex-row">
+                <DatasetBrowserSidebar
+                  connections={connections}
+                  setPages={setPages}
+                  pages={pages}
+                />
+                <CommandList className="w-full px-3">
+                  <CommandEmpty>
+                    {currentPage ? 'No tables found.' : 'No results found.'}
+                  </CommandEmpty>
 
-              {/* Connections Group */}
-              {filteredConnections.length > 0 && (
-                <CommandGroup heading="Connections">
-                  {filteredConnections.map((connection: ConnectionType) => (
-                    <CommandItem
-                      key={`connection-${connection.id}`}
-                      value={`connection-${connection.connectionServiceName}`}
-                      onSelect={() =>
-                        setPages([...pages, `connection-${connection.id}`])
-                      }>
-                      <div className="flex items-center gap-3 w-full">
-                        {connection.logo && (
-                          <img
-                            src={connection.logo}
-                            alt={connection.connectionServiceName}
-                            className="w-6 h-6 object-contain"
-                          />
-                        )}
-                        <div className="flex-1 flex-row flex min-w-0">
-                          <div className="font-medium text-sm">
-                            {connection.connectionServiceName}
-                          </div>
-                        </div>
+                  {/* Main page - show datasets and connections */}
+                  {!currentPage && (
+                    <>
+                      {/* Datasets Group */}
+                      {filteredDatasets.length > 0 && (
+                        <CommandGroup heading="Datasets">
+                          {filteredDatasets.map((dataset: DatasetType) => (
+                            <CommandItem
+                              key={`dataset-${dataset.id}`}
+                              value={`${dataset.name}`}
+                              onSelect={() => {
+                                setValue(`${dataset.name}`);
+                                setSelectedSource({
+                                  id: dataset.id.toString(),
+                                  name: dataset.name,
+                                  type: 'dataset',
+                                  sourceId: dataset.id.toString(),
+                                });
+                              }}>
+                              <div className="flex items-center gap-3 w-full">
+                                <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
+                                  D
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-medium text-sm">
+                                    {dataset.name}
+                                  </div>
+                                </div>
+                                <div className="text-xs text-gray-400">
+                                  {dataset.rows?.toLocaleString()} rows
+                                </div>
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      )}
+
+                      {/* Connections Group */}
+                      {filteredConnections.length > 0 && (
+                        <CommandGroup heading="Connections">
+                          {filteredConnections.map(
+                            (connection: ConnectionType, index) => (
+                              <CommandItem
+                                key={`connection-${connection.id || index}-${
+                                  connection.connectionServiceName || 'unknown'
+                                }`}
+                                value={connection.connectionServiceName || ''}
+                                onSelect={() =>
+                                  setPages([
+                                    ...pages,
+                                    `connection-${connection.id}`,
+                                  ])
+                                }>
+                                <div className="flex items-center gap-3 w-full">
+                                  {connection.logo && (
+                                    <img
+                                      src={connection.logo}
+                                      alt={
+                                        connection.connectionServiceName ||
+                                        'unknown'
+                                      }
+                                      className="w-6 h-6 object-contain"
+                                    />
+                                  )}
+                                  <div className="flex-1 flex-row flex min-w-0">
+                                    <div className="font-medium text-sm">
+                                      {connection.connectionServiceName ||
+                                        'unknown'}
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs text-gray-400">
+                                      {connection.tables?.length} tables
+                                    </span>
+                                    <span className="text-xs text-gray-400">
+                                      →
+                                    </span>
+                                  </div>
+                                </div>
+                              </CommandItem>
+                            )
+                          )}
+                        </CommandGroup>
+                      )}
+                    </>
+                  )}
+
+                  {/* Connection page - show tables for selected connection */}
+                  {currentPage && currentConnection && (
+                    <CommandGroup
+                      heading={
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-400">
-                            {connection.tables?.length} tables
+                          <button
+                            onClick={() => setPages(pages.slice(0, -1))}
+                            className="text-xs text-lighter hover:text-dark flex items-center gap-1">
+                            ← Back
+                          </button>
+                          <span>
+                            Tables in {currentConnection.connectionServiceName}
                           </span>
-                          <span className="text-xs text-gray-400">→</span>
                         </div>
-                      </div>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              )}
-            </>
-          )}
-
-          {/* Connection page - show tables for selected connection */}
-          {currentPage && currentConnection && (
-            <CommandGroup
-              heading={
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setPages(pages.slice(0, -1))}
-                    className="text-xs text-lighter hover:text-dark flex items-center gap-1">
-                    ← Back
-                  </button>
-                  <span>
-                    Tables in {currentConnection.connectionServiceName}
-                  </span>
-                </div>
-              }>
-              {filteredTables.map((table: any) => (
-                <CommandItem
-                  key={`table-${currentConnection.id}-${table.name}`}
-                  value={`${table.name}`}
-                  onSelect={() => {
-                    setValue(`${table.name}`);
-                  }}>
-                  <div className="flex items-center gap-3 w-full">
-                    <div className="w-6 h-6 bg-green-100 rounded flex items-center justify-center">
-                      <span className="text-xs font-medium text-green-600">
-                        T
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm">{table.name}</div>
-                      <div className="text-xs text-gray-500 truncate">
-                        {table.description}
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-400">
-                      {table.rowCount?.toLocaleString()} rows
-                    </div>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-        </CommandList>
-        <div>Navigate</div>
-      </div>
-    </Command>
+                      }>
+                      {filteredTables.map((table: any) => (
+                        <CommandItem
+                          key={`table-${currentConnection.id}-${table.name}`}
+                          value={`${table.name}`}
+                          onSelect={() => {
+                            setValue(`${table.name}`);
+                          }}>
+                          <div className="flex items-center gap-3 w-full">
+                            <div className="w-6 h-6 bg-green-100 rounded flex items-center justify-center">
+                              <span className="text-xs font-medium text-green-600">
+                                T
+                              </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm">
+                                {table.name}
+                              </div>
+                              <div className="text-xs text-gray-500 truncate">
+                                {table.description}
+                              </div>
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              {table.rowCount?.toLocaleString()} rows
+                            </div>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
+                </CommandList>
+              </div>
+              <DatasetBrowserFooter />
+            </div>
+          </AnimatePresence>
+        </Command>
+      )}
+      {selectedSource && (
+        <div className="p-4 flex flex-row gap-4 justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
+              D
+            </div>
+            <div className="flex-1">
+              <div className="font-medium">{selectedSource?.name}</div>
+              <div className="text-sm text-lighter">{selectedSource?.type}</div>
+            </div>
+          </div>
+          <button
+            onClick={() => setSelectedSource(null)}
+            className="px-3 py-1 text-sm gap-3 flex items-center text-lighter hover:text-dark">
+            <FontAwesomeIcon icon={faRefresh} />
+            Change source
+          </button>
+        </div>
+      )}
+    </motion.div>
   );
 };

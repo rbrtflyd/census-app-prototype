@@ -97,7 +97,7 @@ function CommandInput({ className, ...props }: CommandInputProps) {
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
-          'placeholder:text-lighter flex w-full py-3 text-lg px-4  outline-hidden disabled:cursor-not-allowed disabled:opacity-50 bg-white',
+          'placeholder:text-lighter flex w-full py-4 text-lg px-4  outline-hidden disabled:cursor-not-allowed disabled:opacity-50 bg-white rounded-lg focus:ring-0 focus:border-0',
           className
         )}
         {...props}
@@ -111,7 +111,7 @@ function CommandList({ className, ...props }: CommandListProps) {
     <CommandPrimitive.List
       data-slot="command-list"
       className={cn(
-        'max-h-[350px] scroll-py-1 overflow-x-hidden overflow-y-auto',
+        'h-[500px] scroll-py-1 overflow-x-hidden overflow-y-auto',
         className
       )}
       {...props}
