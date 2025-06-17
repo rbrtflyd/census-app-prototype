@@ -144,7 +144,7 @@ export const DatasetBrowser = ({
     <motion.div
       layout
       layoutDependency={selectedSource}
-      className="border border-base rounded-lg flex flex-col">
+      className="border border-base rounded-lg">
       {!selectedSource && (
         <Command
           shouldFilter={false}
@@ -204,12 +204,23 @@ export const DatasetBrowser = ({
                                 <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
                                   D
                                 </div>
-                                <div className="flex-1 min-w-0">
+                                <div className="flex-1 flex flex-row min-w-0">
                                   <div className="font-medium text-sm">
                                     {dataset.name}
                                   </div>
+                                  <div className="flex-1 flex flex-row min-w-0">
+                                    {dataset.lineage && (
+                                      <div className="text-lighter">
+                                        {dataset.lineage.map((lineage) => (
+                                          <div key={lineage.id}>
+                                            {lineage.name}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="text-xs text-gray-400">
+                                <div className="text-lighter">
                                   {dataset.rows?.toLocaleString()} rows
                                 </div>
                               </div>

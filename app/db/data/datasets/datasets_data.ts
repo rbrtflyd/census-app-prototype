@@ -27,6 +27,14 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    lineage: [
+      {
+        id: 1,
+        name: 'Salesforce Contacts',
+        source: 5,
+        createdAt: new Date(),
+      },
+    ],
   },
   {
     id: 2,

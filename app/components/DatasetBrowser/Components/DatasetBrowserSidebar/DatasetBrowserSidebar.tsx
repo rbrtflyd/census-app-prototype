@@ -1,7 +1,7 @@
 import { Text } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTable } from '@fortawesome/pro-regular-svg-icons';
-import { faFilter, faPlug } from '@fortawesome/pro-solid-svg-icons';
+import { faFileCsv, faFilter, faPlug } from '@fortawesome/pro-solid-svg-icons';
 import { ConnectionServiceType } from '~/db/types';
 
 interface DatasetBrowserSidebarProps {
@@ -28,9 +28,15 @@ export default function DatasetBrowserSidebar({
         <div className="flex flex-col gap-3">
           <Text className="text-sm flex flex-row items-center gap-2">
             <FontAwesomeIcon icon={faPlug} />
-            <Text className="font-medium">Connections</Text>
+            <Text className="font-medium">Data Source</Text>
           </Text>
           <div className="flex flex-col gap-3">
+            <button
+              className="flex flex-row items-center gap-2"
+              onClick={() => {}}>
+              <FontAwesomeIcon icon={faFileCsv} />
+              <Text className="text-sm">CSV Files</Text>
+            </button>
             {connections.map((connection) => (
               <button
                 key={connection.id}

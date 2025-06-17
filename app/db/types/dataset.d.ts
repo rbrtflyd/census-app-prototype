@@ -16,6 +16,7 @@ declare module '../db' {
     uniques: Array<any>;
     indexes: Array<any>;
     foreignKeys: Array<any>;
+    lineage?: Array<any>;
   }
 }
 
