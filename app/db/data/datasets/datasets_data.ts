@@ -31,8 +31,6 @@ const datasetsData = [
       {
         id: 1,
         name: 'Salesforce Contacts',
-        source: 5,
-        createdAt: new Date(),
       },
     ],
   },
@@ -51,6 +49,12 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    lineage: [
+      {
+        id: 1,
+        name: 'Salesforce',
+      },
+    ],
   },
   {
     id: 3,

@@ -9,6 +9,11 @@ import {
   DatasetBrowserFooter,
 } from '~/components/DatasetBrowser/Components';
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '~/components/ui/hover-card';
+import {
   ConnectionServiceType,
   ConnectionType,
   SyncSourceType,
@@ -188,43 +193,44 @@ export const DatasetBrowser = ({
                       {filteredDatasets.length > 0 && (
                         <CommandGroup heading="Datasets">
                           {filteredDatasets.map((dataset: DatasetType) => (
-                            <CommandItem
-                              key={`dataset-${dataset.id}`}
-                              value={`${dataset.name}`}
-                              onSelect={() => {
-                                setValue(`${dataset.name}`);
-                                setSelectedSource({
-                                  id: dataset.id.toString(),
-                                  name: dataset.name,
-                                  type: 'dataset',
-                                  sourceId: dataset.id.toString(),
-                                });
-                              }}>
-                              <div className="flex items-center gap-3 w-full">
-                                <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
-                                  D
-                                </div>
-                                <div className="flex-1 flex flex-row min-w-0">
-                                  <div className="font-medium text-sm">
-                                    {dataset.name}
-                                  </div>
-                                  <div className="flex-1 flex flex-row min-w-0">
-                                    {dataset.lineage && (
-                                      <div className="text-lighter">
-                                        {dataset.lineage.map((lineage) => (
-                                          <div key={lineage.id}>
-                                            {lineage.name}
-                                          </div>
-                                        ))}
+                            <HoverCard key={`dataset-${dataset.id}`}>
+                              <HoverCardTrigger asChild>
+                                <CommandItem
+                                  value={`${dataset.name}`}
+                                  onSelect={() => {
+                                    setValue(`${dataset.name}`);
+                                    setSelectedSource({
+                                      id: dataset.id.toString(),
+                                      name: dataset.name,
+                                      type: 'dataset',
+                                      sourceId: dataset.id.toString(),
+                                    });
+                                  }}
+                                  className="group flex flex-col h-fit p-0 relative">
+                                  <div className="flex flex-row items-center gap-3 w-full px-3 py-4">
+                                    <div className="w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-800 rounded-lg leading-none flex items-center justify-center text-xs font-medium text-white">
+                                      D
+                                    </div>
+                                    <div className="flex-1 flex flex-row min-w-0">
+                                      <div className="font-medium text-sm">
+                                        {dataset.name}
                                       </div>
-                                    )}
+                                    </div>
+                                    <div className="text-lighter">
+                                      {dataset.rows?.toLocaleString()} rows
+                                    </div>
                                   </div>
+                                </CommandItem>
+                              </HoverCardTrigger>
+                              <HoverCardContent className="flex-row w-full px-3 py-2 hidden group-hover:block absolute -bottom-7 left-0 bg-deep z-50 rounded-b-md">
+                                <div className="text-lighter flex flex-row gap-2 items-center">
+                                  {dataset.name}
+                                  {dataset.lineage?.map((lineage) => (
+                                    <div key={lineage.id}>{lineage.name}</div>
+                                  ))}
                                 </div>
-                                <div className="text-lighter">
-                                  {dataset.rows?.toLocaleString()} rows
-                                </div>
-                              </div>
-                            </CommandItem>
+                              </HoverCardContent>
+                            </HoverCard>
                           ))}
                         </CommandGroup>
                       )}
