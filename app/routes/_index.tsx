@@ -100,6 +100,14 @@ export default function Index() {
         navigate('/v1/settings/storage');
       },
     },
+    {
+      name: 'Sync Source Selector',
+      description:
+        'Redesigned sync source selector for any type of dataset or source',
+      onClick: () => {
+        navigate('/v1/syncs/new');
+      },
+    },
   ];
 
   const internalWorkflows = [
