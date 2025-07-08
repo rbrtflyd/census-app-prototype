@@ -2,7 +2,6 @@ import React from 'react';
 import { FolderType, DatasetType } from '~/db/types';
 import { Button } from '~/components/ui/button';
 import { Folder, Database } from 'lucide-react';
-import { Text } from '@radix-ui/themes';
 
 interface SimpleFolderNavigationProps {
   folders: FolderType[];
@@ -23,10 +22,6 @@ export const SimpleFolderNavigation: React.FC<SimpleFolderNavigationProps> = ({
 
   return (
     <div className="w-80 bg-white border-r border-base flex flex-col">
-      <div className="p-4 border-b border-base">
-        <Text className="font-medium">Datasets</Text>
-      </div>
-
       <div className="flex-1 overflow-auto">
         <div className="p-2">
           {/* All Datasets */}
