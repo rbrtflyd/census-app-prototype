@@ -27,6 +27,7 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    folderId: 'marketing',
   },
   {
     id: 2,
@@ -43,6 +44,7 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    folderId: 'sales',
   },
   {
     id: 3,
@@ -54,6 +56,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'marketing',
   },
   {
     id: 4,
@@ -65,6 +68,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'sales',
   },
   {
     id: 5,
@@ -76,6 +80,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: null, // No folder (root level)
   },
   {
     id: 6,
@@ -87,6 +92,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'analytics',
   },
   {
     id: 7,
@@ -98,6 +104,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'analytics',
   },
   {
     id: 8,
@@ -109,6 +116,32 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: null, // No folder (root level)
+  },
+];
+
+// Define folder structure
+export const foldersData = [
+  {
+    id: 'marketing',
+    name: 'Marketing',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 'sales',
+    name: 'Sales',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 'analytics',
+    name: 'Analytics',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   },
 ];
 
