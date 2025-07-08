@@ -2,6 +2,7 @@ import React from 'react';
 import { FolderType, DatasetType } from '~/db/types';
 import { Button } from '~/components/ui/button';
 import { Folder, Database } from 'lucide-react';
+import Component from '~/components/comp-571';
 
 interface SimpleFolderNavigationProps {
   folders: FolderType[];
@@ -43,7 +44,9 @@ export const SimpleFolderNavigation: React.FC<SimpleFolderNavigationProps> = ({
               key={folder.id}
               variant={selectedFolderId === folder.id ? 'secondary' : 'ghost'}
               size="small"
-              className="w-full justify-start mb-1"
+              className={`w-full justify-start mb-1 ${
+                selectedFolderId === folder.id ? 'bg-primary text-white' : ''
+              }`}
               onClick={() => onFolderSelect(folder.id)}>
               <Folder className="h-4 w-4 mr-2" />
               <span className="flex-1 text-left">{folder.name}</span>
