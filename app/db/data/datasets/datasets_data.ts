@@ -118,6 +118,30 @@ const datasetsData = [
     rows: 100,
     folderId: null, // No folder (root level)
   },
+  {
+    id: 9,
+    name: 'Dataset 9',
+    source: 10,
+    description: 'Description 7',
+    createdAt: new Date(),
+    updatedAt: new Date(
+      new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
+    ),
+    rows: 100,
+    folderId: 'uploads',
+  },
+  {
+    id: 10,
+    name: 'Dataset 10',
+    source: 10,
+    description: 'Description 7',
+    createdAt: new Date(),
+    updatedAt: new Date(
+      new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
+    ),
+    rows: 100,
+    folderId: 'marketing-vip',
+  },
 ];
 
 // Define folder structure
@@ -126,6 +150,13 @@ export const foldersData = [
     id: 'marketing',
     name: 'Marketing',
     parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 'marketing-vip',
+    name: 'VIP Marketing Campaigns',
+    parentId: 'marketing',
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -139,6 +170,13 @@ export const foldersData = [
   {
     id: 'analytics',
     name: 'Analytics',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: 'uploads',
+    name: 'Uploads and Temporary',
     parentId: null,
     createdAt: new Date(),
     updatedAt: new Date(),

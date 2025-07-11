@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={(e) => handleRowClick(e, row)}
-                  className={'cursor-pointer'}>
+                  className={'cursor-pointer h-16'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
