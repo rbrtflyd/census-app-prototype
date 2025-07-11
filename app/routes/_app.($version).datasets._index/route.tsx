@@ -8,6 +8,12 @@ import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 import { foldersData } from '~/db/data/datasets/datasets_data';
+import { Input } from '~/components/ui';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+} from '~/components/ui/breadcrumb';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -85,16 +91,19 @@ export default function Datasets() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex flex-col gap-4 grow h-full">
-          {selectedFolderId && (
-            <div className="px-4 pt-4">
-              <button
-                onClick={handleBackToAll}
-                className="text-left text-blue-600 hover:text-blue-800 underline">
-                ← Back to All Folders
-              </button>
-            </div>
-          )}
+        <div className="flex flex-col grow h-full">
+          <div className="flex flex-row gap-2 px-6 py-3 border-b border-base">
+            <Breadcrumb>
+              <BreadcrumbItem>
+                {selectedFolderId ? (
+                  <BreadcrumbLink>{currentFolder?.name}</BreadcrumbLink>
+                ) : (
+                  <BreadcrumbLink>Datasets</BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </Breadcrumb>
+            <Input placeholder="Search datasets" />
+          </div>
           <DataTable
             columns={columns}
             data={tableData}

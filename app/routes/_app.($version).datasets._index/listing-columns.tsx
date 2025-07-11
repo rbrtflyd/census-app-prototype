@@ -4,7 +4,7 @@ import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
 import { ArrowUpDown, Folder } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort } from '@fortawesome/pro-solid-svg-icons';
+import { faFolder, faSort } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
 import type { TableRowType } from './route';
@@ -26,13 +26,11 @@ export const columns: ColumnDef<TableRowType>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex h-full items-center">
-        {row.original.type === 'dataset' && (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        )}
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
       </div>
     ),
     size: 20,
@@ -60,12 +58,14 @@ export const columns: ColumnDef<TableRowType>[] = [
     cell: ({ row }) => {
       const isFolder = row.original.type === 'folder';
       return (
-        <div className="flex items-center gap-2">
-          {isFolder && <Folder className="h-4 w-4 text-blue-600" />}
-          <Text
-            className={`truncate ${
-              isFolder ? 'font-medium text-blue-600' : ''
-            }`}>
+        <div className="flex items-center gap-3">
+          {isFolder && (
+            <FontAwesomeIcon
+              icon={faFolder}
+              className="h-4 w-4 icon-lighter"
+            />
+          )}
+          <Text className={`truncate ${isFolder ? 'font-medium ' : ''}`}>
             {row.original.name}
           </Text>
         </div>
