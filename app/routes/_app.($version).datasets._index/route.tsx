@@ -8,12 +8,15 @@ import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 
 import { foldersData } from '~/db/data/datasets/datasets_data';
-import { Input } from '~/components/ui';
+import { Button, Input } from '~/components/ui';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -92,17 +95,51 @@ export default function Datasets() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col grow h-full">
-          <div className="flex flex-row gap-2 px-6 py-3 border-b border-base">
-            <Breadcrumb>
-              <BreadcrumbItem>
-                {selectedFolderId ? (
-                  <BreadcrumbLink>{currentFolder?.name}</BreadcrumbLink>
-                ) : (
-                  <BreadcrumbLink>Datasets</BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-            </Breadcrumb>
-            <Input placeholder="Search datasets" />
+          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
+            <div className="flex flex-row gap-2 items-center">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <button onClick={handleBackToAll}>
+                      <BreadcrumbLink>All Datasets</BreadcrumbLink>
+                    </button>
+                  </BreadcrumbItem>
+                  {selectedFolderId && (
+                    <>
+                      <BreadcrumbSeparator />
+
+                      <BreadcrumbItem>
+                        {selectedFolderId ? (
+                          <BreadcrumbLink>{currentFolder?.name}</BreadcrumbLink>
+                        ) : (
+                          <BreadcrumbLink>Datasets</BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                    </>
+                  )}
+                </BreadcrumbList>
+              </Breadcrumb>
+              <div className="flex flex-row gap-2 ml-auto">
+                <Button
+                  variant="secondary"
+                  size="small">
+                  Move
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="small">
+                  Delete
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="small">
+                  New Folder
+                </Button>
+              </div>
+            </div>
+            <div>
+              <Input placeholder="Search datasets" />
+            </div>
           </div>
           <DataTable
             columns={columns}
