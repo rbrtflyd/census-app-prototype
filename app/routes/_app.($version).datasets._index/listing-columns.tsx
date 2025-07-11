@@ -2,13 +2,14 @@ import { ColumnDef } from '@tanstack/react-table';
 import type { DatasetType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Folder } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
+import type { TableRowType } from './route';
 
-export const columns: ColumnDef<DatasetType>[] = [
+export const columns: ColumnDef<TableRowType>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -25,11 +26,13 @@ export const columns: ColumnDef<DatasetType>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex h-full items-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
+        {row.original.type === 'dataset' && (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        )}
       </div>
     ),
     size: 20,
@@ -55,17 +58,36 @@ export const columns: ColumnDef<DatasetType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <Text className="truncate">{row.original.name}</Text>;
+      const isFolder = row.original.type === 'folder';
+      return (
+        <div className="flex items-center gap-2">
+          {isFolder && <Folder className="h-4 w-4 text-blue-600" />}
+          <Text
+            className={`truncate ${
+              isFolder ? 'font-medium text-blue-600' : ''
+            }`}>
+            {row.original.name}
+          </Text>
+        </div>
+      );
     },
     size: 100,
   },
   {
     accessorKey: 'source',
     header: 'Source',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return row.original.source;
+    },
   },
   {
     accessorKey: 'destinations',
     header: 'Destinations',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return row.original.destinations;
+    },
   },
   {
     accessorKey: 'updatedAt',

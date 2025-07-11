@@ -6,8 +6,19 @@ import type { DatasetType } from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
-import { SimpleFolderNavigation } from '~/components/Navigation/FolderNavigation/FolderNavigation';
+
 import { foldersData } from '~/db/data/datasets/datasets_data';
+
+// Create a union type for table rows
+export type TableRowType =
+  | (DatasetType & { type: 'dataset' })
+  | {
+      type: 'folder';
+      id: string;
+      name: string;
+      createdAt: Date;
+      updatedAt: Date;
+    };
 
 export default function Datasets() {
   const { clearBreadcrumbs } = useBreadcrumbs();
@@ -17,20 +28,39 @@ export default function Datasets() {
 
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
 
-  // Filter datasets based on selected folder
-  const filteredDatasets = selectedFolderId
-    ? datasets.filter((d) => d.folderId === selectedFolderId)
-    : datasets;
+  // Create combined data for the table
+  const getTableData = (): TableRowType[] => {
+    const tableData: TableRowType[] = [];
+
+    if (!selectedFolderId) {
+      // At root level: show folders first, then datasets without folders
+      const folderRows: TableRowType[] = foldersData.map((folder) => ({
+        type: 'folder' as const,
+        id: folder.id,
+        name: folder.name,
+        createdAt: folder.createdAt,
+        updatedAt: folder.updatedAt,
+      }));
+
+      const rootDatasets: TableRowType[] = datasets
+        .filter((d) => !d.folderId)
+        .map((d) => ({ ...d, type: 'dataset' as const }));
+
+      return [...folderRows, ...rootDatasets];
+    } else {
+      // In a folder: show only datasets from that folder
+      return datasets
+        .filter((d) => d.folderId === selectedFolderId)
+        .map((d) => ({ ...d, type: 'dataset' as const }));
+    }
+  };
+
+  const tableData = getTableData();
 
   // Get current folder name for header
   const currentFolder = selectedFolderId
     ? foldersData.find((f) => f.id === selectedFolderId)
     : null;
-
-  // Filter folders based on selection - show only current folder if one is selected
-  const filteredFolders = selectedFolderId
-    ? foldersData.filter((f) => f.id === selectedFolderId)
-    : foldersData;
 
   useEffect(() => {
     clearBreadcrumbs();
@@ -56,28 +86,19 @@ export default function Datasets() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col gap-4 grow h-full">
-          <div className="flex flex-col gap-4">
-            {selectedFolderId && (
+          {selectedFolderId && (
+            <div className="px-4 pt-4">
               <button
                 onClick={handleBackToAll}
                 className="text-left text-blue-600 hover:text-blue-800 underline">
                 ← Back to All Folders
               </button>
-            )}
-            {filteredFolders.map((folder) => (
-              <button
-                key={folder.id}
-                onClick={() =>
-                  handleFolderSelect(selectedFolderId ? null : folder.id)
-                }
-                className="text-left">
-                <h2>{folder.name}</h2>
-              </button>
-            ))}
-          </div>
+            </div>
+          )}
           <DataTable
             columns={columns}
-            data={filteredDatasets}
+            data={tableData}
+            onFolderClick={handleFolderSelect}
           />
         </div>
       </div>
