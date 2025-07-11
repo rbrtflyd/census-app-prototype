@@ -27,6 +27,11 @@ export default function Datasets() {
     ? foldersData.find((f) => f.id === selectedFolderId)
     : null;
 
+  // Filter folders based on selection - show only current folder if one is selected
+  const filteredFolders = selectedFolderId
+    ? foldersData.filter((f) => f.id === selectedFolderId)
+    : foldersData;
+
   useEffect(() => {
     clearBreadcrumbs();
   }, []);
@@ -35,10 +40,14 @@ export default function Datasets() {
     setSelectedFolderId(folderId);
   };
 
+  const handleBackToAll = () => {
+    setSelectedFolderId(null);
+  };
+
   return (
     <div className="h-full flex flex-col">
       <PageHeader
-        title={currentFolder ? currentFolder.name : 'Datasets'}
+        title={'Datasets'}
         button={{
           label: 'New Dataset',
           onClick: () => navigate(`/${version}/datasets/new/step1`),
@@ -46,14 +55,26 @@ export default function Datasets() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <SimpleFolderNavigation
-          folders={foldersData}
-          datasets={datasets}
-          onFolderSelect={handleFolderSelect}
-          selectedFolderId={selectedFolderId}
-        />
-
         <div className="flex flex-col gap-4 grow h-full">
+          <div className="flex flex-col gap-4">
+            {selectedFolderId && (
+              <button
+                onClick={handleBackToAll}
+                className="text-left text-blue-600 hover:text-blue-800 underline">
+                ← Back to All Folders
+              </button>
+            )}
+            {filteredFolders.map((folder) => (
+              <button
+                key={folder.id}
+                onClick={() =>
+                  handleFolderSelect(selectedFolderId ? null : folder.id)
+                }
+                className="text-left">
+                <h2>{folder.name}</h2>
+              </button>
+            ))}
+          </div>
           <DataTable
             columns={columns}
             data={filteredDatasets}
