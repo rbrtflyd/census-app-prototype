@@ -17,6 +17,12 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -100,9 +106,23 @@ export default function Datasets() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <button onClick={handleBackToAll}>
-                      <BreadcrumbLink>All Datasets</BreadcrumbLink>
-                    </button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <BreadcrumbLink>All Datasets</BreadcrumbLink>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onClick={handleBackToAll}>
+                          All Datasets
+                        </DropdownMenuItem>
+                        {foldersData.map((folder) => (
+                          <DropdownMenuItem
+                            key={folder.id}
+                            onClick={() => handleFolderSelect(folder.id)}>
+                            {folder.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </BreadcrumbItem>
                   {selectedFolderId && (
                     <>
