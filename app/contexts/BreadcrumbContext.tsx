@@ -5,11 +5,22 @@ type Breadcrumb = {
   href: string;
 };
 
+type FolderBreadcrumb = {
+  id: string | null;
+  name: string;
+  onClick?: (folderId: string | null) => void;
+  siblings?: Array<{ id: string; name: string }>;
+};
+
 type BreadcrumbContextType = {
   breadcrumbs: Breadcrumb[];
   addBreadcrumb: (breadcrumb: Breadcrumb | Breadcrumb[]) => void;
   setBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
   clearBreadcrumbs: () => void;
+  // Folder-specific breadcrumbs
+  folderBreadcrumbs: FolderBreadcrumb[];
+  setFolderBreadcrumbs: (folderBreadcrumbs: FolderBreadcrumb[]) => void;
+  clearFolderBreadcrumbs: () => void;
 };
 
 const BreadcrumbContext = createContext<BreadcrumbContextType | undefined>(
@@ -22,6 +33,9 @@ export function BreadcrumbProvider({
   children: React.ReactNode;
 }) {
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
+  const [folderBreadcrumbs, setFolderBreadcrumbs] = useState<
+    FolderBreadcrumb[]
+  >([]);
 
   const addBreadcrumb = (breadcrumb: Breadcrumb | Breadcrumb[]) => {
     if (Array.isArray(breadcrumb)) {
@@ -35,9 +49,21 @@ export function BreadcrumbProvider({
     setBreadcrumbs([]);
   };
 
+  const clearFolderBreadcrumbs = () => {
+    setFolderBreadcrumbs([]);
+  };
+
   const value = useMemo(
-    () => ({ breadcrumbs, addBreadcrumb, setBreadcrumbs, clearBreadcrumbs }),
-    [breadcrumbs, addBreadcrumb, clearBreadcrumbs]
+    () => ({
+      breadcrumbs,
+      addBreadcrumb,
+      setBreadcrumbs,
+      clearBreadcrumbs,
+      folderBreadcrumbs,
+      setFolderBreadcrumbs,
+      clearFolderBreadcrumbs,
+    }),
+    [breadcrumbs, folderBreadcrumbs]
   );
 
   return (
@@ -54,3 +80,5 @@ export function useBreadcrumbs() {
   }
   return context;
 }
+
+export type { FolderBreadcrumb };

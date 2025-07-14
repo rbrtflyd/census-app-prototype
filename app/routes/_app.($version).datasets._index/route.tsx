@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
@@ -6,25 +6,9 @@ import type { DatasetType } from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
-import { Text } from '@radix-ui/themes';
 import { foldersData } from '~/db/data/datasets/datasets_data';
 import { Button, Input } from '~/components/ui';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from '~/components/ui/breadcrumb';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
-import { faCaretDown, faFolder } from '@fortawesome/pro-solid-svg-icons';
+import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -39,7 +23,8 @@ export type TableRowType =
     };
 
 export default function Datasets() {
-  const { clearBreadcrumbs } = useBreadcrumbs();
+  const { clearBreadcrumbs, setFolderBreadcrumbs, clearFolderBreadcrumbs } =
+    useBreadcrumbs();
   const { version } = useParams();
   const navigate = useNavigate();
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
@@ -59,21 +44,22 @@ export default function Datasets() {
   };
 
   // Helper function to get folder path for breadcrumbs
-  const getFolderPath = (
-    folderId: string | null
-  ): Array<{ id: string; name: string }> => {
-    if (!folderId) return [];
+  const getFolderPath = useCallback(
+    (folderId: string | null): Array<{ id: string; name: string }> => {
+      if (!folderId) return [];
 
-    const folder = foldersData.find((f) => f.id === folderId);
-    if (!folder) return [];
+      const folder = foldersData.find((f) => f.id === folderId);
+      if (!folder) return [];
 
-    const path = [{ id: folder.id, name: folder.name }];
-    if (folder.parentId) {
-      path.unshift(...getFolderPath(folder.parentId));
-    }
+      const path = [{ id: folder.id, name: folder.name }];
+      if (folder.parentId) {
+        path.unshift(...getFolderPath(folder.parentId));
+      }
 
-    return path;
-  };
+      return path;
+    },
+    []
+  );
 
   // Create combined data for the table
   const getTableData = (): TableRowType[] => {
@@ -118,35 +104,50 @@ export default function Datasets() {
 
   const tableData = getTableData();
 
-  // Get current folder name for header
-  const currentFolder = selectedFolderId
-    ? foldersData.find((f) => f.id === selectedFolderId)
-    : null;
+  // Update folder breadcrumbs when selectedFolderId changes
+  useEffect(() => {
+    const folderPath = getFolderPath(selectedFolderId);
 
-  // Get folder path for breadcrumbs
-  const folderPath = getFolderPath(selectedFolderId);
+    if (folderPath.length === 0) {
+      clearFolderBreadcrumbs();
+      return;
+    }
+
+    const folderBreadcrumbs: FolderBreadcrumb[] = folderPath.map(
+      (folder, index) => {
+        const siblingFolders = getSiblingFolders(folder.id);
+        const hasMultipleSiblings = siblingFolders.length > 1;
+
+        return {
+          id: folder.id,
+          name: folder.name,
+          onClick: handleFolderSelect,
+          siblings: hasMultipleSiblings ? siblingFolders : undefined,
+        };
+      }
+    );
+
+    setFolderBreadcrumbs(folderBreadcrumbs);
+  }, [
+    selectedFolderId,
+    setFolderBreadcrumbs,
+    clearFolderBreadcrumbs,
+    getFolderPath,
+  ]);
 
   useEffect(() => {
     clearBreadcrumbs();
-  }, []);
+    clearFolderBreadcrumbs();
+  }, [clearBreadcrumbs, clearFolderBreadcrumbs]);
 
   const handleFolderSelect = (folderId: string | null) => {
-    setSelectedFolderId(folderId);
-  };
-
-  const handleBackToAll = () => {
-    setSelectedFolderId(null);
-  };
-
-  // Handle breadcrumb navigation
-  const handleBreadcrumbClick = (folderId: string | null) => {
     setSelectedFolderId(folderId);
   };
 
   return (
     <div className="h-full flex flex-col">
       <PageHeader
-        title={'Datasets'}
+        title={selectedFolderId ? 'All Datasets' : 'All Datasets'}
         button={{
           label: 'New Dataset',
           onClick: () => navigate(`/${version}/datasets/new/step1`),
@@ -155,97 +156,8 @@ export default function Datasets() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col grow h-full">
-          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
-            <div className="flex flex-row gap-2 items-center">
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem
-                    onClick={handleBackToAll}
-                    className="cursor-pointer">
-                    <BreadcrumbLink>All Datasets</BreadcrumbLink>
-                  </BreadcrumbItem>
-
-                  {folderPath.map((folder, index) => {
-                    const siblingFolders = getSiblingFolders(folder.id);
-                    const hasMultipleSiblings = siblingFolders.length > 1;
-
-                    return (
-                      <div
-                        key={folder.id}
-                        className="flex items-center gap-2">
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem className="flex flex-row items-center">
-                          {hasMultipleSiblings ? (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger className="flex items-center">
-                                <BreadcrumbLink className="flex items-center">
-                                  <FontAwesomeIcon
-                                    icon={faFolder}
-                                    className="mr-2"
-                                  />
-                                  <Text>{folder.name}</Text>
-                                  <FontAwesomeIcon
-                                    icon={faCaretDown}
-                                    className="text-xs ml-2"
-                                  />
-                                </BreadcrumbLink>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="min-w-48 max-w-90">
-                                {siblingFolders.map((siblingFolder) => (
-                                  <DropdownMenuItem
-                                    key={siblingFolder.id}
-                                    onClick={() => {
-                                      // Navigate to the sibling folder while preserving the path structure
-                                      const pathToParent = getFolderPath(
-                                        siblingFolder.parentId
-                                      );
-                                      const newPath = [
-                                        ...pathToParent,
-                                        {
-                                          id: siblingFolder.id,
-                                          name: siblingFolder.name,
-                                        },
-                                      ];
-
-                                      // If we're switching at a deeper level, we need to navigate to that sibling
-                                      // and potentially continue down the same relative path
-                                      if (index < folderPath.length - 1) {
-                                        // We're switching a parent folder, so just go to the sibling
-                                        handleFolderSelect(siblingFolder.id);
-                                      } else {
-                                        // We're switching the current folder
-                                        handleFolderSelect(siblingFolder.id);
-                                      }
-                                    }}>
-                                    <FontAwesomeIcon
-                                      icon={faFolder}
-                                      className="mr-2 icon-lighter"
-                                    />
-                                    <Text className="w-full truncate">
-                                      {siblingFolder.name}
-                                    </Text>
-                                  </DropdownMenuItem>
-                                ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          ) : (
-                            <BreadcrumbLink
-                              className="cursor-pointer flex items-center"
-                              onClick={() => handleBreadcrumbClick(folder.id)}>
-                              <FontAwesomeIcon
-                                icon={faFolder}
-                                className="mr-2"
-                              />
-                              <Text>{folder.name}</Text>
-                            </BreadcrumbLink>
-                          )}
-                        </BreadcrumbItem>
-                      </div>
-                    );
-                  })}
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
+          {/* Action bar - keeping the action buttons */}
+          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-end">
             <div className="flex flex-row gap-4 items-center">
               <div className="flex flex-row gap-2 ml-auto">
                 <Button
