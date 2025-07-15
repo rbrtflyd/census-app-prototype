@@ -76,7 +76,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
                       <Text>{item.label}</Text>
                     </Link>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
                 </React.Fragment>
               ))}
 

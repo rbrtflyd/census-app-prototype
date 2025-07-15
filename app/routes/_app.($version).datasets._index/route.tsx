@@ -153,6 +153,13 @@ export default function Datasets() {
     clearFolderBreadcrumbs();
   }, [clearBreadcrumbs, clearFolderBreadcrumbs]);
 
+  // Add cleanup effect when component unmounts
+  useEffect(() => {
+    return () => {
+      clearFolderBreadcrumbs();
+    };
+  }, [clearFolderBreadcrumbs]);
+
   return (
     <div className="h-full flex flex-col">
       <PageHeader
@@ -166,7 +173,7 @@ export default function Datasets() {
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col grow h-full">
           {/* Action bar - keeping the action buttons */}
-          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-end">
+          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
             <div className="flex flex-row gap-4 items-center">
               <div className="flex flex-row gap-2 ml-auto">
                 <Button
@@ -185,8 +192,11 @@ export default function Datasets() {
                   New Folder
                 </Button>
               </div>
-              <Input placeholder="Search datasets" />
             </div>
+            <Input
+              placeholder="Search datasets"
+              className="w-80"
+            />
           </div>
           <DataTable
             columns={columns}

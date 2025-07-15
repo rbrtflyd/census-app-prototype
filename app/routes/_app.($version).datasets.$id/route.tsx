@@ -1,7 +1,13 @@
 import { json, LoaderFunction, redirect } from '@remix-run/node';
-import { Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
+import {
+  Outlet,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+  Link,
+  useLocation,
+} from '@remix-run/react';
 import { getDatasets, initializeDatabase } from '../../db/db';
-import { useParams, Link, useLocation } from '@remix-run/react';
 import {
   ConnectionServiceType,
   ConnectionType,
@@ -92,7 +98,8 @@ interface LoaderData {
 
 export default function DatasetIndex() {
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
-  const { addBreadcrumb, clearBreadcrumbs } = useBreadcrumbs();
+  const { addBreadcrumb, clearBreadcrumbs, clearFolderBreadcrumbs } =
+    useBreadcrumbs();
   const params = useParams();
   const id = params.id;
   const location = useLocation();
@@ -116,6 +123,7 @@ export default function DatasetIndex() {
 
   useEffect(() => {
     clearBreadcrumbs();
+    clearFolderBreadcrumbs();
     addBreadcrumb({
       label: 'Datasets',
       href: `/${version}/datasets`,
