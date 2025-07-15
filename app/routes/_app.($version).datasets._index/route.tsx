@@ -9,6 +9,8 @@ import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { foldersData } from '~/db/data/datasets/datasets_data';
 import { Button, Input } from '~/components/ui';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
+import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -46,6 +48,22 @@ export default function Datasets() {
   const handleFolderSelect = useCallback((folderId: string | null) => {
     setSelectedFolderId(folderId);
   }, []);
+
+  const handleGoToParent = () => {
+    if (!selectedFolderId) {
+      // Already at root, do nothing or could navigate elsewhere
+      return;
+    }
+
+    const currentFolder = foldersData.find((f) => f.id === selectedFolderId);
+    if (currentFolder?.parentId) {
+      // Go to parent folder
+      setSelectedFolderId(currentFolder.parentId);
+    } else {
+      // Go to root level
+      setSelectedFolderId(null);
+    }
+  };
 
   // Helper function to get folder path for breadcrumbs
   const getFolderPath = useCallback(
@@ -176,6 +194,16 @@ export default function Datasets() {
           <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
             <div className="flex flex-row gap-4 items-center">
               <div className="flex flex-row gap-2 ml-auto">
+                {selectedFolderId && (
+                  <div>
+                    <Button
+                      onClick={handleGoToParent}
+                      variant="secondary"
+                      size="small">
+                      <FontAwesomeIcon icon={faArrowLeft} />
+                    </Button>
+                  </div>
+                )}
                 <Button
                   variant="secondary"
                   size="small">

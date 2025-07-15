@@ -93,13 +93,13 @@ const PageHeader: React.FC<PageHeaderProps> & {
                               {folder.id && (
                                 <FontAwesomeIcon
                                   icon={faFolder}
-                                  className="mr-2"
+                                  className="mr-2 icon-light"
                                 />
                               )}
                               <Text>{folder.name}</Text>
                               <FontAwesomeIcon
                                 icon={faCaretDown}
-                                className="text-xs ml-2 icon-lightest"
+                                className="text-xs ml-2 icon-lighter"
                               />
                             </BreadcrumbLink>
                           </DropdownMenuTrigger>
@@ -126,7 +126,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
                           {folder.id && (
                             <FontAwesomeIcon
                               icon={faFolder}
-                              className="mr-2"
+                              className="mr-2 icon-lighter"
                             />
                           )}
                           <Text>{folder.name}</Text>
@@ -143,7 +143,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
                               {folder.id && (
                                 <FontAwesomeIcon
                                   icon={faFolder}
-                                  className="mr-2 icon-lighter"
+                                  className="mr-2 icon-light"
                                 />
                               )}
                               <Text>{folder.name}</Text>
@@ -174,7 +174,7 @@ const PageHeader: React.FC<PageHeaderProps> & {
                           {folder.id && (
                             <FontAwesomeIcon
                               icon={faFolder}
-                              className="mr-2"
+                              className="mr-2 icon-lighter"
                             />
                           )}
                           <Text>{folder.name}</Text>
