@@ -17,7 +17,7 @@ const buttonVariants = cva(
         table:
           'hover:bg-slate-50/50 hover:text-slate-900 dark:hover:bg-slate-800/50 dark:hover:text-slate-50 rounded-none',
         fancy:
-          'bg-gradient-to-b from-wisteria-500 to-wisteria-600 text-white hover:from-wisteria-500 hover:to-wisteria-400 transition-all duration-75',
+          'bg-gradient-to-b from-wisteria-500 to-wisteria-600 text-white hover:from-wisteria-600 hover:to-wisteria-500 transition-all duration-75',
       },
       size: {
         default: 'px-3 py-2 text-base leading-none rounded',

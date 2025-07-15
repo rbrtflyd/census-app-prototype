@@ -12,7 +12,9 @@ import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
 import { faArrowLeft, faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faArrowsMinimize,
   faArrowsUpDownLeftRight,
+  faSparkles,
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 
@@ -212,7 +214,7 @@ export default function Datasets() {
                 variant="secondary"
                 size="small">
                 <FontAwesomeIcon
-                  icon={faArrowsUpDownLeftRight}
+                  icon={faArrowsMinimize}
                   className="mr-2 text-xxs"
                 />
                 Deduplicate
@@ -221,7 +223,7 @@ export default function Datasets() {
                 variant="fancy"
                 size="small">
                 <FontAwesomeIcon
-                  icon={faArrowsUpDownLeftRight}
+                  icon={faSparkles}
                   className="mr-2 text-xxs"
                 />
                 Enrich & Enhance
