@@ -231,7 +231,8 @@ export default function Datasets() {
               <div className="h-7 w-px bg-slate-75 mx-2" />
               <Button
                 variant="secondary"
-                size="small">
+                size="small"
+                disabled>
                 <FontAwesomeIcon
                   icon={faArrowsUpDownLeftRight}
                   className="mr-2 text-xxs"
