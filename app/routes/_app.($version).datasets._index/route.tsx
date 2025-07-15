@@ -9,11 +9,16 @@ import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { foldersData } from '~/db/data/datasets/datasets_data';
 import { Button, Input } from '~/components/ui';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
-import { faArrowLeft, faPlus } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faArrowLeft,
+  faPlus,
+  faArrowUp,
+} from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowsMinimize,
   faArrowsUpDownLeftRight,
+  faArrowTurnUp,
   faSparkles,
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
@@ -38,6 +43,11 @@ export default function Datasets() {
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
 
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+  // Navigation history state
+  const [navigationHistory, setNavigationHistory] = useState<(string | null)[]>(
+    [null]
+  );
+  const [historyIndex, setHistoryIndex] = useState(0);
 
   // Helper function to get child folders of a parent folder
   const getChildFolders = (parentId: string | null) => {
@@ -51,23 +61,42 @@ export default function Datasets() {
     return foldersData.filter((f) => f.parentId === folder.parentId);
   };
 
-  const handleFolderSelect = useCallback((folderId: string | null) => {
-    setSelectedFolderId(folderId);
-  }, []);
+  const handleFolderSelect = useCallback(
+    (folderId: string | null) => {
+      setSelectedFolderId(folderId);
 
-  const handleGoToParent = () => {
-    if (!selectedFolderId) {
-      // Already at root, do nothing or could navigate elsewhere
-      return;
+      // Update navigation history
+      setNavigationHistory((prev) => {
+        const newHistory = prev.slice(0, historyIndex + 1);
+        if (newHistory[newHistory.length - 1] !== folderId) {
+          newHistory.push(folderId);
+          setHistoryIndex(newHistory.length - 1);
+        }
+        return newHistory;
+      });
+    },
+    [historyIndex]
+  );
+
+  // History-based back navigation
+  const handleGoBack = () => {
+    if (historyIndex > 0) {
+      const previousIndex = historyIndex - 1;
+      const previousFolderId = navigationHistory[previousIndex];
+      setSelectedFolderId(previousFolderId);
+      setHistoryIndex(previousIndex);
     }
+  };
+
+  // Hierarchical up navigation
+  const handleGoUp = () => {
+    if (!selectedFolderId) return;
 
     const currentFolder = foldersData.find((f) => f.id === selectedFolderId);
     if (currentFolder?.parentId) {
-      // Go to parent folder
-      setSelectedFolderId(currentFolder.parentId);
+      handleFolderSelect(currentFolder.parentId);
     } else {
-      // Go to root level
-      setSelectedFolderId(null);
+      handleFolderSelect(null);
     }
   };
 
@@ -187,7 +216,7 @@ export default function Datasets() {
   return (
     <div className="h-full flex flex-col">
       <PageHeader
-        title={selectedFolderId ? '' : 'Datasets'} // Hide title when in folders
+        title={selectedFolderId ? '' : 'Datasets'}
         button={{
           label: 'New Dataset',
           onClick: () => navigate(`/${version}/datasets/new/step1`),
@@ -196,20 +225,37 @@ export default function Datasets() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col grow h-full">
-          {/* Action bar - keeping the action buttons */}
           <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
             <div className="flex flex-row gap-2.5 items-center">
+              {/* History Back Button */}
               <Button
-                onClick={handleGoToParent}
+                onClick={handleGoBack}
                 variant="secondary"
                 size="small"
-                disabled={!selectedFolderId}>
+                disabled={historyIndex === 0}
+                title="Go back to previous location">
                 <FontAwesomeIcon
                   icon={faArrowLeft}
                   className="text-xxs"
                 />
               </Button>
+
+              {/* Up/Parent Folder Button */}
+              <Button
+                onClick={handleGoUp}
+                variant="secondary"
+                size="small"
+                disabled={!selectedFolderId}
+                title="Go up to parent folder">
+                <FontAwesomeIcon
+                  icon={faArrowTurnUp}
+                  className="text-xxs"
+                />
+              </Button>
+
               <div className="h-7 w-px bg-slate-75 mx-2" />
+
+              {/* Action bar - keeping the action buttons */}
               <Button
                 variant="secondary"
                 size="small">
