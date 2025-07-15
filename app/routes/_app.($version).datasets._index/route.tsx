@@ -9,8 +9,12 @@ import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { foldersData } from '~/db/data/datasets/datasets_data';
 import { Button, Input } from '~/components/ui';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
-import { faArrowLeft } from '@fortawesome/pro-regular-svg-icons';
+import { faArrowLeft, faPlus } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowsUpDownLeftRight,
+  faTrash,
+} from '@fortawesome/pro-solid-svg-icons';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -192,35 +196,67 @@ export default function Datasets() {
         <div className="flex flex-col grow h-full">
           {/* Action bar - keeping the action buttons */}
           <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
-            <div className="flex flex-row gap-4 items-center">
-              <div className="flex flex-row gap-2 ml-auto">
-                {selectedFolderId && (
-                  <div>
-                    <Button
-                      onClick={handleGoToParent}
-                      variant="secondary"
-                      size="small">
-                      <FontAwesomeIcon icon={faArrowLeft} />
-                    </Button>
-                  </div>
-                )}
-                <Button
-                  variant="secondary"
-                  size="small">
-                  Move
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="small">
-                  Delete
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="small">
-                  New Folder
-                </Button>
-              </div>
+            <div className="flex flex-row gap-2.5 items-center">
+              <Button
+                onClick={handleGoToParent}
+                variant="secondary"
+                size="small"
+                disabled={!selectedFolderId}>
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  className="text-xxs"
+                />
+              </Button>
+              <div className="h-7 w-px bg-slate-75 mx-2" />
+              <Button
+                variant="secondary"
+                size="small">
+                <FontAwesomeIcon
+                  icon={faArrowsUpDownLeftRight}
+                  className="mr-2 text-xxs"
+                />
+                Deduplicate
+              </Button>
+              <Button
+                variant="fancy"
+                size="small">
+                <FontAwesomeIcon
+                  icon={faArrowsUpDownLeftRight}
+                  className="mr-2 text-xxs"
+                />
+                Enrich & Enhance
+              </Button>
+              <div className="h-7 w-px bg-slate-75 mx-2" />
+              <Button
+                variant="secondary"
+                size="small">
+                <FontAwesomeIcon
+                  icon={faArrowsUpDownLeftRight}
+                  className="mr-2 text-xxs"
+                />
+                Move
+              </Button>
+              <Button
+                variant="secondary"
+                size="small"
+                disabled>
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  className="mr-2 text-xxs"
+                />
+                Delete
+              </Button>
+              <Button
+                variant="secondary"
+                size="small">
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="mr-2 text-xxs"
+                />
+                New Folder
+              </Button>
             </div>
+
             <Input
               placeholder="Search datasets"
               className="w-80"
