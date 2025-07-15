@@ -43,6 +43,10 @@ export default function Datasets() {
     return foldersData.filter((f) => f.parentId === folder.parentId);
   };
 
+  const handleFolderSelect = useCallback((folderId: string | null) => {
+    setSelectedFolderId(folderId);
+  }, []);
+
   // Helper function to get folder path for breadcrumbs
   const getFolderPath = useCallback(
     (folderId: string | null): Array<{ id: string; name: string }> => {
@@ -108,13 +112,19 @@ export default function Datasets() {
   useEffect(() => {
     const folderPath = getFolderPath(selectedFolderId);
 
-    if (folderPath.length === 0) {
-      clearFolderBreadcrumbs();
-      return;
-    }
+    // Always start with "All Datasets" as the root
+    const folderBreadcrumbs: FolderBreadcrumb[] = [
+      {
+        id: null,
+        name: 'All Datasets',
+        onClick: handleFolderSelect,
+        siblings: undefined,
+      },
+    ];
 
-    const folderBreadcrumbs: FolderBreadcrumb[] = folderPath.map(
-      (folder, index) => {
+    // Add folder path if we're in a folder
+    if (folderPath.length > 0) {
+      const additionalBreadcrumbs = folderPath.map((folder, index) => {
         const siblingFolders = getSiblingFolders(folder.id);
         const hasMultipleSiblings = siblingFolders.length > 1;
 
@@ -124,15 +134,18 @@ export default function Datasets() {
           onClick: handleFolderSelect,
           siblings: hasMultipleSiblings ? siblingFolders : undefined,
         };
-      }
-    );
+      });
+
+      folderBreadcrumbs.push(...additionalBreadcrumbs);
+    }
 
     setFolderBreadcrumbs(folderBreadcrumbs);
   }, [
     selectedFolderId,
+    getFolderPath,
+    handleFolderSelect,
     setFolderBreadcrumbs,
     clearFolderBreadcrumbs,
-    getFolderPath,
   ]);
 
   useEffect(() => {
@@ -140,14 +153,10 @@ export default function Datasets() {
     clearFolderBreadcrumbs();
   }, [clearBreadcrumbs, clearFolderBreadcrumbs]);
 
-  const handleFolderSelect = (folderId: string | null) => {
-    setSelectedFolderId(folderId);
-  };
-
   return (
     <div className="h-full flex flex-col">
       <PageHeader
-        title={selectedFolderId ? 'All Datasets' : 'All Datasets'}
+        title={selectedFolderId ? '' : 'Datasets'} // Hide title when in folders
         button={{
           label: 'New Dataset',
           onClick: () => navigate(`/${version}/datasets/new/step1`),

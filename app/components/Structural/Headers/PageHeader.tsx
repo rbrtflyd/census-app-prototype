@@ -80,67 +80,125 @@ const PageHeader: React.FC<PageHeaderProps> & {
                 </React.Fragment>
               ))}
 
-              {/* Folder breadcrumbs */}
+              {/* Folder breadcrumbs - all except the last one are clickable */}
               {folderBreadcrumbs?.map((folder, index) => (
                 <React.Fragment key={`folder-${folder.id || 'root'}`}>
-                  <BreadcrumbItem className="flex flex-row items-center">
-                    {folder.siblings && folder.siblings.length > 1 ? (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger className="flex items-center">
-                          <BreadcrumbLink className="flex items-center">
+                  {index < folderBreadcrumbs.length - 1 ? (
+                    // Clickable breadcrumb items (not the current page)
+                    <BreadcrumbItem className="flex flex-row items-center">
+                      {folder.siblings && folder.siblings.length > 1 ? (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="flex items-center">
+                            <BreadcrumbLink className="flex items-center">
+                              {folder.id && (
+                                <FontAwesomeIcon
+                                  icon={faFolder}
+                                  className="mr-2"
+                                />
+                              )}
+                              <Text>{folder.name}</Text>
+                              <FontAwesomeIcon
+                                icon={faCaretDown}
+                                className="text-xs ml-2 icon-lightest"
+                              />
+                            </BreadcrumbLink>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="min-w-48 max-w-90">
+                            {folder.siblings.map((sibling) => (
+                              <DropdownMenuItem
+                                key={sibling.id}
+                                onClick={() => folder.onClick?.(sibling.id)}>
+                                <FontAwesomeIcon
+                                  icon={faFolder}
+                                  className="mr-2 icon-lighter"
+                                />
+                                <Text className="w-full truncate">
+                                  {sibling.name}
+                                </Text>
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      ) : (
+                        <BreadcrumbLink
+                          className="cursor-pointer flex items-center"
+                          onClick={() => folder.onClick?.(folder.id)}>
+                          {folder.id && (
                             <FontAwesomeIcon
                               icon={faFolder}
                               className="mr-2"
                             />
-                            <Text>{folder.name}</Text>
-                            <FontAwesomeIcon
-                              icon={faCaretDown}
-                              className="text-xs ml-2"
-                            />
-                          </BreadcrumbLink>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="min-w-48 max-w-90">
-                          {folder.siblings.map((sibling) => (
-                            <DropdownMenuItem
-                              key={sibling.id}
-                              onClick={() => folder.onClick?.(sibling.id)}>
+                          )}
+                          <Text>{folder.name}</Text>
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                  ) : (
+                    // Current page (highlighted, not clickable)
+                    <BreadcrumbItem className="flex flex-row items-center">
+                      {folder.siblings && folder.siblings.length > 1 ? (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="flex items-center">
+                            <BreadcrumbPage className="flex items-center">
+                              {folder.id && (
+                                <FontAwesomeIcon
+                                  icon={faFolder}
+                                  className="mr-2 icon-lighter"
+                                />
+                              )}
+                              <Text>{folder.name}</Text>
                               <FontAwesomeIcon
-                                icon={faFolder}
-                                className="mr-2 icon-lighter"
+                                icon={faCaretDown}
+                                className="text-xs ml-2 icon-lighter"
                               />
-                              <Text className="w-full truncate">
-                                {sibling.name}
-                              </Text>
-                            </DropdownMenuItem>
-                          ))}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    ) : (
-                      <BreadcrumbLink
-                        className="cursor-pointer flex items-center"
-                        onClick={() => folder.onClick?.(folder.id)}>
-                        <FontAwesomeIcon
-                          icon={faFolder}
-                          className="mr-2"
-                        />
-                        <Text>{folder.name}</Text>
-                      </BreadcrumbLink>
-                    )}
-                  </BreadcrumbItem>
+                            </BreadcrumbPage>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="min-w-48 max-w-90">
+                            {folder.siblings.map((sibling) => (
+                              <DropdownMenuItem
+                                key={sibling.id}
+                                onClick={() => folder.onClick?.(sibling.id)}>
+                                <FontAwesomeIcon
+                                  icon={faFolder}
+                                  className="mr-2 icon-lighter"
+                                />
+                                <Text className="w-full truncate">
+                                  {sibling.name}
+                                </Text>
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      ) : (
+                        <BreadcrumbPage className="flex items-center">
+                          {folder.id && (
+                            <FontAwesomeIcon
+                              icon={faFolder}
+                              className="mr-2"
+                            />
+                          )}
+                          <Text>{folder.name}</Text>
+                        </BreadcrumbPage>
+                      )}
+                    </BreadcrumbItem>
+                  )}
+
                   {index < folderBreadcrumbs.length - 1 && (
                     <BreadcrumbSeparator />
                   )}
                 </React.Fragment>
               ))}
 
-              {/* Only show separator if we have both regular and folder breadcrumbs */}
-              {breadcrumbs?.length > 0 && folderBreadcrumbs?.length > 0 && (
-                <BreadcrumbSeparator />
-              )}
-
-              <BreadcrumbPage>
-                {typeof title === 'string' ? <Text>{title}</Text> : title}
-              </BreadcrumbPage>
+              {/* Only show regular title if no folder breadcrumbs and title exists */}
+              {(!folderBreadcrumbs || folderBreadcrumbs.length === 0) &&
+                title && (
+                  <>
+                    {breadcrumbs?.length > 0 && <BreadcrumbSeparator />}
+                    <BreadcrumbPage>
+                      {typeof title === 'string' ? <Text>{title}</Text> : title}
+                    </BreadcrumbPage>
+                  </>
+                )}
             </BreadcrumbList>
           </Breadcrumb>
         </div>

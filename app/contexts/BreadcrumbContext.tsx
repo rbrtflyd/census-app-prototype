@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
 
 type Breadcrumb = {
   label: string;
@@ -37,21 +43,21 @@ export function BreadcrumbProvider({
     FolderBreadcrumb[]
   >([]);
 
-  const addBreadcrumb = (breadcrumb: Breadcrumb | Breadcrumb[]) => {
+  const addBreadcrumb = useCallback((breadcrumb: Breadcrumb | Breadcrumb[]) => {
     if (Array.isArray(breadcrumb)) {
       setBreadcrumbs((prev) => [...prev, ...breadcrumb]);
     } else {
       setBreadcrumbs((prev) => [...prev, breadcrumb]);
     }
-  };
+  }, []);
 
-  const clearBreadcrumbs = () => {
+  const clearBreadcrumbs = useCallback(() => {
     setBreadcrumbs([]);
-  };
+  }, []);
 
-  const clearFolderBreadcrumbs = () => {
+  const clearFolderBreadcrumbs = useCallback(() => {
     setFolderBreadcrumbs([]);
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -63,7 +69,13 @@ export function BreadcrumbProvider({
       setFolderBreadcrumbs,
       clearFolderBreadcrumbs,
     }),
-    [breadcrumbs, folderBreadcrumbs]
+    [
+      breadcrumbs,
+      folderBreadcrumbs,
+      addBreadcrumb,
+      clearBreadcrumbs,
+      clearFolderBreadcrumbs,
+    ]
   );
 
   return (
