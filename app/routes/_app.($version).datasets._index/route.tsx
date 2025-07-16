@@ -7,7 +7,14 @@ import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { foldersData } from '~/db/data/datasets/datasets_data';
-import { Button, Input } from '~/components/ui';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  Input,
+} from '~/components/ui';
+import { Text } from '@radix-ui/themes';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
 import {
   faArrowLeft,
@@ -22,6 +29,7 @@ import {
   faSparkles,
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
+import { toast } from 'sonner';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -41,6 +49,7 @@ export default function Datasets() {
   const { version } = useParams();
   const navigate = useNavigate();
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
+  const [createFolderDialogOpen, setCreateFolderDialogOpen] = useState(false);
 
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   // Navigation history state
@@ -227,19 +236,6 @@ export default function Datasets() {
         <div className="flex flex-col grow h-full">
           <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
             <div className="flex flex-row gap-2.5 items-center">
-              {/* History Back Button */}
-              <Button
-                onClick={handleGoBack}
-                variant="secondary"
-                size="small"
-                disabled={historyIndex === 0}
-                title="Go back to previous location">
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  className="text-xxs"
-                />
-              </Button>
-
               {/* Up/Parent Folder Button */}
               <Button
                 onClick={handleGoUp}
@@ -254,8 +250,6 @@ export default function Datasets() {
               </Button>
 
               <div className="h-7 w-px bg-slate-75 mx-2" />
-
-              {/* Action bar - keeping the action buttons */}
               <Button
                 variant="secondary"
                 size="small">
@@ -295,15 +289,48 @@ export default function Datasets() {
                 />
                 Delete
               </Button>
-              <Button
-                variant="secondary"
-                size="small">
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  className="mr-2 text-xxs"
-                />
-                New Folder
-              </Button>
+              <Dialog
+                open={createFolderDialogOpen}
+                onOpenChange={setCreateFolderDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="small">
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      className="mr-2 text-xxs"
+                    />
+                    New Folder
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
+                  <div className="flex flex-col gap-1 leading-none">
+                    <Text className="font-medium">New Folder</Text>
+                  </div>
+                  <div>
+                    <Input
+                      placeholder="Folder name"
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex-row">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setTimeout(() => {
+                          toast.success('Folder created');
+                          setCreateFolderDialogOpen(false);
+                        }, 1000);
+                      }}>
+                      <FontAwesomeIcon
+                        icon={faPlus}
+                        className="mr-2 text-xxs"
+                      />
+                      Create Folder
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <Input
