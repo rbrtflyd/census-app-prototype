@@ -166,11 +166,19 @@ export default function Datasets() {
 
   const tableData = getTableData();
 
+  // Update getSelectedItems function to separate datasets from folders:
   const getSelectedItems = () => {
     return tableData.filter((item) => selectedRows[item.id]);
   };
 
+  const getSelectedDatasets = () => {
+    return tableData.filter(
+      (item) => selectedRows[item.id] && item.type === 'dataset'
+    );
+  };
+
   const selectedItems = getSelectedItems();
+  const selectedDatasets = getSelectedDatasets();
 
   // Update folder breadcrumbs when selectedFolderId changes
   useEffect(() => {
@@ -257,28 +265,6 @@ export default function Datasets() {
 
               <div className="flex flex-row items-center gap-2">
                 <div className="h-7 w-px bg-slate-75 mx-2" />
-
-                <Button
-                  variant="secondary"
-                  size="small"
-                  disabled={selectedItems.length === 0}>
-                  <FontAwesomeIcon
-                    icon={faArrowsMinimize}
-                    className="mr-2 text-xxs"
-                  />
-                  Deduplicate
-                </Button>
-                <Button
-                  variant="fancy"
-                  size="small"
-                  disabled={selectedItems.length === 0}>
-                  <FontAwesomeIcon
-                    icon={faSparkles}
-                    className="mr-2 text-xxs"
-                  />
-                  Enrich & Enhance
-                </Button>
-                <div className="h-7 w-px bg-slate-75 mx-2" />
                 <MoveTableItemDialog
                   moveFolderDialogOpen={moveFolderDialogOpen}
                   setMoveFolderDialogOpen={setMoveFolderDialogOpen}
@@ -295,6 +281,28 @@ export default function Datasets() {
                     className="mr-2 text-xxs"
                   />
                   Delete
+                </Button>
+                <div className="h-7 w-px bg-slate-75 mx-2" />
+
+                <Button
+                  variant="secondary"
+                  size="small"
+                  disabled={selectedDatasets.length === 0}>
+                  <FontAwesomeIcon
+                    icon={faArrowsMinimize}
+                    className="mr-2 text-xxs"
+                  />
+                  Deduplicate
+                </Button>
+                <Button
+                  variant="fancy"
+                  size="small"
+                  disabled={selectedDatasets.length === 0}>
+                  <FontAwesomeIcon
+                    icon={faSparkles}
+                    className="mr-2 text-xxs"
+                  />
+                  Enrich & Enhance
                 </Button>
               </div>
             </div>
