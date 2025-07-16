@@ -52,7 +52,7 @@ export default function Datasets() {
   const [createFolderDialogOpen, setCreateFolderDialogOpen] = useState(false);
   const [moveFolderDialogOpen, setMoveFolderDialogOpen] = useState(false);
 
-  const [selectedRows, setSelectedRows] = useState<TableRowType[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
 
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   // Navigation history state
@@ -261,7 +261,8 @@ export default function Datasets() {
               <div className="h-7 w-px bg-slate-75 mx-2" />
               <Button
                 variant="secondary"
-                size="small">
+                size="small"
+                disabled={selectedItems.length === 0}>
                 <FontAwesomeIcon
                   icon={faArrowsMinimize}
                   className="mr-2 text-xxs"
@@ -270,7 +271,8 @@ export default function Datasets() {
               </Button>
               <Button
                 variant="fancy"
-                size="small">
+                size="small"
+                disabled={selectedItems.length === 0}>
                 <FontAwesomeIcon
                   icon={faSparkles}
                   className="mr-2 text-xxs"
@@ -285,7 +287,7 @@ export default function Datasets() {
                   <Button
                     variant="secondary"
                     size="small"
-                    disabled={selectedItems.length < 1}>
+                    disabled={selectedItems.length === 0}>
                     <FontAwesomeIcon
                       icon={faArrowsUpDownLeftRight}
                       className="mr-2 text-xxs"
@@ -321,7 +323,7 @@ export default function Datasets() {
                             }`
                           );
                           setMoveFolderDialogOpen(false);
-                          setSelectedRows([]);
+                          setSelectedRows({});
                         }, 500);
                       }}>
                       <FontAwesomeIcon
@@ -336,7 +338,7 @@ export default function Datasets() {
               <Button
                 variant="secondary"
                 size="small"
-                disabled>
+                disabled={selectedItems.length === 0}>
                 <FontAwesomeIcon
                   icon={faTrash}
                   className="mr-2 text-xxs"

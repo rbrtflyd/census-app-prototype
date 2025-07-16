@@ -26,8 +26,8 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onFolderClick?: (folderId: string) => void;
-  onRowSelectionChange?: (rows: TableRowType[]) => void;
-  selectedRows?: TableRowType[];
+  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
+  selectedRows?: Record<string, boolean>;
 }
 
 export function DataTable<TData, TValue>({
@@ -35,7 +35,7 @@ export function DataTable<TData, TValue>({
   data,
   onFolderClick,
   onRowSelectionChange,
-  selectedRows = [],
+  selectedRows = {},
 }: DataTableProps<TData, TValue>) {
   const { version } = useParams();
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     state: {
-      rowSelection: selectedRows as any,
+      rowSelection: selectedRows,
       sorting,
     },
   });
