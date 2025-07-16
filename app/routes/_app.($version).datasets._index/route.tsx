@@ -264,7 +264,7 @@ export default function Datasets() {
               />
 
               <div className="flex flex-row items-center gap-2">
-                <div className="h-7 w-px bg-slate-75 mx-2" />
+                <div className="h-7 w-px bg-slate-50 mx-2" />
                 <MoveTableItemDialog
                   moveFolderDialogOpen={moveFolderDialogOpen}
                   setMoveFolderDialogOpen={setMoveFolderDialogOpen}
@@ -282,7 +282,7 @@ export default function Datasets() {
                   />
                   Delete
                 </Button>
-                <div className="h-7 w-px bg-slate-75 mx-2" />
+                <div className="h-7 w-px bg-slate-50 mx-2" />
 
                 <Button
                   variant="secondary"
