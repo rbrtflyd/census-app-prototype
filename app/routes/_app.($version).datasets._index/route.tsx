@@ -90,16 +90,6 @@ export default function Datasets() {
     [historyIndex]
   );
 
-  // History-based back navigation
-  const handleGoBack = () => {
-    if (historyIndex > 0) {
-      const previousIndex = historyIndex - 1;
-      const previousFolderId = navigationHistory[previousIndex];
-      setSelectedFolderId(previousFolderId);
-      setHistoryIndex(previousIndex);
-    }
-  };
-
   // Hierarchical up navigation
   const handleGoUp = () => {
     if (!selectedFolderId) return;
