@@ -8,6 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getPaginationRowModel,
+  RowSelectionState,
 } from '@tanstack/react-table';
 
 import {
@@ -25,26 +26,26 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onFolderClick?: (folderId: string) => void;
+  onRowSelectionChange?: (rows: TableRowType[]) => void;
+  selectedRows?: TableRowType[];
 }
-
-const tableActions = [
-  {
-    label: 'Enrich',
-  },
-  {
-    label: 'Dedupe',
-  },
-];
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   onFolderClick,
+  onRowSelectionChange,
+  selectedRows = [],
 }: DataTableProps<TData, TValue>) {
   const { version } = useParams();
   const navigate = useNavigate();
-  const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  const handleRowSelectionChange = (updater: any) => {
+    const newSelection =
+      typeof updater === 'function' ? updater(selectedRows) : updater;
+    onRowSelectionChange?.(newSelection);
+  };
 
   const handleRowClick = (event: React.MouseEvent, row: any) => {
     // Prevent navigation when clicking checkbox
@@ -68,11 +69,11 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: handleRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     state: {
-      rowSelection,
+      rowSelection: selectedRows as any,
       sorting,
     },
   });

@@ -50,6 +50,9 @@ export default function Datasets() {
   const navigate = useNavigate();
   const { datasets } = useOutletContext() as { datasets: DatasetType[] };
   const [createFolderDialogOpen, setCreateFolderDialogOpen] = useState(false);
+  const [moveFolderDialogOpen, setMoveFolderDialogOpen] = useState(false);
+
+  const [selectedRows, setSelectedRows] = useState<TableRowType[]>([]);
 
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   // Navigation history state
@@ -170,6 +173,12 @@ export default function Datasets() {
 
   const tableData = getTableData();
 
+  const getSelectedItems = () => {
+    return tableData.filter((item) => selectedRows[item.id]);
+  };
+
+  const selectedItems = getSelectedItems();
+
   // Update folder breadcrumbs when selectedFolderId changes
   useEffect(() => {
     const folderPath = getFolderPath(selectedFolderId);
@@ -269,16 +278,61 @@ export default function Datasets() {
                 Enrich & Enhance
               </Button>
               <div className="h-7 w-px bg-slate-75 mx-2" />
-              <Button
-                variant="secondary"
-                size="small"
-                disabled>
-                <FontAwesomeIcon
-                  icon={faArrowsUpDownLeftRight}
-                  className="mr-2 text-xxs"
-                />
-                Move
-              </Button>
+              <Dialog
+                open={moveFolderDialogOpen}
+                onOpenChange={setMoveFolderDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    disabled={selectedItems.length < 1}>
+                    <FontAwesomeIcon
+                      icon={faArrowsUpDownLeftRight}
+                      className="mr-2 text-xxs"
+                    />
+                    Move
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
+                  <div className="flex flex-col gap-1 leading-none">
+                    <Text className="font-medium">
+                      Move {selectedItems.length} item
+                      {selectedItems.length !== 1 ? 's' : ''}
+                    </Text>
+                    <Text className="text-sm text-muted-foreground">
+                      Selected:{' '}
+                      {selectedItems.map((item) => item.name).join(', ')}
+                    </Text>
+                  </div>
+                  <div>
+                    <Input
+                      placeholder="Choose destination folder"
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex-row">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setTimeout(() => {
+                          toast.success(
+                            `Moved ${selectedItems.length} item${
+                              selectedItems.length !== 1 ? 's' : ''
+                            }`
+                          );
+                          setMoveFolderDialogOpen(false);
+                          setSelectedRows([]);
+                        }, 500);
+                      }}>
+                      <FontAwesomeIcon
+                        icon={faArrowsUpDownLeftRight}
+                        className="mr-2 text-xxs"
+                      />
+                      Move Items
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <Button
                 variant="secondary"
                 size="small"
@@ -320,7 +374,7 @@ export default function Datasets() {
                         setTimeout(() => {
                           toast.success('Folder created');
                           setCreateFolderDialogOpen(false);
-                        }, 1000);
+                        }, 500);
                       }}>
                       <FontAwesomeIcon
                         icon={faPlus}
@@ -342,6 +396,8 @@ export default function Datasets() {
             columns={columns}
             data={tableData}
             onFolderClick={handleFolderSelect}
+            onRowSelectionChange={setSelectedRows}
+            selectedRows={selectedRows}
           />
         </div>
       </div>
