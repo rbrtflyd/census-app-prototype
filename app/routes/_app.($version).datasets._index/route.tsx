@@ -26,10 +26,12 @@ import {
   faArrowsMinimize,
   faArrowsUpDownLeftRight,
   faArrowTurnUp,
+  faFolder,
   faSparkles,
   faTrash,
 } from '@fortawesome/pro-solid-svg-icons';
 import { toast } from 'sonner';
+import CreateNewFolderDialog from '~/components/Dialogs/FolderDialogs/CreateNewFolderDialog';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -247,136 +249,117 @@ export default function Datasets() {
                   className="text-xxs"
                 />
               </Button>
+              <CreateNewFolderDialog
+                createFolderDialogOpen={createFolderDialogOpen}
+                setCreateFolderDialogOpen={setCreateFolderDialogOpen}
+              />
+              {selectedItems.length > 0 && (
+                <div className="flex flex-row items-center gap-2">
+                  <div className="h-7 w-px bg-slate-75 mx-2" />
+                  <Text className="text-sm text-muted-foreground">
+                    {selectedItems.length} selected
+                  </Text>
 
-              <div className="h-7 w-px bg-slate-75 mx-2" />
-              <Button
-                variant="secondary"
-                size="small"
-                disabled={selectedItems.length === 0}>
-                <FontAwesomeIcon
-                  icon={faArrowsMinimize}
-                  className="mr-2 text-xxs"
-                />
-                Deduplicate
-              </Button>
-              <Button
-                variant="fancy"
-                size="small"
-                disabled={selectedItems.length === 0}>
-                <FontAwesomeIcon
-                  icon={faSparkles}
-                  className="mr-2 text-xxs"
-                />
-                Enrich & Enhance
-              </Button>
-              <div className="h-7 w-px bg-slate-75 mx-2" />
-              <Dialog
-                open={moveFolderDialogOpen}
-                onOpenChange={setMoveFolderDialogOpen}>
-                <DialogTrigger asChild>
                   <Button
                     variant="secondary"
                     size="small"
                     disabled={selectedItems.length === 0}>
                     <FontAwesomeIcon
-                      icon={faArrowsUpDownLeftRight}
+                      icon={faArrowsMinimize}
                       className="mr-2 text-xxs"
                     />
-                    Move
+                    Deduplicate
                   </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
-                  <div className="flex flex-col gap-1 leading-none">
-                    <Text className="font-medium">
-                      Move {selectedItems.length} item
-                      {selectedItems.length !== 1 ? 's' : ''}
-                    </Text>
-                    <Text className="text-sm text-muted-foreground">
-                      Selected:{' '}
-                      {selectedItems.map((item) => item.name).join(', ')}
-                    </Text>
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Choose destination folder"
-                      className="w-full"
+                  <Button
+                    variant="fancy"
+                    size="small"
+                    disabled={selectedItems.length === 0}>
+                    <FontAwesomeIcon
+                      icon={faSparkles}
+                      className="mr-2 text-xxs"
                     />
-                  </div>
-                  <div className="flex-row">
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        setTimeout(() => {
-                          toast.success(
-                            `Moved ${selectedItems.length} item${
-                              selectedItems.length !== 1 ? 's' : ''
-                            }`
-                          );
-                          setMoveFolderDialogOpen(false);
-                          setSelectedRows({});
-                        }, 500);
-                      }}>
-                      <FontAwesomeIcon
-                        icon={faArrowsUpDownLeftRight}
-                        className="mr-2 text-xxs"
-                      />
-                      Move Items
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <Button
-                variant="secondary"
-                size="small"
-                disabled={selectedItems.length === 0}>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className="mr-2 text-xxs"
-                />
-                Delete
-              </Button>
-              <Dialog
-                open={createFolderDialogOpen}
-                onOpenChange={setCreateFolderDialogOpen}>
-                <DialogTrigger asChild>
+                    Enrich & Enhance
+                  </Button>
+                  <div className="h-7 w-px bg-slate-75 mx-2" />
+                  <Dialog
+                    open={moveFolderDialogOpen}
+                    onOpenChange={setMoveFolderDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        size="small"
+                        disabled={selectedItems.length === 0}>
+                        <FontAwesomeIcon
+                          icon={faArrowsUpDownLeftRight}
+                          className="mr-2 text-xxs"
+                        />
+                        Move
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
+                      <div className="flex flex-col gap-1 leading-none">
+                        <Text className="font-medium">
+                          Move {selectedItems.length} item
+                          {selectedItems.length !== 1 ? 's' : ''}
+                        </Text>
+                        <Text className="text-sm text-muted-foreground">
+                          Selected:{' '}
+                          {selectedItems.map((item) => item.name).join(', ')}
+                        </Text>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {foldersData.map((folder) => (
+                          <button
+                            key={folder.id}
+                            className="flex flex-row gap-2 items-center">
+                            <FontAwesomeIcon
+                              icon={faFolder}
+                              className="text-xxs"
+                            />
+                            <Text>{folder.name}</Text>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex-row justify-between">
+                        <Button
+                          variant="secondary"
+                          size="small">
+                          New Folder
+                        </Button>
+                        <Button
+                          variant="primary"
+                          onClick={() => {
+                            setTimeout(() => {
+                              toast.success(
+                                `Moved ${selectedItems.length} item${
+                                  selectedItems.length !== 1 ? 's' : ''
+                                }`
+                              );
+                              setMoveFolderDialogOpen(false);
+                              setSelectedRows({});
+                            }, 500);
+                          }}>
+                          <FontAwesomeIcon
+                            icon={faArrowsUpDownLeftRight}
+                            className="mr-2 text-xxs"
+                          />
+                          Move Items
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                   <Button
                     variant="secondary"
-                    size="small">
+                    size="small"
+                    disabled={selectedItems.length === 0}>
                     <FontAwesomeIcon
-                      icon={faPlus}
+                      icon={faTrash}
                       className="mr-2 text-xxs"
                     />
-                    New Folder
+                    Delete
                   </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
-                  <div className="flex flex-col gap-1 leading-none">
-                    <Text className="font-medium">New Folder</Text>
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Folder name"
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex-row">
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        setTimeout(() => {
-                          toast.success('Folder created');
-                          setCreateFolderDialogOpen(false);
-                        }, 500);
-                      }}>
-                      <FontAwesomeIcon
-                        icon={faPlus}
-                        className="mr-2 text-xxs"
-                      />
-                      Create Folder
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
+                </div>
+              )}
             </div>
 
             <Input
