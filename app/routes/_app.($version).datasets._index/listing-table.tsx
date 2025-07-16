@@ -72,6 +72,7 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: handleRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    getRowId: (row) => (row as TableRowType).id,
     state: {
       rowSelection: selectedRows,
       sorting,

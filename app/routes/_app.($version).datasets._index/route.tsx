@@ -32,6 +32,7 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import { toast } from 'sonner';
 import CreateNewFolderDialog from '~/components/Dialogs/FolderDialogs/CreateNewFolderDialog';
+import MoveTableItemDialog from '~/components/Dialogs/FolderDialogs/MoveTableItemDialog';
 
 // Create a union type for table rows
 export type TableRowType =
@@ -253,113 +254,49 @@ export default function Datasets() {
                 createFolderDialogOpen={createFolderDialogOpen}
                 setCreateFolderDialogOpen={setCreateFolderDialogOpen}
               />
-              {selectedItems.length > 0 && (
-                <div className="flex flex-row items-center gap-2">
-                  <div className="h-7 w-px bg-slate-75 mx-2" />
-                  <Text className="text-sm text-muted-foreground">
-                    {selectedItems.length} selected
-                  </Text>
 
-                  <Button
-                    variant="secondary"
-                    size="small"
-                    disabled={selectedItems.length === 0}>
-                    <FontAwesomeIcon
-                      icon={faArrowsMinimize}
-                      className="mr-2 text-xxs"
-                    />
-                    Deduplicate
-                  </Button>
-                  <Button
-                    variant="fancy"
-                    size="small"
-                    disabled={selectedItems.length === 0}>
-                    <FontAwesomeIcon
-                      icon={faSparkles}
-                      className="mr-2 text-xxs"
-                    />
-                    Enrich & Enhance
-                  </Button>
-                  <div className="h-7 w-px bg-slate-75 mx-2" />
-                  <Dialog
-                    open={moveFolderDialogOpen}
-                    onOpenChange={setMoveFolderDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="secondary"
-                        size="small"
-                        disabled={selectedItems.length === 0}>
-                        <FontAwesomeIcon
-                          icon={faArrowsUpDownLeftRight}
-                          className="mr-2 text-xxs"
-                        />
-                        Move
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-md p-4 flex flex-col gap-4 *:flex">
-                      <div className="flex flex-col gap-1 leading-none">
-                        <Text className="font-medium">
-                          Move {selectedItems.length} item
-                          {selectedItems.length !== 1 ? 's' : ''}
-                        </Text>
-                        <Text className="text-sm text-muted-foreground">
-                          Selected:{' '}
-                          {selectedItems.map((item) => item.name).join(', ')}
-                        </Text>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        {foldersData.map((folder) => (
-                          <button
-                            key={folder.id}
-                            className="flex flex-row gap-2 items-center">
-                            <FontAwesomeIcon
-                              icon={faFolder}
-                              className="text-xxs"
-                            />
-                            <Text>{folder.name}</Text>
-                          </button>
-                        ))}
-                      </div>
-                      <div className="flex-row justify-between">
-                        <Button
-                          variant="secondary"
-                          size="small">
-                          New Folder
-                        </Button>
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            setTimeout(() => {
-                              toast.success(
-                                `Moved ${selectedItems.length} item${
-                                  selectedItems.length !== 1 ? 's' : ''
-                                }`
-                              );
-                              setMoveFolderDialogOpen(false);
-                              setSelectedRows({});
-                            }, 500);
-                          }}>
-                          <FontAwesomeIcon
-                            icon={faArrowsUpDownLeftRight}
-                            className="mr-2 text-xxs"
-                          />
-                          Move Items
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  <Button
-                    variant="secondary"
-                    size="small"
-                    disabled={selectedItems.length === 0}>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className="mr-2 text-xxs"
-                    />
-                    Delete
-                  </Button>
-                </div>
-              )}
+              <div className="flex flex-row items-center gap-2">
+                <div className="h-7 w-px bg-slate-75 mx-2" />
+
+                <Button
+                  variant="secondary"
+                  size="small"
+                  disabled={selectedItems.length === 0}>
+                  <FontAwesomeIcon
+                    icon={faArrowsMinimize}
+                    className="mr-2 text-xxs"
+                  />
+                  Deduplicate
+                </Button>
+                <Button
+                  variant="fancy"
+                  size="small"
+                  disabled={selectedItems.length === 0}>
+                  <FontAwesomeIcon
+                    icon={faSparkles}
+                    className="mr-2 text-xxs"
+                  />
+                  Enrich & Enhance
+                </Button>
+                <div className="h-7 w-px bg-slate-75 mx-2" />
+                <MoveTableItemDialog
+                  moveFolderDialogOpen={moveFolderDialogOpen}
+                  setMoveFolderDialogOpen={setMoveFolderDialogOpen}
+                  selectedItems={selectedItems}
+                  foldersData={foldersData}
+                  setSelectedRows={setSelectedRows}
+                />
+                <Button
+                  variant="secondary"
+                  size="small"
+                  disabled={selectedItems.length === 0}>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="mr-2 text-xxs"
+                  />
+                  Delete
+                </Button>
+              </div>
             </div>
 
             <Input
