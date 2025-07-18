@@ -152,6 +152,7 @@ export const foldersData = [
     parentId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    system: false,
   },
   {
     id: 'marketing-vip',
@@ -159,6 +160,7 @@ export const foldersData = [
     parentId: 'marketing',
     createdAt: new Date(),
     updatedAt: new Date(),
+    system: false,
   },
   {
     id: 'sales',
@@ -166,6 +168,7 @@ export const foldersData = [
     parentId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    system: false,
   },
   {
     id: 'analytics',
@@ -173,6 +176,7 @@ export const foldersData = [
     parentId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    system: false,
   },
   {
     id: 'uploads',
@@ -180,6 +184,7 @@ export const foldersData = [
     parentId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
+    system: false,
   },
 ];
 

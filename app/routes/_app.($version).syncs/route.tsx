@@ -26,12 +26,6 @@ export default function Syncs() {
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
 
-  // Navigation history state
-  const [navigationHistory, setNavigationHistory] = useState<(string | null)[]>(
-    [null]
-  );
-  const [historyIndex, setHistoryIndex] = useState(0);
-
   // Helper function to get child folders of a parent folder
   const getChildFolders = (parentId: string | null) => {
     return syncsFoldersData.filter((folder) => folder.parentId === parentId);
@@ -47,18 +41,8 @@ export default function Syncs() {
   const handleFolderSelect = useCallback(
     (folderId: string | null) => {
       setSelectedFolderId(folderId);
-
-      // Update navigation history
-      setNavigationHistory((prev) => {
-        const newHistory = prev.slice(0, historyIndex + 1);
-        if (newHistory[newHistory.length - 1] !== folderId) {
-          newHistory.push(folderId);
-          setHistoryIndex(newHistory.length - 1);
-        }
-        return newHistory;
-      });
     },
-    [historyIndex]
+    [setSelectedFolderId]
   );
 
   // Hierarchical up navigation
@@ -105,6 +89,7 @@ export default function Syncs() {
           createdAt: new Date(),
           updatedAt: new Date(),
           parentId: folder.parentId,
+          system: folder.system,
         })
       );
 
@@ -131,6 +116,7 @@ export default function Syncs() {
         createdAt: new Date(),
         updatedAt: new Date(),
         parentId: folder.parentId,
+        system: folder.system,
       }));
 
       const folderSyncs: TableRowType[] = syncsData
@@ -218,8 +204,8 @@ export default function Syncs() {
 
   const toolbarConfig = useSyncToolbar({
     selectedFolderId,
-    selectedItems: selectedItems as SyncTableRowType[],
-    selectedSyncs: selectedSyncs as SyncTableRowType[],
+    selectedItems: selectedItems as unknown as SyncTableRowType[],
+    selectedSyncs: selectedSyncs as unknown as SyncTableRowType[],
     onGoUp: handleGoUp,
     onDeleteItems: () => {
       // Handle delete logic

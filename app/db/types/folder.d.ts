@@ -4,6 +4,7 @@ interface FolderType {
   parentId: string | null;
   createdAt: Date;
   updatedAt: Date;
+  system: boolean;
 }
 
 export { FolderType };

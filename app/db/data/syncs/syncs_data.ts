@@ -50,26 +50,31 @@ export const syncsFoldersData = [
     id: 'system_syncs',
     name: 'Census System Managed Syncs',
     parentId: null,
+    system: true,
   },
   {
     id: 'user_syncs',
     name: 'User Managed Syncs',
     parentId: null,
+    system: false,
   },
   {
     id: 'braze',
     name: 'Braze',
     parentId: null,
+    system: false,
   },
   {
     id: 'advertising',
     name: 'Advertising',
     parentId: null,
+    system: false,
   },
   {
     id: 'google_ads',
     name: 'Google Ads',
     parentId: 'advertising',
+    system: false,
   },
 ];
 
