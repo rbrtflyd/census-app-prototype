@@ -24,13 +24,4 @@ declare module '../db' {
   }
 }
 
-// Define folder structure
-export interface FolderType {
-  id: string;
-  name: string;
-  parentId?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export { DatasetType };

@@ -112,9 +112,13 @@ const PageHeader: React.FC<PageHeaderProps> & {
                                   icon={faFolder}
                                   className="mr-2 icon-lighter"
                                 />
-                                <Text className="w-full truncate">
-                                  {sibling.name}
-                                </Text>
+                                {sibling.id === folder.id ? (
+                                  <Text>Back to {folder.name}</Text>
+                                ) : (
+                                  <Text className="w-full truncate">
+                                    {sibling.name}
+                                  </Text>
+                                )}
                               </DropdownMenuItem>
                             ))}
                           </DropdownMenuContent>

@@ -2,49 +2,21 @@ import { useEffect, useState, useCallback } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
-import type { DatasetType } from '../../db/types';
+import type { DatasetType, FolderType } from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { foldersData } from '~/db/data/datasets/datasets_data';
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  Input,
-} from '~/components/ui';
-import { Text } from '@radix-ui/themes';
+
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
-import {
-  faArrowLeft,
-  faPlus,
-  faArrowUp,
-} from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowsMinimize,
-  faArrowsUpDownLeftRight,
-  faArrowTurnUp,
-  faFolder,
-  faSparkles,
-  faTrash,
-} from '@fortawesome/pro-solid-svg-icons';
-import { toast } from 'sonner';
-import CreateNewFolderDialog from '~/components/Dialogs/FolderDialogs/CreateNewFolderDialog';
-import MoveTableItemDialog from '~/components/Dialogs/FolderDialogs/MoveTableItemDialog';
+
+import TableToolbar from '~/components/Tables/TableToolbar/TableToolbar';
+import { useDatasetToolbar } from '~/hooks/useDatasetToolbar';
 
 // Create a union type for table rows
 export type TableRowType =
   | (DatasetType & { type: 'dataset' })
-  | {
-      type: 'folder';
-      id: string;
-      name: string;
-      createdAt: Date;
-      updatedAt: Date;
-      parentId?: string | null;
-    };
+  | (FolderType & { type: 'folder' });
 
 export default function Datasets() {
   const { clearBreadcrumbs, setFolderBreadcrumbs, clearFolderBreadcrumbs } =
@@ -232,6 +204,27 @@ export default function Datasets() {
     };
   }, [clearFolderBreadcrumbs]);
 
+  const toolbarConfig = useDatasetToolbar({
+    selectedFolderId,
+    selectedItems,
+    selectedDatasets,
+    onGoUp: handleGoUp,
+    onDeleteItems: () => {
+      // Handle delete logic
+      console.log('Delete items:', selectedItems);
+    },
+    onDeduplicate: () => {
+      // Handle deduplicate logic
+      console.log('Deduplicate datasets:', selectedDatasets);
+    },
+    onEnrichEnhance: () => {
+      // Handle enrich & enhance logic
+      console.log('Enrich & enhance datasets:', selectedDatasets);
+    },
+    onSelectionCleared: () => setSelectedRows({}),
+    foldersData,
+  });
+
   return (
     <div className="h-full flex flex-col">
       <PageHeader
@@ -244,74 +237,8 @@ export default function Datasets() {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex flex-col grow h-full">
-          <div className="flex flex-row items-center gap-2 px-6 py-3 border-b border-base justify-between">
-            <div className="flex flex-row gap-2.5 items-center">
-              {/* Up/Parent Folder Button */}
-              <Button
-                onClick={handleGoUp}
-                variant="secondary"
-                size="small"
-                disabled={!selectedFolderId}
-                title="Go up to parent folder">
-                <FontAwesomeIcon
-                  icon={faArrowTurnUp}
-                  className="text-xxs"
-                />
-              </Button>
-              <CreateNewFolderDialog
-                createFolderDialogOpen={createFolderDialogOpen}
-                setCreateFolderDialogOpen={setCreateFolderDialogOpen}
-              />
+          <TableToolbar {...toolbarConfig} />
 
-              <div className="flex flex-row items-center gap-2">
-                <div className="h-7 w-px bg-slate-50 mx-2" />
-                <MoveTableItemDialog
-                  moveFolderDialogOpen={moveFolderDialogOpen}
-                  setMoveFolderDialogOpen={setMoveFolderDialogOpen}
-                  selectedItems={selectedItems}
-                  foldersData={foldersData}
-                  setSelectedRows={setSelectedRows}
-                />
-                <Button
-                  variant="secondary"
-                  size="small"
-                  disabled={selectedItems.length === 0}>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className="mr-2 text-xxs"
-                  />
-                  Delete
-                </Button>
-                <div className="h-7 w-px bg-slate-50 mx-2" />
-
-                <Button
-                  variant="secondary"
-                  size="small"
-                  disabled={selectedDatasets.length === 0}>
-                  <FontAwesomeIcon
-                    icon={faArrowsMinimize}
-                    className="mr-2 text-xxs"
-                  />
-                  Deduplicate
-                </Button>
-                <Button
-                  variant="fancy"
-                  size="small"
-                  disabled={selectedDatasets.length === 0}>
-                  <FontAwesomeIcon
-                    icon={faSparkles}
-                    className="mr-2 text-xxs"
-                  />
-                  Enrich & Enhance
-                </Button>
-              </div>
-            </div>
-
-            <Input
-              placeholder="Search datasets"
-              className="w-80"
-            />
-          </div>
           <DataTable
             columns={columns}
             data={tableData}

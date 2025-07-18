@@ -1,5 +1,11 @@
 import { SyncStatusType } from './syncStatus';
 
+type SyncBehaviorType =
+  | 'update and create'
+  | 'update only'
+  | 'delete'
+  | 'mirror';
+
 interface SyncType {
   id: number;
   name: string;
@@ -13,6 +19,8 @@ interface SyncType {
   columns?: Array<any>;
   tags?: string[];
   foreignKeys?: Array<any>;
+  folderId?: string | null;
+  behavior?: SyncBehaviorType; // Also make this optional since not all syncs have it
 }
 
 export { SyncType };
