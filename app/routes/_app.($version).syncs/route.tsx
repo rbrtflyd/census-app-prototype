@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
-import type { FolderType, SyncType } from '../../db/types';
+import type { FolderType, SyncBehaviorType, SyncType } from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
@@ -116,6 +116,7 @@ export default function Syncs() {
           createdAt: new Date(),
           updatedAt: new Date(),
           folderId: s.folderId || null,
+          behavior: s.behavior as SyncBehaviorType,
         }));
 
       return [...rootFolders, ...rootSyncs];
@@ -140,6 +141,7 @@ export default function Syncs() {
           createdAt: new Date(),
           updatedAt: new Date(),
           folderId: s.folderId || null,
+          behavior: s.behavior as SyncBehaviorType,
         }));
 
       return [...childFolders, ...folderSyncs];

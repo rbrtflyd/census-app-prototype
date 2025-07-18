@@ -11,6 +11,9 @@ import {
   faPause,
   faCheck,
   faExclamationTriangle,
+  faDotCircle,
+  faCircleSmall,
+  faCircle,
 } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
@@ -79,26 +82,26 @@ export const columns: ColumnDef<TableRowType>[] = [
         );
       const status = row.original.status || 'inactive';
       const statusConfig = {
-        active: { label: 'Active', variant: 'default' as const, icon: faPlay },
+        active: {
+          label: 'Active',
+          className: 'text-green-400',
+        },
         paused: {
           label: 'Paused',
-          variant: 'secondary' as const,
-          icon: faPause,
+          className: 'text-slate-100',
         },
         success: {
           label: 'Success',
-          variant: 'default' as const,
-          icon: faCheck,
+          className: 'text-green-100',
         },
-        error: {
-          label: 'Error',
-          variant: 'destructive' as const,
-          icon: faExclamationTriangle,
+        failing: {
+          label: 'Failing',
+          className: 'text-red-500',
         },
         inactive: {
           label: 'Inactive',
-          variant: 'secondary' as const,
-          icon: faPause,
+
+          className: 'text-slate-400',
         },
       };
 
@@ -112,8 +115,8 @@ export const columns: ColumnDef<TableRowType>[] = [
           </Text>
           <Badge className="flex items-center gap-1">
             <FontAwesomeIcon
-              icon={config.icon}
-              className="h-3 w-3"
+              icon={faCircle}
+              className={`h-2 ${config.className}`}
             />
             {config.label}
           </Badge>
@@ -123,30 +126,39 @@ export const columns: ColumnDef<TableRowType>[] = [
     size: 100,
   },
   {
-    accessorKey: 'datasetId',
-    header: 'Dataset',
+    accessorKey: 'source',
+    header: 'Source',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return row.original.datasetId
-        ? `Dataset ${row.original.datasetId}`
-        : 'No dataset';
+      return row.original.source
+        ? `Source ${row.original.source}`
+        : 'No source';
     },
   },
   {
-    accessorKey: 'destinationId',
+    accessorKey: 'destination',
     header: 'Destination',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return row.original.destinationId
-        ? `Destination ${row.original.destinationId}`
+      return row.original.destination
+        ? `Destination ${row.original.destination}`
         : 'No destination';
     },
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Modified',
+    accessorKey: 'behavior',
+    header: 'Behavior',
     cell: ({ row }) => {
-      const date = new Date(row.getValue('updatedAt'));
+      if (row.original.type === 'folder') return null;
+      return <Badge className=" capitalize">{row.original.behavior}</Badge>;
+    },
+  },
+  {
+    accessorKey: 'lastRun',
+    header: 'Last Run',
+    cell: ({ row }) => {
+      if (row.getValue('lastRun') === null) return <div>Never</div>;
+      const date = new Date(row.getValue('lastRun'));
       const now = new Date();
       const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
       let formatted;

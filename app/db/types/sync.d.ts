@@ -9,8 +9,8 @@ type SyncBehaviorType =
 interface SyncType {
   id: number;
   name: string;
-  datasetId?: number | string;
-  destinationId?: number | string;
+  source?: number | string;
+  destination?: number | string;
   description?: string;
   createdAt?: Date;
   status?: SyncStatusType;
@@ -20,7 +20,8 @@ interface SyncType {
   tags?: string[];
   foreignKeys?: Array<any>;
   folderId?: string | null;
-  behavior?: SyncBehaviorType; // Also make this optional since not all syncs have it
+  behavior?: SyncBehaviorType;
+  lastRun?: Date | null;
 }
 
-export { SyncType };
+export { SyncType, SyncBehaviorType };

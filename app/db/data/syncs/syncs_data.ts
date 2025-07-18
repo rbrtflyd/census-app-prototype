@@ -6,12 +6,14 @@ const syncsData = [
     name: 'Daily Sync for Dataset 1',
     behavior: 'update and create',
     status: 'active',
+    lastRun: null,
   },
   {
     id: 2,
     name: 'Weekly Sync for Dataset 2',
     behavior: 'update and create',
     status: 'active',
+    lastRun: null,
   },
   {
     id: 3,
@@ -20,6 +22,7 @@ const syncsData = [
     description: 'Syncs Dataset 3 on the first day of every month',
     behavior: 'update only',
     status: 'failing',
+    lastRun: null,
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ const syncsData = [
     description: 'Syncs Dataset 4 every hour',
     behavior: 'update and create',
     status: 'active',
+    lastRun: null,
   },
   {
     id: 5,
@@ -37,6 +41,7 @@ const syncsData = [
     folderId: 'user_syncs',
     behavior: 'update and create',
     status: 'not run',
+    lastRun: null,
   },
 ];
 
