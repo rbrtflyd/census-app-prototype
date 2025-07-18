@@ -157,6 +157,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     accessorKey: 'lastRun',
     header: 'Last Run',
     cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
       if (row.getValue('lastRun') === null) return <div>Never</div>;
       const date = new Date(row.getValue('lastRun'));
       const now = new Date();
