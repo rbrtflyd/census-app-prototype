@@ -2,26 +2,51 @@ import { useEffect, useState, useCallback } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
-import type { FolderType, SyncBehaviorType, SyncType } from '../../db/types';
+import type {
+  ConnectionType,
+  DatasetType,
+  FolderType,
+  SyncBehaviorType,
+  SyncType,
+} from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { syncsData, syncsFoldersData } from '~/db/data/syncs/syncs_data';
+import { workspaceConnectionsData } from '~/db/data/connections/workspaceConnections_data';
+import { connectionsData } from '~/db/data/connections/connections_data';
 import TableToolbar from '~/components/Tables/TableToolbar/TableToolbar';
 import { useSyncToolbar, type SyncTableRowType } from '~/hooks/useSyncToolbar';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
 
-// Create a union type for table rows
-export type TableRowType =
-  | (SyncType & { type: 'sync' })
-  | (FolderType & { type: 'folder' });
+// Create enhanced sync type that includes connection info
+export type EnhancedSyncType = SyncType & {
+  type: 'sync';
+  destinationConnection?: {
+    id: number;
+    name: string | null;
+    connectionService: {
+      id: number;
+      connectionServiceName: string;
+      connectionServiceType: string;
+      logo: string;
+    };
+  };
+};
+
+export type TableRowType = EnhancedSyncType | (FolderType & { type: 'folder' });
 
 export default function Syncs() {
   const { clearBreadcrumbs, setFolderBreadcrumbs, clearFolderBreadcrumbs } =
     useBreadcrumbs();
+
   const { version } = useParams();
   const navigate = useNavigate();
-  const { syncs } = useOutletContext() as { syncs: SyncType[] };
+  const { syncs, datasets, destinations } = useOutletContext() as {
+    syncs: SyncType[];
+    datasets: DatasetType[];
+    destinations: ConnectionType[];
+  };
 
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
@@ -77,6 +102,34 @@ export default function Syncs() {
     []
   );
 
+  // Helper function to get connection info for a sync
+  const getConnectionInfo = (destinationId: number | string | undefined) => {
+    if (!destinationId) return undefined;
+
+    const workspaceConnection = workspaceConnectionsData.find(
+      (wc) => wc.id === Number(destinationId)
+    );
+
+    if (!workspaceConnection) return undefined;
+
+    const connectionService = connectionsData.find(
+      (cs) => cs.id === workspaceConnection.connectionId
+    );
+
+    if (!connectionService) return undefined;
+
+    return {
+      id: workspaceConnection.id,
+      name: workspaceConnection.name,
+      connectionService: {
+        id: connectionService.id,
+        connectionServiceName: connectionService.connectionServiceName,
+        connectionServiceType: connectionService.connectionServiceType,
+        logo: connectionService.logo,
+      },
+    };
+  };
+
   // Create combined data for the table
   const getTableData = (): TableRowType[] => {
     if (!selectedFolderId) {
@@ -102,6 +155,7 @@ export default function Syncs() {
           updatedAt: new Date(),
           folderId: s.folderId || null,
           behavior: s.behavior as SyncBehaviorType,
+          destinationConnection: getConnectionInfo(s.destination),
         }));
 
       return [...rootFolders, ...rootSyncs];
@@ -128,6 +182,7 @@ export default function Syncs() {
           updatedAt: new Date(),
           folderId: s.folderId || null,
           behavior: s.behavior as SyncBehaviorType,
+          destinationConnection: getConnectionInfo(s.destination),
         }));
 
       return [...childFolders, ...folderSyncs];

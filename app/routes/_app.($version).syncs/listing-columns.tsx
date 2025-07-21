@@ -18,7 +18,27 @@ import {
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
 import { Badge } from '~/components/ui/badge';
-import type { TableRowType } from './route';
+import { TableRowType } from './route';
+import { syncsData, syncsFoldersData } from '~/db/data/syncs/syncs_data';
+import { workspaceConnectionsData } from '~/db/data/connections/workspaceConnections_data';
+import { connectionsData } from '~/db/data/connections/connections_data';
+
+// Create enhanced sync type that includes connection info
+export type EnhancedSyncType = SyncType & {
+  type: 'sync';
+  destinationConnection?: {
+    id: number;
+    name: string | null;
+    connectionService: {
+      id: number;
+      connectionServiceName: string;
+      connectionServiceType: string;
+      logo: string;
+    };
+  };
+};
+
+//export type TableRowType = EnhancedSyncType | (FolderType & { type: 'folder' });
 
 export const columns: ColumnDef<TableRowType>[] = [
   {
@@ -53,7 +73,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex flex-row gap-2 items-center">
-          <Text>Name</Text>
+          <Text>Sync</Text>
           <Toggle
             size="sm"
             variant="default"
@@ -111,7 +131,7 @@ export const columns: ColumnDef<TableRowType>[] = [
       return (
         <div className="flex items-center gap-3">
           <Text className={`truncate ${isFolder ? 'font-medium ' : ''}`}>
-            {row.original.name}
+            {row.original.label}
           </Text>
           <Badge className="flex items-center gap-1">
             <FontAwesomeIcon
@@ -131,7 +151,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
       return row.original.source
-        ? `Source ${row.original.source}`
+        ? `Dataset ${row.original.source}`
         : 'No source';
     },
   },
@@ -140,9 +160,34 @@ export const columns: ColumnDef<TableRowType>[] = [
     header: 'Destination',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return row.original.destination
-        ? `Destination ${row.original.destination}`
-        : 'No destination';
+
+      const sync = row.original as EnhancedSyncType;
+      if (!sync.destinationConnection) {
+        return <Text className="text-slate-400">No destination</Text>;
+      }
+
+      const { destinationConnection } = sync;
+      const displayName =
+        destinationConnection.name ||
+        destinationConnection.connectionService.connectionServiceName;
+
+      return (
+        <div className="flex items-center gap-3">
+          {destinationConnection.connectionService.logo && (
+            <div className="flex items-center justify-center bg-white border-base border rounded-md shadow-sm p-1 size-10">
+              <img
+                src={destinationConnection.connectionService.logo}
+                alt={
+                  destinationConnection.connectionService.connectionServiceName
+                }
+                className="h-6 w-6 flex-shrink-0"
+              />
+            </div>
+          )}
+
+          <Text className="font-medium">{displayName}</Text>
+        </div>
+      );
     },
   },
   {
