@@ -86,22 +86,19 @@ export const columns: ColumnDef<TableRowType>[] = [
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
       return (
-        <Text className="text-slate-400 truncate max-w-[300px]">
+        <Text className="text-light truncate w-full">
           {row.original.description || 'No description'}
         </Text>
       );
     },
+    size: 200,
   },
   {
     accessorKey: 'rowCount',
     header: 'Rows',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return (
-        <Text className="font-mono">
-          {row.original.rowCount?.toLocaleString() || '0'}
-        </Text>
-      );
+      return <Text>{row.original.rowCount?.toLocaleString() || '0'}</Text>;
     },
   },
   {
@@ -109,9 +106,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     header: 'Columns',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return (
-        <Text className="font-mono">{row.original.columnCount || '0'}</Text>
-      );
+      return <Text>{row.original.columnCount || '0'}</Text>;
     },
   },
   {
@@ -124,30 +119,6 @@ export const columns: ColumnDef<TableRowType>[] = [
         <Badge>
           {destinationCount} destination{destinationCount !== 1 ? 's' : ''}
         </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: 'tags',
-    header: 'Tags',
-    cell: ({ row }) => {
-      if (row.original.type === 'folder') return null;
-      const tags = row.original.tags || [];
-      if (tags.length === 0) return null;
-
-      return (
-        <div className="flex gap-1 flex-wrap">
-          {tags.slice(0, 2).map((tag: string) => (
-            <Badge
-              key={tag}
-              className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-          {tags.length > 2 && (
-            <Badge className="text-xs">+{tags.length - 2}</Badge>
-          )}
-        </div>
       );
     },
   },

@@ -60,21 +60,13 @@ export function useSegmentToolbar({
   const leftActions: ToolbarAction[] = useMemo(
     () => [
       {
-        id: 'go-up',
-        label: '',
-        icon: faArrowTurnUp,
-        onClick: onGoUp,
-        disabled: !selectedFolderId,
-        title: 'Go up to parent folder',
-      },
-      {
         id: 'create-folder',
         label: 'New Folder',
         icon: faFolder,
         dialogType: 'create-folder',
       },
     ],
-    [selectedFolderId, onGoUp]
+    []
   );
 
   const leftActionGroups: ToolbarActionGroup[] = useMemo(
@@ -95,38 +87,6 @@ export function useSegmentToolbar({
             icon: faTrash,
             onClick: onDeleteItems,
             disabled: selectedItems.length === 0,
-          },
-        ],
-      },
-      {
-        id: 'segment-actions',
-        actions: [
-          {
-            id: 'run-segments',
-            label: 'Run',
-            icon: faPlay,
-            onClick: onRunSegments,
-            disabled: selectedSegments.length === 0,
-            variant: 'primary' as const,
-          },
-          {
-            id: 'pause-segments',
-            label: 'Pause',
-            icon: faPause,
-            onClick: onPauseSegments,
-            disabled: selectedSegments.length === 0,
-          },
-          {
-            id: 'refresh-segments',
-            label: 'Refresh',
-            icon: faRefresh,
-            onClick: onRefreshSegments,
-          },
-          {
-            id: 'subscribe-to-segments',
-            label: 'Subscribe',
-            icon: faBell,
-            onClick: onSubscribeToSegments,
           },
         ],
       },
