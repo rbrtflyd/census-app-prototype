@@ -1,13 +1,14 @@
 import { ColumnDef } from '@tanstack/react-table';
-import type { DatasetType } from '~/db/types';
+import type { SegmentType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
 import { ArrowUpDown, Folder } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder, faSort } from '@fortawesome/pro-solid-svg-icons';
+import { faFolder, faSort, faCircle } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
-import type { TableRowType } from './route';
+import { Badge } from '~/components/ui/badge';
+import { TableRowType } from './route';
 
 export const columns: ColumnDef<TableRowType>[] = [
   {
@@ -42,7 +43,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex flex-row gap-2 items-center">
-          <Text>Name</Text>
+          <Text>Segment</Text>
           <Toggle
             size="sm"
             variant="default"
@@ -57,28 +58,59 @@ export const columns: ColumnDef<TableRowType>[] = [
     },
     cell: ({ row }) => {
       const isFolder = row.original.type === 'folder';
-      return (
-        <div className="flex items-center gap-3">
-          {isFolder && (
+      if (row.original.type === 'folder') {
+        return (
+          <div className="flex items-center gap-3">
             <FontAwesomeIcon
               icon={faFolder}
               className="h-4 w-4 icon-lighter"
             />
-          )}
-          <Text className={`truncate ${isFolder ? 'font-medium ' : ''}`}>
-            {row.original.name}
-          </Text>
+            <Text className={`truncate ${isFolder ? 'font-medium ' : ''}`}>
+              {row.original.name}
+            </Text>
+          </div>
+        );
+      }
+
+      return (
+        <div className="flex items-center gap-3">
+          <Text className="truncate">{row.original.name}</Text>
         </div>
       );
     },
-    size: 100,
+    size: 200,
   },
   {
-    accessorKey: 'source',
+    accessorKey: 'description',
+    header: 'Description',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return (
+        <Text className="text-light truncate w-[120px]">
+          {row.original.description || 'No description'}
+        </Text>
+      );
+    },
+    size: 200,
+  },
+  {
+    accessorKey: 'sourceId',
     header: 'Source',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return row.original.source;
+      return (
+        <Text className="text-light truncate w-full">
+          {row.original.sourceId || 'No source'}
+        </Text>
+      );
+    },
+  },
+  {
+    accessorKey: 'rowCount',
+    header: 'Rows',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return <Text>{row.original.rowCount?.toLocaleString() || '0'}</Text>;
     },
   },
   {
@@ -86,14 +118,20 @@ export const columns: ColumnDef<TableRowType>[] = [
     header: 'Destinations',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
-      return row.original.destinations;
+      const destinationCount = row.original.destinations?.length || 0;
+      return (
+        <Badge>
+          {destinationCount} destination{destinationCount !== 1 ? 's' : ''}
+        </Badge>
+      );
     },
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Modified',
+    header: 'Last Updated',
     cell: ({ row }) => {
-      const date = new Date(row.getValue('updatedAt'));
+      if (row.original.type === 'folder') return null;
+      const date = new Date(row.original.updatedAt);
       const now = new Date();
       const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
       let formatted;
@@ -119,7 +157,7 @@ export const columns: ColumnDef<TableRowType>[] = [
         formatted = `${months} month${months !== 1 ? 's' : ''} ago`;
       }
 
-      return <div>{formatted}</div>;
+      return <Text className="text-slate-400">{formatted}</Text>;
     },
   },
 ];

@@ -58,6 +58,11 @@ export default {
           '600': 'hsl(155, 86%, 22%)',
           '700': 'hsl(155, 91%, 13%)',
         },
+        wisteria: {
+          '400': 'hsl(241, 100%, 80%)',
+          '500': 'hsl(241, 79%, 72%)',
+          '600': 'hsl(241, 56%, 61%)',
+        },
         'color-1': 'hsl(var(--color-1))',
         'color-2': 'hsl(var(--color-2))',
         'color-3': 'hsl(var(--color-3))',

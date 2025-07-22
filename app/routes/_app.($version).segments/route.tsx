@@ -2,74 +2,69 @@ import { useEffect, useState, useCallback } from 'react';
 import { useOutletContext, useParams } from '@remix-run/react';
 import PageHeader from '../../components/Structural/Headers/PageHeader';
 import { useNavigate } from 'react-router-dom';
-import type { DatasetType, FolderType } from '../../db/types';
+import type { SegmentType, FolderType } from '../../db/types';
 import { columns } from './listing-columns';
 import { DataTable } from './listing-table';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
-import { foldersData } from '~/db/data/datasets/datasets_data';
-
+import {
+  segmentsData,
+  segmentFoldersData,
+} from '~/db/data/segments/segments_data';
+import TableToolbar from '~/components/Tables/TableToolbar/TableToolbar';
+import {
+  useSegmentToolbar,
+  type SegmentTableRowType,
+} from '~/hooks/useSegmentToolbar';
 import type { FolderBreadcrumb } from '~/contexts/BreadcrumbContext';
 
-import TableToolbar from '~/components/Tables/TableToolbar/TableToolbar';
-import { useDatasetToolbar } from '~/hooks/useDatasetToolbar';
+// Create enhanced segment type
+export type EnhancedSegmentType = SegmentType & {
+  type: 'segment';
+};
 
-// Create a union type for table rows
 export type TableRowType =
-  | (DatasetType & { type: 'dataset' })
+  | EnhancedSegmentType
   | (FolderType & { type: 'folder' });
 
-export default function Datasets() {
+export default function Segments() {
   const { clearBreadcrumbs, setFolderBreadcrumbs, clearFolderBreadcrumbs } =
     useBreadcrumbs();
+
   const { version } = useParams();
   const navigate = useNavigate();
-  const { datasets } = useOutletContext() as { datasets: DatasetType[] };
-  const [createFolderDialogOpen, setCreateFolderDialogOpen] = useState(false);
-  const [moveFolderDialogOpen, setMoveFolderDialogOpen] = useState(false);
+  const { segments } = useOutletContext() as {
+    segments: SegmentType[];
+  };
 
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
-
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
-  // Navigation history state
-  const [navigationHistory, setNavigationHistory] = useState<(string | null)[]>(
-    [null]
-  );
-  const [historyIndex, setHistoryIndex] = useState(0);
 
   // Helper function to get child folders of a parent folder
   const getChildFolders = (parentId: string | null) => {
-    return foldersData.filter((folder) => folder.parentId === parentId);
+    return segmentFoldersData.filter((folder) => folder.parentId === parentId);
   };
 
   // Helper function to get sibling folders (folders at the same level)
   const getSiblingFolders = (folderId: string) => {
-    const folder = foldersData.find((f) => f.id === folderId);
+    const folder = segmentFoldersData.find((f) => f.id === folderId);
     if (!folder) return [];
-    return foldersData.filter((f) => f.parentId === folder.parentId);
+    return segmentFoldersData.filter((f) => f.parentId === folder.parentId);
   };
 
   const handleFolderSelect = useCallback(
     (folderId: string | null) => {
       setSelectedFolderId(folderId);
-
-      // Update navigation history
-      setNavigationHistory((prev) => {
-        const newHistory = prev.slice(0, historyIndex + 1);
-        if (newHistory[newHistory.length - 1] !== folderId) {
-          newHistory.push(folderId);
-          setHistoryIndex(newHistory.length - 1);
-        }
-        return newHistory;
-      });
     },
-    [historyIndex]
+    [setSelectedFolderId]
   );
 
   // Hierarchical up navigation
   const handleGoUp = () => {
     if (!selectedFolderId) return;
 
-    const currentFolder = foldersData.find((f) => f.id === selectedFolderId);
+    const currentFolder = segmentFoldersData.find(
+      (f) => f.id === selectedFolderId
+    );
     if (currentFolder?.parentId) {
       handleFolderSelect(currentFolder.parentId);
     } else {
@@ -82,7 +77,7 @@ export default function Datasets() {
     (folderId: string | null): Array<{ id: string; name: string }> => {
       if (!folderId) return [];
 
-      const folder = foldersData.find((f) => f.id === folderId);
+      const folder = segmentFoldersData.find((f) => f.id === folderId);
       if (!folder) return [];
 
       const path = [{ id: folder.id, name: folder.name }];
@@ -98,69 +93,83 @@ export default function Datasets() {
   // Create combined data for the table
   const getTableData = (): TableRowType[] => {
     if (!selectedFolderId) {
-      // At root level: show top-level folders first, then datasets without folders
+      // At root level: show top-level folders first, then segments without folders
       const rootFolders: TableRowType[] = getChildFolders(null).map(
         (folder) => ({
           type: 'folder' as const,
           id: folder.id,
           name: folder.name,
-          createdAt: folder.createdAt,
-          updatedAt: folder.updatedAt,
+          createdAt: new Date(),
+          updatedAt: new Date(),
           parentId: folder.parentId,
+          system: folder.system,
         })
       );
 
-      const rootDatasets: TableRowType[] = datasets
-        .filter((d) => !d.folderId)
-        .map((d) => ({ ...d, type: 'dataset' as const }));
+      const rootSegments: TableRowType[] = segmentsData
+        .filter((s) => !s.folderId)
+        .map((s) => ({
+          ...s,
+          type: 'segment' as const,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          folderId: s.folderId || null,
+        }));
 
-      return [...rootFolders, ...rootDatasets];
+      return [...rootFolders, ...rootSegments];
     } else {
-      // In a folder: show child folders first, then datasets from this folder
+      // In a folder: show child folders first, then segments from this folder
       const childFolders: TableRowType[] = getChildFolders(
         selectedFolderId
       ).map((folder) => ({
         type: 'folder' as const,
         id: folder.id,
         name: folder.name,
-        createdAt: folder.createdAt,
-        updatedAt: folder.updatedAt,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         parentId: folder.parentId,
+        system: folder.system,
       }));
 
-      const folderDatasets: TableRowType[] = datasets
-        .filter((d) => d.folderId === selectedFolderId)
-        .map((d) => ({ ...d, type: 'dataset' as const }));
+      const folderSegments: TableRowType[] = segmentsData
+        .filter((s) => s.folderId === selectedFolderId)
+        .map((s) => ({
+          ...s,
+          type: 'segment' as const,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          folderId: s.folderId || null,
+        }));
 
-      return [...childFolders, ...folderDatasets];
+      return [...childFolders, ...folderSegments];
     }
   };
 
   const tableData = getTableData();
 
-  // Update getSelectedItems function to separate datasets from folders:
+  // Update getSelectedItems function to separate segments from folders:
   const getSelectedItems = () => {
     return tableData.filter((item) => selectedRows[item.id]);
   };
 
-  const getSelectedDatasets = () => {
+  const getSelectedSegments = () => {
     return tableData.filter(
-      (item) => selectedRows[item.id] && item.type === 'dataset'
+      (item) => selectedRows[item.id] && item.type === 'segment'
     );
   };
 
   const selectedItems = getSelectedItems();
-  const selectedDatasets = getSelectedDatasets();
+  const selectedSegments = getSelectedSegments();
 
   // Update folder breadcrumbs when selectedFolderId changes
   useEffect(() => {
     const folderPath = getFolderPath(selectedFolderId);
 
-    // Always start with "All Datasets" as the root
+    // Always start with "All Segments" as the root
     const folderBreadcrumbs: FolderBreadcrumb[] = [
       {
         id: null,
-        name: 'All Datasets',
+        name: 'All Segments',
         onClick: handleFolderSelect,
         siblings: undefined,
       },
@@ -204,34 +213,44 @@ export default function Datasets() {
     };
   }, [clearFolderBreadcrumbs]);
 
-  const toolbarConfig = useDatasetToolbar({
+  const toolbarConfig = useSegmentToolbar({
     selectedFolderId,
-    selectedItems,
-    selectedDatasets,
+    selectedItems: selectedItems as unknown as SegmentTableRowType[],
+    selectedSegments: selectedSegments as unknown as SegmentTableRowType[],
     onGoUp: handleGoUp,
     onDeleteItems: () => {
       // Handle delete logic
       console.log('Delete items:', selectedItems);
     },
-    onDeduplicate: () => {
-      // Handle deduplicate logic
-      console.log('Deduplicate datasets:', selectedDatasets);
+    onRunSegments: () => {
+      // Handle run segments logic
+      console.log('Run segments:', selectedSegments);
     },
-    onEnrichEnhance: () => {
-      // Handle enrich & enhance logic
-      console.log('Enrich & enhance datasets:', selectedDatasets);
+    onPauseSegments: () => {
+      // Handle pause segments logic
+      console.log('Pause segments:', selectedSegments);
     },
-    onSelectionCleared: () => setSelectedRows({}),
-    foldersData,
+    onRefreshSegments: () => {
+      // Handle refresh segments logic
+      console.log('Refresh segments');
+    },
+    onSelectionCleared: () => {
+      setSelectedRows({});
+    },
+    onSubscribeToSegments: () => {
+      // Handle subscribe to segments logic
+      console.log('Subscribe to segments:', selectedSegments);
+    },
+    foldersData: segmentFoldersData,
   });
 
   return (
     <div className="h-full flex flex-col">
       <PageHeader
-        title={selectedFolderId ? '' : 'Datasets'}
+        title={selectedFolderId ? '' : 'Segments'}
         button={{
-          label: 'New Dataset',
-          onClick: () => navigate(`/${version}/datasets/new/step1`),
+          label: 'New Segment',
+          onClick: () => navigate(`/${version}/segments/new`),
         }}
       />
 

@@ -1,8 +1,21 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
 
 type Breadcrumb = {
   label: string;
   href: string;
+};
+
+type FolderBreadcrumb = {
+  id: string | null;
+  name: string;
+  onClick?: (folderId: string | null) => void;
+  siblings?: Array<{ id: string; name: string }>;
 };
 
 type BreadcrumbContextType = {
@@ -10,6 +23,10 @@ type BreadcrumbContextType = {
   addBreadcrumb: (breadcrumb: Breadcrumb | Breadcrumb[]) => void;
   setBreadcrumbs: (breadcrumbs: Breadcrumb[]) => void;
   clearBreadcrumbs: () => void;
+  // Folder-specific breadcrumbs
+  folderBreadcrumbs: FolderBreadcrumb[];
+  setFolderBreadcrumbs: (folderBreadcrumbs: FolderBreadcrumb[]) => void;
+  clearFolderBreadcrumbs: () => void;
 };
 
 const BreadcrumbContext = createContext<BreadcrumbContextType | undefined>(
@@ -22,22 +39,43 @@ export function BreadcrumbProvider({
   children: React.ReactNode;
 }) {
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
+  const [folderBreadcrumbs, setFolderBreadcrumbs] = useState<
+    FolderBreadcrumb[]
+  >([]);
 
-  const addBreadcrumb = (breadcrumb: Breadcrumb | Breadcrumb[]) => {
+  const addBreadcrumb = useCallback((breadcrumb: Breadcrumb | Breadcrumb[]) => {
     if (Array.isArray(breadcrumb)) {
       setBreadcrumbs((prev) => [...prev, ...breadcrumb]);
     } else {
       setBreadcrumbs((prev) => [...prev, breadcrumb]);
     }
-  };
+  }, []);
 
-  const clearBreadcrumbs = () => {
+  const clearBreadcrumbs = useCallback(() => {
     setBreadcrumbs([]);
-  };
+  }, []);
+
+  const clearFolderBreadcrumbs = useCallback(() => {
+    setFolderBreadcrumbs([]);
+  }, []);
 
   const value = useMemo(
-    () => ({ breadcrumbs, addBreadcrumb, setBreadcrumbs, clearBreadcrumbs }),
-    [breadcrumbs, addBreadcrumb, clearBreadcrumbs]
+    () => ({
+      breadcrumbs,
+      addBreadcrumb,
+      setBreadcrumbs,
+      clearBreadcrumbs,
+      folderBreadcrumbs,
+      setFolderBreadcrumbs,
+      clearFolderBreadcrumbs,
+    }),
+    [
+      breadcrumbs,
+      folderBreadcrumbs,
+      addBreadcrumb,
+      clearBreadcrumbs,
+      clearFolderBreadcrumbs,
+    ]
   );
 
   return (
@@ -54,3 +92,5 @@ export function useBreadcrumbs() {
   }
   return context;
 }
+
+export type { FolderBreadcrumb };

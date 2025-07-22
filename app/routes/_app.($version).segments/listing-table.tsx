@@ -57,10 +57,10 @@ export function DataTable<TData, TValue>({
 
     if (rowData.type === 'folder') {
       // Handle folder click
-      onFolderClick?.(rowData.id);
+      onFolderClick?.(rowData.id as string);
     } else {
-      // Handle dataset click
-      navigate(`/${version}/datasets/${rowData.id}/overview-v2`);
+      // Handle segment click - navigate to segment detail page
+      navigate(`/${version}/segments/${rowData.id}`);
     }
   };
 
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: handleRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    getRowId: (row) => (row as TableRowType).id,
+    getRowId: (row) => (row as TableRowType).id.toString(),
     state: {
       rowSelection: selectedRows,
       sorting,

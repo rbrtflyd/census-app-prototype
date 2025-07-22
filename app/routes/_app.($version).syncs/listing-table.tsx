@@ -59,8 +59,8 @@ export function DataTable<TData, TValue>({
       // Handle folder click
       onFolderClick?.(rowData.id);
     } else {
-      // Handle dataset click
-      navigate(`/${version}/datasets/${rowData.id}/overview-v2`);
+      // Handle sync click
+      navigate(`/${version}/syncs/${rowData.id}`);
     }
   };
 
@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: handleRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    getRowId: (row) => (row as TableRowType).id,
+    getRowId: (row) => (row as TableRowType).id.toString(),
     state: {
       rowSelection: selectedRows,
       sorting,

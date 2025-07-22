@@ -27,6 +27,7 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    folderId: 'marketing',
   },
   {
     id: 2,
@@ -43,6 +44,7 @@ const datasetsData = [
     uniques: [],
     indexes: [],
     foreignKeys: [],
+    folderId: 'sales',
   },
   {
     id: 3,
@@ -54,6 +56,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'marketing',
   },
   {
     id: 4,
@@ -65,6 +68,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'sales',
   },
   {
     id: 5,
@@ -76,6 +80,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: null, // No folder (root level)
   },
   {
     id: 6,
@@ -87,6 +92,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'analytics',
   },
   {
     id: 7,
@@ -98,6 +104,7 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: 'analytics',
   },
   {
     id: 8,
@@ -109,6 +116,75 @@ const datasetsData = [
       new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
     ),
     rows: 100,
+    folderId: null, // No folder (root level)
+  },
+  {
+    id: 9,
+    name: 'Dataset 9',
+    source: 10,
+    description: 'Description 7',
+    createdAt: new Date(),
+    updatedAt: new Date(
+      new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
+    ),
+    rows: 100,
+    folderId: 'uploads',
+  },
+  {
+    id: 10,
+    name: 'Dataset 10',
+    source: 10,
+    description: 'Description 7',
+    createdAt: new Date(),
+    updatedAt: new Date(
+      new Date().setDate(new Date().getDate() - Math.floor(Math.random() * 90))
+    ),
+    rows: 100,
+    folderId: 'marketing-vip',
+  },
+];
+
+// Define folder structure
+export const foldersData = [
+  {
+    id: 'marketing',
+    name: 'Marketing',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    system: false,
+  },
+  {
+    id: 'marketing-vip',
+    name: 'VIP Marketing Campaigns',
+    parentId: 'marketing',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    system: false,
+  },
+  {
+    id: 'sales',
+    name: 'Sales',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    system: false,
+  },
+  {
+    id: 'analytics',
+    name: 'Analytics',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    system: false,
+  },
+  {
+    id: 'uploads',
+    name: 'Uploads and Temporary',
+    parentId: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    system: false,
   },
 ];
 
