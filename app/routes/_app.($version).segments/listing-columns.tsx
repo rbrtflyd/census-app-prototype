@@ -86,7 +86,7 @@ export const columns: ColumnDef<TableRowType>[] = [
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
       return (
-        <Text className="text-light truncate w-full">
+        <Text className="text-light truncate w-[120px]">
           {row.original.description || 'No description'}
         </Text>
       );
@@ -94,19 +94,23 @@ export const columns: ColumnDef<TableRowType>[] = [
     size: 200,
   },
   {
+    accessorKey: 'sourceId',
+    header: 'Source',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return (
+        <Text className="text-light truncate w-full">
+          {row.original.sourceId || 'No source'}
+        </Text>
+      );
+    },
+  },
+  {
     accessorKey: 'rowCount',
     header: 'Rows',
     cell: ({ row }) => {
       if (row.original.type === 'folder') return null;
       return <Text>{row.original.rowCount?.toLocaleString() || '0'}</Text>;
-    },
-  },
-  {
-    accessorKey: 'columnCount',
-    header: 'Columns',
-    cell: ({ row }) => {
-      if (row.original.type === 'folder') return null;
-      return <Text>{row.original.columnCount || '0'}</Text>;
     },
   },
   {
