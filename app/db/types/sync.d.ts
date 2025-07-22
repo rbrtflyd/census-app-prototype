@@ -8,7 +8,7 @@ type SyncBehaviorType =
 
 interface SyncType {
   id: number;
-  name: string;
+  label: string;
   source?: number | string;
   destination?: number | string;
   description?: string;
