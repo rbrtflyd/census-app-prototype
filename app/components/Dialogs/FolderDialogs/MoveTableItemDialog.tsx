@@ -156,7 +156,7 @@ export default function MoveTableItemDialog({
           <div className="flex flex-col gap-3 leading-none">
             <Text className="font-medium">
               Move {selectedItems.length} item
-              {selectedItems.length !== 1 ? 's' : ''} to
+              {selectedItems.length !== 1 ? 's' : ''} to...
             </Text>
 
             {/* Navigation breadcrumbs */}
@@ -185,68 +185,69 @@ export default function MoveTableItemDialog({
             </div>
           </div>
         </DialogHeader>
-        <div className="flex flex-col gap-2 h-full">
-          {/* Folder list */}
-          <div className="flex flex-col gap-2 h-full p-2 overflow-y-auto">
-            {currentFolders.length === 0 ? (
-              <div className="text-center py-4 text-slate-500">
-                <Text>No folders available</Text>
-              </div>
-            ) : (
-              currentFolders.map((folder) => {
-                const folderHasChildren = hasChildren(folder.id);
-                const isSelected = selectedDestinationId === folder.id;
+        <div className="flex flex-col gap-2 h-full p-2 overflow-y-auto">
+          {currentFolders.length === 0 ? (
+            <div className="text-center py-4 text-slate-500">
+              <Text>No folders available</Text>
+            </div>
+          ) : (
+            currentFolders.map((folder) => {
+              const folderHasChildren = hasChildren(folder.id);
+              const isSelected = selectedDestinationId === folder.id;
 
-                return (
-                  <button
-                    key={folder.id}
-                    onClick={() => handleFolderClick(folder)}
-                    className={`flex flex-row gap-2 items-center justify-between p-2 rounded hover:bg-slate-50 transition-colors ${
-                      isSelected ? 'bg-blue-50 border border-blue-200' : ''
-                    }`}>
-                    <div className="flex flex-row gap-2 items-center">
-                      <FontAwesomeIcon
-                        icon={isSelected ? faFolderOpen : faFolder}
-                        className={`text-xxs ${
-                          isSelected ? 'text-blue-600' : ''
-                        }`}
-                      />
-                      <Text
-                        className={
-                          isSelected ? 'text-blue-900 font-medium' : ''
-                        }>
-                        {folder.name}
-                      </Text>
-                    </div>
-                    {folderHasChildren && (
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        className="text-xs text-slate-400"
-                      />
-                    )}
-                  </button>
-                );
-              })
-            )}
-          </div>
+              return (
+                <button
+                  key={folder.id}
+                  onClick={() => handleFolderClick(folder)}
+                  className={`flex flex-row gap-2 items-center justify-between p-2 rounded hover:bg-slate-50 transition-colors ${
+                    isSelected ? 'bg-plum-100' : ''
+                  }`}>
+                  <div className="flex flex-row gap-2 items-center">
+                    <FontAwesomeIcon
+                      icon={isSelected ? faFolderOpen : faFolder}
+                      className={`text-xxs ${
+                        isSelected ? 'text-plum-500' : ''
+                      }`}
+                    />
+                    <Text
+                      className={isSelected ? 'text-plum-500 font-medium' : ''}>
+                      {folder.name}
+                    </Text>
+                  </div>
+                  {folderHasChildren && (
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className="text-xs text-slate-400"
+                    />
+                  )}
+                </button>
+              );
+            })
+          )}
         </div>
+
         <DialogFooter>
-          <Button
-            variant="secondary"
-            size="small">
-            New Folder
-          </Button>
-          <Button
-            variant="secondary"
-            size="small">
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            disabled={!selectedDestinationId}
-            onClick={handleMove}>
-            Move
-          </Button>
+          <div className="flex flex-row justify-between w-full">
+            <Button
+              variant="ghost"
+              size="small">
+              New Folder
+            </Button>
+            <div className="flex flex-row gap-4">
+              <Button
+                variant="secondary"
+                size="small">
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                disabled={!selectedDestinationId}
+                onClick={handleMove}
+                size="small">
+                Move
+              </Button>
+            </div>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
