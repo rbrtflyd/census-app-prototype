@@ -3,16 +3,14 @@ declare module '../db' {
     id: number;
     name: string;
     sourceId: number | string;
+    destinations: number[];
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    rows: Array<any>;
-    columns: Array<any>;
+    rowCount: number;
+    columnCount: number;
     tags: string[];
-    schema: string;
-    uniques: Array<any>;
-    indexes: Array<any>;
-    foreignKeys: Array<any>;
+    folderId: number | null;
   }
 }
 
