@@ -58,21 +58,13 @@ export function useSyncToolbar({
   const leftActions: ToolbarAction[] = useMemo(
     () => [
       {
-        id: 'go-up',
-        label: '',
-        icon: faArrowTurnUp,
-        onClick: onGoUp,
-        disabled: !selectedFolderId,
-        title: 'Go up to parent folder',
-      },
-      {
         id: 'create-folder',
         label: 'New Folder',
         icon: faFolder,
         dialogType: 'create-folder',
       },
     ],
-    [selectedFolderId, onGoUp]
+    []
   );
 
   const leftActionGroups: ToolbarActionGroup[] = useMemo(
@@ -99,27 +91,6 @@ export function useSyncToolbar({
       {
         id: 'sync-actions',
         actions: [
-          {
-            id: 'run-syncs',
-            label: 'Run',
-            icon: faPlay,
-            onClick: onRunSyncs,
-            disabled: selectedSyncs.length === 0,
-            variant: 'primary' as const,
-          },
-          {
-            id: 'pause-syncs',
-            label: 'Pause',
-            icon: faPause,
-            onClick: onPauseSyncs,
-            disabled: selectedSyncs.length === 0,
-          },
-          {
-            id: 'refresh-syncs',
-            label: 'Refresh',
-            icon: faRefresh,
-            onClick: onRefreshSyncs,
-          },
           {
             id: 'subscribe-to-syncs',
             label: 'Subscribe',

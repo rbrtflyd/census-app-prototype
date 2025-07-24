@@ -41,9 +41,6 @@ export default function MoveTableItemDialog({
   setSelectedRows: (rows: Record<string, boolean>) => void;
 }) {
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
-  const [selectedDestinationId, setSelectedDestinationId] = useState<
-    string | null
-  >(null);
 
   // Helper function to get child folders of a parent folder
   const getChildFolders = (parentId: string | null) => {
@@ -77,16 +74,9 @@ export default function MoveTableItemDialog({
     return getChildFolders(currentFolderId);
   }, [currentFolderId, foldersData]);
 
-  // Handle folder click - either navigate into it or select it as destination
+  // Handle folder click - always navigate into folder
   const handleFolderClick = (folder: FolderType) => {
-    if (hasChildren(folder.id)) {
-      // Navigate into folder if it has children
-      setCurrentFolderId(folder.id);
-      setSelectedDestinationId(null); // Clear selection when navigating
-    } else {
-      // Select folder as destination if it has no children
-      setSelectedDestinationId(folder.id);
-    }
+    setCurrentFolderId(folder.id);
   };
 
   // Handle back navigation
@@ -95,33 +85,31 @@ export default function MoveTableItemDialog({
 
     const currentFolder = foldersData.find((f) => f.id === currentFolderId);
     setCurrentFolderId(currentFolder?.parentId || null);
-    setSelectedDestinationId(null); // Clear selection when navigating
   };
 
   // Handle breadcrumb click
   const handleBreadcrumbClick = (folderId: string | null) => {
     setCurrentFolderId(folderId);
-    setSelectedDestinationId(null); // Clear selection when navigating
   };
 
-  // Handle move action
+  // Handle move action - move to current directory
   const handleMove = () => {
-    if (!selectedDestinationId) return;
-
     setTimeout(() => {
-      const destinationFolder = foldersData.find(
-        (f) => f.id === selectedDestinationId
-      );
+      const destinationFolder = currentFolderId
+        ? foldersData.find((f) => f.id === currentFolderId)
+        : null;
+
+      const destinationName = destinationFolder?.name || 'Root';
+
       toast.success(
         `Moved ${selectedItems.length} item${
           selectedItems.length !== 1 ? 's' : ''
-        } to ${destinationFolder?.name || 'folder'}`
+        } to ${destinationName}`
       );
       setMoveFolderDialogOpen(false);
       setSelectedRows({});
       // Reset dialog state
       setCurrentFolderId(null);
-      setSelectedDestinationId(null);
     }, 500);
   };
 
@@ -130,7 +118,6 @@ export default function MoveTableItemDialog({
     setMoveFolderDialogOpen(open);
     if (!open) {
       setCurrentFolderId(null);
-      setSelectedDestinationId(null);
     }
   };
 
@@ -160,7 +147,6 @@ export default function MoveTableItemDialog({
             </Text>
 
             {/* Navigation breadcrumbs */}
-
             <div className="flex items-center gap-2 text-xs text-lighter">
               <button
                 onClick={() => handleBreadcrumbClick(null)}
@@ -193,33 +179,23 @@ export default function MoveTableItemDialog({
           ) : (
             currentFolders.map((folder) => {
               const folderHasChildren = hasChildren(folder.id);
-              const isSelected = selectedDestinationId === folder.id;
 
               return (
                 <button
                   key={folder.id}
                   onClick={() => handleFolderClick(folder)}
-                  className={`flex flex-row gap-2 items-center justify-between p-2 rounded hover:bg-slate-50 transition-colors ${
-                    isSelected ? 'bg-plum-100' : ''
-                  }`}>
+                  className="flex flex-row gap-2 items-center justify-between p-2 rounded hover:bg-slate-50 transition-colors">
                   <div className="flex flex-row gap-2 items-center">
                     <FontAwesomeIcon
-                      icon={isSelected ? faFolderOpen : faFolder}
-                      className={`text-xxs ${
-                        isSelected ? 'text-plum-500' : ''
-                      }`}
+                      icon={faFolder}
+                      className="text-xxs"
                     />
-                    <Text
-                      className={isSelected ? 'text-plum-500 font-medium' : ''}>
-                      {folder.name}
-                    </Text>
+                    <Text>{folder.name}</Text>
                   </div>
-                  {folderHasChildren && (
-                    <FontAwesomeIcon
-                      icon={faChevronRight}
-                      className="text-xs text-slate-400"
-                    />
-                  )}
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className="text-xs text-slate-400"
+                  />
                 </button>
               );
             })
@@ -241,10 +217,9 @@ export default function MoveTableItemDialog({
               </Button>
               <Button
                 variant="primary"
-                disabled={!selectedDestinationId}
                 onClick={handleMove}
                 size="small">
-                Move
+                Move Here
               </Button>
             </div>
           </div>
