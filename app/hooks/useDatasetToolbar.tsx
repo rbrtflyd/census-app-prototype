@@ -39,21 +39,13 @@ export function useDatasetToolbar({
   const leftActions: ToolbarAction[] = useMemo(
     () => [
       {
-        id: 'go-up',
-        label: '',
-        icon: faArrowTurnUp,
-        onClick: onGoUp,
-        disabled: !selectedFolderId,
-        title: 'Go up to parent folder',
-      },
-      {
         id: 'create-folder',
         label: 'New Folder',
         icon: faFolder,
         dialogType: 'create-folder',
       },
     ],
-    [selectedFolderId, onGoUp]
+    []
   );
 
   const leftActionGroups: ToolbarActionGroup[] = useMemo(
