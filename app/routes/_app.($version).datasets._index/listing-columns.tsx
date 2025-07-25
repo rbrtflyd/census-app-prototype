@@ -2,13 +2,14 @@ import { ColumnDef } from '@tanstack/react-table';
 import type { DatasetType } from '~/db/types';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Folder } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort } from '@fortawesome/pro-solid-svg-icons';
+import { faFolder, faSort } from '@fortawesome/pro-solid-svg-icons';
 import { Text } from '@radix-ui/themes';
 import { Toggle } from '~/components/ui/toggle';
+import type { TableRowType } from './route';
 
-export const columns: ColumnDef<DatasetType>[] = [
+export const columns: ColumnDef<TableRowType>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -55,17 +56,38 @@ export const columns: ColumnDef<DatasetType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <Text className="truncate">{row.original.name}</Text>;
+      const isFolder = row.original.type === 'folder';
+      return (
+        <div className="flex items-center gap-3">
+          {isFolder && (
+            <FontAwesomeIcon
+              icon={faFolder}
+              className="h-4 w-4 icon-lighter"
+            />
+          )}
+          <Text className={`truncate ${isFolder ? 'font-medium ' : ''}`}>
+            {row.original.name}
+          </Text>
+        </div>
+      );
     },
     size: 100,
   },
   {
     accessorKey: 'source',
     header: 'Source',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return row.original.source;
+    },
   },
   {
     accessorKey: 'destinations',
     header: 'Destinations',
+    cell: ({ row }) => {
+      if (row.original.type === 'folder') return null;
+      return row.original.destinations;
+    },
   },
   {
     accessorKey: 'updatedAt',

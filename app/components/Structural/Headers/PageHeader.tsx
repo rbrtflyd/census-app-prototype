@@ -10,10 +10,12 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 
 import { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
 import { useBreadcrumbs } from '~/contexts/BreadcrumbContext';
 import { Link } from '@remix-run/react';
+
 interface ButtonProps {
   label: string;
   onClick?: () => void;
@@ -39,8 +41,12 @@ const RightSlot = ({ children }: { children: React.ReactNode }) => {
 const PageHeader: React.FC<PageHeaderProps> & {
   TitleSlot: typeof TitleSlot;
   RightSlot: typeof RightSlot;
-} = ({ title, button = { variant: 'primary' }, children }) => {
-  const { breadcrumbs } = useBreadcrumbs();
+} = ({
+  title,
+  button = { variant: 'primary', label: '' },
+  children,
+}: PageHeaderProps) => {
+  const { breadcrumbs, folderBreadcrumbs } = useBreadcrumbs();
   const titleSlotChild = React.Children.toArray(children).find(
     (child) => React.isValidElement(child) && child.type === TitleSlot
   );
@@ -64,12 +70,59 @@ const PageHeader: React.FC<PageHeaderProps> & {
                       <Text>{item.label}</Text>
                     </Link>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
                 </React.Fragment>
               ))}
-              <BreadcrumbPage>
-                {typeof title === 'string' ? <Text>{title}</Text> : title}
-              </BreadcrumbPage>
+
+              {/* Folder breadcrumbs - all except the last one are clickable */}
+              {folderBreadcrumbs?.map((folder, index) => (
+                <React.Fragment key={`folder-${folder.id || 'root'}`}>
+                  {index < folderBreadcrumbs.length - 1 ? (
+                    // Clickable breadcrumb items (not the current page)
+                    <BreadcrumbItem className="flex flex-row items-center">
+                      <BreadcrumbLink
+                        className="cursor-pointer flex items-center"
+                        onClick={() => folder.onClick?.(folder.id)}>
+                        {folder.id && (
+                          <FontAwesomeIcon
+                            icon={faFolder}
+                            className="mr-2 icon-lighter"
+                          />
+                        )}
+                        <Text>{folder.name}</Text>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  ) : (
+                    // Current page (highlighted, not clickable)
+                    <BreadcrumbItem className="flex flex-row items-center">
+                      <BreadcrumbPage className="flex items-center">
+                        {folder.id && (
+                          <FontAwesomeIcon
+                            icon={faFolder}
+                            className="mr-2 icon-lighter"
+                          />
+                        )}
+                        <Text>{folder.name}</Text>
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  )}
+
+                  {index < folderBreadcrumbs.length - 1 && (
+                    <BreadcrumbSeparator />
+                  )}
+                </React.Fragment>
+              ))}
+
+              {/* Only show regular title if no folder breadcrumbs and title exists */}
+              {(!folderBreadcrumbs || folderBreadcrumbs.length === 0) &&
+                title && (
+                  <>
+                    {breadcrumbs?.length > 0 && <BreadcrumbSeparator />}
+                    <BreadcrumbPage>
+                      {typeof title === 'string' ? <Text>{title}</Text> : title}
+                    </BreadcrumbPage>
+                  </>
+                )}
             </BreadcrumbList>
           </Breadcrumb>
         </div>

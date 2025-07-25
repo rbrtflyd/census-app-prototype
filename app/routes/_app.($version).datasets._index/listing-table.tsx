@@ -8,6 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getPaginationRowModel,
+  RowSelectionState,
 } from '@tanstack/react-table';
 
 import {
@@ -19,29 +20,32 @@ import {
   TableRow,
 } from '../../components/ui/table';
 import { useNavigate, useParams } from '@remix-run/react';
+import type { TableRowType } from './route';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onFolderClick?: (folderId: string) => void;
+  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
+  selectedRows?: Record<string, boolean>;
 }
-
-const tableActions = [
-  {
-    label: 'Enrich',
-  },
-  {
-    label: 'Dedupe',
-  },
-];
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onFolderClick,
+  onRowSelectionChange,
+  selectedRows = {},
 }: DataTableProps<TData, TValue>) {
   const { version } = useParams();
   const navigate = useNavigate();
-  const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  const handleRowSelectionChange = (updater: any) => {
+    const newSelection =
+      typeof updater === 'function' ? updater(selectedRows) : updater;
+    onRowSelectionChange?.(newSelection);
+  };
 
   const handleRowClick = (event: React.MouseEvent, row: any) => {
     // Prevent navigation when clicking checkbox
@@ -49,8 +53,15 @@ export function DataTable<TData, TValue>({
       return;
     }
 
-    // Assuming each row has an id field - adjust according to your data structure
-    navigate(`/${version}/datasets/${row.original.id}/overview-v2`);
+    const rowData = row.original as TableRowType;
+
+    if (rowData.type === 'folder') {
+      // Handle folder click
+      onFolderClick?.(rowData.id);
+    } else {
+      // Handle dataset click
+      navigate(`/${version}/datasets/${rowData.id}/overview-v2`);
+    }
   };
 
   const table = useReactTable({
@@ -58,11 +69,12 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: handleRowSelectionChange,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    getRowId: (row) => (row as TableRowType).id,
     state: {
-      rowSelection,
+      rowSelection: selectedRows,
       sorting,
     },
   });
@@ -92,18 +104,27 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-                onClick={(e) => handleRowClick(e, row)}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            table.getRowModel().rows.map((row) => {
+              const rowData = row.original as TableRowType;
+              const isFolder = rowData.type === 'folder';
+
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  onClick={(e) => handleRowClick(e, row)}
+                  className={'cursor-pointer h-16'}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell

@@ -1,10 +1,16 @@
 import { SyncStatusType } from './syncStatus';
 
+type SyncBehaviorType =
+  | 'update and create'
+  | 'update only'
+  | 'delete'
+  | 'mirror';
+
 interface SyncType {
   id: number;
-  name: string;
-  datasetId?: number | string;
-  destinationId?: number | string;
+  label: string;
+  source?: number | string;
+  destination?: number | string;
   description?: string;
   createdAt?: Date;
   status?: SyncStatusType;
@@ -13,6 +19,9 @@ interface SyncType {
   columns?: Array<any>;
   tags?: string[];
   foreignKeys?: Array<any>;
+  folderId?: string | null;
+  behavior?: SyncBehaviorType;
+  lastRun?: Date | null;
 }
 
-export { SyncType };
+export { SyncType, SyncBehaviorType };

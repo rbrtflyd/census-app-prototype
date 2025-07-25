@@ -1,0 +1,58 @@
+import { Plan } from '~/db/types/plan';
+
+export const plans: Plan[] = [
+  {
+    id: 'free',
+    name: 'Free',
+    tagline: 'Unlock your data',
+    additionalDestinations: 0,
+    maxAdditionalDestinations: 0,
+    additionalDestinationsPrice: 0,
+    price: 0,
+    billingPeriod: 'monthly',
+    features: [
+      '1 Billable Destination',
+      '2 Active Syncs',
+      '5 User Seats',
+      '1 Workspaces',
+      'Unlimited Free Destinations: Google Sheets, Slack, and more',
+    ],
+  },
+  {
+    id: 'pro',
+    name: 'Professional',
+    tagline: 'Data activation for teams',
+    additionalDestinations: 2,
+    maxAdditionalDestinations: 2,
+    additionalDestinationsPrice: 200,
+    price: 350,
+    billingPeriod: 'monthly',
+    features: [
+      '2 Billable Destinations',
+      'Unlimited Free Destinations',
+      '5 Active Syncs per Billable Destination',
+      '5 User Seats',
+      '2 Workspaces',
+      'Up to 2 Additional Billable Destinations',
+    ],
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    tagline: 'Sync with confidence at scale',
+    additionalDestinations: 2,
+    maxAdditionalDestinations: 2,
+    additionalDestinationsPrice: 200,
+    price: 'Custom',
+    billingPeriod: 'monthly',
+    features: [
+      'Unlimited Workspaces',
+      'Unlimited User Seats',
+      'Enterprise Connectors: Oracle, Anaplan, NetSuite, Shopify, Workday, Salesforce Commerce Cloud',
+      'Includes Audience Hub for marketers',
+      'Includes Census Embedded',
+      'Includes Real-time Live Syncs',
+      'Custom Legal Terms',
+    ],
+  },
+];

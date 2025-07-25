@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from '@remix-run/react';
-import { NavLink } from '@remix-run/react';
+import { useLocation, NavLink, useNavigate } from '@remix-run/react';
 import { Text } from '@radix-ui/themes';
 import CircularProgressIndicator from '~/components/Progress/CircularProgressIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,6 @@ import {
   faCog,
   faHome,
   faMessage,
-  faUser,
 } from '@fortawesome/pro-solid-svg-icons';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
 import {
@@ -18,9 +16,9 @@ import {
   CensusSources,
   CensusModels,
   CensusSegments,
-  CensusEntities,
   CensusNotifications,
 } from '~/assets/census-icons';
+import { Button } from '~/components/ui';
 
 interface SidebarNavigationProps {
   newSidebar?: boolean;
@@ -66,7 +64,7 @@ const navLinks = [
 
 const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
   const { pathname } = useLocation();
-
+  const navigate = useNavigate();
   const newSidebar = props.newSidebar ?? false;
 
   return (
@@ -151,6 +149,15 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
+        <div className="px-3">
+          <div className="flex flex-col p-5 bg-white/10 rounded-md gap-4 font-medium leading-none">
+            <div className="flex flex-row gap-2">
+              <Text>Free Trial</Text>
+              <Text>15 days left</Text>
+            </div>
+            <Button onClick={() => navigate('/upgrade')}>Upgrade to Pro</Button>
+          </div>
+        </div>
         <div className="flex flex-col px-3 py-2 gap-1">
           <NavLink
             to="/chat"
