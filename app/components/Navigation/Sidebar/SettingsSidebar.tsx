@@ -8,6 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '~/components/ui/collapsible';
+import { useSettings } from '~/contexts/SettingsContext';
 
 const settingsItems = [
   {
@@ -18,6 +19,7 @@ const settingsItems = [
     label: 'Workspaces',
     collapsible: false,
     to: '/settings/workspaces',
+    workspacesEnabled: true,
   },
   {
     label: 'User Settings',
@@ -65,6 +67,7 @@ const NavLinkItem = ({ to, label }: { to: string; label: string }) => {
 
 export default function SettingsSidebar() {
   const { pathname } = useLocation();
+  const { workspacesEnabled } = useSettings();
   const [isOrganizationOpen, setIsOrganizationOpen] = useState(
     pathname.includes('/settings/organization')
   );
@@ -77,6 +80,9 @@ export default function SettingsSidebar() {
       <div className="flex flex-col py-2 gap-3">
         {settingsItems.map((item) => {
           if (item.collapsible) {
+            if (item.workspacesEnabled && !workspacesEnabled) {
+              return null;
+            }
             return (
               <Collapsible
                 key={item.label}
@@ -105,6 +111,9 @@ export default function SettingsSidebar() {
               </Collapsible>
             );
           } else {
+            if (item.workspacesEnabled && !workspacesEnabled) {
+              return null;
+            }
             return (
               <NavLinkItem
                 key={item.to}

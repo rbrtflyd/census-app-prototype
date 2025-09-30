@@ -1,7 +1,20 @@
 // Define sections for each slug
+
+interface SettingsSection {
+  title: string;
+  description?: string;
+  fields?: string[];
+  workspacesEnabled?: boolean;
+}
+
 export const settingsSections: Record<
   string,
-  { title: string; description: string; fields: string[] }[]
+  {
+    title: string;
+    description?: string;
+    fields?: string[];
+    workspacesEnabled?: boolean;
+  }[]
 > = {
   general: [
     {
@@ -17,30 +30,47 @@ export const settingsSections: Record<
   ],
   members: [
     {
-      title: 'Team Members',
-      description: 'Manage your organization members',
-      fields: ['Active Members', 'Pending Invitations', 'Member List'],
+      title: 'Members',
+      description: 'Existing Member List',
     },
   ],
   roles: [
     {
-      title: 'Role Management',
-      description: 'Configure roles and permissions',
-      fields: ['Admin', 'Editor', 'Viewer', 'Custom Roles'],
+      title: 'Roles',
+      description: 'Existing Role List',
     },
   ],
   billing: [
     {
-      title: 'Billing Information',
-      description: 'Manage your billing and subscription',
-      fields: ['Current Plan', 'Payment Method', 'Billing History'],
+      title: 'Overview',
+      description: 'Overview card with current plan',
+    },
+    {
+      title: 'Upgrade to enterprise banner',
+      description: "Maybe we don't need this?",
+    },
+    {
+      title: 'Usage Report',
+      description: 'Embedded from Omni',
     },
   ],
   integrations: [
     {
-      title: 'Connected Integrations',
-      description: 'Manage third-party integrations',
-      fields: ['Active Integrations', 'Available Integrations'],
+      title: 'dbtCloud',
+      workspacesEnabled: true, // Only show when workspaces enabled
+    },
+    {
+      title: 'Fivetran',
+      workspacesEnabled: true, // Only show when workspaces enabled
+    },
+    {
+      title: 'Organization-level Integration 1',
+      description: 'This always shows',
+    },
+    {
+      title: 'Workspace Integration (fallback)',
+      description: 'This shows when workspaces are disabled',
+      workspacesEnabled: false, // Only show when workspaces disabled
     },
   ],
 };

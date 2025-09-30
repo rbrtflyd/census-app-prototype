@@ -5,6 +5,7 @@ import { NewConnectionProvider } from './connection/NewConnectionProvider';
 import { BreadcrumbProvider } from './breadcrumb/BreadcrumbProvider';
 import { OperatorProvider } from './operator/OperatorProvider';
 import { NewDatasetProvider } from './dataset/newDataset/NewDatasetProvider';
+import { SettingsProvider } from './settings/SettingsProvider';
 
 const providers = [
   EnrichEnhanceProvider,
@@ -12,6 +13,7 @@ const providers = [
   OperatorProvider,
   NewConnectionProvider,
   NewDatasetProvider,
+  SettingsProvider,
 ];
 
 export function RootProvider({ children }: { children: ReactNode }) {
