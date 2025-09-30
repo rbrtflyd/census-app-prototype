@@ -27,6 +27,14 @@ export const organizationSettingsSections: Record<
       description: 'Configure general organization preferences',
       fields: ['Time Zone', 'Date Format', 'Language'],
     },
+    {
+      title: 'Email Alerts',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'Slack Alerts',
+      workspacesEnabled: false,
+    },
   ],
   members: [
     {

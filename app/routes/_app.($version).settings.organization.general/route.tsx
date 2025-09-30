@@ -8,6 +8,13 @@ export default function SettingsOrganizationGeneral() {
   const sections = organizationSettingsSections.general;
   const { workspacesEnabled, setWorkspacesEnabled } = useSettings();
 
+  const filteredSections = sections.filter((section) => {
+    if (section.workspacesEnabled !== undefined) {
+      return section.workspacesEnabled === workspacesEnabled;
+    }
+    return true;
+  });
+
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title="General" />
@@ -31,7 +38,7 @@ export default function SettingsOrganizationGeneral() {
         </div>
 
         {/* Other sections */}
-        {sections.map((section, index) => (
+        {filteredSections.map((section, index) => (
           <div
             key={index}
             className="bg-white border border-base rounded-lg p-6">
