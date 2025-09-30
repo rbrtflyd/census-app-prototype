@@ -17,7 +17,7 @@ export default function SettingsIndex() {
   return (
     <div className="h-full flex flex-row">
       <SettingsSidebar />
-      <div className="flex flex-col gap-4 p-6 grow h-full">
+      <div className="flex flex-col gap-4 grow h-full">
         <Outlet />
       </div>
     </div>
