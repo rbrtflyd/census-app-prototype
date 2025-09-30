@@ -83,17 +83,17 @@ export default function SettingsSidebar() {
                 open={isOrganizationOpen}
                 onOpenChange={setIsOrganizationOpen}>
                 <CollapsibleTrigger asChild>
-                  <button className="w-full py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center justify-between">
+                  <button className="w-full py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center justify-between font-medium text-base">
                     <Text>{item.label}</Text>
                     <FontAwesomeIcon
                       icon={faChevronRight}
-                      className={`text-xs transition-transform duration-200 ${
+                      className={`text-xs transition-transform duration-100 icon-light ${
                         isOrganizationOpen ? 'rotate-90' : ''
                       }`}
                     />
                   </button>
                 </CollapsibleTrigger>
-                <CollapsibleContent className="flex flex-col mt-1">
+                <CollapsibleContent className="flex flex-col">
                   {organizationItems.map((orgItem) => (
                     <NavLinkItem
                       key={orgItem.to}

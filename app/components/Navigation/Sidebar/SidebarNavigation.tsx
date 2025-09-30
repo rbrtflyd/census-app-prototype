@@ -177,7 +177,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = (props) => {
             <Text>Chat</Text>
           </NavLink>
           <NavLink
-            to="/settings/general"
+            to="/settings/organization/general"
             className={({ isActive }) =>
               `py-2.5 px-4 rounded-md leading-none transition-all duration-75 flex flex-row items-center ${
                 isActive
