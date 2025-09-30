@@ -1,11 +1,11 @@
 import PageHeader from '~/components/Structural/Headers/PageHeader';
-import { settingsSections } from '~/db/data/settings/settingsSections';
+import { organizationSettingsSections } from '~/db/data/settings/organizationSettingsSections';
 import { Text } from '@radix-ui/themes';
 import { Switch } from '~/components/ui/switch';
 import { useSettings } from '~/contexts/SettingsContext';
 
 export default function SettingsOrganizationGeneral() {
-  const sections = settingsSections.general;
+  const sections = organizationSettingsSections.general;
   const { workspacesEnabled, setWorkspacesEnabled } = useSettings();
 
   return (

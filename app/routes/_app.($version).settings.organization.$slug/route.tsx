@@ -1,14 +1,14 @@
 import { useParams } from '@remix-run/react';
 import PageHeader from '~/components/Structural/Headers/PageHeader';
 import { Text } from '@radix-ui/themes';
-import { settingsSections } from '~/db/data/settings/settingsSections';
+import { organizationSettingsSections } from '~/db/data/settings/organizationSettingsSections';
 import { useSettings } from '~/contexts/SettingsContext';
 
 export default function SettingsOrganizationSlug() {
   const { slug } = useParams();
   const { workspacesEnabled } = useSettings();
 
-  const sections = slug ? settingsSections[slug] : [];
+  const sections = slug ? organizationSettingsSections[slug] : [];
   const displayTitle = slug
     ? slug.charAt(0).toUpperCase() + slug.slice(1)
     : 'Settings';
@@ -26,18 +26,6 @@ export default function SettingsOrganizationSlug() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title={displayTitle} />
-
-      {/* Show workspaces mode indicator */}
-      <div className="px-6">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <Text className="text-sm text-blue-800">
-            Workspaces mode: {workspacesEnabled ? 'Enabled' : 'Disabled'}
-            {!workspacesEnabled &&
-              slug === 'integrations' &&
-              ' (Showing workspace-level integrations here)'}
-          </Text>
-        </div>
-      </div>
 
       <div className="flex flex-col gap-4 px-6">
         {filteredSections.length > 0 ? (

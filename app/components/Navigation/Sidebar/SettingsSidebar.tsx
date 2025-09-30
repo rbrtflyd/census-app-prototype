@@ -49,6 +49,10 @@ const organizationItems = [
     label: 'Integrations',
     to: '/settings/organization/integrations',
   },
+  {
+    label: 'Branded UI',
+    to: '/settings/organization/branded',
+  },
 ];
 
 const NavLinkItem = ({ to, label }: { to: string; label: string }) => {

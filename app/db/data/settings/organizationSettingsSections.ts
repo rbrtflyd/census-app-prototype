@@ -7,7 +7,7 @@ interface SettingsSection {
   workspacesEnabled?: boolean;
 }
 
-export const settingsSections: Record<
+export const organizationSettingsSections: Record<
   string,
   {
     title: string;
@@ -57,20 +57,48 @@ export const settingsSections: Record<
   integrations: [
     {
       title: 'dbtCloud',
-      workspacesEnabled: true, // Only show when workspaces enabled
     },
     {
       title: 'Fivetran',
-      workspacesEnabled: true, // Only show when workspaces enabled
     },
     {
-      title: 'Organization-level Integration 1',
-      description: 'This always shows',
+      title: 'GitLink',
+      workspacesEnabled: false,
     },
     {
-      title: 'Workspace Integration (fallback)',
-      description: 'This shows when workspaces are disabled',
-      workspacesEnabled: false, // Only show when workspaces disabled
+      title: 'Datadog Monitoring',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'Dataset API',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'API Access',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'Webhooks',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'Variables',
+      workspacesEnabled: false,
+    },
+    {
+      title: 'Storage Provider and Iceberg Catalog',
+      workspacesEnabled: false,
+    },
+  ],
+  branded: [
+    {
+      title: 'Custom Themes',
+    },
+    {
+      title: 'Custom Branding',
+    },
+    {
+      title: 'Connect Link Settings',
     },
   ],
 };
